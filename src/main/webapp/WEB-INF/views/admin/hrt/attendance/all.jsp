@@ -15,7 +15,10 @@
 <div class="content-container">
 
     <header>
-        <h1><a href="#">근태 관리</a></h1>
+        <ul>
+            <li><a href="${pageContext.request.contextPath}/attendance/manageDclz">근태 관리</a></li>
+            <li><a href="${pageContext.request.contextPath}/employee/loadLog">로그 관리</a></li>
+        </ul>
         <nav id="dclzNav">
             <ul>
                 <li><a href="${pageContext.request.contextPath}/attendance/manageDclz">전체</a></li>
