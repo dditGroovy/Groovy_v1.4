@@ -376,7 +376,11 @@
                 const newDiv = document.createElement("div");
                 newDiv.classList = "line-block";
 
-                newDiv.append(text);
+                const newText = document.createElement("p")
+                newText.classList = "name";
+                newText.append(text);
+
+                newDiv.append(newText);
 
                 newLabel.append(newInput);
                 newLabel.append(newDiv);
