@@ -1,9 +1,8 @@
 package kr.co.groovy.memo;
 
 import java.security.Principal;
-import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.groovy.vo.MemoVO;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller
 @RequestMapping("/memo")
 public class MemoController {
-	
 	final
 	MemoService memoService;
 	
@@ -31,23 +27,26 @@ public class MemoController {
 		this.memoService = memoService;
 	}
 	
+	
 	@GetMapping("/memoMain")
-	public String memoMain(Model model) {
+	public String getMemo(Model model) {
 		List<MemoVO> list = memoService.getMemo();
 		model.addAttribute("memoList", list);
 		return "memo/memo";
 	}
 	
+	
 	@ResponseBody
 	@GetMapping("/memoMain/{memoSn}")
-	public String memoSelectOne(@PathVariable int memoSn) {
+	public String getOneMemo(@PathVariable int memoSn) {
 	    memoService.getOneMemo(memoSn);
 		return "success";
 	}
 	
+	
 	@ResponseBody
 	@PostMapping("/memoMain")
-	public String insertMemo(@RequestBody MemoVO memoVO, Principal principal) {
+	public String inputMemo(@RequestBody MemoVO memoVO, Principal principal) {
 		String emplId = principal.getName();
 		memoVO.setMemoEmplId(emplId);
 		memoService.inputMemo(memoVO);
@@ -65,7 +64,7 @@ public class MemoController {
 	
 	@ResponseBody
 	@DeleteMapping("/memoMain/{memoSn}")
-	public String deleteMemoString(@RequestBody MemoVO memoVO, @PathVariable int memoSn) {
+	public String deleteMemo(@RequestBody MemoVO memoVO, @PathVariable int memoSn) {
 		memoService.deleteMemo(memoSn);
 		return "success";
 	}
