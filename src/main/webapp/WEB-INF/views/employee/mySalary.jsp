@@ -113,7 +113,6 @@
         $("#hideAmount").prop("checked", isSavedChecked);
 
     let year = $("#selectedYear").val();
-    console.log("year : ", year);
     if (year != null) {
         loadPaystubList(year);
     }
@@ -132,12 +131,10 @@
     });
 
     function loadPaystubList(year) {
-        console.log(year);
         $.ajax({
             url: `/salary/paystub/\${year}`,
             type: "get",
             success: function (result) {
-                console.log(result);
                 code = "";
                 $.each(result, function (idx, obj) {
                     let date = new Date(obj.salaryDtsmtIssuDate);
@@ -149,7 +146,6 @@
                         (months < 10 ? "0" : "") + months + "-" +
                         (date.getDate() < 10 ? "0" : "") + date.getDate();
                     let netPay = obj.salaryDtsmtNetPay.toLocaleString();
-                    console.log(obj);
                     code += `<tr>
                              <td><a href="/salary/paystub/detail/\${paymentDate}">\${months}월</a></td>
                              <td>\${formatedDate} 지급</td>
@@ -165,7 +161,7 @@
                 }
             },
             error: function (xhr) {
-                console.log(xhr);
+                console.log(xhr.responseText);
             }
         })
     }
@@ -180,7 +176,7 @@
             success: function (result) {
             },
             error: function (xhr) {
-                console.log(xhr);
+                console.log(xhr.responseText);
             }
         });
     });
@@ -201,8 +197,6 @@
 
             doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
-
-            console.log("imgHeight",imgHeight);
 
             while (heightLeft >= 0) {
                 position = heightLeft - imgHeight;

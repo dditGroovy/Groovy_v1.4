@@ -87,10 +87,8 @@ public class SalaryController {
         String emplId = principal.getName();
         PaystubVO recentPaystub = service.loadRecentPaystub(emplId);
         List<Integer> years = service.loadYearsForSortPaystub(emplId);
-        model.addAttribute("recentPaystub", recentPaystub);
+        model.addAttribute("paystub", recentPaystub);
         model.addAttribute("years", years);
-        log.info("recentPaystub:{}",recentPaystub);
-        log.info("years:{}",years);
         return "employee/mySalary";
     }
 
@@ -114,7 +112,6 @@ public class SalaryController {
     @GetMapping("/paystub/{year}")
     @ResponseBody
     public List<PaystubVO> loadPaystubList(Principal principal, @PathVariable String year) {
-        log.info("year : {}", year);
         String emplId = principal.getName();
         return service.loadPaystubList(emplId, year);
     }
