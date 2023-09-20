@@ -35,7 +35,9 @@
             <p><c:out value="${allMailCount}"/></p>
         </h2>
         <div class="button-wrap">
-            <button class="delete" data-id="<c:out value="${emailVO.emailEtprCode}"/>" data-at="<c:out value="${emailVO.emailDeleteAt}"/>">삭제</button>
+            <button class="delete" data-id="<c:out value="${emailVO.emailEtprCode}"/>"
+                    data-at="<c:out value="${emailVO.emailDeleteAt}"/>">삭제
+            </button>
         </div>
     </div>
     <div class="content-body">
@@ -60,7 +62,6 @@
                         <div class="title">받은 사람</div>
                         <div class="content">
                             <c:forEach var="emailTo" items="${toList}">
-
                                 <button class="button-receiver button-option">${emailTo.emailToNm}
                                     &lt;${emailTo.emailToAddr}&gt;
                                 </button>
@@ -84,7 +85,7 @@
             <div class="mail-body">
                 <div class="mail-view">
                     <div class="mail-content">
-                        <p><c:out value="${emailVO.emailFromCn}"/></p>
+                        <p id="emailFromCn"><input type="hidden" value='<c:out value="${emailVO.emailFromCn}"/>'></p>
                     </div>
                 </div>
             </div>
@@ -108,4 +109,14 @@
         }
         xhr.send(at);
     })
+
+    window.onload = function () {
+        let contentType = `<c:out value="${emailVO.emailFromCnType}"/>`;
+        let content = document.querySelector("input[type=hidden]").value;
+        if (contentType.includes("text/html")) {
+            document.querySelector("#emailFromCn").innerHTML = content;
+        } else {
+            document.querySelector("#emailFromCn").innerText = content;
+        }
+    }
 </script>
