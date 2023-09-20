@@ -56,7 +56,7 @@ public class SanctionRestController {
      * 전자 결재 시작
      */
 
-    /* (현재는 연차만) 결재 문서 제출 (리플랙션) */
+    /* 전자결재 후처리 실행 */
     @PostMapping("/reflection")
     public void startApprove(@RequestBody Map<String, Object> request) {
         log.info("startApprove" + request);
@@ -99,8 +99,8 @@ public class SanctionRestController {
      */
 
     @GetMapping("/line/{emplId}")
-    public List<EmployeeVO> loadAllLine(@PathVariable String emplId) {
-        return service.loadAllLine(emplId);
+    public List<EmployeeVO> loadAllLine(@PathVariable String emplId,  @RequestParam(required = false, defaultValue = "")  String keyword) {
+        return service.loadAllLine(emplId, keyword);
     }
 
     @PostMapping("/bookmark")

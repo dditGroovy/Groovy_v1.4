@@ -41,13 +41,15 @@ public interface SanctionMapper {
     /* */
 
     void approve(@Param("elctrnSanctnemplId") String elctrnSanctnemplId, @Param("elctrnSanctnEtprCode") String elctrnSanctnEtprCode);
+
     void finalApprove(@Param("elctrnSanctnemplId") String elctrnSanctnemplId, @Param("elctrnSanctnEtprCode") String elctrnSanctnEtprCode);
 
     void reject(@Param("elctrnSanctnemplId") String elctrnSanctnemplId, @Param("sanctnLineReturnResn") String sanctnLineReturnResn, @Param("elctrnSanctnEtprCode") String elctrnSanctnEtprCode);
 
     void collect(String elctrnSanctnEtprCode);
 
-    List<EmployeeVO> loadAllLine(@Param("depCode") String depCode, @Param("emplId") String emplId);
+    List<EmployeeVO> loadAllLine(@Param("depCode") String depCode, @Param("emplId") String emplId, @Param("keyword") String keyword);
+
     List<SanctionVO> loadReference(String emplId);
 
     void inputBookmark(SanctionBookmarkVO vo);
@@ -55,9 +57,6 @@ public interface SanctionMapper {
     List<SanctionBookmarkVO> loadBookmark(String emplId);
 
     void deleteBookmark(String sanctionLineBookmarkSn);
-
-
-
 
 
 }

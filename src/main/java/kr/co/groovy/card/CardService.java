@@ -96,6 +96,6 @@ public class CardService {
         for(CardReservationVO vo : list){
             vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());
         }
-        return mapper.loadSanctionList();
+        return list;
     }
 }

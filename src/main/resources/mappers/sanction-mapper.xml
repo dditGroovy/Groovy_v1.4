@@ -253,7 +253,10 @@
                E.COMMON_CODE_HFFC_STTUS
         FROM EMPL E
         WHERE E.COMMON_CODE_DEPT = #{depCode}
-          AND EMPL_ID != #{emplId}
+        AND EMPL_ID != #{emplId}
+        <if test="keyword!=null and keyword!=''">
+            AND EMPL_NM LIKE '%' || #{keyword} || '%'
+        </if>
         ORDER BY TO_NUMBER(SUBSTR(E.COMMON_CODE_CLSF, 5)), E.EMPL_ENCPN ASC
     </select>
     <select id="loadReference" parameterType="String" resultType="sanctionVO">

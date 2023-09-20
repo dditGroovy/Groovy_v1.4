@@ -30,4 +30,5 @@ public class CardReservationVO {
     private String emplNm;
     private String commonCodeDept;
     private String commonCodeClsf;
+    private String elctrnSanctnEtprCode;
 }

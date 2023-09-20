@@ -167,6 +167,9 @@
         let bookmarkLine = {};
         const accordians = document.querySelectorAll(".dept");
         const windowCloseBtn = document.querySelector(".close");
+        let keyword;
+        
+        loadOrgLine() // 문서 로드 시 결재선 불러오기
 
         document.addEventListener("DOMContentLoaded", () => {
             accordians.forEach(item => {
@@ -188,6 +191,49 @@
                 window.close();
             })
         })
+
+        // 조직도 결재선 불러오기
+        function loadOrgLine() {
+            keyword = document.querySelector("#searchLine").value;
+            console.log(keyword);
+            $.ajax({
+                url: `/sanction/api/line/\${emplId}?keyword=\${keyword}`,
+                method: 'GET',
+                contentType: "application/json;charset=utf-8",
+                dataType: 'json',
+                success: function (data) {
+                    data.forEach(function (employee) {
+                        let employeeLi = $('<li class=emplList>');
+                        employeeLi.html(
+                            `<label style="display: flex">
+                            <input type="checkbox" class="lineChk">
+                            <input type="hidden" value= "\${employee.emplId}"/>
+                            <div class="line-block">
+                             <span class="name">\${employee.emplNm}</span>
+                             <span class="dept">\${employee.commonCodeDept}</span>
+                             <span class="clsf">\${employee.commonCodeClsf}</span>
+                       </div></label>`);
+                        if (employee.commonCodeDept == '대표') {
+                            $('#ceo .ceo > .depth').append(employeeLi);
+                        } else if (employee.commonCodeDept == '영업') {
+                            $('#st .dept3 > .depth').append(employeeLi);
+                        } else if (employee.commonCodeDept == '홍보') {
+                            $('#prt .dept4 > .depth').append(employeeLi);
+                        } else if (employee.commonCodeDept == '총무') {
+                            $('#gat .dept5 > .depth').append(employeeLi);
+                        } else if (employee.commonCodeDept == '인사') {
+                            $('#hrt .dept1 > .depth').append(employeeLi);
+                        } else if (employee.commonCodeDept == '회계') {
+                            $('#at .dept2 > .depth').append(employeeLi);
+                        }
+                    });
+
+                },
+                error: function (xhr, textStatus, error) {
+                    console.log("AJAX 오류:", error);
+                }
+            });
+        }
 
         // 저장된 결재선 불러오기
         function loadLine() {
@@ -268,44 +314,6 @@
             });
         }
 
-
-        $.ajax({
-            url: `/sanction/api/line/\${emplId}`,
-            method: 'GET',
-            contentType: "application/json;charset=utf-8",
-            dataType: 'json',
-            success: function (data) {
-                data.forEach(function (employee) {
-                    let employeeLi = $('<li class=emplList>');
-                    employeeLi.html(
-                        `<label style="display: flex">
-                            <input type="checkbox" class="lineChk">
-                            <input type="hidden" value= "\${employee.emplId}"/>
-                            <div class="line-block">
-                             <span class="name">\${employee.emplNm}</span>
-                             <span class="dept">\${employee.commonCodeDept}</span>
-                             <span class="clsf">\${employee.commonCodeClsf}</span>
-                       </div></label>`);
-                    if (employee.commonCodeDept == '대표') {
-                        $('#ceo .ceo > .depth').append(employeeLi);
-                    } else if (employee.commonCodeDept == '영업') {
-                        $('#st .dept3 > .depth').append(employeeLi);
-                    } else if (employee.commonCodeDept == '홍보') {
-                        $('#prt .dept4 > .depth').append(employeeLi);
-                    } else if (employee.commonCodeDept == '총무') {
-                        $('#gat .dept5 > .depth').append(employeeLi);
-                    } else if (employee.commonCodeDept == '인사') {
-                        $('#hrt .dept1 > .depth').append(employeeLi);
-                    } else if (employee.commonCodeDept == '회계') {
-                        $('#at .dept2 > .depth').append(employeeLi);
-                    }
-                });
-
-            },
-            error: function (xhr, textStatus, error) {
-                console.log("AJAX 오류:", error);
-            }
-        });
 
         /* 결재선 추가 */
         lineInner.forEach(item => {

@@ -184,11 +184,11 @@ public class SanctionService {
         return mapper.loadSanctionFile(elctrnSanctnEtprCode);
     }
 
-    public List<EmployeeVO> loadAllLine(String emplId) {
+    public List<EmployeeVO> loadAllLine(String emplId, String keyword) {
         List<String> departmentCodes = Arrays.asList("DEPT010", "DEPT011", "DEPT012", "DEPT013", "DEPT014", "DEPT015");
         List<EmployeeVO> allEmployees = new ArrayList<>();
         for (String deptCode : departmentCodes) {
-            List<EmployeeVO> deptEmployees = mapper.loadAllLine(deptCode, emplId);
+            List<EmployeeVO> deptEmployees = mapper.loadAllLine(deptCode, emplId, keyword);
             for (EmployeeVO vo : deptEmployees) {
                 vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());
                 vo.setCommonCodeClsf(ClassOfPosition.valueOf(vo.getCommonCodeClsf()).label());
