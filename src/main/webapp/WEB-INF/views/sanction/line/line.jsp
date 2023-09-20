@@ -9,7 +9,7 @@
         <div class="content-line orgChart card-df border-radius-32">
             <div id="search" class="search input-free-white">
                 <input type="text" id="searchLine" class=""/>
-                <button type="button" class="btn-search btn-flat btn">검색</button>
+                <button type="button" class="btn-search btn-flat btn" id="searchLineBtn">검색</button>
             </div>
             <div id="line">
                 <div class="inner">
@@ -74,7 +74,9 @@
                         </div>
                     </div>
                 </div>
+                <div id="searchResult"></div>
             </div>
+
         </div>
         <div class="approvalLine card-df border-radius-32">
             <div id="approval">
@@ -168,8 +170,8 @@
         const accordians = document.querySelectorAll(".dept");
         const windowCloseBtn = document.querySelector(".close");
         let keyword;
-        
-        loadOrgLine() // 문서 로드 시 결재선 불러오기
+
+        loadOrgLine() // 로드 시 결재선 불러오기
 
         document.addEventListener("DOMContentLoaded", () => {
             accordians.forEach(item => {
@@ -192,6 +194,12 @@
             })
         })
 
+        // 결재선 검색
+        $("#searchLineBtn").on("click", function () {
+            $('#searchResult').html("");
+            loadOrgLine()
+        })
+
         // 조직도 결재선 불러오기
         function loadOrgLine() {
             keyword = document.querySelector("#searchLine").value;
@@ -202,10 +210,11 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: 'json',
                 success: function (data) {
-                    data.forEach(function (employee) {
-                        let employeeLi = $('<li class=emplList>');
-                        employeeLi.html(
-                            `<label style="display: flex">
+                    if (keyword == null || keyword === "") {
+                        data.forEach(function (employee) {
+                            let employeeLi = $('<li class=emplList>');
+                            employeeLi.html(
+                                `<label style="display: flex">
                             <input type="checkbox" class="lineChk">
                             <input type="hidden" value= "\${employee.emplId}"/>
                             <div class="line-block">
@@ -213,20 +222,36 @@
                              <span class="dept">\${employee.commonCodeDept}</span>
                              <span class="clsf">\${employee.commonCodeClsf}</span>
                        </div></label>`);
-                        if (employee.commonCodeDept == '대표') {
-                            $('#ceo .ceo > .depth').append(employeeLi);
-                        } else if (employee.commonCodeDept == '영업') {
-                            $('#st .dept3 > .depth').append(employeeLi);
-                        } else if (employee.commonCodeDept == '홍보') {
-                            $('#prt .dept4 > .depth').append(employeeLi);
-                        } else if (employee.commonCodeDept == '총무') {
-                            $('#gat .dept5 > .depth').append(employeeLi);
-                        } else if (employee.commonCodeDept == '인사') {
-                            $('#hrt .dept1 > .depth').append(employeeLi);
-                        } else if (employee.commonCodeDept == '회계') {
-                            $('#at .dept2 > .depth').append(employeeLi);
-                        }
-                    });
+                            if (employee.commonCodeDept === '대표') {
+                                $('#ceo .ceo > .depth').append(employeeLi);
+                            } else if (employee.commonCodeDept === '영업') {
+                                $('#st .dept3 > .depth').append(employeeLi);
+                            } else if (employee.commonCodeDept === '홍보') {
+                                $('#prt .dept4 > .depth').append(employeeLi);
+                            } else if (employee.commonCodeDept === '총무') {
+                                $('#gat .dept5 > .depth').append(employeeLi);
+                            } else if (employee.commonCodeDept === '인사') {
+                                $('#hrt .dept1 > .depth').append(employeeLi);
+                            } else if (employee.commonCodeDept === '회계') {
+                                $('#at .dept2 > .depth').append(employeeLi);
+                            }
+                        });
+                    } else {
+                        $(".inner").prop("hidden", true);
+                        data.forEach(function (employee) {
+                            let employeeLi = $('<li class=emplList>');
+                            employeeLi.html(
+                                `<label style="display: flex">
+                            <input type="checkbox" class="lineChk">
+                            <input type="hidden" value= "\${employee.emplId}"/>
+                            <div class="line-block">
+                             <span class="name">\${employee.emplNm}</span>
+                             <span class="dept">\${employee.commonCodeDept}</span>
+                             <span class="clsf">\${employee.commonCodeClsf}</span>
+                       </div></label>`);
+                            $('#searchResult').append(employeeLi);
+                        });
+                    }
 
                 },
                 error: function (xhr, textStatus, error) {
@@ -436,6 +461,4 @@
         /*document.querySelector("#sideBar").style.display = "none";*/
 
     </script>
-    </body>
-    </html>
 </sec:authorize>
