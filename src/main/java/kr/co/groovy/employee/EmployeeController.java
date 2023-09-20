@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequestMapping("/employee")
 @Controller
@@ -56,7 +57,7 @@ public class EmployeeController {
         if (findTelNoResponse.equals("exists")) {
             // 문자보내기
             EmployeeVO employeeVO = service.loadEmp(emplId);
-            String password = "welcomegroovy";
+            String password = UUID.randomUUID().toString().substring(0, 8);
             String[] splitTelNo = employeeVO.getEmplTelno().split("-");
             String emplTelno = splitTelNo[0] + splitTelNo[1] + splitTelNo[2];
             service.sendMessage(emplTelno, password);

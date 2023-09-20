@@ -236,7 +236,7 @@ public class EmployeeService {
 
     public void sendMessage(String emplTelno, String password) {
         String hostNameUrl = "https://sens.apigw.ntruss.com";
-        String requestUrl = "/sms/v2/services/";
+        String requestUrl= "/sms/v2/services/";
         String requestUrlType = "/messages";
         String accessKey = "fcSixF8BWBoQBG4CFu2e";
         String secretKey = "A130dEIHZXHnlS0xGZrdhyX9ZGxmy17gAfpzvnM4";
