@@ -5,7 +5,10 @@ import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vo.VacationUseVO;
 import kr.co.groovy.vo.VacationVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @Service
+@EnableScheduling
 public class VacationService {
 
     private final VacationMapper mapper;
@@ -118,5 +122,11 @@ public class VacationService {
 
     public int modifyYrycNowCo(VacationVO vacationVO) {
         return mapper.modifyYrycNowCo(vacationVO);
+    }
+
+    @Transactional
+    @Scheduled(cron = "0 0 0 1 1 ?")
+    public void modifyVacationOnNewYear() {
+        mapper.modifyVacationOnNewYear();
     }
 }

@@ -165,4 +165,14 @@
         SET YRYC_NOW_CO = ${yrycNowCo}
         WHERE YRYC_EMP_ID = #{yrycEmpId}
     </update>
+
+    <update id="modifyVacationOnNewYear">
+        UPDATE YRYC
+        SET YRYC_NOW_CO = (YRYC_NOW_CO + 15)
+        WHERE YRYC_EMP_ID
+                  IN (SELECT EMPL_ID
+                      FROM EMPL
+                      WHERE EXTRACT(YEAR FROM EMPL_ENCPN) <![CDATA[<]]> EXTRACT(YEAR FROM SYSDATE)
+              )
+    </update>
 </mapper>

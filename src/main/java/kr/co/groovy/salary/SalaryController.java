@@ -118,4 +118,20 @@ public class SalaryController {
         String emplId = principal.getName();
         return service.loadPaystubList(emplId, year);
     }
+
+    @GetMapping("/paystub/detail/{paymentDate}")
+    public String paystubDetail(Principal principal, @PathVariable String paymentDate, Model model) {
+        String emplId = principal.getName();
+        PaystubVO paystubDetail = service.loadPaystubDetail(emplId, paymentDate);
+        List<Integer> years = service.loadYearsForSortPaystub(emplId);
+        model.addAttribute("paystub", paystubDetail);
+        model.addAttribute("years", years);
+        return "employee/mySalary";
+    }
+
+    @PostMapping("/paystub/saveCheckboxState")
+    @ResponseBody
+    public void saveCheckboxState(@RequestParam("isChecked") boolean isChecked) {
+        service.saveCheckboxState(isChecked);
+    }
 }

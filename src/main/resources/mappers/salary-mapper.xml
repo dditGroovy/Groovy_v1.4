@@ -160,4 +160,25 @@
         SET ANSLRY_ALLWNC = #{value}
         WHERE COMMON_CODE_DEPT_CRSF = #{code}
     </update>
+
+    <select id="loadPaystubDetail" parameterType="String" resultType="paystubVO">
+        SELECT SD.SALARY_DTSMT_ETPR_CODE,
+               SD.SALARY_DTSMT_ISSU_DATE,
+               SD.SALARY_EMPL_ID,
+               SD.SALARY_DTSMT_DDC_TOTAMT,
+               SD.SALARY_DTSMT_PYMNT_TOTAMT,
+               SD.SALARY_DTSMT_NET_PAY,
+               SD.SALARY_DTSMT_SIS_NP,
+               SD.SALARY_DTSMT_SIS_HI,
+               SD.SALARY_DTSMT_SIS_EI,
+               SD.SALARY_DTSMT_SIS_WCI,
+               SD.SALARY_DTSMT_INCMTAX,
+               SD.SALARY_DTSMT_LOCALITY_INCMTAX,
+               S.SALARY_BSLRY,
+               S.SALARY_OVTIME_ALLWNC
+        FROM SALARY_DTSMT SD, SALARY S
+        WHERE SD.SALARY_EMPL_ID = #{emplId}
+          AND SD.SALARY_DTSMT_ISSU_DATE = S.SALARY_PYMNT_DATE
+          AND SD.SALARY_DTSMT_ISSU_DATE = TO_DATE(#{paymentDate})
+    </select>
 </mapper>

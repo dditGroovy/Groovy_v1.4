@@ -1,8 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<c:set value="${recentPaystub}" var="paystub"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<sec:authentication property="principal" var="CustomUser"/>
 <fmt:formatDate value="${paystub.salaryDtsmtIssuDate}" var="month" pattern="M"/>
 <fmt:formatNumber var="salaryDtsmtDdcTotamt" value="${paystub.salaryDtsmtDdcTotamt}" type="number"
                   maxFractionDigits="3"/>
@@ -30,7 +34,7 @@
 
     <main>
         <div>
-            <table border="1">
+            <table border="1" id="paystub">
                 <tr>
                     <td colspan="2">${month}월 급여명세서</td>
                 </tr>
@@ -81,7 +85,9 @@
                     <td>${salaryDtsmtLocalityIncmtax} 원</td>
                 </tr>
             </table>
-
+            <div>
+                <button id="downloadBtn">급여명세서 다운로드</button>
+            </div>
         </div>
 
         <div>
@@ -103,7 +109,11 @@
     </main>
 </div>
 <script>
+    let isSavedChecked = ${CustomUser.employeeVO.hideAmount}
+        $("#hideAmount").prop("checked", isSavedChecked);
+
     let year = $("#selectedYear").val();
+    console.log("year : ", year);
     if (year != null) {
         loadPaystubList(year);
     }
@@ -122,6 +132,7 @@
     });
 
     function loadPaystubList(year) {
+        console.log(year);
         $.ajax({
             url: `/salary/paystub/\${year}`,
             type: "get",
@@ -134,21 +145,74 @@
                     let formatedDate = date.getFullYear() + "년 " +
                         (months < 10 ? "0" : "") + months + "월 " +
                         (date.getDate() < 10 ? "0" : "") + date.getDate() + "일";
+                    let paymentDate = date.getFullYear() + "-" +
+                        (months < 10 ? "0" : "") + months + "-" +
+                        (date.getDate() < 10 ? "0" : "") + date.getDate();
                     let netPay = obj.salaryDtsmtNetPay.toLocaleString();
                     console.log(obj);
-                    code += `<tr id="\${obj.salaryDtsmtEtprCode}">
-                             <td>\${months}월</td>
+                    code += `<tr>
+                             <td><a href="/salary/paystub/detail/\${paymentDate}">\${months}월</a></td>
                              <td>\${formatedDate} 지급</td>
                              <td id="totalStr">실수령액</td>
                              <td id="total">\${netPay} 원</td>
                           </tr>`
                 });
                 $("#paystubList").html(code);
+                if ($("#hideAmount").prop("checked")) {
+                    $("#totalStr, #total").css("visibility", "hidden");
+                } else {
+                    $("#totalStr, #total").css("visibility", "visible");
+                }
             },
             error: function (xhr) {
                 console.log(xhr);
             }
         })
     }
-</script>
 
+    $("#hideAmount").on("click", function () {
+        let isChecked = $(this).prop("checked");
+
+        $.ajax({
+            url: "/salary/paystub/saveCheckboxState",
+            type: "post",
+            data: { "isChecked" : isChecked },
+            success: function (result) {
+            },
+            error: function (xhr) {
+                console.log(xhr);
+            }
+        });
+    });
+
+    let jsPDF = jspdf.jsPDF;
+
+    $("#downloadBtn").on("click", function() {
+        html2canvas($('#paystub')[0]).then(function(canvas) {
+            let imgData = canvas.toDataURL('image/png');
+            let imgWidth = 150;
+            let pageHeight = 300;
+            let imgHeight = parseInt(canvas.height * imgWidth / canvas.width);
+            let heightLeft = imgHeight;
+            let margin = 10;
+
+            let doc = new jsPDF('p', 'mm','a4');
+            let position = 30;
+
+            doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            console.log("imgHeight",imgHeight);
+
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                doc.addPage();
+                doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+
+            let fileName = "${CustomUser.employeeVO.emplId}_${CustomUser.employeeVO.emplNm}_${month}월_급여명세서.pdf";
+            doc.save(fileName);
+        });
+    });
+</script>

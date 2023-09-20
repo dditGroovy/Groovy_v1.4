@@ -38,4 +38,5 @@ public class EmployeeVO {
     private String deptNm;  // 부서명
     private String clsfNm;  // 직급명
     private String emplMacadrs; // MAC Address
+    private boolean hideAmount;
 }
