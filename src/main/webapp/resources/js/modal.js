@@ -8,7 +8,9 @@ function close(){
         item.classList.remove("on");
     })
 }
-
+function modalOpen(dataName){
+    modalDm.style.display = "block";
+}
 
 /*  모달 열기   */
 modalOpenBtn.forEach(item => {

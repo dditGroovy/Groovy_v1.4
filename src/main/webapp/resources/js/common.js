@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded",()=>{
     const navList = document.querySelectorAll(".nav-list > a");
     const tabHeader = document.querySelector("#tab-header");
-    const tabList = tabHeader.querySelectorAll("a");
 
     /*  aside   */
     navList.forEach((item, index) => {
