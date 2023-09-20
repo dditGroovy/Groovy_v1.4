@@ -1,8 +1,6 @@
 package kr.co.groovy.schedule;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import java.util.Map;
@@ -46,26 +44,14 @@ public class ScheduleController {
 	
 		
 		@GetMapping("/schedule")
-		public ResponseEntity<List<Map<String, Object>>> findAllSchedule() throws Exception {
-			List<ScheduleVO> list = scheduleService.getSchedule();
-	
-			List<Map<String, Object>> result = new ArrayList<>();
-	
-			for(ScheduleVO scheduleVO : list) {
-				HashMap<String, Object> scheduleMap = new HashMap<>();	
-				scheduleMap.put("id", scheduleVO.getSchdulSn());
-				scheduleMap.put("title", scheduleVO.getSchdulNm());
-				scheduleMap.put("start", scheduleVO.getSchdulBeginDate());
-				scheduleMap.put("end", scheduleVO.getSchdulClosDate());
-				result.add(scheduleMap);
-			}
-			
-			return new ResponseEntity<>(result, HttpStatus.OK);
+		public ResponseEntity<List<Map<String, Object>>> getSchedule(){
+			List<Map<String, Object>> result = scheduleService.getSchedule();
+			return new ResponseEntity<>(result, HttpStatus.OK); 
 		}
 	
 		
 		@GetMapping("/schedule/{schdulSn}")
-		public ResponseEntity<ScheduleVO> findOneSchedule(@PathVariable int schdulSn) {
+		public ResponseEntity<ScheduleVO> getOneSchedule(@PathVariable int schdulSn) {
 			ScheduleVO scheduleVO = scheduleService.getOneSchedule(schdulSn);
 	
 			if(scheduleVO != null) {
@@ -77,7 +63,7 @@ public class ScheduleController {
 	
 		
 		@PostMapping("/schedule")
-		public String insertSchedule(@RequestBody List<Map<String, Object>> list) throws ParseException, Exception {
+		public String inputSchedule(@RequestBody List<Map<String, Object>> list) throws ParseException, Exception {
 			scheduleService.inputSchedule(list);
 			return "schedule/calendar";
 		}
