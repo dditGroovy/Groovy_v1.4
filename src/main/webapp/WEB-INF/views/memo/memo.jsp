@@ -124,6 +124,7 @@
             $.ajax({
                 url: "/memo/memoMain",
                 type: "POST",
+                dataType: "text",
                 data: JSON.stringify(memoData),
                 contentType: "application/json;charset=UTF-8",
                 success: function (data) {

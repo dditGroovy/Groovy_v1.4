@@ -2,13 +2,13 @@ package kr.co.groovy.memo;
 
 import java.util.List;
 
+
 import org.springframework.stereotype.Service;
 
 import kr.co.groovy.vo.MemoVO;
 
 @Service
 public class MemoService {
-	
 	final
 	MemoMapper memoMapper;
 	
