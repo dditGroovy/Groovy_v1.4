@@ -105,7 +105,7 @@
                 for (let i = 0; i < selectBeginTimeList.length; i++) {
                     selectBeginTimeList[i].removeAttribute("disabled");
                 }
-                let result = JSON.parse(xhr.responseText); // 어차피 예약된 애들만 옴
+                let result = JSON.parse(xhr.responseText);
                 for (let i = 0; i < result.length; i++) {
                     const reservedDate = new Date(result[i].vhcleResveBeginTime);
                     let reservedYear = reservedDate.getFullYear();
@@ -185,7 +185,8 @@
             vhcleResveBeginTime: $vhcleResveBeginTime,
             vhcleResveEndTime: $vhcleResveEndTime,
             vhcleNo: $("input[name='vhcleNo']").val(),
-            commonCodeResveAt: 'RESVE011'
+            commonCodeResveAt: 'RESVE011',
+            vhcleResveReturnAt: 'N'
         }
 
         $.ajax({

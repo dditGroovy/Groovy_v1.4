@@ -33,4 +33,6 @@ public interface VacationMapper {
     List<VacationVO> loadAllEmplVacation();
 
     int modifyYrycNowCo(VacationVO vacationVO);
+
+    void modifyVacationOnNewYear();
 }

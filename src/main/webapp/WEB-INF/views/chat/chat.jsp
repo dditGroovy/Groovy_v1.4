@@ -57,11 +57,11 @@
     const emplNm = "${CustomUser.employeeVO.emplNm}";
     const msg = $("#msg");
     const chatRoomMessages = {};
+    const subscribedRooms = new Set();
 
     let sockJS = new SockJS("/chat");
     let client = Stomp.over(sockJS);
 
-    let currentSubRoom;
     let currentRoomNo;
     let currentRoomNm;
 
@@ -95,14 +95,14 @@
 
             let chatVO = {
                 chttNo: 0,
-                chttRoomNo: chttRoomNo,
+                chttRoomNo: currentRoomNo,
                 chttMbrEmplId: emplId,
                 chttMbrEmplNm: emplNm,
                 chttCn: message,
                 chttInputDate: date
             }
             client.send('/public/chat/message', {}, JSON.stringify(chatVO));
-
+            console.log("chatVO", chatVO);
             $.ajax({
                 url: "/chat/inputMessage",
                 type: "post",
@@ -135,17 +135,15 @@
                 success: function (messages) {
                     $.each(messages, function (idx, obj) {
                         if (obj.chttMbrEmplId == emplId) {
-                            var code = `<div style="border: 1px solid blue" id="\${obj.chttNo}">`;
-                            code += "<div>";
-                            code += `<p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>`;
-                            code += "</div></div>";
-                            $(`#room \${currentRoomNo}`).append(code);
+                            let code = `<div style="border: 1px solid blue" id="\${obj.chttNo}">
+                                            <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
+                                        </div>`;
+                            $(`#room\${currentRoomNo}`).append(code);
                         } else {
-                            var code = `<div style='border: 1px solid red' id='\${obj.chttNo}'>`;
-                            code += "<div>";
-                            code += `<p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>`;
-                            code += "</div></div>";
-                            $(`#room \${currentRoomNo}`).append(code);
+                            let code = `<div style='border: 1px solid red' id='\${obj.chttNo}'>
+                                            <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
+                                        </div>`;
+                            $(`#room\${currentRoomNo}`).append(code);
                         }
                     });
                     scrollToBottom();
@@ -208,8 +206,8 @@
                     data: JSON.stringify(newMem),
                     contentType: "application/json;charset:utf-8",
                     success: function (result) {
-                        loadRoomList();
                         if (result == 1) {
+                            loadRoomList();
                             alert("초대 성공");
                         } else {
                             alert("초대 실패")
@@ -251,35 +249,35 @@
         });
 
         function subscribeToChatRoom(chttRoomNo) {
-            client.subscribe("/subscribe/chat/room/" + chttRoomNo, function (chat) {
-                let content = JSON.parse(chat.body);
+            if(!subscribedRooms.has(chttRoomNo)) {
+                client.subscribe("/subscribe/chat/room/" + chttRoomNo, function (chat) {
+                    let content = JSON.parse(chat.body);
 
-                let chttRoomNo = content.chttRoomNo;
-                let chttMbrEmplId = content.chttMbrEmplId;
-                let chttMbrEmplNm = content.chttMbrEmplNm;
-                let chttCn = content.chttCn;
-                let chttInputDate = content.chttInputDate;
+                    let chttRoomNo = content.chttRoomNo;
+                    let chttMbrEmplId = content.chttMbrEmplId;
+                    let chttMbrEmplNm = content.chttMbrEmplNm;
+                    let chttCn = content.chttCn;
+                    let chttInputDate = content.chttInputDate;
 
-                let code = "";
-                if (chttMbrEmplId == emplId) {
-                    code += "<div style='border: 1px solid blue'>";
-                    code += "<div>";
-                    code += "<p>" + chttMbrEmplNm + " : " + chttCn + "</p>";
-                    code += "</div></div>";
-                    $(`#room \${chttRoomNo}`).append(code);
-                    scrollToBottom();
-                } else {
-                    code += "<div style='border: 1px solid red'>";
-                    code += "<div>";
-                    code += "<p>" + chttMbrEmplNm + " : " + chttCn + "</p>";
-                    code += "</div></div>";
-                    $(`#room \${chttRoomNo}`).append(code);
-                    scrollToBottom();
-                }
+                    if (chttMbrEmplId == emplId) {
+                        let code = `<div style="border: 1px solid blue">
+                                    <p>\${chttMbrEmplNm} : \${chttCn}</p>
+                                </div>`;
+                        $(`#room\${chttRoomNo}`).append(code);
+                        scrollToBottom();
+                    } else {
+                        let code = `<div style="border: 1px solid red">
+                                    <p>\${chttMbrEmplNm} : \${chttCn}</p>
+                                </div>`;
+                        $(`#room\${chttRoomNo}`).append(code);
+                        scrollToBottom();
+                    }
 
-                updateLatestChttCn(chttRoomNo, chttCn, chttInputDate);
-                updateChatRoomList(chttRoomNo, chttCn);
-            });
+                    updateLatestChttCn(chttRoomNo, chttCn, chttInputDate);
+                    updateChatRoomList(chttRoomNo, chttCn);
+                });
+                subscribedRooms.add(chttRoomNo);
+            }
         }
 
         function updateLatestChttCn(chttRoomNo, chttCn, chttInputDate) {
@@ -298,10 +296,10 @@
             chatRoom.find("#latestChttCn").text(latestChttCn);
         }
 
-        var groupedEmployees = {};
-
+        let groupedEmployees = {};
+        let deptNm
         <c:forEach items="${emplListForChat}" var="employee">
-        var deptNm = "${employee.deptNm}";
+        deptNm = "${employee.deptNm}";
         if (!groupedEmployees[deptNm]) {
             groupedEmployees[deptNm] = [];
         }
@@ -313,7 +311,7 @@
         </c:forEach>
 
         let ul = $("#employeeList");
-        for (var deptNm in groupedEmployees) {
+        for (let deptNm in groupedEmployees) {
             let li = $("<li>").text(deptNm);
             ul.append(li);
 
@@ -354,25 +352,29 @@
                 }
             });
 
-            $.ajax({
-                url: "/chat/createRoom",
-                type: "post",
-                data: JSON.stringify(roomMemList),
-                contentType: "application/json;charset:utf-8",
-                success: function (result) {
-                    loadRoomList();
-                    if (result == 1) {
-                        alert("채팅방 개설 성공");
-                    } else {
-                        alert("이미 존재하는 1:1 채팅방입니다")
+            if(roomMemList.length > 0) {
+                $.ajax({
+                    url: "/chat/createRoom",
+                    type: "post",
+                    data: JSON.stringify(roomMemList),
+                    contentType: "application/json;charset:utf-8",
+                    success: function (result) {
+                        if (result == 1) {
+                            loadRoomList();
+                            alert("채팅방 개설 성공");
+                        } else {
+                            alert("이미 존재하는 1:1 채팅방입니다")
+                        }
+                    },
+                    error: function (request, status, error) {
+                        alert("채팅방 개설 실패")
                     }
-                },
-                error: function (request, status, error) {
-                    alert("채팅방 개설 실패")
-                }
-            });
+                });
 
-            $("input[name='employees']:checked").prop("checked", false);
+                $("input[name='employees']:checked").prop("checked", false);
+            } else {
+                alert("채팅방 개설을 위한 최소 인원 미달")
+            }
 
         });
 
@@ -388,15 +390,10 @@
 
                     chatRoomList = result;
 
-                    if (currentSubRoom) {
-                        currentSubRoom.unsubscribe();
-                    }
-
                     for (let i = 0; i < chatRoomList.length; i++) {
                         let chttRoomNo = chatRoomList[i].chttRoomNo;
                         subscribeToChatRoom(chttRoomNo);
                     }
-
                     renderChatRoomList();
                 },
                 error: function (request, status, error) {

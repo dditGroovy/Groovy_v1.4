@@ -15,7 +15,7 @@
                , #{vhcleNo}
                , #{vhcleResveEmplId}
                , #{commonCodeResveAt}
-               , #{vhcleResveRetrunAt})
+               , #{vhcleResveReturnAt})
     </insert>
 
     <delete id="deleteReservedByVhcleResveNo" parameterType="int">

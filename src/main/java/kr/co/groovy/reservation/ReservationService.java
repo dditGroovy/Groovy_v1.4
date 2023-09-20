@@ -45,10 +45,8 @@ public class ReservationService {
     }
 
     private List<VehicleVO> getReservedVehicles(List<VehicleVO> list) {
-        for (VehicleVO vehicleVO : list) {
-            int vhcleResveNo = vehicleVO.getVhcleResveNo();
-            vhcleResveNo = 0;
-            vehicleVO.setVhcleResveNoRedefine(++vhcleResveNo);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setVhcleResveNoRedefine(i + 1);
         }
         return list;
     }

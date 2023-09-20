@@ -38,7 +38,7 @@
                     <li class="nav-list"><a href="${pageContext.request.contextPath}/schedule/scheduleMain"><i class="icon i-calendar"></i>회사 일정 관리</a></li>
                     <li class="nav-list"><a href="${pageContext.request.contextPath}/club/admin"><i class="icon i-share"></i>동호회 관리</a></li>
                     <li class="nav-list"><a href="#"><i class="icon i-building"></i>시설 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon i-parking"></i>주차차량 관리</a></li>
+                    <li class="nav-list"><a href="${pageContext.request.contextPath}/reserve/manageVehicle"><i class="icon i-parking"></i>주차차량 관리</a></li>
                     <li class="nav-list"><a href="${pageContext.request.contextPath}/diet/dietMain"><i class="icon i-notice"></i>식단 관리</a></li>
                 </ul>
             </ul>

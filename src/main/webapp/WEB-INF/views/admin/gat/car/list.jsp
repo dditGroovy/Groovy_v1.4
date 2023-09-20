@@ -48,12 +48,12 @@
     class ClassComp {
         init(params) {
             this.eGui = document.createElement('div');
-            if (rowData.pop().vhcleResveReturnAt == 'Y') {
+            if (rowData[0].vhcleResveReturnAt === 'Y') {
                 this.eGui.innerHTML = `
                     <p class="returnStatus">반납완료</p>
                 `;
 
-            } else if (rowData.pop().vhcleResveReturnAt == 'N') {
+            } else if (rowData[0].vhcleResveReturnAt === 'N') {
                 this.eGui.innerHTML = `
                     <button class="returnCarBtn" id="\${params.value}">반납 확인</button>
                     <p class="returnStatus" style="display: none;">반납완료</p>
@@ -105,18 +105,18 @@
                 return getMedalString(params.value);
             }
         },
-        {field: "vhcleResveBeginTime", headerName: "시작 시간"},
-        {field: "vhcleResveEndTime", headerName: "끝 시간"},
+        {field: "vhcleResveBeginTime", headerName: "시작 일자"},
+        {field: "vhcleResveEndTime", headerName: "끝 일자"},
         {field: "vhcleResveEmpNm", headerName: "예약 사원"},
         {field: "vhcleResveEmplId", headerName: "사번"},
         {field: "chk", headerName: " ", cellRenderer: ClassComp},
     ];
     const rowData = [];
-    <c:forEach var="vehicleVO" items="${allReservation}" varStatus="status"> <!-- 12: 공지사항 개수(length) -->
+    <c:forEach var="vehicleVO" items="${allReservation}" varStatus="status">
     <c:set var="beginTimeStr" value="${vehicleVO.vhcleResveBeginTime}"/>
-    <fmt:formatDate var="beginTime" value="${beginTimeStr}" pattern="HH:mm"/>
+    <fmt:formatDate var="beginTime" value="${beginTimeStr}" pattern="yyyy-MM-dd HH:mm"/>
     <c:set var="endTimeStr" value="${vehicleVO.vhcleResveEndTime}"/>
-    <fmt:formatDate var="endTime" value="${endTimeStr}" pattern="HH:mm"/>
+    <fmt:formatDate var="endTime" value="${endTimeStr}" pattern="yyyy-MM-dd HH:mm"/>
     rowData.push({
         vhcleResveNo: "${vehicleVO.vhcleResveNoRedefine}",
         vhcleNo: "${vehicleVO.vhcleNo}",
@@ -127,6 +127,7 @@
         chk: "${vehicleVO.vhcleResveNo}",
         vhcleResveReturnAt: "${vehicleVO.vhcleResveReturnAt}"
     })
+    console.log(rowData);
     </c:forEach>
     const gridOptions = {
         columnDefs: columnDefs,

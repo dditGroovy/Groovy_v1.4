@@ -2,9 +2,12 @@ package kr.co.groovy.salary;
 
 import kr.co.groovy.enums.ClassOfPosition;
 import kr.co.groovy.enums.Department;
+import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vo.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -74,4 +77,14 @@ public class SalaryService {
         mapper.modifySalary(code, value);
     }
 
+    public PaystubVO loadPaystubDetail(String emplId, String paymentDate){
+        return mapper.loadPaystubDetail(emplId, paymentDate);
+    }
+
+    public void saveCheckboxState(boolean isChecked) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUser customUser = (CustomUser) authentication.getPrincipal();
+        EmployeeVO employeeVO = customUser.getEmployeeVO();
+        employeeVO.setHideAmount(isChecked);
+    }
 }

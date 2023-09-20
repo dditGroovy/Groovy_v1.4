@@ -28,4 +28,6 @@ public interface SalaryMapper {
 
     void modifyIncmtax(@Param("code") String code, @Param("value") double value);
     void modifySalary(@Param("code") String code, @Param("value") double value);
+
+    PaystubVO loadPaystubDetail(@Param("emplId") String emplId, @Param("paymentDate") String paymentDate);
 }

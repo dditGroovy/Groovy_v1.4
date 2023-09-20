@@ -183,7 +183,7 @@
             fcltyResveEndTime: $selectResveEndTime,
             commonCodeFcltyKind: $("input[name='facltyNo']").val(),
             commonCodeResveAt: 'RESVE011',
-            fcltyResveRequstMatter: "n"
+            fcltyResveRequstMatter: ""
         }
 
         $.ajax({
