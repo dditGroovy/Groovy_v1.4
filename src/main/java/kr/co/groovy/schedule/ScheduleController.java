@@ -88,7 +88,7 @@ public class ScheduleController {
 			int result = scheduleService.deleteSchedule(list);
 			
 			if(result == 1) {
-				return "success";
+				return "success";          
 			} else {
 				return "fail";
 			}
