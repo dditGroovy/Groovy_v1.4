@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,8 +27,21 @@ public class ScheduleService {
 	}
 
 	
-    public List<ScheduleVO> getSchedule() {
-    	return scheduleMapper.getSchedule();
+    public List<Map<String, Object>> getSchedule() {
+    	List<ScheduleVO> list = scheduleMapper.getSchedule();
+    	
+    	List<Map<String, Object>> result = new ArrayList<>();
+    	
+		for(ScheduleVO scheduleVO : list) {
+			HashMap<String, Object> scheduleMap = new HashMap<>();	
+			scheduleMap.put("id", scheduleVO.getSchdulSn());
+			scheduleMap.put("title", scheduleVO.getSchdulNm());
+			scheduleMap.put("start", scheduleVO.getSchdulBeginDate());
+			scheduleMap.put("end", scheduleVO.getSchdulClosDate());
+			result.add(scheduleMap);
+		}
+    	
+    	return result;
     }
     
     
