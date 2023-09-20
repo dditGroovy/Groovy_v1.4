@@ -9,23 +9,28 @@
     <result property="fcltyResveEndTime" column="FCLTY_RESVE_END_TIME"/>
     <result property="fcltyResveRequstMatter" column="FCLTY_RESVE_REQUST_MATTER"/>
     <result property="fcltyResveEmplId" column="FCLTY_RESVE_EMPL_ID"/>
+    <result property="fcltyCode" column="COMMON_NAME"/>        
     <result property="commonCodeResveAt" column="COMMON_CODE_RESVE_AT"/>
     <result property="fcltyEmplName" column="EMPL_NM"/>    
-    <result property="equipName" column="EQUIPMENTLIST"/>    
+    <result property="equipName" column="EQUIPMENTLIST"/> 
 </resultMap>
 
 <!-- 시설 예약 현황 조회 -->
-<select id="getAllReservedRooms" resultType="facilityVO">
+<select id="getAllReservedRooms" resultMap="facilityVOMap">
 	SELECT 
-	    FCLTY_RESVE_SN,
-	    FCLTY_RESVE_BEGIN_TIME, 
-    	FCLTY_RESVE_END_TIME,
-	    FCLTY_RESVE_REQUST_MATTER,
-	    FCLTY_RESVE_EMPL_ID,
-	    COMMON_CODE_RESVE_AT,
-	    COMMON_CODE_FCLTY_KIND                                                                                                          
-	FROM FCLTY_RESVE
-	ORDER BY FCLTY_RESVE_SN ASC
+	    A.COMMON_CODE_FCLTY_KIND AS COMMON_CODE_FCLTY_KIND,
+	    C.COMMON_NAME AS COMMON_NAME,
+	    A.FCLTY_RESVE_SN,
+	    A.FCLTY_RESVE_END_TIME,
+	    A.FCLTY_RESVE_BEGIN_TIME,
+	    A.FCLTY_RESVE_REQUST_MATTER,
+	    A.FCLTY_RESVE_EMPL_ID,
+	    A.COMMON_CODE_RESVE_AT,
+	    B.EMPL_NM
+	FROM FCLTY_RESVE A
+	INNER JOIN COMMON C ON A.COMMON_CODE_FCLTY_KIND = C.COMMON_CODE
+	LEFT JOIN EMPL B ON A.FCLTY_RESVE_EMPL_ID = B.EMPL_ID
+	ORDER BY A.FCLTY_RESVE_SN ASC
 </select>
 
 <!-- 예약 삭제 -->
@@ -41,37 +46,51 @@
 	WHERE COMMON_CODE_FCLTY_KIND LIKE '%'||#{roomCode}||'%'
 </select>
 
-
 <!-- 시설 별 비품 현황 조회 -->
-<select id="findEquipmentList" resultMap="facilityVOMap">
+<select id="findEquipmentList" resultMap="facilityVOMap" parameterType="String">
 	SELECT
-	       FC.COMMON_CODE_FCLTY_KIND,
-	       LISTAGG(C.COMMON_NAME, ', ') 
-	       WITHIN GROUP (ORDER BY C.COMMON_NAME) 
-	       AS equipmentList
-	FROM FCLTY FC
+	    F.COMMON_CODE_FCLTY_KIND,
+	    LISTAGG(C.COMMON_NAME, ', ') 
+	    WITHIN GROUP (ORDER BY C.COMMON_NAME) 
+	    AS equipmentList,
+	    (SELECT COMMON_NAME 
+	    FROM COMMON 
+	    WHERE COMMON_CODE = F.COMMON_CODE_FCLTY_KIND) 
+	    AS COMMON_NAME
+	FROM FCLTY F
 	INNER JOIN FXTRS FX 
-	ON FX.COMMON_CODE_FCLTY_KIND = FC.COMMON_CODE_FCLTY_KIND
+	ON FX.COMMON_CODE_FCLTY_KIND = F.COMMON_CODE_FCLTY_KIND
 	INNER JOIN COMMON C 
 	ON C.COMMON_CODE = FX.COMMON_CODE_FXTRS_KIND
-	GROUP BY FC.COMMON_CODE_FCLTY_KIND
+	WHERE F.COMMON_CODE_FCLTY_KIND LIKE '%'||#{commonCodeFcltyKind}||'%'
+	GROUP BY F.COMMON_CODE_FCLTY_KIND
+</select>
+<!-- 휴게실 구분코드 -->
+<select id="getRetiringRoom" resultMap="facilityVOMap" parameterType="String">
+	SELECT  F.COMMON_CODE_FCLTY_KIND,
+			C.COMMON_NAME AS COMMON_NAME
+	FROM FCLTY F
+	INNER JOIN COMMON C 
+	ON F.COMMON_CODE_FCLTY_KIND = C.COMMON_CODE
+	WHERE F.COMMON_CODE_FCLTY_KIND LIKE '%'||#{commonCodeFcltyKind}||'%'
 </select>
 
 <!-- 오늘 예약 현황 조회 -->
 <select id="findTodayResve" resultMap="facilityVOMap" >
 	SELECT 
-	    A.FCLTY_RESVE_SN
-	    ,A.FCLTY_RESVE_END_TIME
-	    ,A.FCLTY_RESVE_BEGIN_TIME
-	    ,A.FCLTY_RESVE_REQUST_MATTER
-	    ,A.FCLTY_RESVE_EMPL_ID
-	    ,A.COMMON_CODE_RESVE_AT
-	    ,A.COMMON_CODE_FCLTY_KIND
-        ,B.EMPL_NM
+	    A.COMMON_CODE_FCLTY_KIND AS COMMON_CODE_FCLTY_KIND,
+	    C.COMMON_NAME AS COMMON_NAME,
+	    A.FCLTY_RESVE_SN,
+	    A.FCLTY_RESVE_END_TIME,
+	    A.FCLTY_RESVE_BEGIN_TIME,
+	    A.FCLTY_RESVE_REQUST_MATTER,
+	    A.FCLTY_RESVE_EMPL_ID,
+	    A.COMMON_CODE_RESVE_AT,
+	    B.EMPL_NM
 	FROM FCLTY_RESVE A
-    INNER JOIN EMPL B
-    ON A.FCLTY_RESVE_EMPL_ID = B.EMPL_ID
-	WHERE TO_DATE(FCLTY_RESVE_BEGIN_TIME, 'YY/MM/DD HH24:MI:SS') >= TRUNC(SYSDATE)
-	ORDER BY FCLTY_RESVE_SN ASC
+	INNER JOIN COMMON C ON A.COMMON_CODE_FCLTY_KIND = C.COMMON_CODE
+	LEFT JOIN EMPL B ON A.FCLTY_RESVE_EMPL_ID = B.EMPL_ID
+	WHERE TO_DATE(A.FCLTY_RESVE_BEGIN_TIME, 'YY/MM/DD HH24:MI:SS') >= TRUNC(SYSDATE)
+	ORDER BY A.FCLTY_RESVE_SN ASC
 </select>
 </mapper>
