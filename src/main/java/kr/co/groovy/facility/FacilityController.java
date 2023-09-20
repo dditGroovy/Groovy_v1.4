@@ -53,7 +53,6 @@ public class FacilityController {
                 meetingRoom.setWhiteBoard(fixturesByFcltyKind.getWhiteBoard());
                 meetingRoom.setExtinguisher(fixturesByFcltyKind.getExtinguisher());
             }
-            log.info("meetingRooms: " + meetingRooms);
             mav.addObject("meetingRooms", meetingRooms);
             mav.setViewName("facility/meetingResve");
         }
@@ -111,7 +110,6 @@ public class FacilityController {
     @ResponseBody
     public List<FacilityVO> getReservedRestRoomsByFcltyKind(@PathVariable String roomNo) {
         String commonCodeFcltyKind = Facility.getValueByLabel(roomNo);
-        log.info("reservedRoom: " + service.getReservedRoomsByFcltyKind(commonCodeFcltyKind));
         return service.getReservedRoomsByFcltyKind(commonCodeFcltyKind);
     }
 

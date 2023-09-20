@@ -3,6 +3,7 @@ package kr.co.groovy.reservation;
 import kr.co.groovy.vo.VehicleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,19 +23,17 @@ public class ReservationController {
 
     /* 차량 예약 */
     @GetMapping("/manageVehicle")
-    public ModelAndView loadReservedAndRegisteredVehicle(ModelAndView mav) {
+    public String loadReservedAndRegisteredVehicle(Model model) {
         List<VehicleVO> allVehicles = service.getAllVehicles();
         List<VehicleVO> todayReservedVehicles = service.getTodayReservedVehicles();
-        mav.addObject("allVehicles", allVehicles);
-        mav.addObject("todayReservedVehicles", todayReservedVehicles);
-        mav.setViewName("admin/gat/car/manage");
-        return mav;
+        model.addAttribute("allVehicles", allVehicles);
+        model.addAttribute("todayReservedVehicles", todayReservedVehicles);
+        return "admin/gat/car/manage";
     }
 
     @GetMapping("/inputVehicle")
-    public ModelAndView inputVehicle(ModelAndView mav) {
-        mav.setViewName("admin/gat/car/register");
-        return mav;
+    public String inputVehicle() {
+        return "admin/gat/car/register";
     }
 
     @PostMapping("/inputVehicle")
@@ -49,15 +48,13 @@ public class ReservationController {
     @PutMapping("/return")
     @ResponseBody
     public String modifyReturnAt(@RequestBody String vhcleResveNo) {
-        log.info("vhcleResveNo: " + vhcleResveNo);
         return String.valueOf(service.modifyReturnAt(vhcleResveNo));
     }
 
     @GetMapping("/loadVehicle")
-    public ModelAndView loadVehicle(ModelAndView mav) {
+    public String loadVehicle(Model model) {
         List<VehicleVO> allReservation = service.getAllReservation();
-        mav.addObject("allReservation", allReservation);
-        mav.setViewName("admin/gat/car/list");
-        return mav;
+        model.addAttribute("allReservation", allReservation);
+        return "admin/gat/car/list";
     }
 }
