@@ -6,41 +6,102 @@
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
         <h1>법인카드 신청</h1>
-        <div>
-            <form action="${pageContext.request.contextPath}/card/request" method="post">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <table border="1">
-                    <input type="hidden" name="cprCardResveEmplId" value="${CustomUser.employeeVO.emplId}"/>
-                    <tr>
-                        <th>기간</th>
-                        <td>
-                            <input type="date" name="cprCardResveBeginDate" id="startDay" placeholder="시작 날짜"> ~
-                            <input type="date" name="cprCardResveClosDate" id="endDay" placeholder="끝 날짜">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>사용처</th>
-                        <td>
-                            <input type="text" name="cprCardUseLoca" id="useLocation">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>사용목적</th>
-                        <td>
-                            <textarea name="cprCardUsePurps" id="content" cols="30" rows="10"
-                                      placeholder="사용 목적"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>사용예상금액</th>
-                        <td>
-                            <input type="number" name="cprCardUseExpectAmount" id="amount">
-                        </td>
-                    </tr>
-                </table>
-                <button type="submit" id="save">저장하기</button>
-            </form>
+
+        <br><br>
+
+        <button type="button" class="btn btn-out-sm btn-modal" data-name="requestCard">법인카드 신청하기</button>
+        <button type="button" class="btn btn-out-sm btn-modal" data-name="detailCard">법인카드 디테일</button>
+        <div id="modal" class="modal-dim">
+            <div class="dim-bg"></div>
+            <div class="modal-layer card-df sm requestCard">
+                <div class="modal-title">법인카드 신청</div>
+                <div class="modal-container">
+                    <div class="modal-content input-wrap">
+                        <form action="${pageContext.request.contextPath}/card/request" method="post"
+                              id="cardRequestForm">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <table border="1">
+                                <input type="hidden" name="cprCardResveEmplId" value="${CustomUser.employeeVO.emplId}"/>
+                                <tr>
+                                    <th>기간</th>
+                                    <td>
+                                        <input type="date" name="cprCardResveBeginDate"
+                                               placeholder="시작 날짜" required> ~
+                                        <input type="date" name="cprCardResveClosDate" placeholder="끝 날짜" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>사용처</th>
+                                    <td>
+                                        <input type="text" name="cprCardUseLoca" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>사용목적</th>
+                                    <td><textarea name="cprCardUsePurps" cols="30" rows="10" placeholder="사용 목적"
+                                                  required></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>사용예상금액</th>
+                                    <td>
+                                        <input type="number" name="cprCardUseExpectAmount" required>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="modal-footer btn-wrapper">
+                                <button type="submit" class="btn btn-fill-bl-sm" id="requestCard">확인</button>
+                                <button type="button" class="btn btn-fill-wh-sm close">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-layer card-df sm detailCard">
+                <div class="modal-title">법인카드 신청 내용</div>
+                <div class="modal-container">
+                    <div class="modal-content input-wrap">
+                        <table border="1">
+                            <input type="hidden" name="cprCardResveEmplId" value="${CustomUser.employeeVO.emplId}"/>
+                            <tr>
+                                <th>기간</th>
+                                <td>
+                                    <p name="cprCardResveBeginDate"></p> ~ <p name="cprCardResveClosDate"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사용처</th>
+                                <td>
+                                    <p name="cprCardUseLoca"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사용목적</th>
+                                <td>
+                                    <p name="cprCardUsePurps"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사용예상금액</th>
+                                <td>
+                                    <p name="cprCardUseExpectAmount"></p>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="modal-footer btn-wrapper">
+                            <button type="submit" class="btn btn-fill-bl-sm" id="modifyRequest">수정하기</button>
+                            <button type="submit" class="btn btn-fill-bl-sm" id="startSanction">결재하기</button>
+                            <button type="button" class="btn btn-fill-wh-sm close">취소</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
+        <br><br>
         <div>
             <h2>법인카드 신청 기록</h2>
             <table border="1">
@@ -53,7 +114,8 @@
                 </tr>
                 <c:forEach var="recodeVO" items="${cardRecord}" varStatus="stat">
                     <tr>
-                        <td><a href="/card/detail/${recodeVO.cprCardResveSn}">${recodeVO.cprCardResveSn}</a></td>
+                        <td><a href="#" onclick="loadDetail(${recodeVO.cprCardResveSn})">${recodeVO.cprCardResveSn}</a>
+                        </td>
                         <td>${recodeVO.cprCardResveBeginDate} - ${recodeVO.cprCardResveClosDate}</td>
                         <td>${recodeVO.cprCardUseLoca}</td>
                         <td>${recodeVO.cprCardUsePurps}</td>
@@ -62,4 +124,51 @@
                 </c:forEach>
             </table>
         </div>
+    </div>
+    <script src="/resources/js/modal.js"></script>
+    <script>
+        $("#requestCard").on("click", function () {
+            event.preventDefault();
+            let formData = $("#cardRequestForm").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: $("#cardRequestForm").attr("action"),
+                data: formData,
+                success: function (res) {
+                    alert("법인카드 신청 성공 ")
+
+                },
+                error: function (error) {
+                    alert("법인카드 신청 실패 ")
+                }
+            });
+        })
+
+        function loadDetail(num) {
+            console.log(num)
+            $.ajax({
+                type: "GET",
+                url: `/card/data/\${num}`,
+                success: function (data) {
+                    alert("디테일 성공 ")
+                    console.log(data)
+                    open()
+                    for (let key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            let value = data[key];
+                            let element = document.getElementById(key);
+                            if (element) {
+                                element.textContent = value;
+                            }
+                        }
+                    }
+                },
+                error: function (error) {
+                    alert("법인카드 신청 실패 ")
+                }
+            });
+        }
+
+    </script>
 </sec:authorize>

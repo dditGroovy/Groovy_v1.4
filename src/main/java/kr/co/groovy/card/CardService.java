@@ -85,10 +85,11 @@ public class CardService {
         return mapper.loadCardRecord(emplId);
     }
     public void modifyStatus(Map<String, Object> paramMap) {
-        ParamMap map = ParamMap.init();
-        map.put("approveId", paramMap.get("approveId"));
-        map.put("state", paramMap.get("state"));
-        mapper.modifyStatus(map);
+//        ParamMap map = ParamMap.init();
+//        map.put("approveId", paramMap.get("approveId"));
+//        map.put("state", paramMap.get("state"));
+//        map.put("etprCode", paramMap.get("etprCode"));
+        mapper.modifyStatus(paramMap);
     }
 
     public List<CardReservationVO> loadSanctionList(){

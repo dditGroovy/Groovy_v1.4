@@ -6,6 +6,7 @@ import kr.co.groovy.vo.CardVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface CardMapper {
@@ -33,7 +34,7 @@ public interface CardMapper {
 
     List<CardReservationVO> loadCardRecord(String emplId);
 
-    void modifyStatus(ParamMap map);
+    void modifyStatus(Map<String, Object> paramMap);
 
     List<CardReservationVO> loadSanctionList();
 }

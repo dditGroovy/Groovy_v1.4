@@ -93,10 +93,9 @@ public class CardController {
     }
 
     @GetMapping("/detail/{cprCardResveSn}")
-    public String loadRequestDetail(@PathVariable int cprCardResveSn, Model model) {
-        CardReservationVO vo = service.loadRequestDetail(cprCardResveSn);
-        model.addAttribute("detailVO", vo);
-        return "employee/card/detail";
+    @ResponseBody
+    public CardReservationVO loadRequestDetail(@PathVariable int cprCardResveSn) {
+       return  service.loadRequestDetail(cprCardResveSn);
     }
 
     @GetMapping("/data/{cprCardResveSn}")

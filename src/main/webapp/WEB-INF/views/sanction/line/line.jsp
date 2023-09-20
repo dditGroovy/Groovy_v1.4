@@ -119,8 +119,8 @@
     </div>
     <!-- 모달창 -->
     <div id="modal" class="modal-dim">
-        <div class="dim-bg"></div>
-        <div class="modal-layer card-df sm bookmarkName">
+        <div class="dim-bg"></div>        <div class="modal-layer card-df sm bookmarkName">
+
             <div class="modal-top">
                 <div class="modal-title">결재선으로 저장</div>
                 <button type="button" class="modal-close btn js-modal-close">
