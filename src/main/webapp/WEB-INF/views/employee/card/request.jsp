@@ -24,7 +24,7 @@
                 </tr>
                 <c:forEach var="recodeVO" items="${cardRecord}" varStatus="stat">
                     <tr>
-                        <td><a href="#" onclick="loadDetail(${recodeVO.cprCardResveSn})" data-name="detailCard">${recodeVO.cprCardResveSn}</a>
+                        <td><a href="#" data-name="detailCard" class="detailLink">${recodeVO.cprCardResveSn}</a>
                         </td>
                         <td>${recodeVO.cprCardResveBeginDate} - ${recodeVO.cprCardResveClosDate}</td>
                         <td>${recodeVO.cprCardUseLoca}</td>
@@ -125,6 +125,7 @@
     <script src="/resources/js/modal.js"></script>
     <script>
         const detailCard = document.querySelector(".detailCard");
+        const detailLink = document.querySelectorAll(".detailLink");
         $("#requestCard").on("click", function () {
             event.preventDefault();
             let formData = $("#cardRequestForm").serialize();
@@ -141,9 +142,15 @@
                 }
             });
         })
+        detailLink.forEach(link=>{
+            link.addEventListener("click",e=>{
+                e.preventDefault();
+                const id = link.innerText;
+                loadDetail(id);
+            })
 
-        function loadDetail(num,e) {
-            e.preventDefault();
+        })
+        function loadDetail(num) {
             $.ajax({
                 type: "GET",
                 url: `/card/data/\${num}`,
