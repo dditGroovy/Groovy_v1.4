@@ -206,6 +206,7 @@ class ClassBtn {
         const endTime = new Date(params.data.endTime);
         console.log(endTime);
 
+
         // 예약 끝 시간과 현재 시간을 비교하여 버튼을 활성화 또는 비활성화
         if (endTime > currentTime) {
             // 예약이 아직 안끝났으므로 버튼을 활성화합니다.
@@ -286,7 +287,11 @@ const rowData = [];
     <fmt:formatDate var="fBeginTime" value="${beginTime}" pattern="HH:mm"/>
     <c:set var="endTime" value="${room.fcltyResveEndTime}"/>
     <fmt:formatDate var="fEndTime" value="${endTime}" pattern="HH:mm"/>
-    <c:if test="${not empty room.fcltyResveRequstMatter || fcltyResveRequstMatter.indexOf('n')==-1}">
+    
+    <c:set var="isoFormattedEndTime">
+        <fmt:formatDate value="${room.fcltyResveEndTime}" pattern="yyyy-MM-dd'T'HH:mm:ss" />
+    </c:set>
+    
      rowData.push({
         fcltyResveSn: "${room.fcltyResveSn}",
         commonCodeFcltyKindParent: "${room.fcltyCode}",
@@ -296,9 +301,9 @@ const rowData = [];
         fcltyResveEmplNm: "${room.fcltyEmplName}",
         fcltyResveEmplId: "${room.fcltyResveEmplId}",
         fcltyResveRequstMatter : "${room.fcltyResveRequstMatter}",
-        chk:"${room.fcltyResveSn}"
+        chk:"${room.fcltyResveSn}",
+        endTime: new Date("${isoFormattedEndTime}")
     })
-    </c:if>
     </c:forEach>
     
  // ag-Grid 초기화
