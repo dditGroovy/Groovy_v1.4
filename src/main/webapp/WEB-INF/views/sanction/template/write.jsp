@@ -13,25 +13,30 @@
 </style>
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="form-header">
+                <div class="btnWrap">
+                    <button id="getLine">결재선 지정</button>
+                </div>
+                <br/>
+                <div class="formTitle">
+                        ${format.formatSj}
+                </div>
+            </div>
+            <div class="approval-wrap">
+                <div class="approval">
+
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+
+        </div>
+    </div>
     <div id="formCard">
-        <div class="formHeader">
-            <div class="btnWrap">
-                <button id="getLine">결재선 지정</button>
-            </div>
-            <br/>
-            <div class="formTitle">
-                    ${format.formatSj}
-            </div>
-        </div>
-        <div class="approvalWrap">
-            <div class="approval">
-                <!--결재선 들어오는 영역-->
 
-            </div>
-            <div>
 
-            </div>
-        </div>
         <div class="formContent">
                 ${format.formatCn}
         </div>
@@ -62,11 +67,11 @@
         let content;
         let file = $('#sanctionFile')[0].files[0];
         let num = opener.$("#sanctionNum").text();
-
+        let approvalListData;
         /*  팝업  */
         const getLineBtn = document.querySelector("#getLine");
 
-        $(document).ready(function () {
+         document.addEventListener("DOMContentLoaded",()=>{
             $("#sanctionNo").html(etprCode);
             $("#writeDate").html(today);
             $("#writer").html("${CustomUser.employeeVO.emplNm}")
@@ -86,19 +91,27 @@
             let popupWindow;
             getLineBtn.addEventListener("click",()=>{
                 popupWindow = window.open(url, 'line', option);
-
             })
-            /*  팝업에서 값 받아오기 */
-            window.addEventListener('message', function(event) {
-                const data = event.data;
-                console.log('부모 창에서 받은 데이터:', data);
-                popupWindow.close();
+             /* Promise를 사용하여 데이터 받아오기 */
+             function getDataFromPopup() {
+                 return new Promise((resolve, reject) => {
+                     window.addEventListener('message', function(event) {
+                         const data = event.data;
+                         document.querySelector(".approval").innerHTML = data;
+                         approvalListData = data; // 데이터를 변수에 저장
+                         popupWindow.close();
 
-                document.querySelector(".approval").innerHTML = data;
+                         // 데이터를 성공적으로 받아온 경우 resolve 호출
+                         resolve(approvalListData);
+                     });
+                 });
+             }
 
-            });
+             // Promise를 사용하여 데이터를 받아온 후에 작업 수행
+             getDataFromPopup().then((data) => {
+                 console.log(data); // 데이터를 여기서 사용 가능
+             });
         });
-
         function loadVacationData() {
             $.ajax({
                 url: `/vacation/loadData/\${num}`,
@@ -182,7 +195,8 @@
             } else {
                 const param = {
                     approveId: num,
-                    state: 'YRYC032'
+                    state: 'YRYC032',
+                    etprCode: etprCode
                 };
                 const afterProcess = {
                     className: "kr.co.groovy.card.CardService",
