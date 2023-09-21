@@ -1,28 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="content-container">
-    <header>
-        <ul>
-            <li><a href="${pageContext.request.contextPath}/vacation">내 휴가</a></li>
-            <li><a href="${pageContext.request.contextPath}/salary/paystub/checkPassword">내 급여</a></li>
-            <li><a href="${pageContext.request.contextPath}/vacation/record">휴가 기록</a></li>
-        </ul>
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/vacation" class="on">내 휴가</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/salary/paystub/checkPassword">내 급여</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/vacation/record">휴가 기록</a></h1>
     </header>
-
     <main>
-        <div>
-            <table>
-                <tr>
-                    <th>발생 연차</th>
-                    <th>사용 연차</th>
-                    <th>잔여 연차</th>
-                </tr>
-                <tr>
-                    <th>${totalVacationCnt}</th>
-                    <th>${usedVacationCnt}</th>
-                    <th>${nowVacationCnt}</th>
-                </tr>
-            </table>
+        <div class="main-inner vacation-inner">
+            <div class="status-wrap">
+                <ul id="sanctionStatus" class="total-status">
+                    <li class="status-item total-item">
+                        <p class="status-item-title total-item-title">발생 연차</p>
+                        <p class="status-item-content total-item-content">
+                            <a href="#" class="strong font-b font-32">${usedVacationCnt}</a>건</p>
+                    </li>
+                    <li class="status-item total-item">
+                        <p class="status-item-title total-item-title">사용 연차</p>
+                        <p class="status-item-content total-item-content">
+                            <a href="#"  class="strong font-b font-32">${usedVacationCnt}</a>건</p>
+                    </li>
+                    <li class="status-item total-item">
+                        <p class="status-item-title total-item-title">잔여 연차</p>
+                        <p class="status-item-content total-item-content">
+                            <a href="#"  class="strong font-b font-32">${nowVacationCnt}</a>건</p>
+                    </li>
+                </ul>
+                <table>
+                    <tr>
+                        <th>발생 연차</th>
+                        <th>사용 연차</th>
+                        <th>잔여 연차</th>
+                    </tr>
+                    <tr>
+                        <th>${totalVacationCnt}</th>
+                        <th>${usedVacationCnt}</th>
+                        <th>${nowVacationCnt}</th>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div>
             <div>
