@@ -329,5 +329,9 @@ public class EmployeeService {
         }
         return encodeBase64String;
     }
+
+    public List<String> loadEmplByDept(String commonCodeDept) {
+        return mapper.loadEmplByDept(commonCodeDept);
+    }
 }
 

@@ -292,4 +292,11 @@
         FROM EMPL
         WHERE EMPL_ID = #{emplId}
     </select>
+
+    <!-- 부서번호로 사원 아이디 확인 -->
+    <select id="loadEmplByDept" resultType="String" parameterType="String">
+        SELECT EMPL_ID
+        FROM EMPL
+        where COMMON_CODE_DEPT = #{commonCodeDept}
+    </select>
 </mapper>

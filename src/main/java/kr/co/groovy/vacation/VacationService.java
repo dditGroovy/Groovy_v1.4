@@ -76,27 +76,22 @@ public class VacationService {
 
     public List<VacationUseVO> loadConfirmedVacation(String emplId) {
         List<VacationUseVO> list = mapper.loadConfirmedVacation(emplId);
-        for(VacationUseVO vo : list) {
-            String useKind = VacationKind.valueOf(vo.getCommonCodeYrycUseKind()).label();
-            vo.setCommonCodeYrycUseKind(useKind);
-        }
-        if(list.size() > 10) {
-            List<VacationUseVO> myConfirmedVacation = list.subList(0, 10);
-            return myConfirmedVacation;
-        } else {
-            return list;
-        }
+        return enumAndSubList(list);
     }
 
     public List<VacationUseVO> loadTeamMemVacation(String emplId) {
         List<VacationUseVO> list = mapper.loadTeamMemVacation(emplId);
+        return enumAndSubList(list);
+    }
+
+    private List<VacationUseVO> enumAndSubList(List<VacationUseVO> list) {
         for(VacationUseVO vo : list) {
             String useKind = VacationKind.valueOf(vo.getCommonCodeYrycUseKind()).label();
             vo.setCommonCodeYrycUseKind(useKind);
         }
         if(list.size() > 10) {
-            List<VacationUseVO> teamMemVacationList = list.subList(0, 10);
-            return teamMemVacationList;
+            List<VacationUseVO> subList = list.subList(0, 10);
+            return subList;
         } else {
             return list;
         }

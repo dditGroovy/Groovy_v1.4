@@ -438,7 +438,7 @@ requestBtn.addEventListener("click", (event) => {
                 .catch(function (error) {
                     console.log("최대 알람 번호 가져오기 오류:", error);
                 });
-            //location.href = "/job/main";
+            location.href = "/job/main";
         },
         error: function(xhr) {
             console.log(xhr.status);

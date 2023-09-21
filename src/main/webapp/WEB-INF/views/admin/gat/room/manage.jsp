@@ -209,10 +209,8 @@ class ClassBtn {
 
         // 클릭 이벤트 핸들러를 정의하고 삭제 버튼에 추가
         this.btnReturn.addEventListener("click", () => {
-            console.log("취소가 되니?");
             if (confirm("정말 취소하시겠습니까?")) {
                 const fcltyResveSn = this.id; // params.value 대신 this.id를 사용
-                console.log(fcltyResveSn);
 
                 // 값이 비어있으면 요청을 보내지 않도록 확인
                 if (fcltyResveSn) {
@@ -280,8 +278,8 @@ let count = 0;
     
     rowData.push({
         fcltyResveSn: count,
-        commonCodeFcltyKindParent: "${room.fcltyCode}",
-        commonCodeFcltyKind: "${room.fcltyName}",
+        commonCodeFcltyKindParent: "${room.fcltyName}",
+        commonCodeFcltyKind: "${room.fcltyCode}",
         fcltyResveBeginTime: "${fBeginTime}",
         fcltyResveEndTime: "${fEndTime}",
         fcltyResveEmplNm: "${room.fcltyEmplName}",

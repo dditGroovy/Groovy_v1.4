@@ -1,11 +1,11 @@
 package kr.co.groovy;
 
-import java.text.DateFormat;
+import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
+import kr.co.groovy.job.JobService;
+import kr.co.groovy.vo.JobVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,12 +16,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private final JobService jobService;
+
+	public HomeController(JobService jobService) {
+		this.jobService = jobService;
+	}
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
 		return "signIn";
 	}
 	@GetMapping("/home")
-	public String comebackHome() {
+	public String comebackHome(Principal principal, Model model) {
+		List<JobVO> jobVOList = jobService.getReceiveJobToHome(principal.getName());
+		model.addAttribute("jobVoList", jobVOList);
 		return "main/home" ;
 	}
 

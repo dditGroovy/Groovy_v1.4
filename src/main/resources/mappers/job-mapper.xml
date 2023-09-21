@@ -108,7 +108,7 @@
                    #{jobCn},
                    #{jobBeginDate},
                    #{jobClosDate},
-                   TO_DATE(SYSDATE, 'YYYY-MM-DD'),
+                   TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD')),
                    #{commonCodeDutyKind}
                )
     </insert>
@@ -144,7 +144,7 @@
             FROM JOB_PROGRS P
             WHERE P.JOB_RECPTN_EMPL_ID = #{jobRequstEmplId}
         )
-        ORDER BY J.JOB_NO
+        ORDER BY J.JOB_BEGIN_DATE
     </select>
 
     <select id="getJobByDateFilter" parameterType="map" resultType="jobVO">
@@ -167,7 +167,7 @@
         <if test="month != null and month != ''">
             AND TO_CHAR(J.JOB_BEGIN_DATE, 'MM') = #{month}
         </if>
-        ORDER BY J.JOB_NO
+        ORDER BY J.JOB_BEGIN_DATE
     </select>
 
     <select id="getJobByNo" resultMap="jobMap" parameterType="int">
@@ -186,6 +186,7 @@
         WHERE J.JOB_NO = P.JOB_NO
           AND P.JOB_RECPTN_EMPL_ID = E.EMPL_ID
           AND J.JOB_NO = #{jobNo}
+        ORDER BY J.JOB_BEGIN_DATE
     </select>
 
     <select id="getAllReceiveJobById" resultMap="jobMap" parameterType="String">
@@ -204,6 +205,7 @@
           AND P.COMMON_CODE_DUTY_STTUS = 'DUTY020'
           AND J.JOB_REQUST_EMPL_ID != #{jobRecptnEmplId}
           AND P.JOB_RECPTN_EMPL_ID = #{jobRecptnEmplId}
+        ORDER BY J.JOB_BEGIN_DATE
     </select>
 
     <select id="getReceiveJobByNo" parameterType="int" resultMap="jobMap">
@@ -217,6 +219,7 @@
              EMPL E
         WHERE J.JOB_REQUST_EMPL_ID = E.EMPL_ID
           AND J.JOB_NO = #{jobNo}
+        ORDER BY J.JOB_BEGIN_DATE
     </select>
 
     <select id="getJobByNoAndId" parameterType="jobProgressVO" resultMap="jobMap">
@@ -234,6 +237,7 @@
           AND P.JOB_RECPTN_EMPL_ID = #{jobRecptnEmplId}
           AND J.JOB_NO = P.JOB_NO
           AND J.JOB_NO = #{jobNo}
+        ORDER BY J.JOB_BEGIN_DATE
     </select>
 
     <update id="updateJobStatus" parameterType="jobProgressVO">
@@ -262,7 +266,7 @@
           AND J.JOB_NO = P.JOB_NO
           AND COMMON_CODE_DUTY_STTUS = 'DUTY021'
           AND P.JOB_RECPTN_EMPL_ID = #{jobRecptnEmplId}
-        ORDER BY J.JOB_CLOS_DATE
+        ORDER BY J.JOB_BEGIN_DATE
     </select>
 
     <select id="getRequestYear" parameterType="String" resultType="String">
@@ -280,5 +284,23 @@
           AND P.JOB_RECPTN_EMPL_ID != J.JOB_REQUST_EMPL_ID
           AND JOB_REQUST_EMPL_ID = #{jobRequestEmplId}
           and TO_CHAR((JOB_BEGIN_DATE), 'yyyy') = #{year}
+    </select>
+
+    <select id="getReceiveJobToHome" parameterType="String" resultMap="jobMap">
+        SELECT
+        J.JOB_SJ,
+        J.JOB_BEGIN_DATE,
+        J.JOB_CLOS_DATE,
+        P.COMMON_CODE_DUTY_PROGRS
+        FROM JOB J,
+        JOB_PROGRS P,
+        EMPL E
+        WHERE ROWNUM <![CDATA[<=]]> 3
+        AND J.JOB_NO = P.JOB_NO
+        AND J.JOB_REQUST_EMPL_ID = E.EMPL_ID
+        AND P.COMMON_CODE_DUTY_STTUS = 'DUTY021'
+        AND J.JOB_REQUST_EMPL_ID != #{emplId}
+        AND P.JOB_RECPTN_EMPL_ID = #{emplId}
+        ORDER BY J.JOB_BEGIN_DATE
     </select>
 </mapper>

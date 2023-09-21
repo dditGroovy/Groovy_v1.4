@@ -138,19 +138,19 @@
                     $.each(messages, function (idx, obj) {
                         if (obj.chttMbrEmplId == emplId) {
                             let code = `<div style="border: 1px solid blue" id="\${obj.chttNo}">
-                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="50px;" />
+                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="30px;" />
                                             <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
                                         </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
                         } else {
                             let code = `<div style='border: 1px solid red' id='\${obj.chttNo}'>
-                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="50px;" />
+                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="30px;" />
                                             <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
                                         </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
                         }
+                        scrollToBottom();
                     });
-                    scrollToBottom();
                 },
                 error: function (request, status, error) {
                     alert("채팅 로드 실패")
@@ -187,13 +187,14 @@
         })
 
         $("#inviteEmplBtn").on("click", function () {
-
+            let selectedEmplIds = [];
             $("input[name='employees']:checked").each(function () {
                 let employees = $(this).val();
                 let splitResult = employees.split("/");
                 if (splitResult.length === 2) {
                     let emplId = splitResult[0];
                     emplsToInvite.push(emplId);
+                    selectedEmplIds.push(emplId);
                 }
             });
 
@@ -211,8 +212,50 @@
                     contentType: "application/json;charset:utf-8",
                     success: function (result) {
                         if (result == 1) {
-                            loadRoomList();
-                            alert("초대 성공");
+                            //알림 보내기
+                            $.get("/alarm/getMaxAlarm")
+                                .then(function (maxNum) {
+                                    maxNum = parseInt(maxNum) + 1;
+                                    let url = '/chat';
+                                    let content = `<div class="alarmBox">
+                                        <a href="\${url}" class="aTag" data-seq="\${maxNum}">
+                                            <h1>[채팅]</h1>
+                                            <p>\${emplNm}님이 채팅방에 초대하셨습니댜.</p>
+                                        </a>
+                                        <button type="button" class="readBtn">읽음</button>
+                                    </div>`;
+                                    let alarmVO = {
+                                        "ntcnSn": maxNum,
+                                        "ntcnUrl": url,
+                                        "ntcnCn": content,
+                                        "commonCodeNtcnKind": 'NTCN015',
+                                        "selectedEmplIds": selectedEmplIds
+                                    };
+
+                                    //알림 생성 및 페이지 이동
+                                    $.ajax({
+                                        type: 'post',
+                                        url: '/alarm/insertAlarmTargeList',
+                                        data: alarmVO,
+                                        success: function (rslt) {
+                                            if (socket) {
+                                                loadRoomList();
+                                                alert("초대 성공");
+                                                //알람번호,카테고리,url,보낸사람이름,받는사람아이디리스트
+                                                let msg = `\${maxNum},chat,\${url},\${emplNm},\${selectedEmplIds}`;
+                                                socket.send(msg);
+                                            }
+                                            loadRoomList();
+                                            alert("채팅방 개설 성공");
+                                        },
+                                        error: function (xhr) {
+                                            console.log(xhr.status);
+                                        }
+                                    });
+                                })
+                                .catch(function (error) {
+                                    console.log("최대 알람 번호 가져오기 오류:", error);
+                                });
                         } else {
                             alert("초대 실패")
                         }
@@ -266,14 +309,14 @@
 
                     if (chttMbrEmplId == emplId) {
                         let code = `<div style="border: 1px solid blue">
-                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="50px;" />
+                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="30px;" />
                                         <p>\${chttMbrEmplNm} : \${chttCn}</p>
                                     </div>`;
                         $(`#room\${chttRoomNo}`).append(code);
                         scrollToBottom();
                     } else {
                         let code = `<div style="border: 1px solid red">
-                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="50px;" />
+                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="30px;" />
                                         <p>\${chttMbrEmplNm} : \${chttCn}</p>
                                     </div>`;
                         $(`#room\${chttRoomNo}`).append(code);
@@ -341,6 +384,7 @@
 
         $("#createRoomBtn").click(function () {
             let roomMemList = [];
+            let selectedEmplIds = [];
 
             $("input[name='employees']:checked").each(function () {
                 let employees = $(this).val()
@@ -349,7 +393,7 @@
                 if (splitResult.length === 2) {
                     let emplId = splitResult[0];
                     let emplNm = splitResult[1];
-
+                    selectedEmplIds.push(emplId);
                     let EmployeeVO = {
                         emplId: emplId,
                         emplNm: emplNm
@@ -367,8 +411,48 @@
                     contentType: "application/json;charset:utf-8",
                     success: function (result) {
                         if (result == 1) {
-                            loadRoomList();
-                            alert("채팅방 개설 성공");
+                            //알림 보내기
+                            $.get("/alarm/getMaxAlarm")
+                                .then(function (maxNum) {
+                                    maxNum = parseInt(maxNum) + 1;
+                                    let url = '/chat';
+                                    let content = `<div class="alarmBox">
+                                        <a href="\${url}" class="aTag" data-seq="\${maxNum}">
+                                            <h1>[채팅]</h1>
+                                            <p>\${emplNm}님이 채팅방에 초대하셨습니댜.</p>
+                                        </a>
+                                        <button type="button" class="readBtn">읽음</button>
+                                    </div>`;
+                                    let alarmVO = {
+                                        "ntcnSn": maxNum,
+                                        "ntcnUrl": url,
+                                        "ntcnCn": content,
+                                        "commonCodeNtcnKind": 'NTCN015',
+                                        "selectedEmplIds": selectedEmplIds
+                                    };
+
+                                    //알림 생성 및 페이지 이동
+                                    $.ajax({
+                                        type: 'post',
+                                        url: '/alarm/insertAlarmTargeList',
+                                        data: alarmVO,
+                                        success: function (rslt) {
+                                            if (socket) {
+                                                //알람번호,카테고리,url,보낸사람이름,받는사람아이디리스트
+                                                let msg = `\${maxNum},chat,\${url},\${emplNm},\${selectedEmplIds}`;
+                                                socket.send(msg);
+                                            }
+                                            loadRoomList();
+                                            alert("채팅방 개설 성공");
+                                        },
+                                        error: function (xhr) {
+                                            console.log(xhr.status);
+                                        }
+                                    });
+                                })
+                                .catch(function (error) {
+                                    console.log("최대 알람 번호 가져오기 오류:", error);
+                                });
                         } else {
                             alert("이미 존재하는 1:1 채팅방입니다")
                         }
@@ -420,7 +504,7 @@
             code = "";
             $.each(chatRoomList, function (idx, obj) {
                 code += `<button class="rooms" id="chatRoom\${obj.chttRoomNo}">
-            <img src="/uploads/profile/\${obj.chttRoomThumbnail}" alt="\${obj.chttRoomThumbnail}"/>
+            <img src="/uploads/profile/\${obj.chttRoomThumbnail}" alt="\${obj.chttRoomThumbnail}" width="30px;" />
             <p id="chttRoomNm">\${obj.chttRoomNm}</p>
             <p id="latestChttCn">\${obj.latestChttCn}</p>
             <input id="chttRoomNo" type="hidden" value="\${obj.chttRoomNo}">

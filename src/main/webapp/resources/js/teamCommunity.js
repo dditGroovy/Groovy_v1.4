@@ -437,7 +437,7 @@
                             data: alarmVO,
                             success: function () {
                                 if (socket) {
-                                    let msg = maxNum + ",teamNoti," + url + "," + emplNm;
+                                    let msg = maxNum + ",teamNoti," + url + "," + emplNm+ "," + emplDept;
                                     socket.send(msg);
                                 }
                             },
