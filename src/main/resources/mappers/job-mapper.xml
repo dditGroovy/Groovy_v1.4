@@ -108,7 +108,7 @@
                    #{jobCn},
                    #{jobBeginDate},
                    #{jobClosDate},
-                   TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD')),
+                   TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD'),
                    #{commonCodeDutyKind}
                )
     </insert>
