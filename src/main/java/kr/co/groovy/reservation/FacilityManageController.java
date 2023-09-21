@@ -55,11 +55,6 @@ public class FacilityManageController {
 		model.addAttribute("retiringCode", retiringCode);
 		model.addAttribute("toDayList",toDayList);
 		
-		log.info("갯수가 찍히니? " + meetingCount);
-		log.info("비품목록 출력이 되니? " + meetingCode);
-		log.info("휴게실 출력이 되니? " + retiringCode);
-		log.info("리스트가 나오니??" + toDayList);
-		
 		return "admin/gat/room/manage";
 	}
 	
@@ -89,8 +84,6 @@ public class FacilityManageController {
 		}
 		
 		model.addAttribute("reservedRooms",reservedRooms);
-		
-		log.info("전체 예약 현황이 나오니?" + reservedRooms);
 
 		return"admin/gat/room/list";
 	}

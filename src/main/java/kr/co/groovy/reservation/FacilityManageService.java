@@ -18,7 +18,6 @@ public class FacilityManageService {
 	// 시설 예약 현황 조회
 	public List<FacilityVO> getAllReservedRooms() {
 		List<FacilityVO> reservedRoom = mapper.getAllReservedRooms();
-		// log.info("(서비스)값이 나오니? " + reservedRoom);
 		return reservedRoom;
 	}
 	
@@ -119,7 +118,6 @@ public class FacilityManageService {
 	//당일 예약 가져오기
 	public List<FacilityVO> findTodayResve() {
 		List<FacilityVO> todayResve = mapper.findTodayResve();
-		log.info("당일 예약 나오니?? "+todayResve);
 		return todayResve;
 	}
 }
