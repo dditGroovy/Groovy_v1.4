@@ -21,6 +21,7 @@
         WHERE NOT E.COMMON_CODE_DEPT = 'DEPT015'
           AND NOT E.COMMON_CODE_CLSF = 'CLSF010'
         GROUP BY E.EMPL_ID, E.EMPL_NM, E.COMMON_CODE_DEPT, E.COMMON_CODE_CLSF
+        ORDER BY DEPT_NM, E.COMMON_CODE_CLSF
     </select>
 
     <select id="loadDeptDclz" parameterType="String" resultType="commuteVO">

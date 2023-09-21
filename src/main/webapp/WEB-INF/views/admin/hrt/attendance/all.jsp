@@ -23,10 +23,10 @@
             <ul>
                 <li><a href="${pageContext.request.contextPath}/attendance/manageDclz">전체</a></li>
                 <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT010">인사</a></li>
-                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT011">총무</a></li>
-                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT012">회계</a></li>
-                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT013">영업</a></li>
-                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT014">홍보</a></li>
+                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT011">회계</a></li>
+                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT012">영업</a></li>
+                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT013">홍보</a></li>
+                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT014">총무</a></li>
             </ul>
         </nav>
     </header>
