@@ -1,4 +1,3 @@
-@import "reset.css";
 /* root */
 :root {
     --color-main: #5796F3;
@@ -246,6 +245,8 @@
 .i-building {content:url("../images/icon/building.svg");}
 .i-money {content:url("../images/icon/money.svg");}
 .i-card {content:url("../images/icon/card.svg");}
+.i-pig {content:url("../images/icon/pig.svg");}
+.i-meal {content:url("../images/icon/meal.svg");}
 
 .nav-list a:hover .icon, .nav-list a.active .icon {
     filter: invert(94%) sepia(100%) saturate(0%) hue-rotate(236deg) brightness(106%) contrast(106%);

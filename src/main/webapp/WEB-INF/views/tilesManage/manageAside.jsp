@@ -18,38 +18,39 @@
     </header>
     <nav id="nav">
         <div class="hrt">
-            <ul class="depth1 active">
+            <ul class="depth1">
                 <li class="department nav-list"><a href="#" class="active">인사팀  <i class="icon i-arr-bt"></i></a></li>
-                <ul>
-                    <li class="nav-list"><a href="#"><i class="icon i-sanction"></i >결재 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/employee/manageEmp"><i class="icon i-emp"></i >사원 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/vacation/manage"><i class="icon i-todo"></i >연차 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/attendance/manageDclz"><i class="icon i-job"></i >근태 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/salary"><i class="icon i-money"></i >기본 급여 및 시간외 수당 관리</a></li>
+                <ul class="depth2">
+                    <li class="depth2-nav-list"><a href="#"><i class="icon i-sanction"></i >결재 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/employee/manageEmp"><i class="icon i-emp"></i >사원 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/vacation/manage"><i class="icon i-todo"></i >연차 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/attendance/manageDclz"><i class="icon i-job"></i >근태 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/schedule/scheduleMain"><i class="icon i-calendar"></i>회사 일정 관리</a></li>
                 </ul>
             </ul>
         </div>
         <div class="gat">
             <ul class="depth1">
                 <li class="department nav-list"><a href="#">총무팀 <i class="icon i-arr-bt"></i></a></li>
-                <ul>
-                    <li class="nav-list"><a href="#" ><i class="icon i-sanction"></i>결재 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/notice/manageNotice"><i class="icon i-notice"></i>공지사항 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/schedule/scheduleMain"><i class="icon i-calendar"></i>회사 일정 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/club/admin"><i class="icon i-share"></i>동호회 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon i-building"></i>시설 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/reserve/manageVehicle"><i class="icon i-parking"></i>주차차량 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/diet/dietMain"><i class="icon i-notice"></i>식단 관리</a></li>
+                <ul class="depth2">
+                    <li class="depth2-nav-list"><a href="#" ><i class="icon i-sanction"></i>결재 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/notice/manageNotice"><i class="icon i-notice"></i>공지사항 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/club/admin"><i class="icon i-share"></i>동호회 관리</a></li>
+                    <li class="depth2-nav-list"><a href="#"><i class="icon i-building"></i>시설 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/reserve/manageVehicle"><i class="icon i-parking"></i>차량 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/diet/dietMain"><i class="icon i-meal"></i>식단 관리</a></li>
                 </ul>
             </ul>
         </div>
         <div class="at">
             <ul class="depth1">
                 <li class="department nav-list"><a href="#">회계팀  <i class="icon i-arr-bt"></i></a></li>
-                <ul>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/card/sanction"><i class="icon i-sanction"></i>결재 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/card/manage"><i class="icon i-card"></i>회사 카드 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/salary/list"><i class="icon i-todo"></i>급여 명세서 관리</a></li>
+                <ul class="depth2">
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/card/sanction"><i class="icon i-sanction"></i>결재 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/card/manage"><i class="icon i-card"></i>회사 카드 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/salary"><i class="icon i-pig"></i >급여 정산</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/salary/list"><i class="icon i-todo"></i>급여 명세서 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/salary"><i class="icon i-money"></i >기본 급여 및 공제 관리</a></li>
                 </ul>
             </ul>
         </div>
@@ -87,18 +88,50 @@
             console.log("ERROR: ", err);
         }
     }
-    const depth1 = $(".depth1");
-    console.log(depth1);
-    let depth2Li = $(".depth1.active ul li a");
-    depth1.on("click",function(){
-        depth1.removeClass("active");
-        $(".department > a").removeClass("active");
-        $(this).find(".department > a").addClass("active");
-        $(this).addClass("active");
-    })
-    depth2Li.on("click",function(){
+    const navList = document.querySelectorAll(".nav-list > a");
+    const activeIndex = sessionStorage.getItem('activeNavItem');
 
-        depth2Li.removeClass("active");
-        $(this).addClass("active");
-    })
+    /*  aside   */
+    navList.forEach((item, index) => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            navList.forEach((otherItem) => {
+                otherItem.classList.remove('active');
+            });
+            item.classList.add('active');
+            sessionStorage.setItem('activeNavItem', index);
+        });
+    });
+    if (activeIndex === null || activeIndex === undefined) {
+        navList[0].classList.add('active');
+        sessionStorage.setItem('activeNavItem', 0);
+    }
+    /*  관리자 Aside   */
+    const departmentItems   = document.querySelectorAll(".department.nav-list");
+    function setActiveDepartment(item) {
+        const departmentItems = document.querySelectorAll('.depth1 .department.nav-list');
+        departmentItems.forEach(function (department) {
+            department.classList.remove("active");
+            const ul = department.nextElementSibling;
+            if (ul) {
+                ul.style.maxHeight = "0";
+            }
+        });
+        item.classList.add("active");
+        const ul = item.closest("li").nextElementSibling;
+        if (ul) {
+            ul.style.maxHeight = ul.scrollHeight + "px";
+        }
+    }
+
+    departmentItems.forEach(function (item) {
+        item.addEventListener("click", function (e) {
+            const target = e.target;
+            setActiveDepartment(target);
+
+        });
+    });
+    const idx = sessionStorage.getItem("activeNavItem")
+    setActiveDepartment(departmentItems[idx]);
 </script>

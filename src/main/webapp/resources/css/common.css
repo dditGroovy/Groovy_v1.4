@@ -35,7 +35,7 @@ body {
     gap: var(--vh-48);
     width: calc((344 / var(--vw)) * 100vw);
     height: 100vh;
-    justify-content: center;
+    padding-top: var(--vh-64);
     background-color: var(--color-white);
     border-right: 1px solid var(--color-stroke);
     box-shadow: var(--clay-card);
@@ -82,14 +82,27 @@ i.icon {
     /*border: 1px solid blue;*/
     vertical-align: middle;
 }
+/*  관리자 aside   */
+.department.nav-list a {
+    display: flex;
+    justify-content: space-between;
+}
+.department.nav-list a.active i.icon {
+    transform: rotate(-180deg);
+}
+.department + ul {
+    max-height: 0;
+    overflow: hidden;
+}
+
 #linkMail {margin-left: 4px;}
 
-.btn-wrap {
+/*.btn-wrap {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows:  repeat(2, 1fr);
     gap: 4px;
-}
+}*/
 .btn-wrapper{
     display: flex;
     justify-content: center;
@@ -130,7 +143,7 @@ i.icon {
 }
 #nav .nav-cate {margin-left: var(--vw-24);font-size: var(--font-size-11); }
 #nav li a{
-    display: block;
+    display: flex;
     padding: var(--vh-16) var(--vw-24);
     transition: 0.35s;
     border-radius: var(--vw-12);
@@ -345,4 +358,27 @@ i.icon {
     background: none;
     border: none;
     padding: 8px;
+}
+
+
+/* total Box*/
+.total-status li.total-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--vh-12);
+}
+.total-item-title {
+    font-size: var(--font-size-24);
+    font-family: var(--font-md);
+}
+.strong {
+    color: var(--color-main);
+}
+.total-item-content {
+    font-size: var(--font-size-18);
+    display: flex;
+    align-items: center;
 }
