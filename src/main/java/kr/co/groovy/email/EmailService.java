@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.*;
 
@@ -246,6 +247,18 @@ public class EmailService {
 
             if (emailMapper.existsMessageNumber(map) == 0) { // 메시지 순번 검색 개수가 0이면
                 // 발신부
+                String subject = mail.getSubject();
+                if (subject.contains("UTF-8")) {
+                    try {
+                        String encodedText = subject.split("\\?")[3];
+                        byte[] decodedBytes = Base64.getDecoder().decode(encodedText.getBytes(StandardCharsets.UTF_8));
+                        String decodedText = new String(decodedBytes, StandardCharsets.UTF_8);
+                        subject = "[" + decodedText + "]" + subject.substring(subject.indexOf("]") + 1);
+                    } catch (IllegalArgumentException e) {
+                        e.getMessage();
+                    }
+                }
+
                 String from = String.valueOf(mail.getFrom()[0]);
                 if (from.startsWith("=?")) {
                     try {
@@ -278,7 +291,7 @@ public class EmailService {
                 }
 
                 emailVO.setEmailFromAddr(from);
-                emailVO.setEmailFromSj(mail.getSubject());
+                emailVO.setEmailFromSj(subject);
                 emailVO.setEmailFromCn(content);
                 emailVO.setEmailFromCnType(mail.getContentType());
                 emailVO.setEmailFromSendDate(mail.getSentDate());
