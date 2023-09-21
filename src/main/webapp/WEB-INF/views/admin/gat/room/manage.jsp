@@ -267,23 +267,24 @@ const columnDefs = [
     {field: "fcltyResveRequstMatter", headerName: "요청사항"},
     {field: "chk", headerName: " ", cellRenderer: ClassBtn},
 ];
+let count=0;
 const rowData = [];
     <c:forEach items="${toDayList}" var="room">
+    count++;
     <c:set var="beginTime" value="${room.fcltyResveBeginTime}"/>
     <fmt:formatDate var="fBeginTime" value="${beginTime}" pattern="HH:mm"/>
     <c:set var="endTime" value="${room.fcltyResveEndTime}"/>
     <fmt:formatDate var="fEndTime" value="${endTime}" pattern="HH:mm"/>
-    
+    //요청사항이 null이여도 출력되게 바꾸었음
     <c:set var="requestMatter" value="${room.fcltyResveRequstMatter}"/>
-            
     <c:if test="${empty requestMatter}">
         <c:set var="requestMatter" value=""/>
     </c:if>
     
      rowData.push({
-        fcltyResveSn: "${room.fcltyResveSn}",
-        commonCodeFcltyKindParent: "${room.fcltyCode}",
-        commonCodeFcltyKind: "${room.fcltyName}",
+        fcltyResveSn: count,
+        commonCodeFcltyKindParent: "${room.fcltyName}",
+        commonCodeFcltyKind: "${room.fcltyCode}",
         fcltyResveBeginTime: "${fBeginTime}",
         fcltyResveEndTime: "${fEndTime}",
         fcltyResveEmplNm: "${room.fcltyEmplName}",
