@@ -1,13 +1,16 @@
 package kr.co.groovy.job;
 
+import kr.co.groovy.enums.ClassOfPosition;
 import kr.co.groovy.enums.DutyKind;
 import kr.co.groovy.enums.DutyProgress;
+import kr.co.groovy.enums.DutyStatus;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.JobDiaryVO;
 import kr.co.groovy.vo.JobProgressVO;
 import kr.co.groovy.vo.JobVO;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -20,16 +23,29 @@ public class JobService {
         this.mapper = mapper;
     }
 
-    public String getLeader(String emplId) {
-        return mapper.getLeader(emplId);
-    }
-
-    public int insertDiary(JobDiaryVO jobDiaryVO) {
+    public int insertDiary(JobDiaryVO jobDiaryVO, String emplId) {
+        jobDiaryVO.setJobDiaryWrtingEmplId(emplId);
+        String recptnEmplId = mapper.getLeader(emplId);
+        jobDiaryVO.setJobDiaryRecptnEmplId(recptnEmplId);
         return mapper.insertDiary(jobDiaryVO);
     }
 
-    public EmployeeVO getInfoById(String emplId) {
-        return mapper.getInfoById(emplId);
+    public List<JobDiaryVO> getJobDiaryVOList(Principal principal) {
+        EmployeeVO employeeVO;
+        List<JobDiaryVO> list = new ArrayList<>();
+        String emplId = principal.getName();
+        employeeVO = mapper.getInfoById(emplId);
+        employeeVO.setEmplId(emplId);
+        try {
+            if (employeeVO.getCommonCodeClsf().equals(ClassOfPosition.CLSF012.name())) {
+                list = mapper.getDiaryByDept(employeeVO.getCommonCodeDept());
+            } else {
+                list = mapper.getDiaryByInfo(employeeVO);
+            }
+        } catch (Exception e) {
+
+        }
+        return list;
     }
 
     public List<JobDiaryVO> getDiaryByDept(String commonCodeDept) {
@@ -40,20 +56,34 @@ public class JobService {
         return mapper.getDiaryByInfo(employeeVO);
     }
 
-    public JobDiaryVO getDiaryByDateAndId(JobDiaryVO jobDiaryVO) {
-        return mapper.getDiaryByDateAndId(jobDiaryVO);
+    public JobDiaryVO getDiaryByDateAndId(String date, String id) {
+        JobDiaryVO jobDiaryVO = new JobDiaryVO();
+        jobDiaryVO.setJobDiaryReportDate(date);
+        jobDiaryVO.setJobDiaryWrtingEmplId(id);
+        JobDiaryVO vo = mapper.getDiaryByDateAndId(jobDiaryVO);
+        vo.setJobDiaryReportDate(date);
+        return vo;
     }
 
-    public int getMaxJobNo() {
-        return mapper.getMaxJobNo();
-    }
-
-    public void insertJob(JobVO jobVO) {
+    public void insertxJob(JobVO jobVO, JobProgressVO jobProgressVO, String emplId) {
+        int maxJobNo = mapper.getMaxJobNo() + 1;
+        jobVO.setJobNo(maxJobNo);
+        jobVO.setJobRequstEmplId(emplId);
         mapper.insertJob(jobVO);
-    }
 
-    public void insertJobProgress(JobProgressVO jobProgressVO) {
-        mapper.insertJobProgress(jobProgressVO);
+        jobProgressVO.setJobNo(maxJobNo);
+        if (jobVO.getSelectedEmplIds() != null) { //나 -> 다른이
+            List<String> selectedEmplIds = jobVO.getSelectedEmplIds();
+            for (String selectedEmplId : selectedEmplIds) {
+                jobProgressVO.setJobRecptnEmplId(selectedEmplId);
+                jobProgressVO.setCommonCodeDutySttus(DutyStatus.getValueOfByLabel("대기"));
+                mapper.insertJobProgress(jobProgressVO);
+            }
+        } else { //나 -> 나
+            jobProgressVO.setJobRecptnEmplId(emplId);
+            jobProgressVO.setCommonCodeDutySttus(DutyStatus.getValueOfByLabel("승인"));
+            mapper.insertJobProgress(jobProgressVO);
+        }
     }
 
     public List<JobVO> getAllJobById(String jobRequstEmplId) {
@@ -65,7 +95,15 @@ public class JobService {
     }
 
     public JobVO getJobByNo(int jobNo) {
-        return mapper.getJobByNo(jobNo);
+        JobVO jobVO = mapper.getJobByNo(jobNo);
+        List<JobProgressVO> jobProgressVOList = jobVO.getJobProgressVOList();
+        for (JobProgressVO jobProgressVO : jobProgressVOList) {
+            String dutyStatus = DutyStatus.getLabelByValue(jobProgressVO.getCommonCodeDutySttus());
+            String dutyProgress = DutyProgress.getLabelByValue(jobProgressVO.getCommonCodeDutyProgrs());
+            jobProgressVO.setCommonCodeDutySttus(dutyStatus);
+            jobProgressVO.setCommonCodeDutyProgrs(dutyProgress);
+        }
+        return jobVO;
     }
 
     public List<JobVO> getAllReceiveJobById(String jobRecptnEmplId) {
@@ -73,7 +111,10 @@ public class JobService {
     }
 
     public JobVO getReceiveJobByNo(int jobNo) {
-        return mapper.getReceiveJobByNo(jobNo);
+        JobVO jobVO = mapper.getReceiveJobByNo(jobNo);
+        String dutyKind = DutyKind.getLabelByValue(jobVO.getCommonCodeDutyKind());
+        jobVO.setCommonCodeDutyKind(dutyKind);
+        return jobVO;
     }
 
     public void updateJobStatus(JobProgressVO jobProgressVO) {

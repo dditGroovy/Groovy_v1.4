@@ -38,23 +38,15 @@ public class JobController {
 
     @GetMapping("/read")
     public String jobDiaryRead(String date, String id, JobDiaryVO jobDiaryVO, Model model) {
-        jobDiaryVO.setJobDiaryReportDate(date);
-        jobDiaryVO.setJobDiaryWrtingEmplId(id);
-        jobDiaryVO = service.getDiaryByDateAndId(jobDiaryVO);
-        jobDiaryVO.setJobDiaryReportDate(date);
+        jobDiaryVO = service.getDiaryByDateAndId(date, id);
         model.addAttribute("vo", jobDiaryVO);
         return "employee/job/jobDiaryRead";
     }
 
     @PostMapping("/insertDiary")
-    public String insertDiary(@ModelAttribute JobDiaryVO jobDiaryVO, Principal principal, Model model) {
-        String emplId = principal.getName();
-        jobDiaryVO.setJobDiaryWrtingEmplId(emplId);
-
+    public String insertDiary(@ModelAttribute JobDiaryVO jobDiaryVO, Principal principal) {
         try {
-            String recptnEmplId = service.getLeader(emplId);
-            jobDiaryVO.setJobDiaryRecptnEmplId(recptnEmplId);
-            service.insertDiary(jobDiaryVO);
+            service.insertDiary(jobDiaryVO, principal.getName());
             return "redirect:/job/jobDiary";
         } catch (Exception e) {
             return "redirect:/job/jobDiary";
@@ -62,20 +54,8 @@ public class JobController {
     }
 
     @GetMapping("/jobDiary")
-    public String jobDiary(EmployeeVO employeeVO, Principal principal, Model model) {
-        List<JobDiaryVO> list = new ArrayList<>();
-        String emplId = principal.getName();
-        employeeVO = service.getInfoById(emplId);
-        employeeVO.setEmplId(emplId);
-        try {
-            if (employeeVO.getCommonCodeClsf().equals(ClassOfPosition.CLSF012.name())) {
-                list = service.getDiaryByDept(employeeVO.getCommonCodeDept());
-            } else {
-                list = service.getDiaryByInfo(employeeVO);
-            }
-        } catch (Exception e) {
-
-        }
+    public String jobDiary(Principal principal, Model model) {
+        List<JobDiaryVO> list = service.getJobDiaryVOList(principal);
         model.addAttribute("list", list);
         return "employee/job/jobDiary";
     }
@@ -116,38 +96,13 @@ public class JobController {
     @PostMapping("/insertJob")
     @ResponseBody
     public void insertJob(JobVO jobVO, JobProgressVO jobProgressVO, Principal principal) {
-        int maxJobNo = service.getMaxJobNo() + 1;
-        String emplId = principal.getName();
-        jobVO.setJobNo(maxJobNo);
-        jobVO.setJobRequstEmplId(emplId);
-        service.insertJob(jobVO);
-
-        jobProgressVO.setJobNo(maxJobNo);
-        if (jobVO.getSelectedEmplIds() != null) { //나 -> 다른이
-            List<String> selectedEmplIds = jobVO.getSelectedEmplIds();
-            for (String selectedEmplId : selectedEmplIds) {
-                jobProgressVO.setJobRecptnEmplId(selectedEmplId);
-                jobProgressVO.setCommonCodeDutySttus(DutyStatus.getValueOfByLabel("대기"));
-                service.insertJobProgress(jobProgressVO);
-            }
-        } else { //나 -> 나
-            jobProgressVO.setJobRecptnEmplId(emplId);
-            jobProgressVO.setCommonCodeDutySttus(DutyStatus.getValueOfByLabel("승인"));
-            service.insertJobProgress(jobProgressVO);
-        }
+        service.insertxJob(jobVO, jobProgressVO, principal.getName());
     }
 
     @GetMapping("/getJobByNo")
     @ResponseBody
     public JobVO getJobByNo(int jobNo) {
         JobVO jobVO = service.getJobByNo(jobNo);
-        List<JobProgressVO> jobProgressVOList = jobVO.getJobProgressVOList();
-        for (JobProgressVO jobProgressVO : jobProgressVOList) {
-            String dutyStatus = DutyStatus.getLabelByValue(jobProgressVO.getCommonCodeDutySttus());
-            String dutyProgress = DutyProgress.getLabelByValue(jobProgressVO.getCommonCodeDutyProgrs());
-            jobProgressVO.setCommonCodeDutySttus(dutyStatus);
-            jobProgressVO.setCommonCodeDutyProgrs(dutyProgress);
-        }
         return jobVO;
     }
 
@@ -155,8 +110,6 @@ public class JobController {
     @ResponseBody
     public JobVO getReceiveJobByNo(int jobNo) {
         JobVO jobVO = service.getReceiveJobByNo(jobNo);
-        String dutyKind = DutyKind.getLabelByValue(jobVO.getCommonCodeDutyKind());
-        jobVO.setCommonCodeDutyKind(dutyKind);
         return jobVO;
     }
 
