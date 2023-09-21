@@ -37,4 +37,6 @@ public interface CardMapper {
     void modifyStatus(Map<String, Object> paramMap);
 
     List<CardReservationVO> loadSanctionList();
+
+    int modifyRequest(CardReservationVO vo);
 }

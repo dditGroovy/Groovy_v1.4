@@ -6,7 +6,7 @@
         <h2>법인카드 신청 기록</h2>
         <table border="1">
             <tr>
-                <td id="sanctionNum">${detailVO.cprCardResveSn}</td>
+                <td id="sanctionNum">${detailVO.cprCardResveSn}</td id="sanctionNum">
                 <td>기간: ${detailVO.cprCardResveBeginDate} - ${detailVO.cprCardResveClosDate}</td>
                 <td>사용처 : ${detailVO.cprCardUseLoca}</td>
                 <td>사용목적 : ${detailVO.cprCardUsePurps}</td>

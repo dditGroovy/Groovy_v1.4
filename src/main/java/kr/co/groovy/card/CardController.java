@@ -95,7 +95,7 @@ public class CardController {
     @GetMapping("/detail/{cprCardResveSn}")
     @ResponseBody
     public CardReservationVO loadRequestDetail(@PathVariable int cprCardResveSn) {
-       return  service.loadRequestDetail(cprCardResveSn);
+        return service.loadRequestDetail(cprCardResveSn);
     }
 
     @GetMapping("/data/{cprCardResveSn}")
@@ -112,5 +112,11 @@ public class CardController {
         List<CardReservationVO> sanctionList = service.loadSanctionList();
         model.addAttribute("sanctionList", sanctionList);
         return "admin/at/card/sanction";
+    }
+
+    @PostMapping("/modify/request")
+    @ResponseBody
+    public int modifyRequest(CardReservationVO vo) {
+        return service.modifyRequest(vo);
     }
 }

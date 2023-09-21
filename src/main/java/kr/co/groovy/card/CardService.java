@@ -84,19 +84,21 @@ public class CardService {
     List<CardReservationVO> loadCardRecord(String emplId) {
         return mapper.loadCardRecord(emplId);
     }
+
     public void modifyStatus(Map<String, Object> paramMap) {
-//        ParamMap map = ParamMap.init();
-//        map.put("approveId", paramMap.get("approveId"));
-//        map.put("state", paramMap.get("state"));
-//        map.put("etprCode", paramMap.get("etprCode"));
         mapper.modifyStatus(paramMap);
     }
 
-    public List<CardReservationVO> loadSanctionList(){
+    public List<CardReservationVO> loadSanctionList() {
         List<CardReservationVO> list = mapper.loadSanctionList();
-        for(CardReservationVO vo : list){
+        for (CardReservationVO vo : list) {
             vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());
         }
         return list;
     }
+
+    public int modifyRequest(CardReservationVO vo) {
+        return mapper.modifyRequest(vo);
+    }
+
 }
