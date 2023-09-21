@@ -83,10 +83,12 @@
                C.CHTT_MBR_EMPL_ID,
                E.EMPL_NM AS CHTT_MBR_EMPL_NM,
                C.CHTT_CN,
-               C.CHTT_INPUT_DATE
-        FROM CHTT C
-                 JOIN EMPL E ON C.CHTT_MBR_EMPL_ID = E.EMPL_ID
-        WHERE C.CHTT_ROOM_NO = #{chttRoomNo}
+               C.CHTT_INPUT_DATE,
+               F.UPLOAD_FILE_STRE_NM AS PROFL_PHOTO_FILE_STRE_NM
+        FROM CHTT C, EMPL E, UPLOAD_FILE F
+        WHERE C.CHTT_MBR_EMPL_ID = E.EMPL_ID
+          AND E.PROFL_ETPR_CODE = F.UPLOAD_FILE_ETPR_CODE
+          AND C.CHTT_ROOM_NO = #{chttRoomNo}
         ORDER BY CHTT_INPUT_DATE
     </select>
 
