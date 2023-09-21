@@ -41,6 +41,7 @@
             AND D.DCLZ_WORK_WIK = TO_CHAR(SYSDATE, 'IYYY-IW')
         WHERE E.COMMON_CODE_DEPT = #{deptCode}
         GROUP BY E.EMPL_ID, E.EMPL_NM, E.COMMON_CODE_DEPT, E.COMMON_CODE_CLSF
+        ORDER BY E.COMMON_CODE_CLSF
     </select>
 
     <select id="loadDeptList" resultType="String">
