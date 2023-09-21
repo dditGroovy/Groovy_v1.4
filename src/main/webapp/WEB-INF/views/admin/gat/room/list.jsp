@@ -65,7 +65,6 @@ class ClassBtn {
         this.eGui = document.createElement('div');
         const currentTime = new Date(); // 현재 날짜 및 시간 가져오기
         const endTime = new Date(params.data.endTime);
-        console.log(endTime);
         
         // 예약 끝 시간과 현재 시간을 비교하여 버튼을 활성화 또는 비활성화
         if (endTime > currentTime) {
@@ -78,34 +77,34 @@ class ClassBtn {
             this.id = params.value;
             this.btnReturn = this.eGui.querySelector(".cancelRoom");
             
+            // 클릭 이벤트 핸들러를 정의하고 삭제 버튼에 추가
             this.btnReturn.addEventListener("click", () => {
-            	if (confirm("정말 취소하시겠습니까?")) {
-                    const fcltyResveSn = this.id; // params.value 대신 this.id를 사용
+                    if (confirm("정말 취소하시겠습니까?")) {
+                        const fcltyResveSn = this.id; // params.value 대신 this.id를 사용
 
-                    // 값이 비어있으면 요청을 보내지 않도록 확인
-                    if (fcltyResveSn) {
-                        const xhr = new XMLHttpRequest();
-                        xhr.open("get", "/reservation/deleteReserved?fcltyResveSn=" + fcltyResveSn, true);
-                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        // 값이 비어있으면 요청을 보내지 않도록 확인
+                        if (fcltyResveSn) {
+                            const xhr = new XMLHttpRequest();
+                            xhr.open("get", "/reservation/deleteReserved?fcltyResveSn=" + fcltyResveSn, true);
+                            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-                        xhr.onload = function () {
-                            if (xhr.status === 200) {
-                                console.log("삭제가 완료되었습니다. 상태 코드: " + xhr.responseText);
-                                location.reload(); // 페이지 리로드
-                            } else {
-                                console.log("삭제 요청이 실패했습니다. 상태 코드: " + xhr.status);
-                            }
-                        };
+                            xhr.onload = function () {
+                                if (xhr.status === 200) {
+                                    console.log("삭제가 완료되었습니다. 상태 코드: " + xhr.responseText);
+                                    location.reload(); // 페이지 리로드
+                                } else {
+                                    console.log("삭제 요청이 실패했습니다. 상태 코드: " + xhr.status);
+                                }
+                            };
 
-                        xhr.onerror = function () {
-                            console.error("네트워크 오류로 인해 삭제 요청이 실패했습니다.");
-                        };
+                            xhr.onerror = function () {
+                                console.error("네트워크 오류로 인해 삭제 요청이 실패했습니다.");
+                            };
 
-                        xhr.send();
+                            xhr.send();
+                        }
                     }
-                }
-            });
-            });
+                });
         } else {
             // 예약이 이미 끝났으므로 버튼을 비활성화합니다.
             this.eGui.innerHTML = `
