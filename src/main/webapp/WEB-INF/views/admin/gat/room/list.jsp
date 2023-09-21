@@ -146,7 +146,6 @@ const columnDefs = [
 ];
 const rowData = [];
 let count = 0;
-<%-- 여기서 JSP 코드로 데이터를 가져와서 JavaScript 배열에 추가합니다. --%>
 <c:forEach items="${reservedRooms}" var="room">
     <c:set var="beginTime" value="${room.fcltyResveBeginTime}"/>
     <fmt:formatDate var="fBeginTime" value="${beginTime}" pattern="yyyy-MM-dd HH:mm"/>
