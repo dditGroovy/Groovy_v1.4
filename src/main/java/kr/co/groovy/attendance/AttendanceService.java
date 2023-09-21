@@ -1,5 +1,6 @@
 package kr.co.groovy.attendance;
 
+import com.google.gson.Gson;
 import kr.co.groovy.vo.CommuteVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,24 +19,29 @@ public class AttendanceService {
         this.mapper = mapper;
     }
 
-    List<Map<String, Object>> loadAllDclz() {
+    String loadAllDclz() {
         List<CommuteVO> list = mapper.loadAllDclz();
         return mapList(list);
     }
 
-    List<Map<String, Object>> loadDeptDclz(String deptCode) {
+    String loadDeptDclz(String deptCode) {
         List<CommuteVO> list = mapper.loadDeptDclz(deptCode);
         return mapList(list);
     }
 
-    List<Map<String, Object>> mapList(List<CommuteVO> list) {
+    String mapList(List<CommuteVO> list) {
         List<Map<String, Object>> maps = new ArrayList<>();
         for (CommuteVO vo : list) {
             calculateAndSetWorkInfo(vo);
             Map<String, Object> map = convertToMap(vo);
             maps.add(map);
         }
-        return maps;
+        return gsonToJson(maps);
+    }
+
+    String gsonToJson (List<Map<String, Object>> list) {
+        Gson gson = new Gson();
+        return gson.toJson(list);
     }
 
     void calculateAndSetWorkInfo(CommuteVO vo) {
@@ -90,11 +96,23 @@ public class AttendanceService {
         return mapper.loadDeptList();
     }
 
-    int deptTotalWorkTime(String deptCode) {
-        return mapper.deptTotalWorkTime(deptCode);
+    List<Integer> deptTotalWorkTime() {
+        List<String> deptList = loadDeptList();
+        List<Integer> deptTotalWorkTime = new ArrayList<>();
+        for (String deptCode : deptList) {
+            int totalTime = mapper.deptTotalWorkTime(deptCode);
+            deptTotalWorkTime.add(totalTime);
+        }
+        return deptTotalWorkTime;
     }
 
-    int deptAvgWorkTime(String deptCode) {
-        return mapper.deptAvgWorkTime(deptCode);
+    List<Integer> deptAvgWorkTime() {
+        List<String> deptList = loadDeptList();
+        List<Integer> deptAvgWorkTime = new ArrayList<>();
+        for (String deptCode : deptList) {
+            int avgTime = mapper.deptAvgWorkTime(deptCode);
+            deptAvgWorkTime.add(avgTime);
+        }
+        return deptAvgWorkTime;
     }
 }
