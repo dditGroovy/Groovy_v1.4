@@ -67,6 +67,7 @@ public class FileController {
     public void fileUpload(@PathVariable("dir") String dir, @PathVariable("etprCode") String etprCode, MultipartFile file) throws Exception {
         try {
             String path = uploadPath + "/" + dir;
+//            File uploadPath = new File(uploadPath ,FileUploadUtils.getFolder());
             File uploadDir = new File(path);
             if (!uploadDir.exists()) {
                 if (uploadDir.mkdirs()) {
