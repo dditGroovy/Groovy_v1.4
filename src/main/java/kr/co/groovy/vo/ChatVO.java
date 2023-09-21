@@ -16,5 +16,6 @@ public class ChatVO {
     private String chttMbrEmplNm;
     private String chttCn;
     private Date chttInputDate;
+    private String proflPhotoFileStreNm;
 
 }

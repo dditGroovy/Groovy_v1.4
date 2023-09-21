@@ -99,8 +99,10 @@
                 chttMbrEmplId: emplId,
                 chttMbrEmplNm: emplNm,
                 chttCn: message,
-                chttInputDate: date
+                chttInputDate: date,
+                proflPhotoFileStreNm : "${CustomUser.employeeVO.proflPhotoFileStreNm}"
             }
+
             client.send('/public/chat/message', {}, JSON.stringify(chatVO));
             console.log("chatVO", chatVO);
             $.ajax({
@@ -136,11 +138,13 @@
                     $.each(messages, function (idx, obj) {
                         if (obj.chttMbrEmplId == emplId) {
                             let code = `<div style="border: 1px solid blue" id="\${obj.chttNo}">
+                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="50px;" />
                                             <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
                                         </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
                         } else {
                             let code = `<div style='border: 1px solid red' id='\${obj.chttNo}'>
+                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="50px;" />
                                             <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
                                         </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
@@ -258,17 +262,20 @@
                     let chttMbrEmplNm = content.chttMbrEmplNm;
                     let chttCn = content.chttCn;
                     let chttInputDate = content.chttInputDate;
+                    let proflPhotoFileStreNm = content.proflPhotoFileStreNm;
 
                     if (chttMbrEmplId == emplId) {
                         let code = `<div style="border: 1px solid blue">
-                                    <p>\${chttMbrEmplNm} : \${chttCn}</p>
-                                </div>`;
+                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="50px;" />
+                                        <p>\${chttMbrEmplNm} : \${chttCn}</p>
+                                    </div>`;
                         $(`#room\${chttRoomNo}`).append(code);
                         scrollToBottom();
                     } else {
                         let code = `<div style="border: 1px solid red">
-                                    <p>\${chttMbrEmplNm} : \${chttCn}</p>
-                                </div>`;
+                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="50px;" />
+                                        <p>\${chttMbrEmplNm} : \${chttCn}</p>
+                                    </div>`;
                         $(`#room\${chttRoomNo}`).append(code);
                         scrollToBottom();
                     }
