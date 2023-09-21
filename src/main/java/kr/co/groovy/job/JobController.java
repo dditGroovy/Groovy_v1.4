@@ -184,7 +184,35 @@ public class JobController {
     public void updateJobProgress(Principal principal, @RequestBody JobProgressVO jobProgressVO) {
         String emplId = principal.getName();
         jobProgressVO.setJobRecptnEmplId(emplId);
-        System.out.println("****jobProgressVO = " + jobProgressVO);
         service.updateJobProgress(jobProgressVO);
+    }
+
+    //요청한 업무 내역
+    @GetMapping("/request")
+    public String requestMain(Principal principal, Model model) {
+        List<JobVO> jobList = service.getAllJobById(principal.getName());
+        model.addAttribute("jobList", jobList);
+        return "employee/job/jobRequestList";
+    }
+
+    @GetMapping("/getRequestYear")
+    @ResponseBody
+    public List<String> getRequestYear(Principal principal) {
+        return service.getRequestYear(principal.getName());
+    }
+
+    @GetMapping("/getRequestMonth")
+    @ResponseBody
+    public List<String> getRequestMonth(String year, Principal principal, Map<String, Object> map) {
+        map.put("year", year);
+        map.put("jobRequestEmplId", principal.getName());
+        return service.getRequestMonth(map);
+    }
+
+    @GetMapping("/getJobByDateFilter")
+    @ResponseBody
+    public List<JobVO> getJobByDateFilter(@RequestParam Map<String, Object> data, Principal principal) {
+        data.put("jobRequstEmplId", principal.getName());
+        return service.getJobByDateFilter(data);
     }
 }

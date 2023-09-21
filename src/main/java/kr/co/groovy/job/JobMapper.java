@@ -43,5 +43,11 @@ public interface JobMapper {
 
     List<JobVO> getJobByDate(Map<String, Object> map);
 
+    List<JobVO> getJobByDateFilter(Map<String, Object> map);
+
     JobVO getJobByNoAndId(JobProgressVO jobProgressVO);
+
+    List<String> getRequestYear(String jobRequstEmplId);
+
+    List<String> getRequestMonth(Map<String, Object> map);
 }
