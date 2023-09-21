@@ -35,7 +35,6 @@ public class FacilityManageController {
 		
 
 		List<FacilityVO> toDayList = service.findTodayResve();
-		//List<FacilityVO> equipmentList = service.findEquipmentList(commonCodeFcltyKind);
 		
 		for(FacilityVO room : toDayList) {
 			service.getFacilityName(room);
