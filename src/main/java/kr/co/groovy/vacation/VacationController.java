@@ -83,6 +83,7 @@ public class VacationController {
     }
 
     @PostMapping("/manage")
+    @ResponseBody
     public int modifyYrycNowCo(@RequestBody VacationVO vacationVO) {
         return service.modifyYrycNowCo(vacationVO);
     }
