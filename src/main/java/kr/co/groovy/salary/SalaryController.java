@@ -40,7 +40,7 @@ public class SalaryController {
         model.addAttribute("salary", salaryList);
         model.addAttribute("bonus", bonusList);
         model.addAttribute("tariffList", tariffVOList);
-        return "admin/hrt/employee/salary";
+        return "admin/at/salary/salary";
     }
 
     // 인사팀의 세율 기준 수정
