@@ -1,3 +1,4 @@
+
 /* root */
 :root {
     --color-main: #5796F3;
@@ -119,6 +120,7 @@
 
 /* ///// padding ///// */
 .pd-32 {padding: var(--vw-32);}
+.pd-10 {padding: var(--vw-10);}
 /* ///// card ///// */
 .card-df {background-color: var(--color-white); box-shadow: var(--clay-card); border: 1px solid var(--color-stroke); border-radius: var(--vw-32)}
 
@@ -285,3 +287,31 @@
     opacity: .5;
 }
 
+.form {
+    border: none;
+    width: 80%;
+    margin: 0 auto;
+}
+.form th {
+    font-size: var(--font-size-14);
+    background-color: var(--color-bg-sky);
+}
+.form td {
+    padding: var(--vw-10);
+}
+.form tr:not(:last-child){
+    border-bottom: 1px solid var(--color-stroke);
+}
+.form input,.form textarea {
+    padding: var(--vw-12) var(--size-24);
+    box-shadow: none;
+    width: 100% ;
+    font-family: var(--font-reg);
+}
+.date-area {
+    display: flex;
+    align-items: center;
+}
+textarea {
+    resize: none;
+}

@@ -93,20 +93,20 @@
             <div class="modal-top">
                 <div class="modal-title">법인카드 신청 내용</div>
                 <button type="button" class="modal-close btn js-modal-close">
-                    <i class="icon i-close">X</i>
+                    <i class="icon i-close close">X</i>
                 </button>
             </div>
             <div class="modal-container">
+                <form action="${pageContext.request.contextPath}/card/modify/request" method="post"
+                      id="cardModifyForm">
                 <div class="modal-content input-wrap">
-                    <form action="${pageContext.request.contextPath}/card/modify/request" method="post"
-                          id="cardModifyForm">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        <table border="1">
+                        <table class="form">
                             <input type="hidden" name="cprCardResveEmplId" value="${CustomUser.employeeVO.emplId}"/>
                             <input type="hidden" name="cprCardResveSn" id="sanctionNum"/>
                             <tr>
                                 <th>기간</th>
-                                <td>
+                                <td class="date-area">
                                     <input type="date" name="cprCardResveBeginDate" class="input-free-white"
                                            placeholder="시작 날짜" required> ~
                                     <input type="date" name="cprCardResveClosDate" class="input-free-white"
@@ -132,18 +132,14 @@
                                 </td>
                             </tr>
                         </table>
-                        <div class="modal-footer btn-wrapper" id="beforeBtn" style="display: none">
-                            <button type="button" class="btn btn-fill-bl-sm" id="modifyRequest">수정하기</button>
-                            <button type="button" class="btn btn-fill-bl-sm" id="startSanction">결재하기</button>
-                        </div>
-                        <div class="modal-footer btn-wrapper" id="submitBtn" style="display: none">
-                            <button type="submit" class="btn btn-fill-bl-sm" id="modifySubmit">저장하기</button>
-                        </div>
-                        <div class="modal-footer btn-wrapper">
-                                <%--  TODO 나중에 헤더에 X로 처리하기 버튼 세개라 별루  --%>
-                            <button type="button" class="btn btn-fill-wh-sm close">닫기</button>
-                        </div>
-                    </form>
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer btn-wrapper" id="beforeBtn" style="display: none">
+                <button type="button" class="btn btn-fill-bl-sm" id="modifyRequest">수정하기</button>
+                <button type="button" class="btn btn-fill-bl-sm" id="startSanction">결재하기</button>
+                <div id="submitBtn" style="display: none">
+                    <button type="submit" class="btn btn-fill-bl-sm" id="modifySubmit" form="cardRequestForm">저장하기</button>
                 </div>
             </div>
         </div>

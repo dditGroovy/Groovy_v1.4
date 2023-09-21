@@ -1,8 +1,10 @@
 /* reset */
 @import "commonStyle.css";
+@import "reset.css";
 
 body {
     font-family: var(--font-reg);
+    margin: 0;
 }
 * {
     color: var(--color-font-high);
