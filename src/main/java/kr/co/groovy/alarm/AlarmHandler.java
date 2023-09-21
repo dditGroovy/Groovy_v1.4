@@ -37,7 +37,7 @@ public class AlarmHandler extends TextWebSocketHandler {
     //현재 접속 사원
     private String currentUserId(WebSocketSession session) {
         String loginUserId;
-        if (session.getPrincipal() == null) {
+        if (session.getPrincipal() == null || session == null) {
             loginUserId = null;
         } else {
             loginUserId = session.getPrincipal().getName();
@@ -141,6 +141,24 @@ public class AlarmHandler extends TextWebSocketHandler {
                         receiveSession.sendMessage(new TextMessage(notificationHtml));
                     }
                 }
+            } else if (category.equals("chat")) {
+                String sendName = msgs[3];
+                String[] selectedEmplIdsArray = Arrays.copyOfRange(msgs, 4, msgs.length);
+                for (String emplId : selectedEmplIdsArray) {
+                    WebSocketSession receiveSession = userSessionMap.get(emplId);
+                    NotificationVO noticeAt = service.getNoticeAt(currentUserId(receiveSession));
+                    if (receiveSession != null && receiveSession.isOpen() && noticeAt.getNewChattingRoom().equals("NTCN_AT010")) {
+                        String notificationHtml = String.format(
+                                "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
+                                        "<h1>[채팅]</h1>\n" +
+                                        "<p> %s님이 채팅방에 초대하셨습니다.</p>" +
+                                        "</a>",
+                                url, seq, sendName
+                        );
+                        receiveSession.sendMessage(new TextMessage(notificationHtml));
+                    }
+                }
+
             }
         }
     }
