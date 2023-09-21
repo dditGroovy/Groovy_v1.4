@@ -43,7 +43,7 @@
         <div>
             <div>
                 <div>
-                    <div><p>휴가 기록</p></div>
+                    <div><p>최근 휴가 기록</p></div>
                     <div><a href="${pageContext.request.contextPath}/vacation/request">휴가 신청</a></div>
                 </div>
                 <div id="myVacation">

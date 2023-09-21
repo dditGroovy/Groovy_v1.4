@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec"
-           uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
@@ -19,6 +20,7 @@
                     <td>사용 기간</td>
                     <td>사용처</td>
                     <td>사용 목적</td>
+                    <td>사용 예상 금액</td>
                     <td>결재 상태</td>
                 </tr>
                 <c:forEach var="recodeVO" items="${cardRecord}" varStatus="stat">
@@ -28,82 +30,31 @@
                         <td>${recodeVO.cprCardResveBeginDate} - ${recodeVO.cprCardResveClosDate}</td>
                         <td>${recodeVO.cprCardUseLoca}</td>
                         <td>${recodeVO.cprCardUsePurps}</td>
+                        <td><fmt:formatNumber type="number" value="${recodeVO.cprCardUseExpectAmount}" pattern="#,##0"/> 원</td>
                         <td>${(recodeVO.commonCodeYrycState == 'YRYC030')? '미상신' : (recodeVO.commonCodeYrycState == 'YRYC031') ? '상신' : '승인'}</td>
                     </tr>
                 </c:forEach>
             </table>
         </div>
     </div>
+
+
     <div id="modal" class="modal-dim">
         <div class="dim-bg"></div>
         <div class="modal-layer card-df sm requestCard">
             <div class="modal-top">
                 <div class="modal-title">법인카드 신청</div>
                 <button type="button" class="modal-close btn js-modal-close">
-                    <i class="icon i-close">X</i>
-                </button>
-            </div>
-            <div class="modal-container">
-                <div class="modal-content input-wrap">
-                    <form action="${pageContext.request.contextPath}/card/request" method="post"
-                          id="cardRequestForm">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        <table border="1">
-                            <input type="hidden" name="cprCardResveEmplId" value="${CustomUser.employeeVO.emplId}"/>
-                            <tr>
-                                <th>기간</th>
-                                <td>
-                                    <input type="date" name="cprCardResveBeginDate" class="input-free-white"
-                                           placeholder="시작 날짜" required> ~
-                                    <input type="date" name="cprCardResveClosDate" class="input-free-white"
-                                           placeholder="끝 날짜" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>사용처</th>
-                                <td>
-                                    <input type="text" name="cprCardUseLoca" class="input-free-white" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>사용목적</th>
-                                <td><textarea name="cprCardUsePurps" class="input-free-white" cols="30" rows="10"
-                                              placeholder="사용 목적"
-                                              required></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>사용예상금액</th>
-                                <td>
-                                    <input type="number" name="cprCardUseExpectAmount" class="input-free-white"
-                                           required>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="modal-footer btn-wrapper">
-                            <button type="submit" class="btn btn-fill-bl-sm" id="requestCard">확인</button>
-                            <button type="button" class="btn btn-fill-wh-sm close">취소</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal-layer card-df sm detailCard">
-            <div class="modal-top">
-                <div class="modal-title">법인카드 신청 내용</div>
-                <button type="button" class="modal-close btn js-modal-close">
                     <i class="icon i-close close">X</i>
                 </button>
             </div>
             <div class="modal-container">
-                <form action="${pageContext.request.contextPath}/card/modify/request" method="post"
-                      id="cardModifyForm">
-                <div class="modal-content input-wrap">
+                <form action="${pageContext.request.contextPath}/card/request" method="post"
+                      id="cardRequestForm">
+                    <div class="modal-content input-wrap">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <table class="form">
                             <input type="hidden" name="cprCardResveEmplId" value="${CustomUser.employeeVO.emplId}"/>
-                            <input type="hidden" name="cprCardResveSn" id="sanctionNum"/>
                             <tr>
                                 <th>기간</th>
                                 <td class="date-area">
@@ -132,20 +83,91 @@
                                 </td>
                             </tr>
                         </table>
-                </div>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer btn-wrapper" id="beforeBtn" style="display: none">
-                <button type="button" class="btn btn-fill-bl-sm" id="modifyRequest">수정하기</button>
-                <button type="button" class="btn btn-fill-bl-sm" id="startSanction">결재하기</button>
-                <div id="submitBtn" style="display: none">
-                    <button type="submit" class="btn btn-fill-bl-sm" id="modifySubmit" form="cardRequestForm">저장하기</button>
+            <div class="modal-footer btn-wrapper">
+                <button type="submit" class="btn btn-fill-bl-sm" id="requestCard">확인</button>
+                <button type="button" class="btn btn-fill-wh-sm close">취소</button>
+            </div>
+        </div>
+
+
+            <%--   디테일/수정 모달     --%>
+        <div class="modal-layer card-df sm detailCard">
+            <div class="modal-top">
+                <div class="modal-title">법인카드 신청 내용</div>
+                <button type="button" class="modal-close btn js-modal-close">
+                    <i class="icon i-close close">X</i>
+                </button>
+            </div>
+            <div class="modal-container">
+                <form action="${pageContext.request.contextPath}/card/modify/request" method="post"
+                      id="cardModifyForm">
+                    <div class="modal-content input-wrap">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        <table class="form">
+                            <input type="hidden" name="cprCardResveEmplId" value="${CustomUser.employeeVO.emplId}"/>
+                            <input type="hidden" name="cprCardResveSn" id="sanctionNum"/>
+                            <tr>
+                                <th>기간</th>
+                                <td class="date-area">
+                                    <input type="date" name="cprCardResveBeginDate" class="input-free-white"
+                                           placeholder="시작 날짜" disabled> ~
+                                    <input type="date" name="cprCardResveClosDate" class="input-free-white"
+                                           placeholder="끝 날짜" disabled>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사용처</th>
+                                <td>
+                                    <input type="text" name="cprCardUseLoca" class="input-free-white" disabled>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사용목적</th>
+                                <td><textarea name="cprCardUsePurps" class="input-free-white" cols="30" rows="10"
+                                              disabled></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사용예상금액</th>
+                                <td>
+                                    <input type="text" name="cprCardUseExpectAmount" class="input-free-white" disabled>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer btn-wrapper">
+                <div id="beforeBtn">
+                    <button type="button" class="btn btn-fill-bl-sm" id="modifyRequest">수정하기</button>
+                    <button type="button" class="btn btn-fill-bl-sm" id="startSanction">결재하기</button>
                 </div>
+                <div id="submitBtn" style="display: none">
+                    <button type="submit" class="btn btn-fill-bl-sm" id="modifySubmit" form="cardRequestForm">저장하기
+                    </button>
+                    <button type="button" class="btn btn-fill-wh-sm close">취소</button>
+                </div>
+                <button type="button" class="btn btn-fill-wh-sm close" id="closeBtn" hidden="hidden">닫기</button>
             </div>
         </div>
     </div>
-    <script src="/resources/js/modal.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
     <script>
+
+        $(document).ready(function () {
+            $("input").attr("required", "required");
+        });
+
+        setMinDate("cprCardResveBeginDate");
+        setMinDate("cprCardResveClosDate");
+
+        const startDateName = "cprCardResveBeginDate";
+        const endDateName = "cprCardResveClosDate";
+
         const detailCard = document.querySelector(".detailCard");
         const detailLink = document.querySelectorAll(".detailLink");
 
@@ -154,9 +176,9 @@
                 const num = link.getAttribute("data-seq");
                 loadDetail(num);
             })
-
         })
 
+        // 결재하기 시작
         $("#startSanction").on("click", function () {
             $("#modifyRequest").prop("disabled", true)
             window.open('/sanction/format/DEPT011/SANCTN_FORMAT010', "결재", "width = 1200, height = 1200")
@@ -170,38 +192,34 @@
         // 수정 후 제출
         $("#modifySubmit").on("click", function () {
             event.preventDefault();
-            let formData = $("#cardModifyForm").serialize();
+            if (validateDate("cardModifyForm", startDateName, endDateName) && validateEmpty("cardModifyForm")) {
+                submitAjax("cardModifyForm");
+            }
+        })
+        // 사용 신청 제출
+        $("#requestCard").on("click", function () {
+            event.preventDefault();
+            if (validateDate("cardRequestForm", startDateName, endDateName) && validateEmpty("cardRequestForm")) {
+                submitAjax("cardRequestForm");
+            }
+        })
 
+        function submitAjax(formId) {
+            let formData = $("#" + formId).serialize();
             $.ajax({
                 type: "POST",
-                url: $("#cardModifyForm").attr("action"),
+                url: $("#" + formId).attr("action"),
                 data: formData,
                 success: function (res) {
-                    alert("법인카드 수정 성공 ")
+                    alert("ajax 성공");
+                    close()
                     resetModal();
                 },
                 error: function (error) {
-                    alert("법인카드 수정 실패 ")
+                    alert("ajax 실패");
                 }
             });
-        })
-        // 법인카드 사용 신청 제출
-        $("#requestCard").on("click", function () {
-            event.preventDefault();
-            let formData = $("#cardRequestForm").serialize();
-
-            $.ajax({
-                type: "POST",
-                url: $("#cardRequestForm").attr("action"),
-                data: formData,
-                success: function (res) {
-                    alert("법인카드 신청 성공 ")
-                },
-                error: function (error) {
-                    alert("법인카드 신청 실패 ")
-                }
-            });
-        })
+        }
 
         function loadDetail(num) {
             $.ajax({
@@ -215,26 +233,28 @@
                     for (let key in data) {
                         if (data.hasOwnProperty(key)) {
                             let value = data[key];
-                            let inputElement = form.find(`input[name="\${key}"]`);
+                            let inputElements = form.find(`input[name="\${key}"]`);
                             let textareaElement = form.find(`textarea[name="\${key}"]`);
 
-                            if (inputElement.length) {
+                            if (inputElements.length) {
                                 if (key === "cprCardUseExpectAmount") {
                                     value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원";
                                 }
-                                inputElement.val(value);
-                                inputElement.css("border", "none");
-                            } else if (textareaElement.length) {
+                                inputElements.val(value);
+                                inputElements.css("border", "none");
+                            }
+                            if (textareaElement.length) {
                                 textareaElement.val(value);
                                 textareaElement.css("border", "none");
                             }
                         }
                     }
-
                     if (data['commonCodeYrycState'] === 'YRYC030') {
                         $('#beforeBtn').css("display", "");
+                        $('#closeBtn').prop("hidden", true);
                     } else {
                         $('#beforeBtn').css("display", "none");
+                        $('#closeBtn').prop("hidden", false);
                     }
 
                 },
@@ -244,13 +264,20 @@
             });
         }
 
+        // 수정하기 버튼 클릭 시
         $("#modifyRequest").on("click", function () {
             let form = $("#cardModifyForm");
             let inputElement = form.find("input[name='cprCardUseExpectAmount']");
             let value = inputElement.val();
             value = value.replace(/,/g, '').replace('원', '');
             inputElement.val(value);
-            $("#startSanction").prop("hidden", true)
+
+            let inputElements = form.find("input, textarea");
+            inputElements.each(function () {
+                $(this).removeAttr("disabled");
+                $(this).attr("required", "required");
+                $(this).css("border", "");
+            });
             $("#beforeBtn").css("display", "none");
             $("#submitBtn").css("display", "");
         });
@@ -260,9 +287,13 @@
         });
 
         function resetModal() {
-            $("#submitBtn").css("display", "none");
             $("#beforeBtn").css("display", "");
-            $("#startSanction").prop("hidden", false);
+            $("#submitBtn").css("display", "none");
+            let form = $("#cardModifyForm");
+            let inputElements = form.find("input, textarea");
+            inputElements.each(function () {
+                $(this).css("border", "none");
+            });
         }
     </script>
 </sec:authorize>
