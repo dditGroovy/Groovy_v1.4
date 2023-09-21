@@ -2,15 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.groovy.salary.SalaryMapper">
     <select id="loadSalary" resultType="annualSalaryVO">
-        SELECT
-            ANSLRY_STDR_YEAR,
-            COMMON_CODE_DEPT_CRSF,
-            COMMON_CODE_DEPT_CRSF AS ORIGINAL_CODE,
-            ANSLRY_ALLWNC
-        FROM
-            ANSLRY
-        WHERE
-            COMMON_CODE_DEPT_CRSF LIKE 'DEPT%'
+        SELECT ANSLRY_STDR_YEAR,
+               COMMON_CODE_DEPT_CRSF,
+               COMMON_CODE_DEPT_CRSF AS ORIGINAL_CODE,
+               ANSLRY_ALLWNC
+        FROM ANSLRY
+        WHERE COMMON_CODE_DEPT_CRSF LIKE 'DEPT%'
     </select>
     <select id="loadBonus" resultType="annualSalaryVO">
         SELECT ANSLRY_STDR_YEAR,
@@ -23,10 +20,10 @@
     </select>
     <select id="loadTariff" parameterType="String" resultType="tariffVO">
         SELECT TARAT_STDR_YEAR,
-                TARAT_STDR_NM,
-                TARAT_STDR_VALUE,
-                TARAT_STDR_CODE,
-                TARAT_STDR_USE_AT
+        TARAT_STDR_NM,
+        TARAT_STDR_VALUE,
+        TARAT_STDR_CODE,
+        TARAT_STDR_USE_AT
         FROM
         TARAT_STDR
         WHERE
@@ -124,15 +121,17 @@
                      SD.SALARY_DTSMT_LOCALITY_INCMTAX,
                      S.SALARY_BSLRY,
                      S.SALARY_OVTIME_ALLWNC
-              FROM SALARY_DTSMT SD, SALARY S
+              FROM SALARY_DTSMT SD,
+                   SALARY S
               WHERE SD.SALARY_EMPL_ID = #{emplId}
                 AND SD.SALARY_DTSMT_ISSU_DATE = S.SALARY_PYMNT_DATE
               ORDER BY SD.SALARY_DTSMT_ISSU_DATE DESC)
         WHERE ROWNUM = 1
     </select>
-    
+
     <select id="loadYearsForSortPaystub" parameterType="String" resultType="int">
-        SELECT EXTRACT(YEAR FROM SALARY_DTSMT_ISSU_DATE) FROM SALARY_DTSMT
+        SELECT EXTRACT(YEAR FROM SALARY_DTSMT_ISSU_DATE)
+        FROM SALARY_DTSMT
         WHERE SALARY_EMPL_ID = #{emplId}
         GROUP BY EXTRACT(YEAR FROM SALARY_DTSMT_ISSU_DATE)
         ORDER BY EXTRACT(YEAR FROM SALARY_DTSMT_ISSU_DATE) DESC
@@ -154,6 +153,7 @@
         SET TARAT_STDR_VALUE = #{value}
         WHERE TARAT_STDR_CODE = #{code}
     </update>
+
     <update id="modifySalary" parameterType="map">
         /* 세율 기준 수정 */
         UPDATE ANSLRY
@@ -176,9 +176,99 @@
                SD.SALARY_DTSMT_LOCALITY_INCMTAX,
                S.SALARY_BSLRY,
                S.SALARY_OVTIME_ALLWNC
-        FROM SALARY_DTSMT SD, SALARY S
+        FROM SALARY_DTSMT SD,
+             SALARY S
         WHERE SD.SALARY_EMPL_ID = #{emplId}
           AND SD.SALARY_DTSMT_ISSU_DATE = S.SALARY_PYMNT_DATE
           AND SD.SALARY_DTSMT_ISSU_DATE = TO_DATE(#{paymentDate})
     </select>
+
+    <select id="getExistsYears" resultType="String">
+        SELECT DISTINCT TO_CHAR(DCLZ_WORK_DE, 'YYYY') AS WORK_YEAR
+        FROM DCLZ
+        ORDER BY WORK_YEAR desc
+    </select>
+
+    <select id="getExistsMonthByYear" resultType="String" parameterType="String">
+        SELECT DISTINCT TO_CHAR(DCLZ_WORK_DE, 'MM') AS WORK_MONTH
+        FROM DCLZ
+        WHERE TO_CHAR(DCLZ_WORK_DE, 'YYYY') = #{dclzWorkDe}
+        ORDER BY WORK_MONTH
+    </select>
+
+    <select id="getCommuteByYearAndMonth" resultType="commuteVO" parameterType="String">
+        <![CDATA[
+        SELECT DCLZ_EMPL_ID,
+               SUM(
+                       CASE
+                           WHEN DCLZ_DAIL_WORK_TIME
+                               <
+                                480 THEN DCLZ_DAIL_WORK_TIME
+                           ELSE 480
+                           END
+                   )                                                                  AS REAL_WORK_TIME,
+               SUM(
+                       CASE
+                           WHEN DCLZ_DAIL_WORK_TIME > 480 THEN (DCLZ_DAIL_WORK_TIME - 480)
+                           ELSE 0
+                           END
+                   )                                                                  AS OVER_WORK_TIME,
+               (SELECT EMPL_NM FROM EMPL WHERE EMPL_ID = DCLZ_EMPL_ID)                AS EMPL_NM,
+               (SELECT C.COMMON_NAME
+                FROM COMMON C,
+                     EMPL E
+                WHERE E.EMPL_ID = DCLZ_EMPL_ID
+                  AND C.COMMON_CODE = E.COMMON_CODE_DEPT)                             AS DEPT_NM,
+               (SELECT E.COMMON_CODE_CLSF FROM EMPL E WHERE E.EMPL_ID = DCLZ_EMPL_ID) AS COMMON_CODE_CLSF
+        FROM DCLZ
+        WHERE DCLZ_WORK_DE BETWEEN TRUNC(to_date(#{date}, 'yy-mm'), 'MM') AND LAST_DAY(to_date(#{date}, 'yy-mm'))
+        GROUP BY DCLZ_EMPL_ID
+        ORDER BY DCLZ_EMPL_ID
+        ]]>
+    </select>
+
+    <select id="getPrescribedWorkingHours" resultType="String" parameterType="String">
+    <![CDATA[
+        SELECT to_char(COUNT(1) * 8 * 60) AS DEFAULT_WORK_TIME
+        FROM (SELECT TO_CHAR(START_DT + LEVEL - 1, 'YYYYMMDD') DATES,
+                     TO_CHAR(START_DT + LEVEL - 1, 'D')        D
+              FROM (SELECT TRUNC(to_date(#{date}, 'yy-mm'), 'MM') AS START_DT,
+                           LAST_DAY(to_date(#{date}, 'yy-mm'))    AS END_DT
+                    FROM DUAL)
+              CONNECT BY LEVEL <= END_DT - START_DT + 1) A
+        WHERE A.D NOT IN ('1', '7')
+        ORDER BY A.DATES
+        ]]>
+    </select>
+
+    <select id="getSalaryBslry" resultType="paystubVO">
+        select EMPL_ID as salary_empl_id,
+               case
+                   when COMMON_CODE_HFFC_STTUS = 'HFFC010' then
+                       floor(((select a.ANSLRY_ALLWNC
+                               from ANSLRY a
+                               where a.COMMON_CODE_DEPT_CRSF = e.COMMON_CODE_CLSF
+                                 and a.ANSLRY_STDR_YEAR = #{year}) +
+                              (select a.ANSLRY_ALLWNC
+                               from ANSLRY a
+                               where a.COMMON_CODE_DEPT_CRSF = e.COMMON_CODE_DEPT
+                                 and a.ANSLRY_STDR_YEAR = #{year})) /
+                             12)
+                   when COMMON_CODE_HFFC_STTUS = 'HFFC011' then floor(
+                                   ((select a.ANSLRY_ALLWNC
+                                     from ANSLRY a
+                                     where a.COMMON_CODE_DEPT_CRSF = e.COMMON_CODE_CLSF
+                                       and a.ANSLRY_STDR_YEAR = #{year}) +
+                                    (select a.ANSLRY_ALLWNC
+                                     from ANSLRY a
+                                     where a.COMMON_CODE_DEPT_CRSF = e.COMMON_CODE_DEPT
+                                       and a.ANSLRY_STDR_YEAR = #{year})) /
+                                   12 * 0.3)
+                   end as salary_bslry
+        from empl e
+        where e.COMMON_CODE_DEPT not in 'DEPT015'
+           or e.COMMON_CODE_CLSF not in 'CLSF010'
+        order by EMPL_ID
+    </select>
+
 </mapper>

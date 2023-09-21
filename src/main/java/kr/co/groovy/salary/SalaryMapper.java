@@ -30,4 +30,14 @@ public interface SalaryMapper {
     void modifySalary(@Param("code") String code, @Param("value") double value);
 
     PaystubVO loadPaystubDetail(@Param("emplId") String emplId, @Param("paymentDate") String paymentDate);
+
+    List<String> getExistsYears();
+
+    List<String> getExistsMonthByYear(String year);
+
+    List<CommuteVO> getCommuteByYearAndMonth(String date);
+
+    String getPrescribedWorkingHours(String date);
+
+    List<PaystubVO> getSalaryBslry(String date);
 }

@@ -1,5 +1,6 @@
 package kr.co.groovy.salary;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vo.*;
@@ -13,9 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -46,13 +46,13 @@ public class SalaryController {
     // 인사팀의 세율 기준 수정
     @PostMapping("/modify/taxes")
     @ResponseBody
-    public void modifyIncmtax( String code,  double value){
+    public void modifyIncmtax(String code, double value) {
         service.modifyIncmtax(code, value);
     }
 
     @PostMapping("/modify/salary")
     @ResponseBody
-    public void modifySalary( String code,  int value){
+    public void modifySalary(String code, int value) {
         service.modifySalary(code, value);
     }
 
@@ -130,5 +130,31 @@ public class SalaryController {
     @ResponseBody
     public void saveCheckboxState(@RequestParam("isChecked") boolean isChecked) {
         service.saveCheckboxState(isChecked);
+    }
+
+    @GetMapping("/calculate")
+    public String calculatePage(Model model) {
+        LocalDate date = LocalDate.now();
+        int year = date.getYear();
+        int month = date.getMonthValue();
+        List<CommuteVO> commuteList = service.getCommuteByYearAndMonth(year, month); // 이번달 기준 지난달이 보이게 나중에 -1 추가
+        model.addAttribute("commuteList", commuteList);
+
+        List<PaystubVO> paystubList = service.getSalaryBslry(year, month);
+        model.addAttribute("paystubList", paystubList);
+        return "admin/at/salary/salaryCalculate";
+    }
+
+    @GetMapping("/years")
+    @ResponseBody
+    public List<String> getExistYears() {
+        return service.getExistsYears();
+    }
+
+    @GetMapping("/months")
+    @ResponseBody
+    public List<String> getExistsMonthPerYears(@RequestParam("year") String year) {
+        log.info(year);
+        return service.getExistsMonthPerYears(year);
     }
 }

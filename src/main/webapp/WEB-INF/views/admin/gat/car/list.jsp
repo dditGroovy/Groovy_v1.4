@@ -127,7 +127,6 @@
         chk: "${vehicleVO.vhcleResveNo}",
         vhcleResveReturnAt: "${vehicleVO.vhcleResveReturnAt}"
     })
-    console.log(rowData);
     </c:forEach>
     const gridOptions = {
         columnDefs: columnDefs,

@@ -15,6 +15,7 @@ public class CommuteVO {
     private int dclzDailWorkTime;
     private int dclzWikWorkTime;
     private String commonCodeLaborSttus;
+    private String commonCodeClsf;
     private String dclzWorkWik;
     private String emplNm;
     private String deptNm;

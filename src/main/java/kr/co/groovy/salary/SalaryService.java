@@ -3,16 +3,14 @@ package kr.co.groovy.salary;
 import kr.co.groovy.enums.ClassOfPosition;
 import kr.co.groovy.enums.Department;
 import kr.co.groovy.security.CustomUser;
-import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -77,7 +75,7 @@ public class SalaryService {
         mapper.modifySalary(code, value);
     }
 
-    public PaystubVO loadPaystubDetail(String emplId, String paymentDate){
+    public PaystubVO loadPaystubDetail(String emplId, String paymentDate) {
         return mapper.loadPaystubDetail(emplId, paymentDate);
     }
 
@@ -86,5 +84,41 @@ public class SalaryService {
         CustomUser customUser = (CustomUser) authentication.getPrincipal();
         EmployeeVO employeeVO = customUser.getEmployeeVO();
         employeeVO.setHideAmount(isChecked);
+    }
+
+    public List<String> getExistsYears() {
+        return mapper.getExistsYears();
+    }
+
+    public List<String> getExistsMonthPerYears(String year) {
+        return mapper.getExistsMonthByYear(year);
+    }
+
+    public List<CommuteVO> getCommuteByYearAndMonth(int year, int month) {
+        String date = year + "-" + month;
+        List<CommuteVO> commute = mapper.getCommuteByYearAndMonth(date);
+        for (CommuteVO commuteVO : commute) {
+            commuteVO.setClsfNm(ClassOfPosition.valueOf(commuteVO.getCommonCodeClsf()).label());
+            commuteVO.setDefaulWorkTime(String.valueOf(Integer.parseInt(mapper.getPrescribedWorkingHours(date)) / 60)); // 소정근로시간
+            commuteVO.setRealWorkTime(String.valueOf(Integer.parseInt(commuteVO.getRealWorkTime()) / 60)); // 실제근무
+            commuteVO.setOverWorkTime(String.valueOf(Integer.parseInt(commuteVO.getOverWorkTime()) / 60)); // 초과근무
+            commuteVO.setTotalWorkTime(String.valueOf(Integer.parseInt(commuteVO.getRealWorkTime()) + Integer.parseInt(commuteVO.getOverWorkTime()))); // 총합
+        }
+        return commute;
+    }
+
+    public List<PaystubVO> getSalaryBslry(int year, int month) {
+        String date = year + "-" + month;
+        List<CommuteVO> commute = mapper.getCommuteByYearAndMonth(date);
+        List<PaystubVO> salaryBslry = mapper.getSalaryBslry(String.valueOf(year));
+        for (CommuteVO commuteVO : commute) {
+            for (PaystubVO paystubVO : salaryBslry) {
+                if (paystubVO.getSalaryEmplId().equals(commuteVO.getDclzEmplId())) {
+                    paystubVO.setSalaryEmplId(commuteVO.getDclzEmplId());
+                    paystubVO.setSalaryOvtimeAllwnc((double) paystubVO.getSalaryBslry() / 30 / 8 * 1.5 * Integer.parseInt(commuteVO.getOverWorkTime()));
+                }
+            }
+        }
+        return salaryBslry;
     }
 }

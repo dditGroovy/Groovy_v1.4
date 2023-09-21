@@ -24,5 +24,5 @@ public class PaystubVO {
     private int salaryDtsmtIncmtax; // 소득세
     private int salaryDtsmtLocalityIncmtax; // 지방소득세
     private int salaryBslry; // 통상임금
-    private int salaryOvtimeAllwnc; // 시간외수당
+    private double salaryOvtimeAllwnc; // 시간외수당
 }
