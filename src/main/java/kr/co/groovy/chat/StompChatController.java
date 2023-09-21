@@ -7,9 +7,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Slf4j
 @Controller
 @RequiredArgsConstructor

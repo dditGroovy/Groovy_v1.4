@@ -138,19 +138,19 @@
                     $.each(messages, function (idx, obj) {
                         if (obj.chttMbrEmplId == emplId) {
                             let code = `<div style="border: 1px solid blue" id="\${obj.chttNo}">
-                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="50px;" />
+                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="30px;" />
                                             <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
                                         </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
                         } else {
                             let code = `<div style='border: 1px solid red' id='\${obj.chttNo}'>
-                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="50px;" />
+                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="30px;" />
                                             <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
                                         </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
                         }
+                        scrollToBottom();
                     });
-                    scrollToBottom();
                 },
                 error: function (request, status, error) {
                     alert("채팅 로드 실패")
@@ -266,14 +266,14 @@
 
                     if (chttMbrEmplId == emplId) {
                         let code = `<div style="border: 1px solid blue">
-                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="50px;" />
+                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="30px;" />
                                         <p>\${chttMbrEmplNm} : \${chttCn}</p>
                                     </div>`;
                         $(`#room\${chttRoomNo}`).append(code);
                         scrollToBottom();
                     } else {
                         let code = `<div style="border: 1px solid red">
-                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="50px;" />
+                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="30px;" />
                                         <p>\${chttMbrEmplNm} : \${chttCn}</p>
                                     </div>`;
                         $(`#room\${chttRoomNo}`).append(code);
@@ -420,7 +420,7 @@
             code = "";
             $.each(chatRoomList, function (idx, obj) {
                 code += `<button class="rooms" id="chatRoom\${obj.chttRoomNo}">
-            <img src="/uploads/profile/\${obj.chttRoomThumbnail}" alt="\${obj.chttRoomThumbnail}"/>
+            <img src="/uploads/profile/\${obj.chttRoomThumbnail}" alt="\${obj.chttRoomThumbnail}" width="30px;" />
             <p id="chttRoomNm">\${obj.chttRoomNm}</p>
             <p id="latestChttCn">\${obj.latestChttCn}</p>
             <input id="chttRoomNo" type="hidden" value="\${obj.chttRoomNo}">
