@@ -36,7 +36,6 @@ public class AlarmService {
         List<String> emplIdList = alarmVO.getSelectedEmplIds();
         for (String emplId : emplIdList) {
             alarmVO.setNtcnEmplId(emplId);
-            System.out.println("alarmVO = " + alarmVO);
             mapper.insertAlarm(alarmVO);
         }
     }

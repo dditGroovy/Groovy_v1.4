@@ -44,11 +44,17 @@ public class JobService {
         return mapper.getDiaryByDateAndId(jobDiaryVO);
     }
 
-    public int getMaxJobNo() {return mapper.getMaxJobNo();}
+    public int getMaxJobNo() {
+        return mapper.getMaxJobNo();
+    }
 
-    public void insertJob(JobVO jobVO) {mapper.insertJob(jobVO);}
+    public void insertJob(JobVO jobVO) {
+        mapper.insertJob(jobVO);
+    }
 
-    public void insertJobProgress(JobProgressVO jobProgressVO) {mapper.insertJobProgress(jobProgressVO);}
+    public void insertJobProgress(JobProgressVO jobProgressVO) {
+        mapper.insertJobProgress(jobProgressVO);
+    }
 
     public List<JobVO> getAllJobById(String jobRequstEmplId) {
         List<JobVO> jobVOList = mapper.getAllJobById(jobRequstEmplId);
@@ -86,9 +92,24 @@ public class JobService {
         return mapper.getJobByDateFilter(map);
     }
 
-    List<String> getRequestYear(String jobRequestEmplId) {return mapper.getRequestYear(jobRequestEmplId); }
+    public List<String> getRequestYear(String jobRequestEmplId) {
+        return mapper.getRequestYear(jobRequestEmplId);
+    }
 
-    List<String> getRequestMonth(Map<String, Object> map) {return mapper.getRequestMonth(map); }
+    public List<String> getRequestMonth(Map<String, Object> map) {
+        return mapper.getRequestMonth(map);
+    }
+
+    public List<JobVO> getReceiveJobToHome(String emplId) {
+        List<JobVO> jobVOList = mapper.getReceiveJobToHome(emplId);
+        for (JobVO jobVO : jobVOList) {
+            List<JobProgressVO> jobProgressVOList = jobVO.getJobProgressVOList();
+            for (JobProgressVO jobProgressVO : jobProgressVOList) {
+                jobProgressVO.setCommonCodeDutyProgrs(DutyProgress.getLabelByValue(jobProgressVO.getCommonCodeDutyProgrs()));
+            }
+        }
+        return jobVOList;
+    }
 
     public JobVO getJobByNoAndId(JobProgressVO jobProgressVO) {
         JobVO jobVO = mapper.getJobByNoAndId(jobProgressVO);
@@ -100,7 +121,7 @@ public class JobService {
         return jobVO;
     }
 
-    public List<Map<String,Object>> dayOfWeek() {
+    public List<Map<String, Object>> dayOfWeek() {
         List<Map<String, Object>> weekly = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);

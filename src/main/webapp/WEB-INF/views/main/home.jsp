@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/index.css">
 <link href="/resources/css/schedule/calendar.css" rel="stylesheet"/>
 <script src="/resources/fullcalendar/main.js"></script>
@@ -48,32 +49,21 @@
                                 <div class="job-area scroll-area card card-df pd-32">
                                     <div class="area-header">
                                         <h3 class="content-title font-b">해야할 일</h3>
-                                        <a href="#" class="more">
+                                        <a href="/job/main" class="more">
                                             모두 보기 <i class="icon i-arr-rt"></i>
                                         </a>
                                     </div>
                                     <div class="area-body">
                                         <ul class="content-list job-list">
-                                            <li><a href="#" class="list-item">
-                                                <span class="badge ongoing">진행중</span>
-                                                <p class="list-context">할 일 백엔드</p>
-                                                <span class="list-date">2023-07-30</span>
-                                            </a></li>
-                                            <li><a href="#" class="list-item">
-                                                <span class="badge waiting">진행전</span>
-                                                <p class="list-context">할 일 백엔드</p>
-                                                <span class="list-date">2023-07-30</span>
-                                            </a></li>
-                                            <li><a href="#" class="list-item">
-                                                <span class="badge waiting">진행전</span>
-                                                <p class="list-context">할 일 백엔드</p>
-                                                <span class="list-date">2023-07-30</span>
-                                            </a></li>
-                                            <li><a href="#" class="list-item">
-                                                <span class="badge waiting">진행전</span>
-                                                <p class="list-context">할 일 백엔드</p>
-                                                <span class="list-date">2023-07-30</span>
-                                            </a></li>
+                                            <c:forEach var="jobVO" items="${jobVoList}">
+                                                <li>
+                                                    <a href="/job/main" class="list-item">
+                                                        <span class="badge ongoing">${jobVO.jobProgressVOList[0].commonCodeDutyProgrs}</span>
+                                                        <p class="list-context">${jobVO.jobSj}</p>
+                                                        <span class="list-date">${jobVO.jobBeginDate}~${jobVO.jobClosDate}</span>
+                                                    </a>
+                                                </li>
+                                            </c:forEach>
                                         </ul>
                                     </div>
                                 </div>

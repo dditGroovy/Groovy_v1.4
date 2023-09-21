@@ -41,12 +41,10 @@ public class AlarmController {
             }
 
             if(alarmVO.getCommonCodeNtcnKind().equals("NTCN012")) { //팀 공지사항
-                System.out.println("emplId = " + emplId);
                 String deptValue = Department.getValueByLabel(employeeVO.getCommonCodeDept());
                 if (noticeAt.getCompanyNotice().equals("NTCN_AT010")
                         && deptValue.equals(dept)
                         && !emplId.equals(principal.getName())) {
-                    System.out.println("emplId = " + emplId);
                     alarmVO.setNtcnEmplId(emplId);
                     service.insertAlarm(alarmVO);
                 }
@@ -68,7 +66,6 @@ public class AlarmController {
     @PostMapping("/insertAlarmTargeList")
     @ResponseBody
     public void insertAlarmTargetList(AlarmVO alarmVO) {
-        System.out.println("alarmVO = " + alarmVO);
         service.insertAlarmTargetList(alarmVO);
     }
 
@@ -88,7 +85,6 @@ public class AlarmController {
     @DeleteMapping("/deleteAlarm")
     @ResponseBody
     public void deleteAlarm(Principal principal, AlarmVO alarmVO) {
-        System.out.println("alarmVO = " + alarmVO);
         String emplId = principal.getName();
         alarmVO.setNtcnEmplId(emplId);
         service.deleteAlarm(alarmVO);

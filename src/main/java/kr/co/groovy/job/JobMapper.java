@@ -50,4 +50,6 @@ public interface JobMapper {
     List<String> getRequestYear(String jobRequstEmplId);
 
     List<String> getRequestMonth(Map<String, Object> map);
+
+    List<JobVO> getReceiveJobToHome(String emplId);
 }
