@@ -11,21 +11,37 @@
         text-align: center;
     }
 </style>
+<link rel="stylesheet" href="/resources/css/sanction/sanction.css">
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-wrapper">
         <div class="content-header">
             <div class="form-header">
-                <div class="btnWrap">
-                    <button id="getLine">결재선 지정</button>
+                <div class="btn-wrap">
+                    <button id="getLine" class="btn btn-free-blue">결재선</button>
                 </div>
                 <br/>
                 <div class="formTitle">
-                        ${format.formatSj}
+                    <p class="main-title">${format.formatSj}</p>
                 </div>
             </div>
             <div class="approval-wrap">
                 <div class="approval">
+                    <div class="approval-header">
+                        <span>결재</span>
+                    </div>
+                    <div class="approval-body">
+                        <ul class="approval-list">
+                            <li class="approval-list-item">
+                                <div class="approval-order">
+                                    <p>기안</p>
+                                </div>
+                                <div class="approval-content">
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
                 </div>
             </div>
@@ -66,12 +82,12 @@
         const title = "${format.formatSj}";
         let content;
         let file = $('#sanctionFile')[0].files[0];
-        let num = opener.$("#sanctionNum").text();
+        let num = opener.$("#sanctionNum").val();
         let approvalListData;
         /*  팝업  */
         const getLineBtn = document.querySelector("#getLine");
 
-         document.addEventListener("DOMContentLoaded",()=>{
+        document.addEventListener("DOMContentLoaded",()=>{
             $("#sanctionNo").html(etprCode);
             $("#writeDate").html(today);
             $("#writer").html("${CustomUser.employeeVO.emplNm}")
@@ -92,25 +108,25 @@
             getLineBtn.addEventListener("click",()=>{
                 popupWindow = window.open(url, 'line', option);
             })
-             /* Promise를 사용하여 데이터 받아오기 */
-             function getDataFromPopup() {
-                 return new Promise((resolve, reject) => {
-                     window.addEventListener('message', function(event) {
-                         const data = event.data;
-                         document.querySelector(".approval").innerHTML = data;
-                         approvalListData = data; // 데이터를 변수에 저장
-                         popupWindow.close();
+            /* Promise를 사용하여 데이터 받아오기 */
+            function getDataFromPopup() {
+                return new Promise((resolve, reject) => {
+                    window.addEventListener('message', function(event) {
+                        const data = event.data;
+                        document.querySelector(".approval").innerHTML = data;
+                        approvalListData = data; // 데이터를 변수에 저장
+                        popupWindow.close();
 
-                         // 데이터를 성공적으로 받아온 경우 resolve 호출
-                         resolve(approvalListData);
-                     });
-                 });
-             }
+                        // 데이터를 성공적으로 받아온 경우 resolve 호출
+                        resolve(approvalListData);
+                    });
+                });
+            }
 
-             // Promise를 사용하여 데이터를 받아온 후에 작업 수행
-             getDataFromPopup().then((data) => {
-                 console.log(data); // 데이터를 여기서 사용 가능
-             });
+            // Promise를 사용하여 데이터를 받아온 후에 작업 수행
+            getDataFromPopup().then((data) => {
+                console.log(data); // 데이터를 여기서 사용 가능
+            });
         });
         function loadVacationData() {
             $.ajax({
