@@ -170,6 +170,8 @@
     right: 2%;
     bottom: 2%;
 }
+.btn:disabled { opacity: .5;}
+
 .icon-area {
     position: relative;
 }
