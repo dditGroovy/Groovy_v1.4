@@ -9,22 +9,12 @@
     </div>
     <div>
         <input type="password" id="password" placeholder="PASSWORD"/>
-        <button id="submitBtn">확인</button>
+        <button>확인</button>
     </div>
 </main>
 
 <script>
-    $("#password").on("keyup", function (event) {
-        if (event.keyCode === 13) {
-            submit();
-        }
-    });
-
-    $("submitBtn").on("click", function() {
-        submit();
-    });
-
-    function submit() {
+    $("button").click(function() {
         let password = $("#password").val();
         $.ajax({
             url: "/salary/paystub/checkPassword",
@@ -43,5 +33,5 @@
                 alert("오류로 인하여 비밀번호를 확인할 수 없습니다.");
             }
         });
-    }
+    });
 </script>
