@@ -123,7 +123,8 @@
 .card-df {background-color: var(--color-white); box-shadow: var(--clay-card); border: 1px solid var(--color-stroke); border-radius: var(--vw-32)}
 
 /* ///// Input ///// */
-.input-free-white {cursor: pointer;background-color:  var(--color-white); border: 1px solid var(--color-stroke); border-radius: var(--size-32); box-shadow: var(--clay-card); outline-color: var(--color-main);}
+.input-free-white {cursor: pointer;background-color:  var(--color-white); border: 1px solid var(--color-stroke); border-radius: var(--size-32); box-shadow: var(--clay-card); outline-color: var(--color-main);
+    padding: var(--vw-12);}
 
 /* ///// Button ///// */
 .btn {cursor: pointer; outline: none; border: none; background: transparent;}
