@@ -63,6 +63,7 @@ public class FacilityManageController {
 	@ResponseBody 
 	public String deleteReserved(@RequestParam int fcltyResveSn) {
 	    try {
+	        service.delResved(fcltyResveSn);
 	        return "success"; // 삭제 성공 시 "success" 반환
 	    } catch (Exception e) {
 	        e.printStackTrace();
