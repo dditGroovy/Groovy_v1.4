@@ -1,6 +1,7 @@
 package kr.co.groovy.diet;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,17 +21,16 @@ public class ExcelRequest {
 	}
 
 	public List<HashMap<String, String>> parseExcelMultiPart(Map<String, MultipartFile> files, 
-				String KeyString, int fileKeyParam, String atchFileId, String storePath) throws Exception {
-		int fileKey = fileKeyParam;
-		List<HashMap<String, String>> list = null;
-		
-		String storePathString = "";
+	        String KeyString, int fileKeyParam, String atchFileId, String storePath) throws Exception {
+	    List<HashMap<String, String>> list = new ArrayList<>();
+	    
+	    String storePathString = "";
 	    String atchFileIdString = "";
 	    
 	    if ("".equals(storePath) || storePath == null) {
 	        storePathString = uploadSuin;
 	    } else {
-	        storePathString = uploadSuin+storePath;
+	        storePathString = uploadSuin + storePath;
 	    }
 	 
 	    if (!"".equals(atchFileId) || atchFileId != null) {
@@ -42,35 +42,46 @@ public class ExcelRequest {
 	    if (!saveFolder.exists() || saveFolder.isFile()) {
 	        saveFolder.mkdirs();
 	    }
-		
+	    
+	    int fileKey = fileKeyParam;
+	    
 	    Iterator<Entry<String, MultipartFile>> iterator = files.entrySet().iterator();
-	    MultipartFile file;
-	    String filePath = "";
 	    
-	    while(iterator.hasNext()) {
-	    	Entry<String, MultipartFile> entry = iterator.next();
-	    	
-	    	file = entry.getValue();
-	    	String orginFileName = file.getOriginalFilename();
-	    	
-	    	if("".equals(orginFileName)) {
-	    		continue;
-	    	}
-	    	
-	    	int index = orginFileName.lastIndexOf(".");
-	    	String fileExt = orginFileName.substring(index + 1);
-	    	String newName = KeyString + fileKey;
-	    	
-	    	if(!"".equals(orginFileName)) {
-	    		filePath = storePathString + File.separator + newName+"."+fileExt;
-	    		file.transferTo(new File(EgovWebUtil.filePathBlackList(filePath)));
-	    	}
-	    	
-	    	list = ExcelManagerXlsx.getInstance().getListXlsxRead(filePath);
-	    	
+	    while (iterator.hasNext()) {
+	        Entry<String, MultipartFile> entry = iterator.next();
+	        
+	        MultipartFile file = entry.getValue();
+	        String orginFileName = file.getOriginalFilename();
+	        
+	        if ("".equals(orginFileName)) {
+	            continue;
+	        }
+	        
+	        int index = orginFileName.lastIndexOf(".");
+	        String fileExt = orginFileName.substring(index + 1);
+	        String newName = KeyString + fileKey;
+	        
+	        while (true) {
+	            String filePath = storePathString + File.separator + newName + "." + fileExt;
+	            File checkFile = new File(EgovWebUtil.filePathBlackList(filePath));
+	            
+	            if (!checkFile.exists()) {
+	                break;
+	            }
+	            
+	            fileKey++;
+	            newName = KeyString + fileKey;
+	        }
+	        
+	        String filePath = storePathString + File.separator + newName + "." + fileExt;
+	        file.transferTo(new File(EgovWebUtil.filePathBlackList(filePath)));
+	        
+	        List<HashMap<String, String>> excelData = ExcelManagerXlsx.getInstance().getListXlsxRead(filePath);
+	        list.addAll(excelData);
+	        
+	        fileKey++;
 	    }
-	    
-		return list;
+	    return list;
 	}
 	
 	
