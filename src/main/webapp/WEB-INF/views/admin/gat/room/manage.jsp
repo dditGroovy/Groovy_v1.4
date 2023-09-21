@@ -185,6 +185,7 @@ padding: calc((10/var(--vh)*100vh)) calc((50/var(--vw)*100vw)) 0 calc((50/var(--
 							<c:if test="${retiring.fcltyName == '휴게실'}">
 								<h4 class="roomId">${retiring.fcltyCode}</h4>
 								<span class="roomType">${retiring.fcltyName}</span>
+								<h5 class="equip">비품</h5>
 							</c:if>
 						</li>
 					</ul>
@@ -209,8 +210,10 @@ class ClassBtn {
 
         // 클릭 이벤트 핸들러를 정의하고 삭제 버튼에 추가
         this.btnReturn.addEventListener("click", () => {
+            console.log("취소가 되니?");
             if (confirm("정말 취소하시겠습니까?")) {
                 const fcltyResveSn = this.id; // params.value 대신 this.id를 사용
+                console.log(fcltyResveSn);
 
                 // 값이 비어있으면 요청을 보내지 않도록 확인
                 if (fcltyResveSn) {
@@ -253,7 +256,6 @@ const StringRenderer = function (params) {
 function onQuickFilterChanged() {
     gridOptions.api.setQuickFilter(document.getElementById('quickFilter').value);
 }
-
 const columnDefs = [
     {field: "fcltyResveSn", headerName: "예약번호", cellRenderer: returnValue},
     {field: "commonCodeFcltyKindParent", headerName: "시설 종류 구분",getQuickFilterText: (params) => {return params.value}},
@@ -266,20 +268,22 @@ const columnDefs = [
     {field: "chk", headerName: " ", cellRenderer: ClassBtn},
 ];
 const rowData = [];
-let count = 0;
     <c:forEach items="${toDayList}" var="room">
     <c:set var="beginTime" value="${room.fcltyResveBeginTime}"/>
     <fmt:formatDate var="fBeginTime" value="${beginTime}" pattern="HH:mm"/>
     <c:set var="endTime" value="${room.fcltyResveEndTime}"/>
     <fmt:formatDate var="fEndTime" value="${endTime}" pattern="HH:mm"/>
-    <c:if test="${not empty room.fcltyResveRequstMatter || fcltyResveRequstMatter.indexOf('n')==-1}">
     
-    count++;
+    <c:set var="requestMatter" value="${room.fcltyResveRequstMatter}"/>
+            
+    <c:if test="${empty requestMatter}">
+        <c:set var="requestMatter" value=""/>
+    </c:if>
     
-    rowData.push({
-        fcltyResveSn: count,
-        commonCodeFcltyKindParent: "${room.fcltyName}",
-        commonCodeFcltyKind: "${room.fcltyCode}",
+     rowData.push({
+        fcltyResveSn: "${room.fcltyResveSn}",
+        commonCodeFcltyKindParent: "${room.fcltyCode}",
+        commonCodeFcltyKind: "${room.fcltyName}",
         fcltyResveBeginTime: "${fBeginTime}",
         fcltyResveEndTime: "${fEndTime}",
         fcltyResveEmplNm: "${room.fcltyEmplName}",
@@ -287,7 +291,6 @@ let count = 0;
         fcltyResveRequstMatter : "${room.fcltyResveRequstMatter}",
         chk:"${room.fcltyResveSn}"
     })
-    </c:if>
     </c:forEach>
     
  // ag-Grid 초기화
