@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <div class="content-container">
     <h1>사원 관리</h1>
     <h2>사원추가</h2>
@@ -282,5 +284,3 @@
         });
     })
 </script>
-</body>
-</html>
