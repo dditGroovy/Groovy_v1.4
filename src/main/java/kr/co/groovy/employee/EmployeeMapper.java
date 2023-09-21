@@ -48,5 +48,6 @@ public interface EmployeeMapper {
 
     String findTelNoByEmplId(String emplId);
 
+    List<String> loadEmplByDept(String commonCodeDept);
 }
 
