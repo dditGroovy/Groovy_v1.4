@@ -17,8 +17,8 @@ public class MemoService {
 	}
 	
 	
-	public List<MemoVO> getMemo() {
-		return memoMapper.getMemo();
+	public List<MemoVO> getMemo(String memoEmplId) {
+		return memoMapper.getMemo(memoEmplId);
 	}
 	
 	public MemoVO getOneMemo(int memoSn) {

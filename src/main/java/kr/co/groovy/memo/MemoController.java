@@ -29,8 +29,9 @@ public class MemoController {
 	
 	
 	@GetMapping("/memoMain")
-	public String getMemo(Model model) {
-		List<MemoVO> list = memoService.getMemo();
+	public String getMemo(Model model, Principal principal) {
+		String memoEmplId = principal.getName();
+		List<MemoVO> list = memoService.getMemo(memoEmplId);
 		model.addAttribute("memoList", list);
 		return "memo/memo";
 	}

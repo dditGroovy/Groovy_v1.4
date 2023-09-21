@@ -6,7 +6,7 @@ import kr.co.groovy.vo.MemoVO;
 
 public interface MemoMapper {
 	
-	public List<MemoVO> getMemo();
+	public List<MemoVO> getMemo(String memoEmplId);
 	
 	public MemoVO getOneMemo(int memoSn);
 	

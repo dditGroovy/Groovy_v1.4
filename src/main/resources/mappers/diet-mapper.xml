@@ -22,4 +22,17 @@
 		#{dietDessert})
 </insert>
 
+<select id="getDiet" resultType="dietVO">
+	SELECT 
+		DIET_DATE, 
+		DIET_RICE, 
+		DIET_SOUP, 
+		DIET_DISH1, 
+		DIET_DISH2, 
+		DIET_DISH3, 
+		DIET_DESSERT 
+	FROM 
+		DIET
+</select>
+
 </mapper>
