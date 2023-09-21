@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -94,31 +94,53 @@ public class SalaryService {
         return mapper.getExistsMonthByYear(year);
     }
 
-    public List<CommuteVO> getCommuteByYearAndMonth(int year, int month) {
+    public List<CommuteAndPaystub> getCommuteAndPaystubList(int year, int month) {
         String date = year + "-" + month;
-        List<CommuteVO> commute = mapper.getCommuteByYearAndMonth(date);
-        for (CommuteVO commuteVO : commute) {
-            commuteVO.setClsfNm(ClassOfPosition.valueOf(commuteVO.getCommonCodeClsf()).label());
-            commuteVO.setDefaulWorkTime(String.valueOf(Integer.parseInt(mapper.getPrescribedWorkingHours(date)) / 60)); // 소정근로시간
-            commuteVO.setRealWorkTime(String.valueOf(Integer.parseInt(commuteVO.getRealWorkTime()) / 60)); // 실제근무
-            commuteVO.setOverWorkTime(String.valueOf(Integer.parseInt(commuteVO.getOverWorkTime()) / 60)); // 초과근무
-            commuteVO.setTotalWorkTime(String.valueOf(Integer.parseInt(commuteVO.getRealWorkTime()) + Integer.parseInt(commuteVO.getOverWorkTime()))); // 총합
-        }
-        return commute;
-    }
-
-    public List<PaystubVO> getSalaryBslry(int year, int month) {
-        String date = year + "-" + month;
+        List<CommuteAndPaystub> cnpList = new ArrayList<>();
         List<CommuteVO> commute = mapper.getCommuteByYearAndMonth(date);
         List<PaystubVO> salaryBslry = mapper.getSalaryBslry(String.valueOf(year));
+        List<TariffVO> tariffList = mapper.loadTariff(String.valueOf(year));
         for (CommuteVO commuteVO : commute) {
             for (PaystubVO paystubVO : salaryBslry) {
                 if (paystubVO.getSalaryEmplId().equals(commuteVO.getDclzEmplId())) {
-                    paystubVO.setSalaryEmplId(commuteVO.getDclzEmplId());
-                    paystubVO.setSalaryOvtimeAllwnc((double) paystubVO.getSalaryBslry() / 30 / 8 * 1.5 * Integer.parseInt(commuteVO.getOverWorkTime()));
+                    commuteVO.setDclzEmplId(paystubVO.getSalaryEmplId()); // 아이디
+                    commuteVO.getEmplNm(); // 이름
+                    commuteVO.setDefaulWorkTime(String.valueOf(Integer.parseInt(mapper.getPrescribedWorkingHours(date)) / 60)); // 소정근로시간
+                    commuteVO.setRealWorkTime(String.valueOf(Integer.parseInt(commuteVO.getRealWorkTime()) / 60)); // 실제근무
+                    commuteVO.setOverWorkTime(String.valueOf(Integer.parseInt(commuteVO.getOverWorkTime()) / 60)); // 초과근무
+                    commuteVO.setTotalWorkTime(String.valueOf(Integer.parseInt(commuteVO.getRealWorkTime()) + Integer.parseInt(commuteVO.getOverWorkTime()))); // 총근로시간
+                    paystubVO.getSalaryBslry();
+                    paystubVO.setSalaryOvtimeAllwnc((double) paystubVO.getSalaryBslry() / 30 / 8 * 1.5 * Double.parseDouble(commuteVO.getOverWorkTime())); // 초과근무수당
+                    paystubVO.setSalaryDtsmtPymntTotamt((int) (paystubVO.getSalaryBslry() + paystubVO.getSalaryOvtimeAllwnc()));
+                    for (TariffVO tariffVO : tariffList) {
+                        if (tariffVO.getTaratStdrCode().equals("TAX_SIS_NP")) {
+                            paystubVO.setSalaryDtsmtSisNp((int) (paystubVO.getSalaryDtsmtPymntTotamt() * tariffVO.getTaratStdrValue() / 100));
+                        } else if (tariffVO.getTaratStdrCode().equals("TAX_SIS_HI")) {
+                            paystubVO.setSalaryDtsmtSisHi((int) (paystubVO.getSalaryDtsmtPymntTotamt() * tariffVO.getTaratStdrValue() / 100));
+                        } else if (tariffVO.getTaratStdrCode().equals("TAX_SIS_EI")) {
+                            paystubVO.setSalaryDtsmtSisEi((int) (paystubVO.getSalaryDtsmtPymntTotamt() * tariffVO.getTaratStdrValue() / 100));
+                        } else if (tariffVO.getTaratStdrCode().equals("TAX_SIS_WCI")) {
+                            paystubVO.setSalaryDtsmtSisWci((int) (paystubVO.getSalaryDtsmtPymntTotamt() * tariffVO.getTaratStdrValue() / 100));
+                        } else if (tariffVO.getTaratStdrCode().equals("TAX_INCMTAX")) {
+                            paystubVO.setSalaryDtsmtIncmtax((int) (paystubVO.getSalaryDtsmtPymntTotamt() * tariffVO.getTaratStdrValue() / 100));
+                        } else if (tariffVO.getTaratStdrCode().equals("TAX_LOCALITY_INCMTAX")) {
+                            // 소득세의 10퍼 == 급여의 1퍼
+                            paystubVO.setSalaryDtsmtLocalityIncmtax((int) (paystubVO.getSalaryDtsmtIncmtax() * tariffVO.getTaratStdrValue() / 100));
+                        }
+                    }
+                    paystubVO.setSalaryDtsmtDdcTotamt(
+                            (int) (paystubVO.getSalaryDtsmtSisNp()
+                                    + paystubVO.getSalaryDtsmtSisHi()
+                                    + paystubVO.getSalaryDtsmtSisEi()
+                                    + paystubVO.getSalaryDtsmtSisWci()
+                                    + paystubVO.getSalaryDtsmtIncmtax()
+                                    + paystubVO.getSalaryDtsmtLocalityIncmtax()));
+                    paystubVO.setSalaryDtsmtNetPay(paystubVO.getSalaryDtsmtPymntTotamt() - paystubVO.getSalaryDtsmtDdcTotamt());
+                    CommuteAndPaystub cnp = new CommuteAndPaystub(commuteVO, paystubVO);
+                    cnpList.add(cnp);
                 }
             }
         }
-        return salaryBslry;
+        return cnpList;
     }
 }

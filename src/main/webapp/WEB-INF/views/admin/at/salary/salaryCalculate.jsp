@@ -40,7 +40,6 @@
 </sec:authorize>
 <script>
     let selectedYear = null;
-    let dclzEmplId = `${CustomUser.employeeVO.emplId}`;
     let yearSelect = document.querySelector("#yearSelect");
 
     getAllYear(); //근무 해당 연도 가져오기
@@ -95,7 +94,46 @@
     }
 
     function getSalaryByYearAndMonth(monthBtn) {
-        console.log(monthBtn);
+        let month = parseInt(monthBtn.innerText);
+        month = month < 10 ? `0\${month}` : month;
+        $.ajax({
+            url: '/salary/selectedDate',
+            contentType: 'application/json;charset=utf-8',
+            type: 'get',
+            data: {
+                year: selectedYear,
+                month: month
+            },
+            dataType: 'json',
+            success: function (result) {
+                rowData.length = 0;
+                for (let i = 0; i < result.length; i++) {
+                    rowData.push({
+                        emplId: result[i].commuteVO.dclzEmplId,
+                        emplNm: result[i].commuteVO.emplNm,
+                        defaulWorkTime: result[i].commuteVO.defaulWorkTime,
+                        realWorkTime: result[i].commuteVO.realWorkTime,
+                        overWorkTime: result[i].commuteVO.overWorkTime,
+                        totalWorkTime: result[i].commuteVO.totalWorkTime,
+                        salaryBslry: result[i].paystubVO.salaryBslry,
+                        salaryOvtimeAllwnc: result[i].paystubVO.salaryOvtimeAllwnc,
+                        salaryDtsmtPymntTotamt: result[i].paystubVO.salaryDtsmtPymntTotamt,
+                        salaryDtsmtSisNp: result[i].paystubVO.salaryDtsmtSisNp,
+                        salaryDtsmtSisHi: result[i].paystubVO.salaryDtsmtSisHi,
+                        salaryDtsmtSisEi: result[i].paystubVO.salaryDtsmtSisEi,
+                        salaryDtsmtSisWci: result[i].paystubVO.salaryDtsmtSisWci,
+                        salaryDtsmtIncmtax: result[i].paystubVO.salaryDtsmtIncmtax,
+                        salaryDtsmtLocalityIncmtax: result[i].paystubVO.salaryDtsmtLocalityIncmtax,
+                        salaryDtsmtDdcTotamt: result[i].paystubVO.salaryDtsmtDdcTotamt,
+                        salaryDtsmtNetPay: result[i].paystubVO.salaryDtsmtNetPay
+                    });
+                }
+                gridOptions.api.setRowData(rowData);
+            },
+            error: function (xhr) {
+                console.log(xhr.status);
+            }
+        })
     }
 
     function onQuickFilterChanged() {
@@ -123,27 +161,29 @@
         {field: "salaryDtsmtIncmtax", headerName: "소득세"},
         {field: "salaryDtsmtLocalityIncmtax", headerName: "지방소득세"},
         {field: "salaryDtsmtDdcTotamt", headerName: "공제액계"},
+        {field: "salaryDtsmtNetPay", headerName: "실수령액"},
     ];
 
     const rowData = [];
-    <c:forEach var="commuteVO" items="${commuteList}"> // tlqkf ... 한리스트로합쳐야되잔아
+    <c:forEach var="cnp" items="${cnpList}">
     rowData.push({
-        emplId: "${commuteVO.dclzEmplId}",
-        emplNm: "${commuteVO.emplNm}",
-        defaulWorkTime: "${commuteVO.defaulWorkTime}",
-        realWorkTime: "${commuteVO.realWorkTime}",
-        overWorkTime: "${commuteVO.overWorkTime}",
-        totalWorkTime: "${commuteVO.totalWorkTime}"
-        salaryBslry: ${paystubVO.salaryBslry},
-        salaryOvtimeAllwnc: ${paystubVO.salaryOvtimeAllwnc},
-        salaryDtsmtPymntTotamt: ${paystubVO.salaryDtsmtPymntTotamt},
-        salaryDtsmtSisNp: ${paystubVO.salaryDtsmtSisNp},
-        salaryDtsmtSisHi: ${paystubVO.salaryDtsmtSisHi},
-        salaryDtsmtSisEi: ${paystubVO.salaryDtsmtSisEi},
-        salaryDtsmtSisWci: ${paystubVO.salaryDtsmtSisWci},
-        salaryDtsmtIncmtax: ${paystubVO.salaryDtsmtIncmtax},
-        salaryDtsmtLocalityIncmtax: ${paystubVO.salaryDtsmtLocalityIncmtax},
-        salaryDtsmtDdcTotamt: ${paystubVO.salaryDtsmtDdcTotamt}
+        emplId: "${cnp.commuteVO.dclzEmplId}",
+        emplNm: "${cnp.commuteVO.emplNm}",
+        defaulWorkTime: "${cnp.commuteVO.defaulWorkTime}",
+        realWorkTime: "${cnp.commuteVO.realWorkTime}",
+        overWorkTime: "${cnp.commuteVO.overWorkTime}",
+        totalWorkTime: "${cnp.commuteVO.totalWorkTime}",
+        salaryBslry: "${cnp.paystubVO.salaryBslry}",
+        salaryOvtimeAllwnc: "${cnp.paystubVO.salaryOvtimeAllwnc}",
+        salaryDtsmtPymntTotamt: "${cnp.paystubVO.salaryDtsmtPymntTotamt}",
+        salaryDtsmtSisNp: "${cnp.paystubVO.salaryDtsmtSisNp}",
+        salaryDtsmtSisHi: "${cnp.paystubVO.salaryDtsmtSisHi}",
+        salaryDtsmtSisEi: "${cnp.paystubVO.salaryDtsmtSisEi}",
+        salaryDtsmtSisWci: "${cnp.paystubVO.salaryDtsmtSisWci}",
+        salaryDtsmtIncmtax: "${cnp.paystubVO.salaryDtsmtIncmtax}",
+        salaryDtsmtLocalityIncmtax: "${cnp.paystubVO.salaryDtsmtLocalityIncmtax}",
+        salaryDtsmtDdcTotamt: "${cnp.paystubVO.salaryDtsmtDdcTotamt}",
+        salaryDtsmtNetPay: "${cnp.paystubVO.salaryDtsmtNetPay}"
     })
     </c:forEach>
 
