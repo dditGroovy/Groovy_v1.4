@@ -33,8 +33,6 @@ public class AlarmController {
         for (EmployeeVO employeeVO : emplList) {
             String emplId = employeeVO.getEmplId();
             NotificationVO noticeAt = employeeService.getNoticeAt(emplId);
-            System.out.println("**^^noticeAt = " + noticeAt);
-            System.out.println("employeeVO = " + employeeVO);
             if (alarmVO.getCommonCodeNtcnKind().equals("NTCN013")) { //사내 공지사항
                 if (noticeAt.getAnswer().equals("NTCN_AT010")) {
                     alarmVO.setNtcnEmplId(emplId);
@@ -65,6 +63,13 @@ public class AlarmController {
         if (noticeAt.getAnswer().equals("NTCN_AT010")) {
             service.insertAlarm(alarmVO);
         }
+    }
+
+    @PostMapping("/insertAlarmTargeList")
+    @ResponseBody
+    public void insertAlarmTargetList(AlarmVO alarmVO) {
+        System.out.println("alarmVO = " + alarmVO);
+        service.insertAlarmTargetList(alarmVO);
     }
 
     @GetMapping("/all")

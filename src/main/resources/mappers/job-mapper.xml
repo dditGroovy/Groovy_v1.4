@@ -147,6 +147,29 @@
         ORDER BY J.JOB_NO
     </select>
 
+    <select id="getJobByDateFilter" parameterType="map" resultType="jobVO">
+        SELECT J.JOB_NO,
+        J.JOB_REQUST_EMPL_ID,
+        J.JOB_SJ,
+        J.JOB_CN,
+        J.JOB_BEGIN_DATE,
+        J.JOB_CLOS_DATE,
+        J.JOB_REQUST_DATE,
+        J.COMMON_CODE_DUTY_KIND
+        FROM JOB J
+        WHERE J.JOB_REQUST_EMPL_ID = #{jobRequstEmplId}
+        AND J.JOB_NO NOT IN (
+        SELECT P.JOB_NO
+        FROM JOB_PROGRS P
+        WHERE P.JOB_RECPTN_EMPL_ID = #{jobRequstEmplId}
+        )
+        AND TO_CHAR(J.JOB_BEGIN_DATE, 'YYYY') = #{year}
+        <if test="month != null and month != ''">
+            AND TO_CHAR(J.JOB_BEGIN_DATE, 'MM') = #{month}
+        </if>
+        ORDER BY J.JOB_NO
+    </select>
+
     <select id="getJobByNo" resultMap="jobMap" parameterType="int">
         SELECT J.JOB_SJ,
                J.JOB_CN,
@@ -240,5 +263,22 @@
           AND COMMON_CODE_DUTY_STTUS = 'DUTY021'
           AND P.JOB_RECPTN_EMPL_ID = #{jobRecptnEmplId}
         ORDER BY J.JOB_CLOS_DATE
+    </select>
+
+    <select id="getRequestYear" parameterType="String" resultType="String">
+        SELECT DISTINCT TO_CHAR((JOB_BEGIN_DATE), 'yyyy') AS YEAR
+        FROM JOB J, JOB_PROGRS P
+        WHERE J.JOB_NO = P.JOB_NO
+          AND P.JOB_RECPTN_EMPL_ID != J.JOB_REQUST_EMPL_ID
+          AND J.JOB_REQUST_EMPL_ID = #{jobRequestEmplId}
+    </select>
+
+    <select id="getRequestMonth" parameterType="map" resultType="String">
+        SELECT DISTINCT TO_CHAR((JOB_BEGIN_DATE), 'mm') AS MONTH
+        FROM JOB J, JOB_PROGRS P
+        WHERE J.JOB_NO = P.JOB_NO
+          AND P.JOB_RECPTN_EMPL_ID != J.JOB_REQUST_EMPL_ID
+          AND JOB_REQUST_EMPL_ID = #{jobRequestEmplId}
+          and TO_CHAR((JOB_BEGIN_DATE), 'yyyy') = #{year}
     </select>
 </mapper>

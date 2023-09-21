@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +19,6 @@ public class AlarmVO {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date ntcnDate;
     private String commonCodeNtcnKind;
+
+    private List<String> selectedEmplIds;
 }

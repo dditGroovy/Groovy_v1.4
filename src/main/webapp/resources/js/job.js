@@ -355,6 +355,7 @@ let requestBtn = document.getElementById("request");
 let requestForm = document.querySelectorAll("#requestJob")[0];
 
 requestBtn.addEventListener("click", (event) => {
+    let target = event.target;
     event.preventDefault();
     let formData = new FormData(requestForm);
     let requiredList = ["jobSj", "jobCn", "jobBeginDate", "jobClosDate"];
@@ -388,7 +389,56 @@ requestBtn.addEventListener("click", (event) => {
         processData: false,
         cache: false,
         success: function() {
-            location.href = "/job/main";
+            //알림 보내기
+            $.get("/alarm/getMaxAlarm")
+                .then(function (maxNum) {
+                    maxNum = parseInt(maxNum) + 1;
+                    console.log("최대 알람 번호:", maxNum);
+
+                    let subject = formData.get("jobSj");
+                    console.log(subject);
+                    let url = '/job/main';
+                    let content = `<div class="alarmBox">
+                                        <a href="${url}" class="aTag" data-seq="${maxNum}">
+                                            <h1>[업무 요청]</h1>
+                                            <p>${emplNm}님이 [<span style="white-space: nowrap;
+                                              display: inline-block;
+                                              overflow: hidden;
+                                              text-overflow: ellipsis;
+                                              max-width: 15ch;"> ${subject} </span>]업무를
+                                              요청하셨습니다.</p>
+                                        </a>
+                                        <button type="button" class="readBtn">읽음</button>
+                                    </div>`;
+                    let alarmVO = {
+                        "ntcnSn": maxNum,
+                        "ntcnUrl": url,
+                        "ntcnCn": content,
+                        "commonCodeNtcnKind": 'NTCN010',
+                        "selectedEmplIds": selectedEmplIds
+                    };
+
+                    //알림 생성 및 페이지 이동
+                    $.ajax({
+                        type: 'post',
+                        url: '/alarm/insertAlarmTargeList',
+                        data: alarmVO,
+                        success: function (rslt) {
+                            console.log(rslt);
+                            if (socket) {
+                                //알람번호,카테고리,url,보낸사람이름,받는사람아이디, 제목
+                                let msg = `${maxNum},job,${url},${emplNm},${subject},${selectedEmplIds}`;
+                                socket.send(msg);
+                            }},
+                        error: function (xhr) {
+                            console.log(xhr.status);
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    console.log("최대 알람 번호 가져오기 오류:", error);
+                });
+            //location.href = "/job/main";
         },
         error: function(xhr) {
             console.log(xhr.status);

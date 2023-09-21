@@ -29,7 +29,15 @@ public class AlarmService {
         if (mapper.getMaxAlarm() == null) {
             return 0;
         }
-        
         return mapper.getMaxAlarm();
+    }
+
+    public void insertAlarmTargetList(AlarmVO alarmVO) {
+        List<String> emplIdList = alarmVO.getSelectedEmplIds();
+        for (String emplId : emplIdList) {
+            alarmVO.setNtcnEmplId(emplId);
+            System.out.println("alarmVO = " + alarmVO);
+            mapper.insertAlarm(alarmVO);
+        }
     }
 }
