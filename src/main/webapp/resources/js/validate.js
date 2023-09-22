@@ -13,6 +13,13 @@ function setMinDate(inputName) {
     inputElement.attr("min", getCurrentDate());
 }
 
+function setDate(inputName) {
+    const inputElement = $(`input[name='${inputName}']`);
+    const currentDate = getCurrentDate();
+    inputElement.val(currentDate);
+}
+
+
 // 날짜 유효성 검사
 function validateDate(formId, startDateName, endDateName) {
     const form = $("#" + formId);
@@ -34,14 +41,24 @@ function validateDate(formId, startDateName, endDateName) {
 function validateEmpty(formId) {
     const form = $("#" + formId);
     let isNotEmpty = true;
-    // 토큰 값 예외 처리
+
     form.find(":input:not(:hidden)").each(function () {
+        const elementType = $(this).attr("type");
         const value = $(this).val();
-        if (!value) {
+
+        if (elementType === "radio") {
+            const name = $(this).attr("name");
+            const radioGroup = form.find(`:input[name="${name}"]:checked`);
+
+            if (radioGroup.length === 0) {
+                isNotEmpty = false;
+            }
+        } else if (!value) {
             isNotEmpty = false;
         }
     });
-    if (isNotEmpty == false) {
+
+    if (isNotEmpty === false) {
         alert("모든 항목을 입력해 주세요");
     }
     return isNotEmpty;

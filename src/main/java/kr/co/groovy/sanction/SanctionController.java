@@ -44,6 +44,7 @@ public class SanctionController {
     public String getInProgress() {
         return "sanction/document";
     }
+
     @GetMapping("/line")
     public String getLine() {
         return "sanction/line/line";
@@ -79,6 +80,20 @@ public class SanctionController {
         model.addAttribute("etprCode", etprCode);
         model.addAttribute("dept", kind);
         return "sanction/template/write";
+    }
+
+    /**
+     * 결재 관리 페이지
+     *
+     * @param dept 부서 구분 코드
+     * @return 인사의 sanction.jsp 를 공유함
+     */
+    @GetMapping("/admin/{dept}")
+    public String loadSanctionList(Model model, @PathVariable String dept) {
+        List<SanctionVO> list = service.loadSanctionList(dept);
+        log.info(list.toString());
+        model.addAttribute("sanctionList", list);
+        return "admin/hrt/employee/sanction";
     }
 }
 

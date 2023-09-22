@@ -154,19 +154,18 @@
             </div>
         </div>
     </div>
+
     <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
     <script>
 
-        $(document).ready(function () {
-            $("input").attr("required", "required");
-        });
-
-        setMinDate("cprCardResveBeginDate");
-        setMinDate("cprCardResveClosDate");
-
         const startDateName = "cprCardResveBeginDate";
         const endDateName = "cprCardResveClosDate";
+
+        setDate(startDateName)
+        setDate(endDateName)
+        setMinDate(startDateName)
+        setMinDate(endDateName)
 
         const detailCard = document.querySelector(".detailCard");
         const detailLink = document.querySelectorAll(".detailLink");
@@ -275,7 +274,6 @@
             let inputElements = form.find("input, textarea");
             inputElements.each(function () {
                 $(this).removeAttr("disabled");
-                $(this).attr("required", "required");
                 $(this).css("border", "");
             });
             $("#beforeBtn").css("display", "none");

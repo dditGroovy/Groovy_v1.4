@@ -245,12 +245,12 @@
     <select id="loadAllLine" parameterType="String" resultType="employeeVO">
         /* kr.co.groovy.sanction.SanctionMapper 결재선 지정 - 접속 사원을 제외한 조직도 불러오기 */
         SELECT E.EMPL_ID,
-               E.EMPL_NM,
-               E.EMPL_TELNO,
-               E.EMPL_EMAIL,
-               E.COMMON_CODE_DEPT,
-               E.COMMON_CODE_CLSF,
-               E.COMMON_CODE_HFFC_STTUS
+        E.EMPL_NM,
+        E.EMPL_TELNO,
+        E.EMPL_EMAIL,
+        E.COMMON_CODE_DEPT,
+        E.COMMON_CODE_CLSF,
+        E.COMMON_CODE_HFFC_STTUS
         FROM EMPL E
         WHERE E.COMMON_CODE_DEPT = #{depCode}
         AND EMPL_ID != #{emplId}
@@ -300,23 +300,22 @@
         FROM SANCTN_LINE_BOOKMARK
         WHERE SANCTION_LINE_BOOKMARK_SN = #{sanctionLineBookmarkSn}
     </delete>
-    <select id="loadVacationSanction" resultType="sanctionVO">
-        /* kr.co.groovy.sanction.SanctionMapper 인사팀 결재 관리 - 휴가 신청 내역 불러오기 */
-        SELECT S.ELCTRN_SANCTN_ETPR_CODE,   -- 결재 번호
-               S.ELCTRN_SANCTN_FORMAT_CODE, -- 결재 양식
-               S.ELCTRN_SANCTN_SJ,          -- 결재 제목
-               S.COMMON_CODE_SANCT_PROGRS,  -- 결재 상태
-               S.ELCTRN_SANCTN_FINAL_DATE,  -- 결재 완료일
-               E.EMPL_NM,                   -- 기안자 성명
-               E.EMPL_ID,                   -- 기안자 사번
-               E.COMMON_CODE_DEPT           -- 기안자 부서
-        FROM ELCTRN_SANCTN S,
-             EMPL E,
-             SANCTN_FORMAT F
-        WHERE E.EMPL_ID = S.ELCTRN_SANCTN_DRFT_EMPL_ID
-          AND F.COMMON_CODE_SANCTN_FORMAT = S.ELCTRN_SANCTN_FORMAT_CODE
-          AND F.FORMAT_SANCTN_KND = '인사' -- 인사팀의 결재 문서
-          AND S.ELCTRN_SANCTN_FINAL_DATE IS NOT NULL -- 최종 승인 상태
+    <select id="loadSanctionList" parameterType="String" resultType="sanctionVO">
+        /* kr.co.groovy.sanction.SanctionMapper 결재 관리 - 내역 불러오기 */
+        SELECT E.ELCTRN_SANCTN_ETPR_CODE,       -- 결재 번호
+               E.ELCTRN_SANCTN_SJ,              -- 결재 양식
+               E.ELCTRN_SANCTN_FINAL_DATE,      -- 결재 승인일
+               E.ELCTRN_SANCTN_DRFT_EMPL_ID,    -- 기안자 사번
+               P.EMPL_NM,                       -- 기안자 성명
+               P.COMMON_CODE_DEPT               -- 기안자 부서
+        FROM ELCTRN_SANCTN E,
+             SANCTN_FORMAT F,
+             EMPL P
+        WHERE F.COMMON_CODE_SANCTN_FORMAT = E.ELCTRN_SANCTN_FORMAT_CODE
+          AND E.ELCTRN_SANCTN_DRFT_EMPL_ID = P.EMPL_ID
+          AND E.COMMON_CODE_SANCT_PROGRS = 'SANCTN016' -- 승인된 문서
+          AND F.FORMAT_SANCTN_KND = #{dept}            -- 해당 부서의 문서
+        ORDER BY ELCTRN_SANCTN_FINAL_DATE DESC
     </select>
 </mapper>
 

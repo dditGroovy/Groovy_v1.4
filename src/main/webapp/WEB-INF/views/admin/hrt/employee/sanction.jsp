@@ -27,8 +27,8 @@
         <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
     </div>
     <br/><br/>
-    <div class="cardWrap">
-        <div class="card">
+    <div class="sanctionWrap">
+        <div class="sanction">
             <div id="myGrid" class="ag-theme-alpine"></div>
         </div>
     </div>
@@ -40,39 +40,30 @@
     }
 
     const columnDefs = [
+        {field: "status", headerName: "번호"},
         {
-            field: "cprCardResveSn",
-            headerName: "예약번호",
+            field: "elctrnSanctnEtprCode",
+            headerName: "결재번호",
             cellRenderer: linkCellRenderer
         },
-        {field: "cprCardUsePurps", headerName: "사용 목적"},
-        {field: "cprCardUseExpectAmount", headerName: "사용 예상 금액"},
-        {field: "cprCardResveBeginDate", headerName: "사용 시작 일자"},
-        {field: "cprCardResveClosDate", headerName: "사용 종료 일자"},
+        {field: "elctrnSanctnSj", headerName: "결재양식"},
+        {field: "elctrnSanctnFinalDate", headerName: "결재승인일"},
         {field: "commonCodeDept", headerName: "부서"},
-        {field: "cprCardResveEmplId", headerName: "사번"},
+        {field: "elctrnSanctnDrftEmplId", headerName: "사번"},
         {field: "emplNm", headerName: "이름"},
-        {field: "commonCodeYrycState", headerName: "결재상태"},
-        {field: "commonCodeResveAt", headerName: "예약여부"},
-        {field: "cprCardResveRturnAt", headerName: "반납여부"},
-        // {field: "chk", headerName: " ", cellRenderer: ClassComp},
+
     ];
     const rowData = [];
     <c:forEach var="sanctionVO" items="${sanctionList}" varStatus="status">
-    <fmt:formatNumber type="number" value="${sanctionVO.cprCardUseExpectAmount}" pattern="#,##0" var="formattedAmount" />
 
     rowData.push({
-        cprCardResveSn: "${sanctionVO.cprCardResveSn}",
-        cprCardUsePurps: "${sanctionVO.cprCardUsePurps}",
-        cprCardUseExpectAmount: "${formattedAmount} 원",
-        cprCardResveBeginDate: "${sanctionVO.cprCardResveBeginDate}",
-        cprCardResveClosDate: "${sanctionVO.cprCardResveClosDate}",
+        status: "${status.count}",
+        elctrnSanctnEtprCode: "${sanctionVO.elctrnSanctnEtprCode}",
+        elctrnSanctnSj: "${sanctionVO.elctrnSanctnSj}",
+        elctrnSanctnFinalDate: "${sanctionVO.elctrnSanctnFinalDate}",
         commonCodeDept: "${sanctionVO.commonCodeDept}",
-        cprCardResveEmplId: "${sanctionVO.cprCardResveEmplId}",
+        elctrnSanctnDrftEmplId: "${sanctionVO.elctrnSanctnDrftEmplId}",
         emplNm: "${sanctionVO.emplNm}",
-        commonCodeYrycState: "${sanctionVO.commonCodeYrycState == 'YRYC032' ? '승인' : '미승인'}",
-        commonCodeResveAt: "${sanctionVO.commonCodeResveAt =='RESVE010' ? '비예약': '예약'}", // RESVE010: 비예약, RESVE011: 예약
-        cprCardResveRturnAt: "${sanctionVO.cprCardResveRturnAt == 0 ? '미반납' : '반납'}", // 0: 반납X / 1: 반납O
 
     })
     </c:forEach>

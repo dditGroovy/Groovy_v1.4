@@ -235,5 +235,18 @@ public class SanctionService {
     public void deleteBookmark(String sanctionLineBookmarkSn) {
         mapper.deleteBookmark(sanctionLineBookmarkSn);
     }
+
+    List<SanctionVO> loadSanctionList(String dept) {
+        if (dept.equals("DEPT010")) {
+            dept = "인사";
+        } else {
+            dept = "회계";
+        }
+        List<SanctionVO> list = mapper.loadSanctionList(dept);
+        for (SanctionVO vo : list) {
+            vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());
+        }
+        return list;
+    }
 }
 

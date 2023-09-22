@@ -35,4 +35,6 @@ public interface VacationMapper {
     int modifyYrycNowCo(VacationVO vacationVO);
 
     void modifyVacationOnNewYear();
+
+    int modifyRequest(VacationUseVO vo);
 }

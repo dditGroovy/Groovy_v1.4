@@ -38,6 +38,7 @@ public class VacationController {
         return "employee/myVacation";
     }
 
+    /* 휴가 결재 관련 */
     @GetMapping("/record")
     public String vacationRecord(Model model, Principal principal) {
         String emplId = principal.getName();
@@ -46,33 +47,42 @@ public class VacationController {
         return "employee/vacation/record";
     }
 
-    @GetMapping("/detail/{yrycUseDtlsSn}")
-    public String vacationDetail(@PathVariable int yrycUseDtlsSn, Model model) {
-        VacationUseVO vo = service.loadVacationDetail(yrycUseDtlsSn);
-        model.addAttribute("detailVO", vo);
-        return "employee/vacation/detail";
-    }
 
     @GetMapping("/loadData/{yrycUseDtlsSn}")
     @ResponseBody
     public ResponseEntity<VacationUseVO> loadVacationData(@PathVariable int yrycUseDtlsSn) {
-        VacationUseVO vo = service.loadVacationDetail(yrycUseDtlsSn);
+        VacationUseVO vo = service.loadVacationData(yrycUseDtlsSn);
         return ResponseEntity.ok(vo);
+    }
+
+    //
+    @GetMapping("/detail/{yrycUseDtlsSn}")
+    @ResponseBody
+    public VacationUseVO vacationDetail(@PathVariable int yrycUseDtlsSn) {
+        return service.loadVacationDetail(yrycUseDtlsSn);
+    }
+
+    @PostMapping("/modify/request")
+    @ResponseBody
+    public int modifyRequest(VacationUseVO vo) {
+        return service.modifyRequest(vo);
     }
 
 
     /* 휴가 신청 폼 */
     @GetMapping("/request")
-    public String requestVacation() {
+    public String requestVacation(Model model, Principal principal) {
+        String emplId = principal.getName();
+        List<VacationUseVO> vacationRecord = service.loadVacationRecord(emplId);
+        model.addAttribute("vacationRecord", vacationRecord);
         return "employee/vacation/request";
     }
 
     /* 휴가 신청 submit */
     @PostMapping("/request")
-    public String inputVacation(VacationUseVO vo) {
-        service.inputVacation(vo);
-        int generatedKey = vo.getYrycUseDtlsSn();
-        return "redirect:/vacation/detail/" + generatedKey;
+    @ResponseBody
+    public int inputVacation(VacationUseVO vo) {
+        return service.inputVacation(vo);
     }
 
     @GetMapping("/manage")
@@ -87,4 +97,12 @@ public class VacationController {
     public int modifyYrycNowCo(@RequestBody VacationVO vacationVO) {
         return service.modifyYrycNowCo(vacationVO);
     }
+
+    @GetMapping("/sanction")
+    public String loadSanction (Model model) {
+        List<VacationVO> allEmplVacation = service.loadAllEmplVacation();
+        model.addAttribute("allEmplVacation", allEmplVacation);
+        return "admin/hrt/employee/sanction";
+    }
+
 }

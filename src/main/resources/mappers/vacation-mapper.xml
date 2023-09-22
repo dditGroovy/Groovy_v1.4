@@ -175,4 +175,14 @@
                       WHERE EXTRACT(YEAR FROM EMPL_ENCPN) <![CDATA[<]]> EXTRACT(YEAR FROM SYSDATE)
               )
     </update>
+    <update id="modifyRequest" parameterType="vacationUseVO">
+        UPDATE YRYC_USE_DTLS
+        SET COMMON_CODE_YRYC_USE_SE = #{commonCodeYrycUseSe},
+            COMMON_CODE_YRYC_USE_KIND = #{commonCodeYrycUseKind},
+            YRYC_USE_DTLS_BEGIN_DATE = #{yrycUseDtlsBeginDate},
+            YRYC_USE_DTLS_END_DATE = #{yrycUseDtlsEndDate},
+            YRYC_USE_DTLS_RM = #{yrycUseDtlsRm}
+        WHERE YRYC_USE_DTLS_SN = #{yrycUseDtlsSn}
+    </update>
+
 </mapper>

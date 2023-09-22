@@ -66,6 +66,10 @@ public class VacationService {
         return mapper.inputVacation(vo);
     }
 
+    public VacationUseVO loadVacationData(int yrycUseDtlsSn){
+        return mapper.loadVacationDetail(yrycUseDtlsSn);
+    }
+
     public VacationUseVO loadVacationDetail(int yrycUseDtlsSn){
         VacationUseVO vo = mapper.loadVacationDetail(yrycUseDtlsSn);
         vo.setCommonCodeYrycUseKind(VacationKind.valueOf(vo.getCommonCodeYrycUseKind()).label());
@@ -124,4 +128,9 @@ public class VacationService {
     public void modifyVacationOnNewYear() {
         mapper.modifyVacationOnNewYear();
     }
+
+    int modifyRequest(VacationUseVO vo){
+       return mapper.modifyRequest(vo);
+    }
+
 }
