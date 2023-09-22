@@ -43,7 +43,6 @@
                     <table id="refer-line" class="line-table">
                         <tr id="referOtt" class="ott">
                             <th class="sanctionTh">참조</th>
-                            <td>윤하늘</td>
                         </tr>
                     </table>
                 </div>
@@ -131,6 +130,7 @@
                 const referLineData = data.referLine;
                 const applovalOtt = document.querySelector("#applovalOtt");
                 const applovalObtt = document.querySelector("#applovalObtt");
+                const referOtt = document.querySelector("#referOtt");
                 console.log(sanctionLineData, referLineData);
 
                 /*  결재선 추가  */
@@ -162,9 +162,13 @@
                         const value = referLineData[key];
                         /* 배열에 담기   */
                         referrer.push(value.id);
+
+                        /* 요소 추가 */
+                        const newTd = document.createElement("td");
+                        newTd.innerText = value.name;
+                        referOtt.append(newTd);
                     }
                 }
-                console.log(approver, referrer);
 
 
 

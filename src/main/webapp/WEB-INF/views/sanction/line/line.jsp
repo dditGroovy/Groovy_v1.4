@@ -113,7 +113,7 @@
             </div>
             <div class="modal-footer btn-wrapper">
                 <button type="button" class="submitLine btn btn-fill-bl-sm">결재선 적용</button>
-                <button class="close btn btn-fill-wh-sm">닫기</button>
+                <button class="popClose btn btn-fill-wh-sm">닫기</button>
             </div>
         </div>
     </div>
@@ -163,12 +163,12 @@
         const lineAddBtn = document.querySelectorAll(".lineAddBtn");
         const lineInner = document.querySelectorAll(".line-inner");
         const lineSave = document.querySelector("#lineSave");
+        const popClose = document.querySelector(".popClose");
         const submitLineBtn = document.querySelector(".submitLine");
         const emplId = "${CustomUser.employeeVO.emplId}";
         let bookmarkName;
         let bookmarkLine = {};
         const accordians = document.querySelectorAll(".dept");
-        const windowCloseBtn = document.querySelector(".close");
         let keyword;
 
         loadOrgLine() // 로드 시 결재선 불러오기
@@ -189,7 +189,7 @@
                     }
                 });
             });
-            windowCloseBtn.addEventListener("click", () => {
+            popClose.addEventListener("click", () => {
                 window.close();
             })
         })
