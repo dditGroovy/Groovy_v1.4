@@ -55,6 +55,9 @@
                 <h3>오늘 예약 현황</h3>
                 <c:set var="reservedList" value="${todayReservedVehicles}"/>
                 <c:set var="listSize" value="${fn:length(reservedList)}"/>
+                <c:if test="${listSize == 0}">
+                    <p><a href="#" class="totalResve">0</a>건</p>
+                </c:if>
                 <p><a href="#" class="totalResve">${listSize}</a>건</p>
                 <a href="/reserve/loadVehicle">더보기</a>
             </div>
