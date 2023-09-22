@@ -17,6 +17,7 @@
     }
 </style>
 
+<%--TODO 진행중인 결재 팝업으로 뜨게 매핑해야 됨~~~~~~~~~~~~~~~~~~~~--%>
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
@@ -72,7 +73,7 @@
                                 <div class="notice-area card card-df pd-32">
                                     <div class="area-header">
                                         <h3 class="content-title font-b">공지사항</h3>
-                                        <a href="#" class="more">
+                                        <a href="${pageContext.request.contextPath}/notice/list" class="more">
                                             모두 보기 <i class="icon i-arr-rt"></i>
                                         </a>
                                     </div>
@@ -90,7 +91,7 @@
                                 <div class="saction-area scroll-area card card-df pd-32">
                                     <div class="area-header">
                                         <h3 class="content-title font-b">진행중인 결재</h3>
-                                        <a href="#" class="more">
+                                        <a href="${pageContext.request.contextPath}/sanction/document" class="more">
                                             모두 보기 <i class="icon i-arr-rt"></i>
                                         </a>
                                     </div>
@@ -152,7 +153,7 @@
 
         // 진행 중인 결재 불러오기 (10개)
         $.ajax({
-            url: `/common/loadSanction/\${dclzEmplId}`,
+            url: `/common/sanction/\${dclzEmplId}`,
             type: "get",
             success: function (data) {
                 code = "";
@@ -171,14 +172,14 @@
 
         // 공지사항 불러오기 (최신 2개)
         $.ajax({
-            url: "/common/loadNotice",
+            url: "/common/notice",
             type: "get",
             success: function (data) {
                 code = "";
 
                 $.each(data, function (index, item) {
                     code += `
-                           <li><a href="#" class="list-item">
+                           <li><a href="/notice/detail/\${item.notiEtprCode}" class="list-item">
                                     <span class="badge badge-default">\${item.notiCtgryIconFileStreNm} </span>
                                     <p class="list-context">\${item.notiTitle}</p>
                                     <span class="list-date">\${item.notiDate}</span>
