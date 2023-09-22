@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="#">
+    <div id="formCard">
+        <div class="formContent">
+
+
+
+
+
+
+            <table border="1" class="form-table">
+                <colgroup>
+                    <col style="width: 15%;">
+                    <col style="width: 35%;">
+                    <col style="width: 15%;">
+                    <col style="width: 35%;">
+                </colgroup>
+                <tr>
+                    <th class="form-title">문서 종류</th>
+                    <td class="form-content"><span id="sanctnCate">연차사용신청서</span></td>
+                    <th class="form-title">문서 번호</th>
+                    <td class="form-content"><span id="sanctionNo"></span></td>
+                </tr>
+                <tr>
+                    <th class="form-title">기안 부서</th>
+                    <td class="form-content"><span>인사팀</span></td>
+                    <th class="form-title">기안자</th>
+                    <td class="form-content"><span id="writer"></span></td>
+                </tr>
+                <tr>
+                    <th class="form-title">기안 일자</th>
+                    <td class="form-content"><span id="writeDate"></span></td>
+                    <th class="form-title">완료 일자</th>
+                    <td class="form-content"><span id="elctrnSanctnFinalDate"></span></td>
+                </tr>
+                <tr>
+                    <th class="form-title">휴가 구분</th>
+                    <td class="form-content" colspan="3"><span id="commonCodeYrycUseKind" style="width: 99%"></span></td>
+                </tr>
+                <tr>
+                    <th class="form-title">휴가 종류</th>
+                    <td class="form-content" colspan="3"><span id="commonCodeYrycUseSe" style="width: 99%"></span></td>
+                </tr>
+                <tr>
+                    <th class="form-title">시작 날짜</th>
+                    <td class="form-content">
+                        <span id="yrycUseDtlsBeginDate" style="width: 99%"></span></td>
+                    <th class="form-title">종료 일자</th>
+                    <td class="form-content">
+                        <span id="yrycUseDtlsEndDate" style="width: 99%"></span></td>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="form-title">내용</th>
+                    <td class="form-content" colspan="3"><span id="yrycUseDtlsRm" style="width: 99%"></span>
+                </tr>
+
+            </table>
+            <div class="message-wrap">
+                <p class="message">위와 같이 휴가를 신청하오니 허락하여 주시기 바랍니다.</p>
+                <p id="requestDate"></p>
+            </div>
+
+
+
+
+
+
+
+        </div>
+        <div class="form-file">
+            <div class="file-title">
+                <p>파일 첨부</p>
+            </div>
+            <div class="file-box">
+                <p class="file-name">이곳에 파일을 끌어놓으세요.</p>
+                <input type="file" id="sanctionFile"/>
+            </div>
+        </div>
+        <button type="button" id="sanctionSubmit" class="btn btn-free-blue" disabled>결재 제출</button>
+    </div>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

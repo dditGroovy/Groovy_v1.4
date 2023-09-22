@@ -12,29 +12,9 @@
         <button type="button" class="btn btn-out-sm btn-modal" data-name="requestCard" data-action="request">법인카드 신청하기
         </button>
         <br><br>
-        <div>
-            <h3 class="content-title font-b">법인카드 신청 기록</h3>
-            <table border="1">
-                <tr>
-                    <td>신청 번호</td>
-                    <td>사용 기간</td>
-                    <td>사용처</td>
-                    <td>사용 목적</td>
-                    <td>사용 예상 금액</td>
-                    <td>결재 상태</td>
-                </tr>
-                <c:forEach var="recodeVO" items="${cardRecord}" varStatus="stat">
-                    <tr>
-                        <td><a href="#" data-name="detailCard" data-seq="${recodeVO.cprCardResveSn}"
-                               class="detailLink">${stat.count}</a></td>
-                        <td>${recodeVO.cprCardResveBeginDate} - ${recodeVO.cprCardResveClosDate}</td>
-                        <td>${recodeVO.cprCardUseLoca}</td>
-                        <td>${recodeVO.cprCardUsePurps}</td>
-                        <td><fmt:formatNumber type="number" value="${recodeVO.cprCardUseExpectAmount}" pattern="#,##0"/> 원</td>
-                        <td>${(recodeVO.commonCodeYrycState == 'YRYC030')? '미상신' : (recodeVO.commonCodeYrycState == 'YRYC031') ? '상신' : '승인'}</td>
-                    </tr>
-                </c:forEach>
-            </table>
+        <h3 class="content-title font-b">법인카드 신청 기록</h3>
+        <div id="cardTable">
+
         </div>
     </div>
 
@@ -159,6 +139,43 @@
     <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
     <script>
 
+        $(document).ready(function () {
+            loadRecord()
+        });
+
+        function loadRecord() {
+            $.ajax({
+                url: "/card/record",
+                type: "GET",
+                success: function (data) {
+                    var code = `<table border="1">
+                        <tr>
+                            <td>신청 번호</td>
+                            <td>사용 기간</td>
+                            <td>사용처</td>
+                            <td>사용 목적</td>
+                            <td>사용 예상 금액</td>
+                            <td>결재 상태</td>
+                        </tr>`;
+                    $.each(data, function (index, recodeVO) {
+                        code += `<tr>
+                            <td><a href="#" data-name="detailCard" data-seq="\${recodeVO.cprCardResveSn}" class="detailLink">\${index + 1}</a></td>
+                            <td>\${recodeVO.cprCardResveBeginDate} - \${recodeVO.cprCardResveClosDate}</td>
+                            <td>\${recodeVO.cprCardUseLoca}</td>
+                            <td>\${recodeVO.cprCardUsePurps}</td>
+                            <td>\${formatNumber(recodeVO.cprCardUseExpectAmount)}원</td>
+                            <td>\${recodeVO.commonCodeYrycState === 'YRYC030' ? '미상신' : (recodeVO.commonCodeYrycState === 'YRYC031' ? '상신' : '승인')}</td>
+                        </tr>`;
+                    });
+                    code += "</table>"
+                    $("#cardTable").html(code);
+                },
+                error: function (xhr, status, error) {
+                    console.log("code: " + xhr.status);
+                }
+            });
+        }
+
         const startDateName = "cprCardResveBeginDate";
         const endDateName = "cprCardResveClosDate";
 
@@ -170,23 +187,37 @@
         const detailCard = document.querySelector(".detailCard");
         const detailLink = document.querySelectorAll(".detailLink");
 
-        detailLink.forEach(link => {
-            link.addEventListener("click", e => {
-                const num = link.getAttribute("data-seq");
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('detailLink')) {
+                const num = event.target.getAttribute('data-seq');
                 loadDetail(num);
-            })
-        })
+            }
+        });
 
-        // 결재하기 시작
-        $("#startSanction").on("click", function () {
-            $("#modifyRequest").prop("disabled", true)
-            window.open('/sanction/format/DEPT011/SANCTN_FORMAT010', "결재", "width = 1160, height = 1400")
-        })
+        let childWindow;
+
+        function openChildWindow() {
+            childWindow = window.open('/sanction/format/DEPT011/SANCTN_FORMAT010', '결재', 'width=1160,height=1400');
+        }
+
+        function checkChildWindow() {
+            if (childWindow && childWindow.closed) {
+                $("#modifyRequest").prop("disabled", false);
+            } else {
+                setTimeout(checkChildWindow, 1000);
+            }
+        }
 
         function refreshParent() {
-            window.location.reload(); // 새로고침
-            $("#modifyRequest").prop("disabled", false)
+            location.reload();
         }
+
+        $("#startSanction").on("click", function () {
+            $("#modifyRequest").prop("disabled", true);
+            openChildWindow();
+            checkChildWindow();
+        });
+
 
         // 수정 후 제출
         $("#modifySubmit").on("click", function () {
@@ -210,12 +241,13 @@
                 url: $("#" + formId).attr("action"),
                 data: formData,
                 success: function (res) {
-                    alert("ajax 성공");
+                    alert("신청이 완료되었습니다.");
                     close()
                     resetModal();
+                    location.reload();
                 },
                 error: function (error) {
-                    alert("ajax 실패");
+                    alert("신청 및 수정 실패");
                 }
             });
         }

@@ -205,7 +205,7 @@
         })
 
         function refreshParent() {
-            window.location.reload(); // 새로고침
+            location.reload(); // 새로고침
         }
 
         // 수정 후 제출

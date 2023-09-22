@@ -164,18 +164,9 @@
         ORDER BY CPR_CARD_RESVE_SN ASC
     </select>
     <update id="modifyStatus" parameterType="map">
-        {CALL
-            DECLARE
-            BEGIN
-                UPDATE CPR_CARD_RESVE
-                SET COMMON_CODE_YRYC_STATE = #{state}
-                WHERE CPR_CARD_RESVE_SN = #{approveId};
-
-                UPDATE CPR_CARD_RESVE
-                SET ELCTRN_SANCTN_ETPR_CODE = #{etprCode}
-                WHERE CPR_CARD_RESVE_SN = #{approveId};
-
-            END}
+        UPDATE CPR_CARD_RESVE
+        SET COMMON_CODE_YRYC_STATE = #{state}
+        WHERE CPR_CARD_RESVE_SN = #{approveId}
     </update>
     <select id="loadSanctionList" resultType="cardReservationVO">
         SELECT C.CPR_CARD_RESVE_SN,

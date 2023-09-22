@@ -90,6 +90,9 @@ public class CardService {
     }
 
     public void modifyStatus(Map<String, Object> paramMap) {
+        log.info("modifyCardStatus");
+        log.info((String) paramMap.get("approveId"));
+        log.info((String) paramMap.get("state"));
         mapper.modifyStatus(paramMap);
     }
 

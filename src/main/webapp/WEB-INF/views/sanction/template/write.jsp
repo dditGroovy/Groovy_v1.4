@@ -7,7 +7,7 @@
         width: auto;
     }
 </style>
-<link rel="stylesheet" href="/resources/css/sanction/sanction.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sanction/sanction.css">
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-wrapper">
@@ -32,7 +32,7 @@
                         <tr id="applovalObtt" class="obtt">
                             <td>
                                 <p class="approval-person">
-                                    윤하늘
+                                        ${CustomUser.employeeVO.emplNm}
                                 </p>
                                 <span class="approval-date"></span>
                             </td>
@@ -75,6 +75,7 @@
         let referrer = [];
 
         const dept = "${dept}" // 문서 구분용
+        console.log(dept)
 
         const etprCode = "${etprCode}";
         const formatCode = "${format.commonCodeSanctnFormat}";
@@ -169,11 +170,7 @@
                         referOtt.append(newTd);
                     }
                 }
-
-
-
-
-
+                appendLine(approver, referrer)
             });
         });
 
@@ -218,20 +215,22 @@
             })
         }
 
-        $(".submitLine").on("click", function () {
-            approver = $("#sanctionLine input[type=hidden]").map(function () {
-                return $(this).val();
-            }).get().reverse();
-            referrer = $("#refrnLine input[type=hidden]").map(function () {
-                return $(this).val();
-            }).get();
+
+        function appendLine(app, ref) {
+            approver = app;
+            referrer = ref;
             if (approver.length > 0) {
                 $("#sanctionSubmit").prop("disabled", false);
             } else {
                 $("#sanctionSubmit").prop("disabled", true);
             }
-        })
+        }
+
         $("#sanctionSubmit").on("click", function () {
+            submitSanction()
+        });
+
+        function submitSanction() {
             updateStatus()
             content = $(".formContent").html();
             const jsonData = {
@@ -260,8 +259,7 @@
             } else {
                 const param = {
                     approveId: num,
-                    state: 'YRYC032',
-                    etprCode: etprCode
+                    state: 'YRYC032'
                 };
                 const afterProcess = {
                     className: "kr.co.groovy.card.CardService",
@@ -289,7 +287,7 @@
                     console.log("결재 업로드 실패");
                 }
             });
-        });
+        }
 
         // 결재 테이블 insert 후 첨부 파일 있다면 업로드 실행
         function appendFile(file) {
@@ -314,7 +312,6 @@
                 }
             });
         }
-
 
 
         // 문서의 결재 상태 변경
@@ -354,7 +351,13 @@
         }
 
 
-        /*  파일 드래그 앤 드롭 */
+        /*
+
+
+        파일 드래그 앤 드롭
+
+
+         */
         const fileBox = document.querySelector(".file-box");
         const fileBtn = fileBox.querySelector("#sanctionFile");
         let formData;
@@ -415,5 +418,8 @@
 
             return true;
         }
+
     </script>
 </sec:authorize>
+
+
