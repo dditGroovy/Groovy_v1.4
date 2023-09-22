@@ -155,7 +155,7 @@
         color: white;
     }
 </style>
-<div class="content-container">
+
     <a href="#">할 일</a>
     <a href="/job/jobDiary">업무 일지</a>
 
@@ -199,7 +199,7 @@
                 <img src="/uploads/profile/${receiveJobVO.jobRequstEmplProfl}" alt="profile" style="width: 50px;">
                 <span>${receiveJobVO.jobRequstEmplNm}</span>
                 <span> | ${receiveJobVO.jobSj}</span>
-                <span>&nbsp;&nbsp;<fmt:formatDate value="${receiveJobVO.jobRequstDate}" pattern="yy년 MM월 dd일"/></span>
+                <span>&nbsp;&nbsp;&nbsp; &nbsp; ${receiveJobVO.jobRequstDate}</span>
             </button>
         </c:forEach>
     </div>
@@ -210,7 +210,7 @@
         <c:forEach var="requestJobVO" items="${requestJobList}">
             <button type="button" class="requestJobDetail" data-seq="${requestJobVO.jobNo}">
                     ${requestJobVO.jobSj}
-                <fmt:formatDate value="${requestJobVO.jobRequstDate}" pattern="yy년 MM월 dd일"/>
+                        &nbsp; &nbsp; ${requestJobVO.jobRequstDate}
             </button>
             <br/>
         </c:forEach>

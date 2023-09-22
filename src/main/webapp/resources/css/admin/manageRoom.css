@@ -1,0 +1,167 @@
+.container {
+    overflow: hidden;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.wrap ul {
+    display: flex;
+    gap: 10px
+}
+
+.header, .titleWrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+table tr {
+    display: flex;
+}
+
+table tr td, table tr th {
+    flex: 1;
+}
+
+.content > ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-64);
+}
+
+.roomInfo {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: var(--vw-24);
+    grid-row-gap: var(--vw-24);
+}
+
+.roomInfo h4, .roomInfo li, .roomInfo span {
+    color: var(--color-font-md);
+}
+
+.roomInfo i {
+    margin-right: var(--vw-48);
+}
+
+.roomId {
+    margin-right: var(--vw-16);
+}
+
+.roomType {
+    margin-right: var(--vw-24);
+}
+
+.equip {
+    margin-right: 8px;
+}
+
+#fcltyResveSn, .fcltyResveSn {
+    display: none;
+}
+
+.roomInfoList, .fxrpsList {
+    display: inline-flex;
+    text-align: center;
+}
+
+.roomId, .roomType, .equip {
+    display: flex;
+    align-items: center;
+}
+
+.fxrps {
+    display: flex;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: var(--vw-64);
+    align-items: flex-end;
+    padding-bottom: var(--vh-24);
+    border-bottom: 1px solid var(--color-stroke);
+    margin-bottom: 12px;
+}
+
+.facility {
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+}
+
+.tab {
+    margin-right: var(--vw-64);
+    color: var(--color-font-md);
+}
+
+.tab.tab-active {
+    color: var(--color-font-high);
+}
+
+.current-resve {
+    display: inline-block;
+}
+
+#countValue {
+    color: var(--color-main);
+}
+
+.more {
+    color: var(--color-font-md);
+}
+
+.cancelRoom {
+    width: calc((80 / 1920) * 100vw);
+    height: calc((36 / 1080) * 100vh);
+    border-radius: 20px;
+    border: 1px solid var(--color-font-md);
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--color-font-md);
+    font-size: var(--font-size-14);
+    margin: 0 auto;
+}
+
+.ag-ltr .ag-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.facility-card {
+    padding: var(--vw-32);
+}
+
+.manage-header {
+    margin-bottom: var(--vh-24);
+}
+
+.facility-left {
+    margin-right: var(--vw-24);
+}
+
+.count {
+    margin-left: 8px;
+    color: var(--color-main);
+}
+
+.icon-user {
+    width: calc((72 / 1920) * 100vw) !important;
+    height: calc((72 / 1920) * 100vw) !important;
+    background-image: url("/resources/images/Icon3d/User.png");
+    background-repeat: no-repeat;
+}
+
+.fxrpsList {
+    padding: var(--vh-32) var(--vw-48);
+}

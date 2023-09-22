@@ -1,0 +1,33 @@
+.grid-card .ag-root-wrapper {
+    border: none;
+    margin: 0;
+    font-size: var(--font-size-14);
+}
+
+.grid-card .ag-header,.grid-card  .ag-theme-alpine .ag-row {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.grid-card .ag-header-cell,.grid-card  .ag-header-group-cell {
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.grid-card .ag-header-group-cell-label,.grid-card  .ag-header-cell-label {
+    justify-content: center;
+}
+
+.grid-card .content .ag-theme-alpine {
+    height: calc((150 / 1080) * 100vh);
+}
+
+.grid-card .ag-center-cols-container {
+    width: 100% !important;
+    padding: 4px 0;
+}
+
+.grid-card {
+    padding: var(--vw-32);
+    height: calc((304 / 1080) * 100vh) !important;
+    overflow: hidden;
+}
