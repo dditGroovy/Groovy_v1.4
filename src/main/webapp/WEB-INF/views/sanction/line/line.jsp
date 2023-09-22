@@ -267,7 +267,7 @@
                 url: `/sanction/api/bookmark/\${emplId}`,
                 type: "GET",
                 success: function (lines) {
-                    console.log(lines)
+                    console.log(lines);
                     let result = "";
                     result += `<ul class="line-list">`;
                     const labelMap = {};
@@ -277,31 +277,35 @@
                         if (!labelMap[no]) {
                             labelMap[no] = {
                                 name: line.name,
-                                emplInfo: {},
+                                emplInfo: [],
                                 lines: []
                             };
                         }
                         labelMap[no].lines.push(line);
-                        if (!labelMap[no].emplInfo[line.emplId]) {
-                            labelMap[no].emplInfo[line.emplId] = `\${line.emplNm} \${line.commonCodeDept} \${line.commonCodeClsf}`;
-                        }
+                        labelMap[no].emplInfo.push({
+                            emplId: line.emplId,
+                            emplNm: line.emplNm,
+                            commonCodeDept: line.commonCodeDept,
+                            commonCodeClsf: line.commonCodeClsf
+                        });
                     });
 
                     for (let no in labelMap) {
                         if (labelMap.hasOwnProperty(no)) {
                             const label = labelMap[no];
                             result += `<li class="emplList">
-                            <label style="display: flex" class="line-label">
-                            <input type="checkbox" class="savedlineChk">
-                            <input type="hidden" value="\${no}">
-                            <span class="line-name badge font-14 font-md">\${label.name}</span>
-                            <div class="line-block">`;
-                            for (let emplId in label.emplInfo) {
-                                if (label.emplInfo.hasOwnProperty(emplId)) {
-                                    const emplDetail = label.emplInfo[emplId];
-                                    result += `<span class="line-detail" data-id="\${emplId}">\${emplDetail}</span>`;
-                                }
-                            }
+                    <label style="display: flex" class="line-label">
+                    <input type="checkbox" class="savedlineChk">
+                    <input type="hidden" value="\${no}">
+                    <span class="line-name badge font-14 font-md">\${label.name}</span>
+                    <div class="line-block">`;
+
+                            label.emplInfo.forEach(function (empl) {
+                                result += `<span class="line-detail" data-id="\${empl.emplId}"">\${empl.emplNm}</span>`;
+                                result += `<span class="dept">\${empl.commonCodeDept}</span>`;
+                                result += `<span class="clsf">\${empl.commonCodeClsf}</span></span>`;
+                            });
+
                             result += `</div><button type="button" class="btn removeBtn">X</button></li>`;
                         }
                     }
