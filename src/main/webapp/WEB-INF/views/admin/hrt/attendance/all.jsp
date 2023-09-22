@@ -1,16 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/attendance.css">
-<style>
-    #dclzNav > ul {
-        display: flex;
-        gap: 48px;
-    }
 
-    #myGrid {
-        width: 100%;
-        height: calc((360 / 1080) * 100vh);
-    }
-</style>
 <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="content-container">
