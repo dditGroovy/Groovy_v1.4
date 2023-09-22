@@ -32,10 +32,10 @@
                 <div class="myVation-wrap content-wrap">
                     <div class="content-header">
                         <h2 class="main-title">최근 휴가 기록</h2>
-                        <a href="${pageContext.request.contextPath}/vacation/request" class="btn btn-flat">휴가 신청</a>
+                        <a href="${pageContext.request.contextPath}/vacation/request" class="btn btn-free-blue vationRequest">휴가 신청</a>
                     </div>
-                    <div id="myVacation">
-                        <ul>
+                    <div id="myVacation" class="card-df vacation-card">
+                        <ul class="myVacation-list vacation-list">
                             <c:choose>
                                 <c:when test="${not empty myVacation}">
                                     <c:forEach items="${myVacation}" var="myVacation">
@@ -52,7 +52,7 @@
                                     </c:forEach>
                                 </c:when>
                                 <c:otherwise>
-                                    <li>휴가 정보가 없습니다.</li>
+                                    <li class="no-list">휴가 정보가 없습니다.</li>
                                 </c:otherwise>
                             </c:choose>
                         </ul>
@@ -60,10 +60,10 @@
                 </div>
                 <div class="memVacation-wrap content-wrap">
                     <div class="content-header">
-                        <p>구성원의 휴가(연락금지)</p>
+                        <h2 class="main-title">구성원의 휴가(연락금지)</h2>
                     </div>
-                    <div id="memVacation">
-                        <ul>
+                    <div id="memVacation" class="card-df vacation-card">
+                        <ul class="memVacation-list vacation-list">
                             <c:choose>
                                 <c:when test="${not empty myVacation}">
                                     <c:forEach items="${teamMemVacation}" var="memVacation">
@@ -87,7 +87,7 @@
                                     </c:forEach>
                                 </c:when>
                                 <c:otherwise>
-                                    <li>휴가 정보가 없습니다.</li>
+                                    <li class="no-list">휴가 정보가 없습니다.</li>
                                 </c:otherwise>
                             </c:choose>
                         </ul>
