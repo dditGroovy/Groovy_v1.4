@@ -1,6 +1,7 @@
 
 /* root */
 :root {
+    --color-error : #ffb7b7;
     --color-main: #5796F3;
     --color-stroke : #e3ebf3;
     --color-bg-grey : #F9FAFB;

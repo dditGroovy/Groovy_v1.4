@@ -3,12 +3,8 @@
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
 <style>
-    .file_box {
-        border: 2px solid rgb(13 110 253 / 25%);
-        border-radius: 10px;
-        margin-top: 20px;
-        padding: 40px;
-        text-align: center;
+    .container {
+        width: auto;
     }
 </style>
 <link rel="stylesheet" href="/resources/css/sanction/sanction.css">
@@ -19,30 +15,37 @@
             <div class="form-header">
                 <div class="btn-wrap">
                     <button id="getLine" class="btn btn-free-blue">결재선</button>
+                    <button type="button" id="sanctionSubmit" class="btn btn-free-white" disabled>결재 제출</button>
                 </div>
                 <br/>
                 <div class="formTitle">
                     <p class="main-title">${format.formatSj}</p>
                 </div>
             </div>
-            <div class="approval-wrap">
+            <div class="line-wrap">
                 <div class="approval">
-                    <div class="approval-header">
-                        <span>결재</span>
-                    </div>
-                    <div class="approval-body">
-                        <ul class="approval-list">
-                            <li class="approval-list-item">
-                                <div class="approval-order">
-                                    <p>기안</p>
-                                </div>
-                                <div class="approval-content">
-
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
+                    <table id="approval-line" class="line-table">
+                        <tr id="applovalOtt" class="ott">
+                            <th rowspan="2" class="sanctionTh">결재</th>
+                            <th>기안</th>
+                        </tr>
+                        <tr id="applovalObtt" class="obtt">
+                            <td>
+                                <p class="approval-person">
+                                    윤하늘
+                                </p>
+                                <span class="approval-date"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="refer">
+                    <table id="refer-line" class="line-table">
+                        <tr id="referOtt" class="ott">
+                            <th class="sanctionTh">참조</th>
+                            <td>윤하늘</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -51,16 +54,15 @@
         </div>
     </div>
     <div id="formCard">
-
-
         <div class="formContent">
                 ${format.formatCn}
         </div>
-        <div>
-            <input type="file" id="sanctionFile" style="width: 99%"/>
+        <div class="form-file">
+            <div class="file-box">
+                <p class="file-name">이곳에 파일을 끌어놓으세요.</p>
+                <input type="file" id="sanctionFile"/>
+            </div>
         </div>
-
-        <button type="button" id="sanctionSubmit" disabled>결재 제출</button>
     </div>
 
     <script>
@@ -69,9 +71,9 @@
         let month = String(before.getMonth() + 1).padStart(2, '0');
         let day = String(before.getDate()).padStart(2, '0');
 
-        let approver;
-        let receiver;
-        let referrer;
+        let approver = [];
+        let receiver = [];
+        let referrer = [];
 
         const dept = "${dept}" // 문서 구분용
 
@@ -83,7 +85,8 @@
         let content;
         let file = $('#sanctionFile')[0].files[0];
         let num = opener.$("#sanctionNum").val();
-        let approvalListData;
+        let approvalListData = [];
+        let attachListData = [];
         /*  팝업  */
         const getLineBtn = document.querySelector("#getLine");
 
@@ -92,8 +95,6 @@
             $("#writeDate").html(today);
             $("#writer").html("${CustomUser.employeeVO.emplNm}")
             $("#requestDate").html(`\${year}년 \${month}월 \${day}일`);
-
-            console.log(dept)
 
             if (dept == 'DEPT011') {
                 loadCardData()
@@ -113,19 +114,56 @@
                 return new Promise((resolve, reject) => {
                     window.addEventListener('message', function(event) {
                         const data = event.data;
-                        document.querySelector(".approval").innerHTML = data;
-                        approvalListData = data; // 데이터를 변수에 저장
+                        /*document.querySelector(".approval").innerHTML = data;*/
+                        let approvalList = data; // 데이터를 변수에 저장
                         popupWindow.close();
 
                         // 데이터를 성공적으로 받아온 경우 resolve 호출
-                        resolve(approvalListData);
+                        resolve(approvalList);
                     });
                 });
             }
 
             // Promise를 사용하여 데이터를 받아온 후에 작업 수행
             getDataFromPopup().then((data) => {
-                console.log(data); // 데이터를 여기서 사용 가능
+                const sanctionLineData = data.sanctionLine;
+                const referLineData = data.referLine;
+                const applovalOtt = document.querySelector("#applovalOtt");
+                const applovalObtt = document.querySelector("#applovalObtt");
+                console.log(sanctionLineData, referLineData);
+
+                /*  결재선 추가  */
+                for (const key in sanctionLineData) {
+                    if (sanctionLineData.hasOwnProperty(key)) {
+                        const value = sanctionLineData[key];
+                        /* 배열에 담기   */
+                        approver.push(value.id);
+                        /* 요소 추가 */
+                        const newTh = document.createElement("th");
+                        const newTd = document.createElement("td");
+                        const newP = document.createElement("p");
+                        const newSpan = document.createElement("span");
+
+                        newTh.innerText = `\${key}차 결재자`;
+
+                        newP.classList = "approval-person";
+                        newP.innerText = value.name;
+                        newSpan.classList = "approval-date";
+
+                        newTd.append(newP);
+                        newTd.append(newSpan);
+                        applovalOtt.append(newTh);
+                        applovalObtt.append(newTd);
+                    }
+                }
+                for (const key in referLineData) {
+                    if (referLineData.hasOwnProperty(key)) {
+                        const value = referLineData[key];
+                        /* 배열에 담기   */
+                        referrer.push(value.id);
+                    }
+                }
+                console.log(approver, referrer);
             });
         });
         function loadVacationData() {
@@ -243,8 +281,8 @@
         });
 
         // 결재 테이블 insert 후 첨부 파일 있다면 업로드 실행
-        function uploadFile() {
-            let form = $('#sanctionFile')[0].files[0];
+        function uploadFile(file) {
+            let form = file;
             let formData = new FormData();
             formData.append('file', form);
 
@@ -299,5 +337,7 @@
             window.opener.refreshParent();
             window.close();
         }
+
+
     </script>
 </sec:authorize>

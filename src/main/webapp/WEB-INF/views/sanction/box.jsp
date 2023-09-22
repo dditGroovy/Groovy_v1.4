@@ -14,18 +14,18 @@
         <main>
             <div class="main-inner sanction-inner">
                 <div class="status-wrap">
-                    <ul id="sanctionStatus">
-                        <li class="status-item">
-                            <p class="status-item-title">기안한 결재</p>
-                            <p class="status-item-content"><a href="#" class="strong font-b font-32"></a>건</p>
+                    <ul id="sanctionStatus" class="total-status">
+                        <li class="status-item total-item">
+                            <p class="status-item-title total-item-title">기안한 결재</p>
+                            <p class="status-item-content total-item-content"><a href="#" class="strong font-b font-32"></a>건</p>
                         </li>
-                        <li class="status-item">
-                            <p class="status-item-title">완료된 결재</p>
-                            <p class="status-item-content"><a href="#"  class="strong font-b font-32"></a>건</p>
+                        <li class="status-item total-item">
+                            <p class="status-item-title total-item-title">완료된 결재</p>
+                            <p class="status-item-content total-item-content"><a href="#"  class="strong font-b font-32"></a>건</p>
                         </li>
-                        <li class="status-item">
-                            <p class="status-item-title">반려된 결재</p>
-                            <p class="status-item-content"><a href="#"  class="strong font-b font-32"></a>건</p>
+                        <li class="status-item total-item">
+                            <p class="status-item-title total-item-title">반려된 결재</p>
+                            <p class="status-item-content total-item-content"><a href="#"  class="strong font-b font-32"></a>건</p>
                         </li>
                     </ul>
                 </div>

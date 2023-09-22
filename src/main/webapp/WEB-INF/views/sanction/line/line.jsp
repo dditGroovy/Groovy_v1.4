@@ -91,7 +91,7 @@
                         <ul class="lineList"></ul>
                     </div>
                 </div>
-                <div id="refrnLine" class="line-inner">
+                <div id="referLine" class="line-inner">
                     <div class="line-header">
                         <p class="badge attachment">참조</p>
                         <div class="btnWrap">
@@ -430,28 +430,32 @@
         submitLineBtn.addEventListener("click", e => {
             e.preventDefault();
             const sanctionLineItems = document.querySelectorAll('#sanctionLine .lineList label');
-            const refrnLineItems = document.querySelectorAll('#refrnLine .lineList label');
+            const referLineItems = document.querySelectorAll('#referLine .lineList label');
             const data = {
                 sanctionLine: {},
-                refrnLine: {}
+                referLine: {}
             };
-
             if (sanctionLineItems.length != 0) {
-                sanctionLineItems.forEach(item => {
+                data.sanctionLine = {};
+                for (let index = sanctionLineItems.length - 1; index >= 0; index--) {
+                    const item = sanctionLineItems[index];
                     const id = item.querySelector("input").value;
                     const name = item.querySelector(".name").innerText;
-                    data.sanctionLine[id] = name;
-                })
+                    data.sanctionLine[sanctionLineItems.length - index] = { id, name };
+                }
             } else {
                 alert("결재선을 선택해야합니다.");
                 return;
             }
-            refrnLineItems.forEach(item => {
-                const id = item.querySelector("input").value;
-                const name = item.querySelector(".name").innerText;
-                data.refrnLine[id] = name;
-            })
-
+            if (referLineItems.length != 0) {
+                data.referLine = {};
+                referLineItems.forEach((item, index) => {
+                    data.referLine = {};
+                    const id = item.querySelector("input").value;
+                    const name = item.querySelector(".name").innerText;
+                    data.referLine[index + 1] = {id, name};
+                })
+            }
 
             // 부모 창으로 데이터를 보냅니다.
             window.opener.postMessage(data, '*');
