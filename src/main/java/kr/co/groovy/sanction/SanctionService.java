@@ -115,7 +115,7 @@ public class SanctionService {
         vo.setElctrnSanctnSj(title);
         vo.setElctrnSanctnDc(content);
         vo.setElctrnSanctnDrftEmplId(writer);
-        vo.setCommonCodeSanctProgrs("SANCTN010");
+//        vo.setCommonCodeSanctProgrs("SANCTN010");
         if (afterProcess != null) {
             vo.setElctrnSanctnAfterPrcs(afterProcess);
         }

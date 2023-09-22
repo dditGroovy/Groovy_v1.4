@@ -34,7 +34,7 @@
                 <li class="department nav-list"><a href="#">총무팀 <i class="icon i-arr-bt"></i></a></li>
                 <ul class="depth2">
                     <li class="depth2-nav-list"><a href="#" ><i class="icon i-sanction"></i>결재 관리</a></li>
-                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/notice/manageNotice"><i class="icon i-notice"></i>공지사항 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/notice/manage"><i class="icon i-notice"></i>공지사항 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/club/admin"><i class="icon i-share"></i>동호회 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/reservation/room"><i class="icon i-building"></i>시설 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/reserve/manageVehicle"><i class="icon i-parking"></i>차량 관리</a></li>

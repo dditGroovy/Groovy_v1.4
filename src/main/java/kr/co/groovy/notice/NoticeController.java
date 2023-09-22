@@ -33,7 +33,7 @@ public class NoticeController {
     }
 
     /* 관리자 */
-    @GetMapping("/manageNotice")
+    @GetMapping("/manage")
     public String manageNotice(Model model) {
         List<NoticeVO> list = service.loadNoticeListForAdmin();
         model.addAttribute("notiList", list);
