@@ -180,7 +180,7 @@
         // 결재하기 시작
         $("#startSanction").on("click", function () {
             $("#modifyRequest").prop("disabled", true)
-            window.open('/sanction/format/DEPT011/SANCTN_FORMAT010', "결재", "width = 1200, height = 1200")
+            window.open('/sanction/format/DEPT011/SANCTN_FORMAT010', "결재", "width = 1160, height = 1400")
         })
 
         function refreshParent() {

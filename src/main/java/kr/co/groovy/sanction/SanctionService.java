@@ -119,6 +119,7 @@ public class SanctionService {
         if (afterProcess != null) {
             vo.setElctrnSanctnAfterPrcs(afterProcess);
         }
+        log.info(vo.toString());
         mapper.inputSanction(vo);
 
         List<String> approverList = requestData.get("approver", List.class);

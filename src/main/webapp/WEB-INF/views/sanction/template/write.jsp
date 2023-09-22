@@ -90,7 +90,7 @@
         /*  팝업  */
         const getLineBtn = document.querySelector("#getLine");
 
-        document.addEventListener("DOMContentLoaded",()=>{
+        document.addEventListener("DOMContentLoaded", () => {
             $("#sanctionNo").html(etprCode);
             $("#writeDate").html(today);
             $("#writer").html("${CustomUser.employeeVO.emplNm}")
@@ -106,13 +106,14 @@
             const url = "/sanction/line";
             const option = "width = 1024, height = 768, top = 100, left = 200, location = no";
             let popupWindow;
-            getLineBtn.addEventListener("click",()=>{
+            getLineBtn.addEventListener("click", () => {
                 popupWindow = window.open(url, 'line', option);
             })
+
             /* Promise를 사용하여 데이터 받아오기 */
             function getDataFromPopup() {
                 return new Promise((resolve, reject) => {
-                    window.addEventListener('message', function(event) {
+                    window.addEventListener('message', function (event) {
                         const data = event.data;
                         /*document.querySelector(".approval").innerHTML = data;*/
                         let approvalList = data; // 데이터를 변수에 저장
@@ -164,8 +165,14 @@
                     }
                 }
                 console.log(approver, referrer);
+
+
+
+
+
             });
         });
+
         function loadVacationData() {
             $.ajax({
                 url: `/vacation/loadData/\${num}`,
@@ -281,11 +288,13 @@
         });
 
         // 결재 테이블 insert 후 첨부 파일 있다면 업로드 실행
-        function uploadFile(file) {
+        function appendFile(file) {
             let form = file;
             let formData = new FormData();
             formData.append('file', form);
+        }
 
+        function uploadFile() {
             $.ajax({
                 url: `/file/upload/sanction/\${etprCode}`,
                 type: "POST",
@@ -301,6 +310,8 @@
                 }
             });
         }
+
+
 
         // 문서의 결재 상태 변경
         function updateStatus() {
@@ -339,5 +350,66 @@
         }
 
 
+        /*  파일 드래그 앤 드롭 */
+        const fileBox = document.querySelector(".file-box");
+        const fileBtn = fileBox.querySelector("#sanctionFile");
+        let formData;
+
+        /* 박스 안에 Drag 들어왔을 때 */
+        fileBox.addEventListener('dragenter', function (e) {
+        });
+        /* 박스 안에 Drag를 하고 있을 때 */
+        fileBox.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            console.log(e.dataTransfer.types);
+            const vaild = e.dataTransfer.types.indexOf('Files') >= 0;
+            !vaild ? this.style.backgroundColor = '#F5FAFF' : this.style.backgroundColor = '#F5FAFF';
+        });
+        /* 박스 밖으로 Drag가 나갈 때 */
+        fileBox.addEventListener('dragleave', function (e) {
+            this.style.backgroundColor = '#F9FAFB';
+        });
+        /* 박스 안에서 Drag를 Drop했을 때 */
+        fileBox.addEventListener('drop', function (e) {
+            e.preventDefault();
+            this.style.backgroundColor = '#F9FAFB';
+
+            const data = e.dataTransfer;
+
+            //유효성 Check
+            if (!isValid(data)) return;
+
+            //파일 이름을 text로 표시
+            const fileNameInput = document.querySelector(".file-name");
+            let filename = e.dataTransfer.files[0].name;
+            fileNameInput.innerHTML = filename;
+
+            appendFile(data.files[0]);
+
+
+        });
+        console.log(formData);
+
+        /*  파일 유효성 검사   */
+        function isValid(data) {
+
+            //파일인지 유효성 검사
+            if (data.types.indexOf('Files') < 0)
+                return false;
+
+            //파일의 개수는 1개씩만 가능하도록 유효성 검사
+            if (data.files.length > 1) {
+                alert('파일은 하나씩 전송이 가능합니다.');
+                return false;
+            }
+
+            //파일의 사이즈는 50MB 미만
+            if (data.files[0].size >= 1024 * 1024 * 50) {
+                alert('50MB 이상인 파일은 업로드할 수 없습니다.');
+                return false;
+            }
+
+            return true;
+        }
     </script>
 </sec:authorize>
