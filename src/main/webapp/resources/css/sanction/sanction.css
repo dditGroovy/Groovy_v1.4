@@ -101,6 +101,9 @@
 }
 
 /*  결재선 */
+#line {
+    overflow-y: scroll;
+}
 .approvalLine {
     display: flex;
     flex-direction: column;
