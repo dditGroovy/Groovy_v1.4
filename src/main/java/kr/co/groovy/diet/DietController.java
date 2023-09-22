@@ -55,6 +55,9 @@ public class DietController {
 
             map = dietService.insertDiet(apply);
             
+            map.put("res", "ok");
+    		map.put("msg", "파일 업로드 성공");
+            
         } catch (Exception e) {
             System.out.println(e.toString());
             map = new HashMap<>();
