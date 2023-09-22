@@ -195,7 +195,6 @@
     document.addEventListener('DOMContentLoaded', () => {
         const gridDiv = document.querySelector('#myGrid');
         new agGrid.Grid(gridDiv, gridOptions);
-
     });
 
     function linkCellRenderer(params) {

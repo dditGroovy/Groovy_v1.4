@@ -27,5 +27,6 @@ public class CommuteVO {
     private String overWorkTime;
     private String totalWorkTime;
     private String avgWorkTime;
+    private int coWtrmsAbsenc; // 무단결근 개수
 
 }

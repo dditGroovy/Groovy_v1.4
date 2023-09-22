@@ -223,7 +223,6 @@
         FROM DCLZ
         WHERE DCLZ_WORK_DE BETWEEN TRUNC(to_date(#{date}, 'yy-mm'), 'MM') AND LAST_DAY(to_date(#{date}, 'yy-mm'))
         GROUP BY DCLZ_EMPL_ID
-        ORDER BY DCLZ_EMPL_ID
         ]]>
     </select>
 
@@ -237,11 +236,10 @@
                     FROM DUAL)
               CONNECT BY LEVEL <= END_DT - START_DT + 1) A
         WHERE A.D NOT IN ('1', '7')
-        ORDER BY A.DATES
         ]]>
     </select>
 
-    <select id="getSalaryBslry" resultType="paystubVO">
+    <select id="getSalaryBslry" resultType="paystubVO" parameterType="String">
         select EMPL_ID as salary_empl_id,
                case
                    when COMMON_CODE_HFFC_STTUS = 'HFFC010' then
@@ -268,7 +266,15 @@
         from empl e
         where e.COMMON_CODE_DEPT not in 'DEPT015'
            or e.COMMON_CODE_CLSF not in 'CLSF010'
-        order by EMPL_ID
     </select>
+
+    <select id="getCoWtrmsAbsenc" resultType="commuteVO" parameterType="String">
+        select DCLZ_EMPL_ID, count(DCLZ_WORK_DE) as CO_WTRMS_ABSENC
+        from dclz
+        WHERE COMMON_CODE_LABOR_STTUS = 'LABOR_STTUS015'
+          and DCLZ_WORK_DE BETWEEN TRUNC(to_date(#{date}, 'yy-mm'), 'MM') AND LAST_DAY(to_date(#{date}, 'yy-mm'))
+        group by DCLZ_EMPL_ID
+    </select>
+
 
 </mapper>

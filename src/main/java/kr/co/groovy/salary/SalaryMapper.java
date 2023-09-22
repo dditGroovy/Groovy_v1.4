@@ -40,4 +40,6 @@ public interface SalaryMapper {
     String getPrescribedWorkingHours(String date);
 
     List<PaystubVO> getSalaryBslry(String date);
+
+    List<CommuteVO> getCoWtrmsAbsenc(String date);
 }

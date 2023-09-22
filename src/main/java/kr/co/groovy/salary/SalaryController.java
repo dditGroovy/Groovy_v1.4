@@ -128,12 +128,10 @@ public class SalaryController {
         service.saveCheckboxState(isChecked);
     }
 
+
     @GetMapping("/calculate")
     public String calculatePage(Model model) {
-        LocalDate date = LocalDate.now();
-        int year = date.getYear();
-        int month = date.getMonthValue();
-        List<CommuteAndPaystub> cnpList = service.getCommuteAndPaystubList(year, month); // 이번달 기준 지난달이 보이게 나중에 -1 추가
+        List<CommuteAndPaystub> cnpList = service.schedulingSalaryExactCalculation();
         model.addAttribute("cnpList", cnpList);
 
         return "admin/at/salary/salaryCalculate";
@@ -142,8 +140,6 @@ public class SalaryController {
     @GetMapping("/selectedDate")
     @ResponseBody
     public List<CommuteAndPaystub> getCommuteAndPaystubByYearAndMonth(@RequestParam("year") String year, @RequestParam("month") String month) {
-        log.info(year);
-        log.info(month);
         return service.getCommuteAndPaystubList(Integer.parseInt(year), Integer.parseInt(month));
     }
 
@@ -156,7 +152,6 @@ public class SalaryController {
     @GetMapping("/months")
     @ResponseBody
     public List<String> getExistsMonthPerYears(@RequestParam("year") String year) {
-        log.info(year);
         return service.getExistsMonthPerYears(year);
     }
 }
