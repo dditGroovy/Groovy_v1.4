@@ -431,6 +431,10 @@ input[name=tabs]{
 }
 .tab {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
     font-size: var(--font-size-14);
     font-family: var(--font-md);
     text-align: center;
@@ -454,5 +458,5 @@ input[name=tabs]:checked + label.tab {
     background-color: rgba(0,0,0,0);
 }
 .grid-card {
-    padding: var(—vw-32);
+    padding: var(--vw-32);
 }
