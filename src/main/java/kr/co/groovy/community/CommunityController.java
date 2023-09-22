@@ -50,10 +50,8 @@ public class CommunityController {
 
             map.put("sntncEtprCode", sntncEtprCode);
             map.put("recomendEmplId", emplId);
-            log.info("map ==> " + map);
             int recommendedChk = service.findRecommend(map);
             recommendedEmpleChk.put(sntncEtprCode, recommendedChk);
-            log.info("recommendedEmpleChk ==> " + recommendedEmpleChk);
             int answerCnt = service.loadAnswerCnt(sntncEtprCode);
             answerPostCnt.put(sntncEtprCode, answerCnt);
 

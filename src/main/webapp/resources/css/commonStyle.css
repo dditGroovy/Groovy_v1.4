@@ -1,6 +1,6 @@
 /* root */
 :root {
-    --color-error : #ffb7b7;
+    --color-error : #dc2e2e;
     --color-main: #5796F3;
     --color-stroke : #e3ebf3;
     --color-bg-grey : #F9FAFB;
@@ -12,6 +12,7 @@
     --color-font-row : #C8CDD4;
     --clay-card:35px 35px 68px 0px rgba(241, 244, 248, 0.63), -4px -4px 16px 0px rgba(232, 243, 255, 0.60) inset, 0px 11px 28px 0px #FFF inset;
     --clay-btn: 35px 35px 68px 0px rgba(191, 210, 230, 0.30), -4px -4px 16px 0px rgba(68, 118, 211, 0.94) inset, 0px 11px 28px 0px rgba(190, 213, 255, 0.55) inset;
+    --clay-error-btn: 35px 35px 68px 0px rgb(225, 184, 184), -4px -4px 16px 0px rgb(220, 46, 46) inset, 0px 11px 28px 0px rgb(255, 190, 190) inset;
     --size-24 : var(--vw-24);
     --size-32 : var(--vw-32);
     --size-50 : 50%;
@@ -138,8 +139,9 @@
 .btn-out-lg {width: calc((516 / var(--vw)) * 100vw); height: var(--vh-64); background-color: var(--color-white); border-radius: var(--size-32); border: 1px solid var(--color-main); outline-color: var(--color-main); color: var(--color-main);}
 .btn-out-sm {width: calc((256 / var(--vw)) * 100vw); height: var(--vh-64); background-color: var(--color-white); border-radius: var(--size-32); border: 1px solid var(--color-main);  color: var(--color-main); outline-color: var(--color-main);}
 .btn-out-sm:hover {background-color: var(--color-main); color: white;}
-.btn-free-white {;background-color:  var(--color-white); border: 1px solid var(--color-stroke); border-radius: var(--size-32); box-shadow: var(--clay-card); outline-color: var(--color-main); padding: var(--vh-12) var(--vw-24)}
+.btn-free-white {;background-color:  var(--color-error); border: 1px solid var(--color-stroke); border-radius: var(--size-32); box-shadow: var(--clay-card); padding: var(--vh-12) var(--vw-24)}
 .btn-free-blue {background-color:  var(--color-main); border: 1px solid var(--color-stroke); border-radius: var(--size-32); box-shadow: var(--clay-btn); color: white; font-weight: 600;}
+.btn-free-red {background-color:  var(--color-error); border: 1px solid var(--color-stroke); border-radius: var(--size-32); box-shadow: var(--clay-error-btn); color: white; font-weight: 600;}
 .btn.active {background-color: var(--color-main); box-shadow: var(--clay-btn);}
 .btn-flat {background-color: var(--color-main); border-radius: var(--size-32); display: flex; align-items: center; border: none; color: white; }
 
