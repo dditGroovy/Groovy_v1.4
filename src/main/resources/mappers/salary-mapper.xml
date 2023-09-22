@@ -9,6 +9,7 @@
         FROM ANSLRY
         WHERE COMMON_CODE_DEPT_CRSF LIKE 'DEPT%'
     </select>
+
     <select id="loadBonus" resultType="annualSalaryVO">
         SELECT ANSLRY_STDR_YEAR,
                COMMON_CODE_DEPT_CRSF,
@@ -18,6 +19,7 @@
         WHERE COMMON_CODE_DEPT_CRSF LIKE 'CLSF%'
         ORDER BY COMMON_CODE_DEPT_CRSF DESC
     </select>
+
     <select id="loadTariff" parameterType="String" resultType="tariffVO">
         SELECT TARAT_STDR_YEAR,
         TARAT_STDR_NM,
@@ -38,6 +40,7 @@
         </choose>
         ORDER BY TARAT_STDR_NM ASC
     </select>
+
     <select id="loadEmpList" resultType="employeeVO">
         SELECT EMPL_ID,
                EMPL_NM,
@@ -47,6 +50,7 @@
                COMMON_CODE_CLSF AS CLSF_NM
         FROM EMPL
     </select>
+
     <select id="loadPaymentList" parameterType="String" resultType="salaryVO">
         SELECT S.SALARY_PYMNT_DATE,
                S.SALARY_EMPL_ID,
@@ -59,38 +63,6 @@
           AND SALARY_EMPL_ID = #{emplId}
           AND TO_CHAR(SALARY_PYMNT_DATE, 'YYYY') = #{year}
     </select>
-
-    <insert id="inputSalary" parameterType="String">
-        INSERT INTO SALARY(SALARY_PYMNT_DATE, SALARY_EMPL_ID, SALARY_BSLRY, SALARY_OVTIME_ALLWNC)
-        WITH TOTAL_OVERTIME AS (SELECT SUM(CASE
-                                               WHEN D.DCLZ_DAIL_WORK_TIME > 8 THEN D.DCLZ_DAIL_WORK_TIME - 8
-                                               ELSE 0 END) AS TOTAL_OVERTIME
-                                FROM DCLZ D
-                                WHERE TO_CHAR(D.DCLZ_WORK_DE, 'YYYY-MM') =
-                                      TO_CHAR(ADD_MONTHS(SYSDATE, -1), 'YYYY-MM')
-                                  AND D.DCLZ_EMPL_ID = #{emplId})
-        SELECT TO_DATE(TO_CHAR(LAST_DAY(ADD_MONTHS(SYSDATE, -1)), 'YYYY-MM') || '-10',
-                       'YYYY-MM-DD') AS SALARY_PYMNT_DATE,
-               #{emplId}             AS SALARY_EMPL_ID,
-               SUM(TRUNC((CASE
-                              WHEN A.COMMON_CODE_DEPT_CRSF = E.COMMON_CODE_DEPT
-                                  OR A.COMMON_CODE_DEPT_CRSF = E.COMMON_CODE_CLSF
-                                  THEN A.ANSLRY_ALLWNC
-                              ELSE 0
-                   END) / 12, 0))    AS SALARY_BSLRY,
-               SUM(TRUNC((CASE
-                              WHEN A.COMMON_CODE_DEPT_CRSF = E.COMMON_CODE_DEPT
-                                  OR A.COMMON_CODE_DEPT_CRSF = E.COMMON_CODE_CLSF
-                                  THEN A.ANSLRY_ALLWNC
-                              ELSE 0
-                   END) / 12 / 30 / 8 * ((TOTAL_OVERTIME * 1.5)), 0
-                   ))                AS SALARY_OVTIME_ALLWNC
-        FROM EMPL E
-                 JOIN ANSLRY A ON A.COMMON_CODE_DEPT_CRSF = E.COMMON_CODE_DEPT
-                 CROSS JOIN TOTAL_OVERTIME
-        WHERE E.EMPL_ID = #{emplId}
-        GROUP BY TO_DATE(TO_CHAR(LAST_DAY(ADD_MONTHS(SYSDATE, -1)), 'YYYY-MM') || '-10', 'YYYY-MM-DD'), #{emplId};
-    </insert>
 
     <select id="loadRecentPaystub" parameterType="String" resultType="paystubVO">
         SELECT SALARY_DTSMT_ETPR_CODE,
@@ -221,7 +193,7 @@
                   AND C.COMMON_CODE = E.COMMON_CODE_DEPT)                             AS DEPT_NM,
                (SELECT E.COMMON_CODE_CLSF FROM EMPL E WHERE E.EMPL_ID = DCLZ_EMPL_ID) AS COMMON_CODE_CLSF
         FROM DCLZ
-        WHERE DCLZ_WORK_DE BETWEEN TRUNC(to_date(#{date}, 'yy-mm'), 'MM') AND LAST_DAY(to_date(#{date}, 'yy-mm'))
+        WHERE DCLZ_WORK_DE BETWEEN TRUNC(TO_DATE(#{date}, 'YY-MM'), 'MM') AND LAST_DAY(TO_DATE(#{date}, 'YY-MM'))
         GROUP BY DCLZ_EMPL_ID
         ]]>
     </select>
@@ -276,5 +248,41 @@
         group by DCLZ_EMPL_ID
     </select>
 
+    <insert id="inputSalary" parameterType="paystubVO">
+        INSERT INTO SALARY ( SALARY_PYMNT_DATE
+                           , SALARY_EMPL_ID
+                           , SALARY_BSLRY
+                           , SALARY_OVTIME_ALLWNC)
+        VALUES ( #{salaryDtsmtIssuDate}
+               , #{salaryEmplId}
+               , #{salaryBslry}
+               , #{salaryOvtimeAllwnc})
+    </insert>
 
+    <insert id="inputSalaryDtsmt" parameterType="paystubVO">
+        INSERT INTO SALARY_DTSMT ( SALARY_DTSMT_ETPR_CODE
+                                 , SALARY_DTSMT_ISSU_DATE
+                                 , SALARY_EMPL_ID
+                                 , SALARY_DTSMT_PYMNT_TOTAMT
+                                 , SALARY_DTSMT_SIS_NP
+                                 , SALARY_DTSMT_SIS_HI
+                                 , SALARY_DTSMT_SIS_EI
+                                 , SALARY_DTSMT_SIS_WCI
+                                 , SALARY_DTSMT_INCMTAX
+                                 , SALARY_DTSMT_LOCALITY_INCMTAX
+                                 , SALARY_DTSMT_DDC_TOTAMT
+                                 , SALARY_DTSMT_NET_PAY)
+        VALUES ('SD-AT-' || TO_CHAR(ADD_MONTHS(SYSDATE, -1), 'YYMM') || '-' || #{salaryEmplId},
+                #{salaryDtsmtIssuDate},
+                #{salaryEmplId},
+                #{salaryDtsmtPymntTotamt},
+                #{salaryDtsmtSisNp},
+                #{salaryDtsmtSisHi},
+                #{salaryDtsmtSisEi},
+                #{salaryDtsmtSisWci},
+                #{salaryDtsmtIncmtax},
+                #{salaryDtsmtLocalityIncmtax},
+                #{salaryDtsmtDdcTotamt},
+                #{salaryDtsmtNetPay})
+    </insert>
 </mapper>

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -155,7 +156,13 @@ public class SalaryService {
                     paystubVO.setSalaryDtsmtNetPay(paystubVO.getSalaryDtsmtPymntTotamt() - paystubVO.getSalaryDtsmtDdcTotamt());
                     CommuteAndPaystub cnp = new CommuteAndPaystub(commuteVO, paystubVO);
                     cnpList.add(cnp);
+
+                    LocalDate localDate = LocalDate.now();
+                    paystubVO.setSalaryDtsmtIssuDate(new Date(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth()));
+                    mapper.inputSalary(paystubVO);
+                    mapper.inputSalaryDtsmt(paystubVO);
                 }
+
             }
         }
 
