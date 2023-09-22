@@ -364,6 +364,20 @@ i.icon {
 
 
 /* total Box*/
+.status-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.total-status {
+    display: flex;
+    gap: 2px;
+    width: calc((1200 / 1920) * 100vw);
+    height: calc((156/1080) * 100vh);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-stroke);
+}
 .total-status li.total-item {
     flex: 1;
     display: flex;

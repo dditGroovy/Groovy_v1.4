@@ -72,8 +72,11 @@
         height: var(--vw-24);
     }
 </style>
-<h1><a href="/notice/loadNoticeList" class="tab">공지사항</a></h1>
+
 <div class="content-container">
+    <header id="tab-header">
+        <h1><a href="/notice/loadNoticeList" class="on">공지사항</a></h1>
+    </header>
     <div class="content-wrapper">
         <div class="content-header">
             <div class="box-sort-search">
