@@ -21,7 +21,7 @@
 $(document).ready(function(){	
 	
 	$(function(){
-		var request = $.ajax({
+		let request = $.ajax({
 			url : "/schedule/schedule",
 			method : "GET",
 			dataType : "json"

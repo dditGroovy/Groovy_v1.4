@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.spi.DirStateFactory.Result;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +32,14 @@ public class DietController {
 	
 	@GetMapping("/dietMain")
 	public String dietMain() {
-		return "diet/diet";
+		return "admin/gat/diet/diet";
+	}
+	
+	
+	@GetMapping("/dietData")
+	public ResponseEntity<List<Map<String, Object>>> getDiet() {
+		List<Map<String, Object>> result = dietService.getDiet();
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 	
