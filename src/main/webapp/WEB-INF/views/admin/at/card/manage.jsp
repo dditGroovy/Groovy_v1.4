@@ -103,7 +103,7 @@
             let cprCardResveSn = data.cprCardResveSn;
             let selectedCardNo;
             let assignData = {};
-
+            let cprCardResveEmplId = data.cprCardResveEmplId;
             this.eGui = document.createElement('div');
             this.eGui.innerHTML = `<select name="cprCardNo" class="selectedCard"></select>
             <button id="submitBtn">저장</button>`;
@@ -130,13 +130,55 @@
                     data: JSON.stringify(assignData),
                     contentType: "application/json;charset:utf-8",
                     success: function (result) {
-                        loadAllCard();
-                        const newData = rowData.filter(item => item.cprCardResveSn !== assignData.cprCardResveSn);
-                        gridOptions.api.setRowData(newData);
-                        let cntText = $("#waitingListCnt").text();
-                        let cnt = parseInt(cntText, 10);
-                        $("#waitingListCnt").text(cnt - 1);
-                        alert("카드 지정 완료")
+                        //알림 보내기
+                        $.get("/alarm/getMaxAlarm")
+                            .then(function (maxNum) {
+                                maxNum = parseInt(maxNum) + 1;
+                                console.log("최대 알람 번호:", maxNum);
+                                let ntcnEmplId = cprCardResveEmplId;
+                                let url = '/card/request';
+                                let content = `<div class="alarmBox">
+                                                                <a href="${url}" id="fATag" data-seq="${maxNum}">
+                                                                    <h1>[법인카드 신청]</h1>
+                                                                    <p>법인카드 신청이 승인 되셨습니다.</p>
+                                                                </a>
+                                                                <button type="button" class="readBtn">읽음</button>
+                                                            </div>`;
+                                let alarmVO = {
+                                    "ntcnEmplId": ntcnEmplId,
+                                    "ntcnSn": maxNum,
+                                    "ntcnUrl": url,
+                                    "ntcnCn": content,
+                                    "commonCodeNtcnKind": 'NONE'
+                                };
+
+                                //알림 생성 및 페이지 이동
+                                $.ajax({
+                                    type: 'post',
+                                    url: '/alarm/insertAlarmTarget',
+                                    data: alarmVO,
+                                    success: function (rslt) {
+                                        if (socket) {
+                                            //알람번호,카테고리,url,보낸사람이름,받는사람아이디
+                                            let msg = maxNum + ",card," + url + "," + ntcnEmplId;
+                                            socket.send(msg);
+                                        }
+                                        loadAllCard();
+                                        const newData = rowData.filter(item => item.cprCardResveSn !== assignData.cprCardResveSn);
+                                        gridOptions.api.setRowData(newData);
+                                        let cntText = $("#waitingListCnt").text();
+                                        let cnt = parseInt(cntText, 10);
+                                        $("#waitingListCnt").text(cnt - 1);
+                                        alert("카드 지정 완료")
+                                    },
+                                    error: function (xhr) {
+                                        console.log(xhr.status);
+                                    }
+                                });
+                            })
+                            .catch(function (error) {
+                                console.log("최대 알람 번호 가져오기 오류:", error);
+                            });
                     },
                     error: function (xhr) {
                         alert("실패")
@@ -187,6 +229,7 @@
         {field: "cprCardUseExpectAmount", headerName: "사용 예상 금액"},
         {field: "cprCardResveEmplIdAndName", headerName: "사원명(사번)"},
         {field: "assign", headerName: "카드 지정", cellRenderer: ClassComp},
+        {field: "cprCardResveEmplId", headerName: "사번", hide: true}
     ];
 
     const rowData = [];
@@ -202,6 +245,7 @@
         cprCardUsePurps: "${resve.cprCardUsePurps}",
         cprCardUseExpectAmount: "${cprCardUseExpectAmount}원",
         cprCardResveEmplIdAndName: "${resve.cprCardResveEmplNm}(${resve.cprCardResveEmplId})",
+        cprCardResveEmplId: "${resve.cprCardResveEmplId}"
     })
     </c:forEach>
 

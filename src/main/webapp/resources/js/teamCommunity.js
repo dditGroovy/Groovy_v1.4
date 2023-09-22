@@ -193,7 +193,7 @@
                                     let subject = target.closest("tr").querySelector(".sntncCn").innerText;
                                     let url = '/teamCommunity';
                                     let content = `<div class="alarmBox">
-                                                                <a href="${url}" class="aTag" data-seq="${maxNum}">
+                                                                <a href="${url}" id="fATag" data-seq="${maxNum}">
                                                                     <h1>[팀 커뮤니티]</h1>
                                                                     <p>[<span style="white-space: nowrap;
                                                                       display: inline-block;
@@ -218,7 +218,6 @@
                                         url: '/alarm/insertAlarmTarget',
                                         data: alarmVO,
                                         success: function (rslt) {
-                                            console.log(rslt);
                                             if (socket) {
                                                 //알람번호,카테고리,url,보낸사람이름,받는사람아이디
                                                 let msg = maxNum + ",answer," + url + "," + emplNm + "," + postWriterId + "," + subject;

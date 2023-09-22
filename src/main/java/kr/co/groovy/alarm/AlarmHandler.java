@@ -158,7 +158,41 @@ public class AlarmHandler extends TextWebSocketHandler {
                         receiveSession.sendMessage(new TextMessage(notificationHtml));
                     }
                 }
-
+            } else if (category.equals("email")) {
+                String subject = msgs[3];
+                String[] selectedEmplIdsArray = Arrays.copyOfRange(msgs, 4, msgs.length);
+                for (String emplId : selectedEmplIdsArray) {
+                    WebSocketSession receiveSession = userSessionMap.get(emplId);
+                    NotificationVO noticeAt = service.getNoticeAt(currentUserId(receiveSession));
+                    if (receiveSession != null && receiveSession.isOpen() && noticeAt.getEmailReception().equals("NTCN_AT010")) {
+                        String notificationHtml = String.format(
+                                "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
+                                        "<h1>[메일]</h1>\n" +
+                                        "<p>[<span style=\"white-space: nowrap; " +
+                                        "   display: inline-block;\n" +
+                                        "  overflow: hidden;\n" +
+                                        "  text-overflow: ellipsis;\n" +
+                                        "  max-width: 15ch;\">%s</span>]\n" +
+                                        " 메일이 도착했습니다.</p>" +
+                                        "</a>",
+                                url, seq, subject
+                        );
+                        receiveSession.sendMessage(new TextMessage(notificationHtml));
+                    }
+                }
+            } else if (category.equals("card")) {
+                String receiveId = msgs[3];
+                WebSocketSession receiveSession = userSessionMap.get(receiveId);
+                if (receiveSession != null && receiveSession.isOpen()) {
+                    String notificationHtml = String.format(
+                            "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
+                                    "<h1>[법인카드 신청]</h1>\n" +
+                                    "<p>법인카드 신청이 승인 되셨습니다.</p>" +
+                                    "</a>",
+                            url, seq
+                    );
+                    receiveSession.sendMessage(new TextMessage(notificationHtml));
+                }
             }
         }
     }

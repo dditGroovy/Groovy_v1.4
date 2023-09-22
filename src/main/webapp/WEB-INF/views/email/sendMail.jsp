@@ -118,48 +118,55 @@
             if (xhr.readyState == 4 && xhr.status == 200) {
                 console.log(xhr.responseText);
                 if (xhr.responseText === "success") {
-                    // //알림 보내기
-                    // $.get("/alarm/getMaxAlarm")
-                    //     .then(function (maxNum) {
-                    //         maxNum = parseInt(maxNum) + 1;
-                    //         let url = '/chat';
-                    //         let content = `<div class="alarmBox">
-                    //                     <a href="\${url}" class="aTag" data-seq="\${maxNum}">
-                    //                         <h1>[메일]</h1>
-                    //                         <p>\${emplNm}님이 메일을 보내셨습니다.</p>
-                    //                     </a>
-                    //                     <button type="button" class="readBtn">읽음</button>
-                    //                 </div>`;
-                    //         let alarmVO = {
-                    //             "ntcnSn": maxNum,
-                    //             "ntcnUrl": url,
-                    //             "ntcnCn": content,
-                    //             "commonCodeNtcnKind": 'NTCN016',
-                    //             "selectedEmplIds": emplIdToList
-                    //         };
-                    //
-                    //         //알림 생성 및 페이지 이동
-                    //         $.ajax({
-                    //             type: 'post',
-                    //             url: '/alarm/insertAlarmTargeList',
-                    //             data: alarmVO,
-                    //             success: function (rslt) {
-                    //                 if (socket) {
-                    //                     //알람번호,카테고리,url,보낸사람이름,받는사람아이디리스트
-                    //                     let msg = `\${maxNum},chat,\${url},\${emplNm},\${selectedEmplIds}`;
-                    //                     socket.send(msg);
-                    //                 }
-                    //                 alert("메일을 성공적으로 전송했습니다.");
-                    //                 location.href = "/email/all";
-                    //             },
-                    //             error: function (xhr) {
-                    //                 console.log(xhr.status);
-                    //             }
-                    //         });
-                    //     })
-                    //     .catch(function (error) {
-                    //         console.log("최대 알람 번호 가져오기 오류:", error);
-                    //     });
+                    //알림 보내기
+                    $.get("/alarm/getMaxAlarm")
+                        .then(function (maxNum) {
+                            maxNum = parseInt(maxNum) + 1;
+                            let url = '/email/all';
+                            let subject = formData.get("emailFromSj");
+                            let content = `<div class="alarmBox">
+                                         <a href="\${url}" id="fATag" data-seq="\${maxNum}">
+                                                                    <h1>[메일]</h1>
+                                                                    <p>[<span style="white-space: nowrap;
+                                                                      display: inline-block;
+                                                                      overflow: hidden;
+                                                                      text-overflow: ellipsis;
+                                                                      max-width: 15ch;">\${subject}</span>]
+                                                                        메일이 도착했습니다.
+                                                                      \</p>
+                                         </a>
+                                        <button type="button" class="readBtn">읽음</button>
+                                    </div>`;
+                            let alarmVO = {
+                                "ntcnSn": maxNum,
+                                "ntcnUrl": url,
+                                "ntcnCn": content,
+                                "commonCodeNtcnKind": 'NTCN016',
+                                "selectedEmplIds": emplIdToList
+                            };
+
+                            //알림 생성 및 페이지 이동
+                            $.ajax({
+                                type: 'post',
+                                url: '/alarm/insertAlarmTargeList',
+                                data: alarmVO,
+                                success: function (rslt) {
+                                    if (socket) {
+                                        //알람번호,카테고리,url,제일,받는사람아이디리스트
+                                        let msg = `\${maxNum},email,\${url},\${subject},\${emplIdToList}`;
+                                        socket.send(msg);
+                                    }
+                                    alert("메일을 성공적으로 전송했습니다.");
+                                    location.href = "/email/all";
+                                },
+                                error: function (xhr) {
+                                    console.log(xhr.status);
+                                }
+                            });
+                        })
+                        .catch(function (error) {
+                            console.log("최대 알람 번호 가져오기 오류:", error);
+                        });
                 } else {
                     alert("메일 전송에 실패했습니다. 다시 시도해주세요");
                 }
