@@ -65,7 +65,9 @@ public class CardController {
 
     @GetMapping("/reservationRecords")
     public String manageCardReservationRecords(Model model) {
+        List<String> cardName = service.loadAllCardName();
         List<CardReservationVO> records = service.loadAllResveRecords();
+        model.addAttribute("cardName", cardName);
         model.addAttribute("records", records);
         return "admin/at/card/reservationRecords";
     }
@@ -73,6 +75,7 @@ public class CardController {
     @PostMapping("/returnChecked")
     @ResponseBody
     public int returnChecked(@RequestBody CardReservationVO cardReservationVO) {
+        log.info("{}", cardReservationVO);
         return service.returnChecked(cardReservationVO);
     }
 

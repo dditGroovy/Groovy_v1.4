@@ -27,6 +27,8 @@ public interface CardMapper {
 
     int returnChecked(CardReservationVO cardReservationVO);
 
+    List<String> loadAllCardName();
+
     /* */
     int inputRequest(CardReservationVO cardReservationVO);
 
@@ -39,4 +41,5 @@ public interface CardMapper {
     List<CardReservationVO> loadSanctionList();
 
     int modifyRequest(CardReservationVO vo);
+
 }

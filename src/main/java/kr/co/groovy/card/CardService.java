@@ -71,6 +71,10 @@ public class CardService {
         return mapper.returnChecked(cardReservationVO);
     }
 
+    public List<String> loadAllCardName() {
+        return mapper.loadAllCardName();
+    }
+
 
     /* */
     public int inputRequest(CardReservationVO cardReservationVO) {

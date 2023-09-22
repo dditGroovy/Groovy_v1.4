@@ -2,16 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%-- 동작 위한 스타일 외엔(예: display:none 등) 전부 제가 작업하면서 편하게 보려고 임시로 먹인겁니다 ! --%>
-
-<%--
-이 jsp를 손 볼 사람에게
-반납 완료된 내역에 왜 <p> 태그가 안 먹히는지 모르겠습니다...
-success하면 자동으로 셀 리프레시하게 해놨는데 innerHTML이 안 돼서 그러나 그것도 안 먹힙니다
-일단 백은 완벽하게 다 해놨고, 말씀 드린 부분만 잡아주세요... 감사합니다...
---%>
-
-
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <div class="content-container">
     <header>
@@ -20,6 +10,13 @@ success하면 자동으로 셀 리프레시하게 해놨는데 innerHTML이 안 
     </header>
     <main>
         <div id="reservationRecords">
+            <select name="cprCardNm" onchange="onSelectFilterChanged()" id="selectFilter">
+                <option value="">카드 선택</option>
+                <c:forEach items="${cardName}" var="card">
+                    <option value="${card}">${card}</option>
+                </c:forEach>
+            </select>
+            <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
             <div id="recordGrid" class="ag-theme-alpine"></div>
         </div>
     </main>
@@ -31,39 +28,42 @@ success하면 자동으로 셀 리프레시하게 해놨는데 innerHTML이 안 
             let data = params.node.data;
             let cprCardResveSn = data.cprCardResveSn;
             let cprCardNo = data.cprCardNo;
+            let cprCardResveRturnAt = data.cprCardResveRturnAt;
 
             let modifyData = {
                 cprCardResveSn: cprCardResveSn,
                 cprCardNo: cprCardNo
             };
-            console.log(data.cprCardResveRturnAt);
+
             this.eGui = document.createElement('div');
+            let cell = this.eGui
             if (data.cprCardResveRturnAt == 0) {
-                this.eGui.innerHTML = "<button id='returnChkBtn'>반납 확인</button>";
+                cell.innerHTML = "<button id='returnChkBtn'>반납 확인</button>";
             } else {
-                this.eGui.innerHTML = "<p>반납 완료</p>";
+                cell.innerHTML = "<p>반납 완료</p>";
             }
 
             this.returnChkBtn = this.eGui.querySelector("#returnChkBtn");
-            this.returnChkBtn.onclick = () => {
-                $.ajax({
-                    url: "/card/returnChecked",
-                    type: "post",
-                    data: JSON.stringify(modifyData),
-                    contentType: "application/json;charset:utf-8",
-                    success: function (result) {
-                        console.log(result);
-                        data.cprCardResveRturnAt = 1;
-                        this.eGui.innerHTML = "<p>반납 완료</p>";
-                        gridOptions.api.refreshCells({force: true});
-                        alert("카드 반납 완료 처리하였습니다.");
-                    },
-                    error: function (xhr) {
-                        alert("오류로 인한 처리 실패");
-                        console.log(xhr.responseText);
-                    }
-                });
-            };
+            if (this.returnChkBtn != null) {
+                this.returnChkBtn.onclick = () => {
+                    $.ajax({
+                        url: "/card/returnChecked",
+                        type: "post",
+                        data: JSON.stringify(modifyData),
+                        contentType: "application/json;charset:utf-8",
+                        success: function (result) {
+                            cprCardResveRturnAt = 1;
+                            cell.innerHTML = "<p>반납 완료</p>";
+                            gridOptions.api.refreshCells();
+                            alert("카드 반납 완료 처리하였습니다.");
+                        },
+                        error: function (xhr) {
+                            alert("오류로 인한 처리 실패");
+                            console.log(xhr.responseText);
+                        }
+                    });
+                };
+            }
         }
 
         getGui() {
@@ -89,6 +89,21 @@ success하면 자동으로 셀 리프레시하게 해놨는데 innerHTML이 안 
 
     function onQuickFilterChanged() {
         gridOptions.api.setQuickFilter(document.getElementById('quickFilter').value);
+    }
+
+    function onSelectFilterChanged() {
+        gridOptions.api.setQuickFilter(document.getElementById('selectFilter').value);
+    }
+
+    function refreshRow(rowNode, api) {
+        var millis = frame++ * 100;
+        var rowNodes = [rowNode];
+        var params = {
+            force: isForceRefreshSelected(),
+            suppressFlash: isSuppressFlashSelected(),
+            rowNodes: rowNodes,
+        };
+        callRefreshAfterMillis(params, millis, api);
     }
 
     const columnDefs = [

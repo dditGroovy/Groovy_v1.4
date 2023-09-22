@@ -44,6 +44,7 @@
         FROM CPR_CARD_RESVE C,
              EMPL E
         WHERE COMMON_CODE_RESVE_AT = 'RESVE010'
+          AND C.COMMON_CODE_YRYC_STATE = 'YRYC032'
           AND C.CPR_CARD_RESVE_EMPL_ID = E.EMPL_ID
         ORDER BY CPR_CARD_RESVE_SN
     </select>
@@ -62,6 +63,12 @@
                 WHERE CPR_CARD_NO = #{cprCardNo};
             END}
     </update>
+
+    <select id="loadAllCardName" resultType="String">
+        SELECT CPR_CARD_NM
+        FROM CPR_CARD
+        ORDER BY CPR_CARD_NM ASC
+    </select>
 
     <select id="loadAllResveRecords" resultType="cardReservationVO">
         SELECT CR.CPR_CARD_RESVE_SN,
