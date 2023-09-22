@@ -56,7 +56,18 @@ body {
     width: calc((100 / var(--vw)) * 100vw);
     height: calc((100 / var(--vw)) * 100vw);
 }
-
+/*  scroll  */
+div::-webkit-scrollbar, ul::-webkit-scrollbar {
+    width: 8px;
+}
+div::-webkit-scrollbar-thumb, ul::-webkit-scrollbar-thumb {
+    height: 20%;
+    background: var(--color-main);
+    border-radius: 10px;
+}
+.card:hover.scroll-area .content-list {
+    overflow-y: scroll;
+}
 /* user */
 .user {display: flex; flex-direction: column; gap: var(--vh-12);}
 

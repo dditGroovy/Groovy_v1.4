@@ -1,4 +1,3 @@
-
 /* root */
 :root {
     --color-error : #ffb7b7;
@@ -298,15 +297,29 @@
     width: 80%;
     margin: 0 auto;
 }
+.form tr {
+    height: var(--vh-56);
+    border-top: 1px solid var(--color-stroke);
+    border-bottom: 1px solid var(--color-stroke);
+}
 .form th {
     font-size: var(--font-size-14);
+    color: var(--color-main);
     background-color: var(--color-bg-sky);
+    font-size: var(--font-size-18);
 }
 .form td {
     padding: var(--vw-10);
+    font-size: var(--font-size-14);
 }
 .form tr:not(:last-child){
     border-bottom: 1px solid var(--color-stroke);
+}
+.form tr td:not(:last-child) {
+    border-right: 1px solid var(--color-stroke);
+}
+.form tr th:not(:last-child) {
+    border-right: 1px solid var(--color-stroke);
 }
 .form input,.form textarea {
     padding: var(--vw-12) var(--size-24);

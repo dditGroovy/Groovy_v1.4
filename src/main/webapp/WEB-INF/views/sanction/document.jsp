@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sanction/sanction.css">
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container sanction-container">
@@ -22,11 +22,12 @@
                         <div class="glider"></div>
                     </div>
                 </div>
-                <div id="inProgress">
+                <div id="inProgress" class="card-df">
                 </div>
             </div>
-    </div>
-    </main>
+        </main>
+</div>
+
     <script>
         $(document).ready(function () {
             let emplId = "${CustomUser.employeeVO.emplId}";
@@ -35,22 +36,28 @@
              */
 
             loadRequest();
+           /* const gridRegistOptions = {
+                columnDefs: columnDefsRequest,
+                rowData: rowDataRequest,
+                pagination:true,
+                paginationPageSize: 10,
+            };*/
             function loadRequest(){
                 $.ajax({
                     type: "GET",
                     url: `/sanction/api/request/\${emplId}`,
                     success: function (res) {
                         let code = "<table class='form approval-form'>";
-                        code += `<thead><tr><th>문서번호</th><th>결재양식</th><th>제목</th><th>기안일시</th><th>상태</th></thead><tbody>`;
+                        code += `<thead><tr><th class="sticky-th">문서번호</th><th class="sticky-th">상태</th><th class="sticky-th">결재양식</th><th class="sticky-th">제목</th><th class="sticky-th">기안일시</th></tr></thead><tbody>`;
                         if (res.length === 0) {
-                            code += "<td colspan='8'>기안 결재 문서가 없습니다</td>";
+                            code += "<tr style='height: 100%;'><td colspan='8'>기안 결재 문서가 없습니다</td></tr>";
                         } else {
                             for (let i = 0; i < res.length; i++) {
-                                code += `<td><a href="/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
+                                code += `<tr><td><a href="/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
+                                code += `<td>\${res[i].commonCodeSanctProgrs}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnFormatCode}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnSj}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnRecomDate}</td>`;
-                                code += `<td>\${res[i].commonCodeSanctProgrs}</td>`;
                                 code += "</tr>";
                             }
                         }
@@ -75,17 +82,18 @@
                     url: `/sanction/api/awaiting/\${emplId}`,
                     type: 'GET',
                     success: function (res) {
-                        let code = "<table class='form'>";
-                        code += `<thead><tr><th>문서번호</th><th>제목</th><th>기안자</th><th>기안일시</th><th>상태</th></thead><tbody>`;
+
+                        let code = "<table class='form approval-form'>";
+                        code += `<thead><tr><th class="sticky-th">문서번호</th><th class="sticky-th">상태</th><th class="sticky-th">제목</th><th class="sticky-th">기안자</th><th class="sticky-th">기안일시</th></tr></thead><tbody>`;
                         if (res.length === 0) {
-                            code += "<td colspan='8'>결재 대기 및 예정 문서가 없습니다</td>";
+                            code += "<tr style='height: 100%;'><td colspan='8'>결재 대기 및 예정 문서가 없습니다</td></tr>";
                         } else {
                             for (let i = 0; i < res.length; i++) {
-                                code += `<td><a href="/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
+                                code += `<tr><td><a href="/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
+                                code += `<td>\${res[i].commonCodeSanctProgrs}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnSj}</td>`;
                                 code += `<td>\${res[i].emplNm}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnRecomDate}</td>`;
-                                code += `<td>\${res[i].commonCodeSanctProgrs}</td>`;
                                 code += "</tr>";
                             }
                         }
@@ -106,17 +114,17 @@
                     url: `/sanction/api/reference/\${emplId}`,
                     type: 'GET',
                     success: function (res) {
-                        let code = "<table class='form'>";
-                        code += `<thead><tr><th>문서번호</th><th>제목</th><th>기안자</th><th>기안일시</th><th>상태</th></thead><tbody>`;
+                        let code = "<table class='form approval-form'>";
+                        code += `<thead><tr><th class="sticky-th">문서번호</th><th class="sticky-th">상태</th><th class="sticky-th">제목</th><th class="sticky-th">기안자</th><th class="sticky-th">기안일시</th></tr></thead><tbody>`;
                         if (res.length === 0) {
-                            code += "<td colspan='8'>참조 결재 문서가 없습니다</td>";
+                            code += "<tr style='height: 100%;'><td colspan='8'>참조 결재 문서가 없습니다</td></tr>";
                         } else {
                             for (let i = 0; i < res.length; i++) {
-                                code += `<td><a href="/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
+                                code += `<tr><td><a href="/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
+                                code += `<td>\${res[i].commonCodeSanctProgrs}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnSj}</td>`;
                                 code += `<td>\${res[i].emplNm}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnRecomDate}</td>`;
-                                code += `<td>\${res[i].commonCodeSanctProgrs}</td>`;
                                 code += "</tr>";
                             }
                         }

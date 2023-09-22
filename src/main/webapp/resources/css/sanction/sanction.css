@@ -345,3 +345,61 @@ th{
 #formCard table {
     border-color: var(--color-stroke);
 }
+.approval-form {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    table-layout: fixed;
+}
+.approval-form thead {
+    display:block;
+}
+.approval-form thead tr {
+    display: flex;
+    align-items: center;
+}
+.approval-form thead tr th {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.approval-form thead tr th:not(:nth-child(2)) {
+    flex : 2;
+}
+.approval-form thead tr th:nth-child(2){
+    flex: 1;
+}
+.approval-form tbody {
+    display:block;
+    height: 90%;
+    overflow-y:auto;
+}
+.approval-form tbody tr {
+    display: flex;
+    align-items: center;
+}
+.approval-form tbody tr td {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.approval-form tbody tr td:not(:nth-child(2)) {
+    flex : 2;
+}
+.approval-form tbody tr td:nth-child(2){
+    flex: 1;
+}
+.openSanction {
+    text-decoration: underline;
+    color: var(--color-main);
+}
+#inProgress {
+    padding: var(--vh-24);
+    height: calc((718/var(--vh))*100vh);
+}
+.sticky-th {
+    position: sticky;
+    top: 0px;
+}
