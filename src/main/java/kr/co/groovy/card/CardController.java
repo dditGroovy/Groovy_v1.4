@@ -80,10 +80,14 @@ public class CardController {
     }
 
     /* 신청 및 결재 */
+    @GetMapping("/record")
+    @ResponseBody
+    public List<CardReservationVO> loadRecord(Principal principal) {
+        return service.loadCardRecord(principal.getName());
+    }
+
     @GetMapping("/request")
-    public String requestCard(Principal principal, Model model) {
-        List<CardReservationVO> list = service.loadCardRecord(principal.getName());
-        model.addAttribute("cardRecord", list);
+    public String requestCard(Principal principal) {
         return "employee/card/request";
     }
 

@@ -119,7 +119,8 @@
     </div>
     <!-- 모달창 -->
     <div id="modal" class="modal-dim">
-        <div class="dim-bg"></div>        <div class="modal-layer card-df sm bookmarkName">
+        <div class="dim-bg"></div>
+        <div class="modal-layer card-df sm bookmarkName">
 
             <div class="modal-top">
                 <div class="modal-title">결재선으로 저장</div>
@@ -167,7 +168,7 @@
         const submitLineBtn = document.querySelector(".submitLine");
         const emplId = "${CustomUser.employeeVO.emplId}";
         let bookmarkName;
-        let bookmarkLine = {};
+        let bookmarkLine = [];
         const accordians = document.querySelectorAll(".dept");
         let keyword;
 
@@ -269,26 +270,47 @@
                     console.log(lines)
                     let result = "";
                     result += `<ul class="line-list">`;
-
+                    const labelMap = {};
                     lines.forEach(function (line) {
-                        result += `<li class="emplList">
-                                        <label style="display: flex" class="line-label">
-                                        <input type="checkbox" class="savedlineChk">`;
-                        result += `<input type="hidden" value="\${line.no}"/>`;
-                        result += `<span class="line-name badge font-14 font-md">\${line.name}</span><div class="line-block">`;
+                        const no = line.no;
 
-                        for (let key in line) {
-                            if (line.hasOwnProperty(key) && key != 'no' && key != 'name') {
-                                let value = line[key];
-                                result += `<p class="line-detail" data-id="\${key}">\${value}</p>`;
-                            }
+                        if (!labelMap[no]) {
+                            labelMap[no] = {
+                                name: line.name,
+                                emplInfo: {},
+                                lines: []
+                            };
                         }
-                        result += '</div><button type="button" class="btn removeBtn">X</button></li>';
-                        result += `</ul>`;
-                        $("#bookmarkLine").html(result);
+                        labelMap[no].lines.push(line);
+                        if (!labelMap[no].emplInfo[line.emplId]) {
+                            labelMap[no].emplInfo[line.emplId] = `\${line.emplNm} \${line.commonCodeDept} \${line.commonCodeClsf}`;
+                        }
                     });
+
+                    for (let no in labelMap) {
+                        if (labelMap.hasOwnProperty(no)) {
+                            const label = labelMap[no];
+                            result += `<li class="emplList">
+                            <label style="display: flex" class="line-label">
+                            <input type="checkbox" class="savedlineChk">
+                            <input type="hidden" value="\${no}">
+                            <span class="line-name badge font-14 font-md">\${label.name}</span>
+                            <div class="line-block">`;
+                            for (let emplId in label.emplInfo) {
+                                if (label.emplInfo.hasOwnProperty(emplId)) {
+                                    const emplDetail = label.emplInfo[emplId];
+                                    result += `<span class="line-detail" data-id="\${emplId}">\${emplDetail}</span>`;
+                                }
+                            }
+                            result += `</div><button type="button" class="btn removeBtn">X</button></li>`;
+                        }
+                    }
+
+                    result += `</ul>`;
+                    $("#bookmarkLine").html(result);
                 },
-                error: function (xhr) {
+                error: function (xhr, textStatus, error) {
+                    console.log("AJAX 오류:", error);
                 }
             });
         }
@@ -304,6 +326,7 @@
                 type: "DELETE",
                 success: function (res) {
                     pLabel.remove();
+                    console.log("북마크 삭제 성공")
                 },
                 error: function (xhr) {
                 }
@@ -314,9 +337,20 @@
         function saveLine() {
             bookmarkName = $("#bookmarkName").val()
             $("#sanctionLine .lineList li label").each(function () {
+
                 const emplId = $(this).find("input[type=hidden]").val();
-                const value = $(this).find('.name').text() + ' ' + $(this).find('.dept').text() + ' ' + $(this).find('.clsf').text();
-                bookmarkLine[emplId] = value;
+                const emplNm = $(this).find('.name').text();
+                const commonCodeDept = $(this).find('.dept').text();
+                const commonCodeClsf = $(this).find('.clsf').text();
+
+                const lineInfo = {
+                    emplId: emplId,
+                    emplNm: emplNm,
+                    commonCodeDept: commonCodeDept,
+                    commonCodeClsf: commonCodeClsf
+                };
+
+                bookmarkLine.push(lineInfo);
             });
             const jsonApprover = JSON.stringify(bookmarkLine);
             let jsonData = {
@@ -441,7 +475,7 @@
                     const item = sanctionLineItems[index];
                     const id = item.querySelector("input").value;
                     const name = item.querySelector(".name").innerText;
-                    data.sanctionLine[sanctionLineItems.length - index] = { id, name };
+                    data.sanctionLine[sanctionLineItems.length - index] = {id, name};
                 }
             } else {
                 alert("결재선을 선택해야합니다.");
