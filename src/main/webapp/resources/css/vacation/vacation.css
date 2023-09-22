@@ -1,0 +1,42 @@
+@import "../commonStyle.css";
+
+/* 공통   */
+.vacation-info-wrap {
+    height: calc((602/var(--vh))*100vh);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--vw-24);
+}
+.content-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+}
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.myVation-wrap .btn {
+    width: calc((108/var(--vw))*100vw);
+    padding: var(--vh-12) 0;
+    text-align: center;
+    font-family: var(--font-reg);
+    font-size: var(--font-size-11);
+}
+.vacation-card {
+    height: 100%;
+}
+.vacation-list {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.no-list {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    align-self: center;
+}
