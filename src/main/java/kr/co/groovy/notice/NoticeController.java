@@ -71,7 +71,7 @@ public class NoticeController {
 
 
     /* 사원 */
-    @GetMapping("/loadNoticeList")
+    @GetMapping("/list")
     public String loadNoticeList(Model model) {
         List<NoticeVO> list = service.loadNoticeList();
         model.addAttribute("noticeList", list);
@@ -88,8 +88,8 @@ public class NoticeController {
         return "common/companyNotice";
     }
 
-    @GetMapping("/noticeDetail")
-    public String loadNoticeDetail(Model model, String notiEtprCode) {
+    @GetMapping("/detail/{notiEtprCode}")
+    public String loadNoticeDetail(Model model, @PathVariable String notiEtprCode) {
         service.modifyNoticeView(notiEtprCode);
         NoticeVO vo = service.loadNoticeDetail(notiEtprCode);
         List<UploadFileVO> list = service.loadNotiFiles(notiEtprCode);

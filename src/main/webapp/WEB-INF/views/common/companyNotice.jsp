@@ -93,9 +93,9 @@
         </div>
         <div class="content-body">
             <div class="notice-inner">
-                <c:forEach var="noticeVO" items="${noticeList}" varStatus="stat"> <!-- 12: 공지사항 개수(length) -->
+                <c:forEach var="noticeVO" items="${noticeList}" varStatus="stat">
                     <div class="box-notice card-df">
-                        <a href="/notice/noticeDetail?notiEtprCode=${noticeVO.notiEtprCode}">
+                        <a href="/notice/detail/${noticeVO.notiEtprCode}">
                             <div class="notice-icon notice-header"><img
                                     src="/resources/images/${noticeVO.notiCtgryIconFileStreNm}"></div>
                             <div class="notice-body">
@@ -105,7 +105,7 @@
                             <div class="notice-footer">
                                 <div class="box-view">
                                     <i class="icon i-view"></i>
-                                    <span class="text-view-count font-11 color-font-md">${noticeVO.notiRdcnt} view</span>
+                                    <span class="text-view-count font-11 color-font-md">${noticeVO.notiRdcnt} views</span>
                                 </div>
                                 <div class="box-date">
                                     <span class="font-11 color-font-md">${noticeVO.notiDate}</span>

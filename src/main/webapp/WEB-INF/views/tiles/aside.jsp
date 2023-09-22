@@ -66,12 +66,12 @@
             <div class="company">
                 <span class="nav-cate">회사</span>
                 <ul>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/notice/loadNoticeList"><i
-                            class="icon i-notice"></i>공지사항 (완료)</a></li>
+                    <li class="nav-list"><a href="${pageContext.request.contextPath}/notice/list"><i
+                            class="icon i-notice"></i>공지사항</a></li>
                     <li class="nav-list"><a href="${pageContext.request.contextPath}/club"><i class="icon i-share"></i>동호회</a>
                     </li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/common/loadOrgChart"><i
-                            class="icon i-org"></i>조직도 (완료)</a></li>
+                    <li class="nav-list"><a href="${pageContext.request.contextPath}/common/orgChart"><i
+                            class="icon i-org"></i>조직도</a></li>
                 </ul>
             </div>
         </nav>

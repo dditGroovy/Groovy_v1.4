@@ -35,7 +35,7 @@ public class CommonController {
         this.uploadPath = uploadPath;
     }
 
-    @GetMapping("/loadOrgChart")
+    @GetMapping("/orgChart")
     public ModelAndView loadOrgChart(ModelAndView mav, String depCode) {
         List<String> departmentCodes = Arrays.asList("DEPT010", "DEPT011", "DEPT012", "DEPT013", "DEPT014", "DEPT015");
         for (String deptCode : departmentCodes) {
@@ -87,12 +87,12 @@ public class CommonController {
         }
     }
 
-    @GetMapping("/loadNotice")
+    @GetMapping("/notice")
     @ResponseBody
     public List<NoticeVO> loadNotice() {
         return service.loadNotice();
     }
-    @GetMapping("/loadSanction/{emplId}")
+    @GetMapping("/sanction/{emplId}")
     @ResponseBody
     List<SanctionVO> loadSanction(@PathVariable String emplId){
         return service.loadSanction(emplId);
