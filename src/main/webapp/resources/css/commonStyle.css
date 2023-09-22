@@ -255,6 +255,7 @@
 .i-pig {content:url("../images/icon/pig.svg");}
 .i-meal {content:url("../images/icon/meal.svg");}
 .i-add {content:url("../images/icon/add.svg");}
+.i-add-white {content:url("../images/icon/add-white.svg");}
 .nav-list a:hover .icon, .nav-list a.active .icon {
     filter: invert(94%) sepia(100%) saturate(0%) hue-rotate(236deg) brightness(106%) contrast(106%);
 }
