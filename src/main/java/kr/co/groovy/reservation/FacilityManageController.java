@@ -27,7 +27,14 @@ public class FacilityManageController {
 		
 		//시설 갯수 카운트
 		int meetingCount = service.getRoomCount("FCLTY010");
+		if(meetingCount == 0) {
+			return "0";
+		} 
+		
 		int retiringCount = service.getRoomCount("FCLTY011");
+		if(retiringCount == 0) {
+			return "0";
+		}
 		
 		//시설 구분 코드
 		List<FacilityVO> meetingCode = service.findEquipmentList("FCLTY010");
@@ -35,6 +42,7 @@ public class FacilityManageController {
 		
 
 		List<FacilityVO> toDayList = service.findTodayResve();
+		//List<FacilityVO> equipmentList = service.findEquipmentList(commonCodeFcltyKind);
 		
 		for(FacilityVO room : toDayList) {
 			service.getFacilityName(room);
@@ -54,6 +62,11 @@ public class FacilityManageController {
 		model.addAttribute("retiringCode", retiringCode);
 		model.addAttribute("toDayList",toDayList);
 		
+		log.info("갯수가 찍히니? " + meetingCount);
+		log.info("비품목록 출력이 되니? " + meetingCode);
+		log.info("휴게실 출력이 되니? " + retiringCode);
+		log.info("리스트가 나오니??" + toDayList);
+		
 		return "admin/gat/room/manage";
 	}
 	
@@ -63,6 +76,7 @@ public class FacilityManageController {
 	public String deleteReserved(@RequestParam int fcltyResveSn) {
 	    try {
 	        service.delResved(fcltyResveSn);
+	        log.info("값이 나오니?"+fcltyResveSn);
 	        return "success"; // 삭제 성공 시 "success" 반환
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -82,6 +96,8 @@ public class FacilityManageController {
 		}
 		
 		model.addAttribute("reservedRooms",reservedRooms);
+		
+		log.info("전체 예약 현황이 나오니?" + reservedRooms);
 
 		return"admin/gat/room/list";
 	}
