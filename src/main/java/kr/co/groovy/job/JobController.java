@@ -116,28 +116,19 @@ public class JobController {
     @PutMapping("/updateJobStatus")
     @ResponseBody
     public void updateJobStatus(@RequestBody JobProgressVO jobProgressVO, Principal principal) {
-        jobProgressVO.setJobRecptnEmplId(principal.getName());
-        String dutyStatus = jobProgressVO.getCommonCodeDutySttus();
-        jobProgressVO.setCommonCodeDutySttus(DutyStatus.getValueOfByLabel(dutyStatus));
-
-        service.updateJobStatus(jobProgressVO);
+        service.updateJobStatus(jobProgressVO, principal.getName());
     }
 
     @GetMapping("/getJobByNoAndId")
     @ResponseBody
-    public JobVO getJobByNoAndId(int jobNo, Principal principal, JobProgressVO jobProgressVO) {
-        String emplId = principal.getName();
-        jobProgressVO.setJobNo(jobNo);
-        jobProgressVO.setJobRecptnEmplId(emplId);
-        return service.getJobByNoAndId(jobProgressVO);
+    public JobVO getJobByNoAndId(int jobNo, Principal principal) {
+        return service.getJobByNoAndId(jobNo, principal.getName());
     }
 
     @PutMapping("/updateJobProgress")
     @ResponseBody
     public void updateJobProgress(Principal principal, @RequestBody JobProgressVO jobProgressVO) {
-        String emplId = principal.getName();
-        jobProgressVO.setJobRecptnEmplId(emplId);
-        service.updateJobProgress(jobProgressVO);
+        service.updateJobProgress(jobProgressVO, principal.getName());
     }
 
     //요청한 업무 내역
@@ -156,10 +147,8 @@ public class JobController {
 
     @GetMapping("/getRequestMonth")
     @ResponseBody
-    public List<String> getRequestMonth(String year, Principal principal, Map<String, Object> map) {
-        map.put("year", year);
-        map.put("jobRequestEmplId", principal.getName());
-        return service.getRequestMonth(map);
+    public List<String> getRequestMonth(String year, Principal principal) {
+        return service.getRequestMonth(year, principal.getName());
     }
 
     @GetMapping("/getJobByDateFilter")

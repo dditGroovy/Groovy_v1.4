@@ -1,6 +1,7 @@
 // 모달 열기 함수
 function openModal(modalId) {
     document.querySelector("#modal").style.display = "flex";
+    document.querySelector("#modal").style.marginLeft = "500px";
     document.querySelector(modalId).classList.add("on");
 }
 

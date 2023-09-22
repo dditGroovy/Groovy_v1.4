@@ -117,11 +117,15 @@ public class JobService {
         return jobVO;
     }
 
-    public void updateJobStatus(JobProgressVO jobProgressVO) {
+    public void updateJobStatus(JobProgressVO jobProgressVO, String emplId) {
+        jobProgressVO.setJobRecptnEmplId(emplId);
+        String dutyStatus = jobProgressVO.getCommonCodeDutySttus();
+        jobProgressVO.setCommonCodeDutySttus(DutyStatus.getValueOfByLabel(dutyStatus));
         mapper.updateJobStatus(jobProgressVO);
     }
 
-    public void updateJobProgress(JobProgressVO jobProgressVO) {
+    public void updateJobProgress(JobProgressVO jobProgressVO, String emplId) {
+        jobProgressVO.setJobRecptnEmplId(emplId);
         mapper.updateJobProgress(jobProgressVO);
     }
 
@@ -137,7 +141,10 @@ public class JobService {
         return mapper.getRequestYear(jobRequestEmplId);
     }
 
-    public List<String> getRequestMonth(Map<String, Object> map) {
+    public List<String> getRequestMonth(String year, String jobRequestEmplId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("year", year);
+        map.put("jobRequestEmplId", jobRequestEmplId);
         return mapper.getRequestMonth(map);
     }
 
@@ -152,7 +159,10 @@ public class JobService {
         return jobVOList;
     }
 
-    public JobVO getJobByNoAndId(JobProgressVO jobProgressVO) {
+    public JobVO getJobByNoAndId(int jobNo, String emplId) {
+        JobProgressVO jobProgressVO = new JobProgressVO();
+        jobProgressVO.setJobNo(jobNo);
+        jobProgressVO.setJobRecptnEmplId(emplId);
         JobVO jobVO = mapper.getJobByNoAndId(jobProgressVO);
         jobVO.setCommonCodeDutyKind(DutyKind.getLabelByValue(jobVO.getCommonCodeDutyKind()));
         List<JobProgressVO> jobProgressVOList = jobVO.getJobProgressVOList();
