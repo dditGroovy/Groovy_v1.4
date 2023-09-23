@@ -58,7 +58,7 @@ body {
 }
 /*  scroll  */
 tbody::-webkit-scrollbar,div::-webkit-scrollbar, ul::-webkit-scrollbar {
-    width: 0;
+    width: 0 !important;
 }
 tbody::-webkit-scrollbar-thumb,div::-webkit-scrollbar-thumb, ul::-webkit-scrollbar-thumb {
     height: 20%;
