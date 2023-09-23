@@ -2,12 +2,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+<link rel="stylesheet" href="/resources/css/admin/manageNotice.css">
+
 <div class="content-container">
-    <h1 class="tab">공지 등록</h1>
-    <button id="insertNoti">공지 등록</button>
+    <h1 class="noticeHeader tab-header font-md font-36">공지사항 관리</h1>
+	    <div class="noticeDiv">
+		    <input type="text" class="input-free-white" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
+		    <button class="btn-free-blue font-18"  id="insertNoti">
+                공지 등록
+                <i class="icon i-add-white"></i>
+            </button>
+	    </div>
     <div class="cardWrap">
         <div class="card">
-            <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
             <div id="myGrid" class="ag-theme-alpine"></div>
         </div>
     </div>
@@ -85,14 +92,14 @@
 
     let rowData = [];
     const columnDefs = [
-        {field: "count", headerName: "번호", cellRenderer: returnString},
-        {field: "notiCtgryIconFileStreNm", headerName: "카테고리"},
+        {field: "count", headerName: "번호", cellRenderer: returnString, width: 100, cellStyle: {textAlign: "center"}},
+        {field: "notiCtgryIconFileStreNm", headerName: "카테고리", width: 250,cellStyle: {textAlign: "center"}},
         {
             field: "notiTitle", headerName: "제목", cellRenderer: ClassLink, getQuickFilterText: (params) => {
                 return params.data.notiTitle
-            }
+            } , width: 600,cellStyle: {textAlign: "center"}
         },
-        {field: "chk", headerName: " ", cellRenderer: ClassBtn},
+        {field: "chk", headerName: " ", cellRenderer: ClassBtn, width: 200,cellStyle: {textAlign: "center"}},
         {field: "notiEtprCode", headerName: "notiEtprCode", hide: true},
     ];
     <c:forEach var="noticeVO" items="${notiList}" varStatus="status"> <!-- 12: 공지사항 개수(length) -->

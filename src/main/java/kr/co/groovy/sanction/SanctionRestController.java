@@ -42,8 +42,8 @@ public class SanctionRestController {
     }
 
     @PutMapping("/reject")
-    public void reject(String elctrnSanctnemplId, String sanctnLineReturnResn, String elctrnSanctnEtprCode) {
-        service.reject(elctrnSanctnemplId, sanctnLineReturnResn, elctrnSanctnEtprCode);
+    public void reject(@RequestBody Map<String, Object> map) {
+        service.reject(map);
     }
 
     @PutMapping("/collect/{etprCode}")

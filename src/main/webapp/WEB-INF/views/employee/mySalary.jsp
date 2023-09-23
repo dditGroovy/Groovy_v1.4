@@ -42,47 +42,47 @@
                     <td colspan="2">실 수령액</td>
                 </tr>
                 <tr>
-                    <td colspan="2">${salaryDtsmtNetPay} 원</td>
+                    <td colspan="2">${salaryDtsmtNetPay}원</td>
                 </tr>
                 <tr>
                     <td>지급</td>
-                    <td>${salaryDtsmtPymntTotamt} 원</td>
+                    <td>${salaryDtsmtPymntTotamt}원</td>
                 </tr>
                 <tr>
                     <td>통상 임금</td>
-                    <td>${salaryBslry} 원</td>
+                    <td>${salaryBslry}원</td>
                 </tr>
                 <tr>
                     <td>시간 외 수당</td>
-                    <td>${salaryOvtimeAllwnc} 원</td>
+                    <td>${salaryOvtimeAllwnc}원</td>
                 </tr>
                 <tr>
                     <td>공제</td>
-                    <td>${salaryDtsmtDdcTotamt} 원</td>
+                    <td>${salaryDtsmtDdcTotamt}원</td>
                 </tr>
                 <tr>
                     <td>국민연금</td>
-                    <td>${salaryDtsmtSisNp} 원</td>
+                    <td>${salaryDtsmtSisNp}원</td>
                 </tr>
                 <tr>
                     <td>건강보험</td>
-                    <td>${salaryDtsmtSisHi} 원</td>
+                    <td>${salaryDtsmtSisHi}원</td>
                 </tr>
                 <tr>
                     <td>고용보험</td>
-                    <td>${salaryDtsmtSisEi} 원</td>
+                    <td>${salaryDtsmtSisEi}원</td>
                 </tr>
                 <tr>
                     <td>산재보험</td>
-                    <td>${salaryDtsmtSisWci} 원</td>
+                    <td>${salaryDtsmtSisWci}원</td>
                 </tr>
                 <tr>
                     <td>소득세</td>
-                    <td>${salaryDtsmtIncmtax} 원</td>
+                    <td>${salaryDtsmtIncmtax}원</td>
                 </tr>
                 <tr>
                     <td>지방소득세</td>
-                    <td>${salaryDtsmtLocalityIncmtax} 원</td>
+                    <td>${salaryDtsmtLocalityIncmtax}원</td>
                 </tr>
             </table>
             <div>

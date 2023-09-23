@@ -146,12 +146,12 @@
                 return params.value
             }, width: 150, cellStyle: {textAlign: "center"}
         },
-        {field: "commonCodeFcltyKind", headerName: "시설 이름", width: 200, cellStyle: {textAlign: "center"}},
-        {field: "fcltyResveBeginTime", headerName: "시작 시간", width: 200, cellStyle: {textAlign: "center"}},
-        {field: "fcltyResveEndTime", headerName: "끝 시간", width: 200, cellStyle: {textAlign: "center"}},
-        {field: "fcltyResveEmplNmAndId", headerName: "예약 사원(사번)", width: 250, cellStyle: {textAlign: "center"}},
-        {field: "fcltyResveRequstMatter", headerName: "요청사항", width: 250, cellStyle: {textAlign: "center"}},
-        {field: "chk", headerName: " ", cellRenderer: ClassBtn, width: 100, cellStyle: {textAlign: "center"}},
+        {field: "commonCodeFcltyKind", headerName: "시설 이름", width: 150, cellStyle: {textAlign: "center"}},
+        {field: "fcltyResveBeginTime", headerName: "시작 시간", width: 150, cellStyle: {textAlign: "center"}},
+        {field: "fcltyResveEndTime", headerName: "끝 시간", width: 150, cellStyle: {textAlign: "center"}},
+        {field: "fcltyResveEmplNmAndId", headerName: "예약 사원(사번)", width: 200, cellStyle: {textAlign: "center"}},
+        {field: "fcltyResveRequstMatter", headerName: "요청사항", width: 200, cellStyle: {textAlign: "center"}},
+        {field: "chk", headerName: " ", cellRenderer: ClassBtn, width: 150, cellStyle: {textAlign: "center"}},
     ];
     let count=0;
     const rowData = [];

@@ -46,4 +46,7 @@ public interface SalaryMapper {
     int inputSalary(PaystubVO vo);
 
     int inputSalaryDtsmt(PaystubVO vo);
+
+    int isInsertSalary(Map<String, String> map);
+    int isInsertSalaryDtsmt(Map<String, String> map);
 }

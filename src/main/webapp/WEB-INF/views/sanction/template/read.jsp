@@ -76,7 +76,7 @@
                                         <p class="approval-person">
                                             <c:choose>
                                                 <c:when test="${lineVO.commonCodeSanctProgrs == '반려'}">
-                                                    반려
+                                                    <img src="${pageContext.request.contextPath}/resources/images/reject.png"/>
                                                 </c:when>
                                                 <c:when test="${lineVO.commonCodeSanctProgrs == '승인' }">
                                                     <img src="/uploads/sign/${lineVO.uploadFileStreNm}"/>
@@ -230,7 +230,6 @@
     <div class="btn-wrap close-btn-wrap">
         <button type="button" onclick="closeWindow()" class="btn btn-fill-bl-sm">닫기</button>
     </div>
-    </div>
     <!-- 모달창 -->
     <div id="modal" class="modal-dim">
         <div class="dim-bg"></div>
@@ -253,7 +252,7 @@
             </div>
         </div>
     </div>
-    <script src="/resources/js/modal.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
     <script>
         let rejectReason;
         let rejectId;
@@ -261,7 +260,6 @@
         let afterPrcs = '${sanction.elctrnSanctnAfterPrcs}'
         $(function () {
             $("#elctrnSanctnFinalDate").html('${sanction.elctrnSanctnFinalDate}');
-            console.log(afterPrcs);
         })
 
         function closeWindow() {
@@ -330,16 +328,21 @@
 
         function submitReject() {
             rejectReason = $("#rejectReason").val()
+            console.log(rejectReason);
+            console.log(rejectId)
+            console.log(etprCode)
             $.ajax({
                 url: '/sanction/api/reject',
                 type: 'PUT',
-                data: {
+                data: JSON.stringify({
                     elctrnSanctnemplId: rejectId,
                     sanctnLineReturnResn: rejectReason,
                     elctrnSanctnEtprCode: etprCode
-                },
+                }),
+                contentType: "application/json",
                 success: function (data) {
                     alert('반려 처리 성공')
+                    close()
                 },
                 error: function (xhr) {
                     alert('반려 처리 실패')

@@ -12,10 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -45,7 +42,14 @@ public class SalaryService {
     }
 
     List<TariffVO> loadTariff(String year) {
-        return mapper.loadTariff(year);
+        List<TariffVO> tariffVOList = mapper.loadTariff(year);
+        tariffVOList.sort(new Comparator<TariffVO>() {
+            @Override
+            public int compare(TariffVO o1, TariffVO o2) {
+                return o1.getTaratStdrNm().compareTo(o2.getTaratStdrNm());
+            }
+        });
+        return tariffVOList;
     }
 
     List<EmployeeVO> loadEmpList() {
@@ -105,6 +109,7 @@ public class SalaryService {
         String date = year + "-" + month;
         List<CommuteAndPaystub> cnpList = new ArrayList<>();
         List<CommuteVO> commute = mapper.getCommuteByYearAndMonth(date);
+        log.info(commute.toString());
         List<CommuteVO> wtrmsAbsencEmplList = mapper.getCoWtrmsAbsenc(date);
         List<PaystubVO> salaryBslry = mapper.getSalaryBslry(String.valueOf(year));
         List<TariffVO> tariffList = mapper.loadTariff(String.valueOf(year));
@@ -157,12 +162,20 @@ public class SalaryService {
                     CommuteAndPaystub cnp = new CommuteAndPaystub(commuteVO, paystubVO);
                     cnpList.add(cnp);
 
-                    LocalDate localDate = LocalDate.now();
-                    paystubVO.setSalaryDtsmtIssuDate(new Date(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth()));
-                    mapper.inputSalary(paystubVO);
-                    mapper.inputSalaryDtsmt(paystubVO);
+                    // 더미 다 넣으면 없애기
+//                    List<CommuteAndPaystub> commuteAndPaystubList = getCommuteAndPaystubList(year, month - 1);
+//                    Map<String, String> map = new HashMap<>();
+//                    for (CommuteAndPaystub commuteAndPaystub : commuteAndPaystubList) {
+//                        map.put("salaryEmplId", commuteAndPaystub.getPaystubVO().getSalaryEmplId());
+//                        map.put("date", year + "-" + month);
+//                        if (mapper.isInsertSalary(map) == 0 && mapper.isInsertSalaryDtsmt(map) == 0) {
+//                            commuteAndPaystub.getPaystubVO().setSalaryDtsmtIssuDate(new Date(year - 1900, month - 1, 14));
+//                            commuteAndPaystub.getPaystubVO().setInsertAt("Y");
+//                            mapper.inputSalary(commuteAndPaystub.getPaystubVO());
+//                            mapper.inputSalaryDtsmt(commuteAndPaystub.getPaystubVO());
+//                        }
+//                    }
                 }
-
             }
         }
 
@@ -179,9 +192,23 @@ public class SalaryService {
 
     @Scheduled(cron = "0 0 14 * * ?")
     public List<CommuteAndPaystub> schedulingSalaryExactCalculation() {
-        LocalDate date = LocalDate.now();
-        int year = date.getYear();
-        int month = date.getMonthValue();
-        return getCommuteAndPaystubList(year, month - 1);
+        LocalDate localDate = LocalDate.now();
+        int year = localDate.getYear();
+        int month = localDate.getMonthValue();
+
+        List<CommuteAndPaystub> cnpList = getCommuteAndPaystubList(year, month - 1);
+        Map<String, String> map = new HashMap<>();
+        for (CommuteAndPaystub cnp : cnpList) {
+            map.put("salaryEmplId", cnp.getPaystubVO().getSalaryEmplId());
+            map.put("date", year + "-" + month);
+            if (mapper.isInsertSalary(map) == 0 && mapper.isInsertSalaryDtsmt(map) == 0) {
+                cnp.getPaystubVO().setSalaryDtsmtIssuDate(new Date(year - 1900, month - 1, 14));
+                cnp.getPaystubVO().setInsertAt("Y");
+                mapper.inputSalary(cnp.getPaystubVO());
+                mapper.inputSalaryDtsmt(cnp.getPaystubVO());
+            }
+        }
+        return cnpList;
     }
 }
+
