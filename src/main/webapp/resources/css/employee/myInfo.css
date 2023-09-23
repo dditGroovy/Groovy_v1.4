@@ -48,7 +48,8 @@ input:checked + .slider:before {
     width: calc((100 / var(--vw)) * 100vw);
     height: calc((100 / var(--vw)) * 100vw);
 }
-#userSignProfile{
+
+#userSignProfile {
     border: var(--color-bg-grey);
     width: calc((100 / var(--vw)) * 100vw);
     height: calc((100 / var(--vw)) * 100vw);
@@ -58,16 +59,72 @@ input:checked + .slider:before {
     width: calc((32 / var(--vw)) * 100vw);
     height: calc((32 / var(--vw)) * 100vw);
     position: relative;
-    top: calc((-8 / var(--vw)) * 100vw);
     left: calc((-24 / var(--vw)) * 100vw);
 }
 
-.profile-wrap {
+.profile-wrap, .sign-wrap {
     width: calc((500 / var(--vw)) * 100vw);
-    height: calc((300 / var(--vh)) * 100vh);
+    height: calc((360 / 1080) * 100vh);
+
+}
+
+.alert-wrap {
+    width: calc((400 / var(--vw)) * 100vw);
+    height: calc((740 / 1080) * 100vh);
 }
 
 .profile-header {
     display: flex;
 
+}
+
+.content-body {
+    display: flex;
+    gap: var(--vw-24)
+}
+
+.flex-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-inner {
+    gap: var(--vw-24);
+}
+
+.box-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--vh-16);
+    border-bottom: 2px solid var(--color-bg-grey);
+}
+
+.toggle-title {
+    text-align: center;
+}
+
+.info-header {
+    display: flex;
+    align-items: center;
+    gap: var(--vw-24);
+}
+
+.info-title {
+    margin-bottom: var(--vh-8);
+    font-size: var(--font-size-18);
+}
+
+.info-desc {
+    color: var(--color-font-high);
+    font-size: var(--font-size-14);
+}
+
+.info-body{
+    text-align: center;
+    height: 70%;
+
+}
+#profileForm, #signForm    {
+    padding: var(--vw-32) 0;
 }
