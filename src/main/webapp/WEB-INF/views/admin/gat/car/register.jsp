@@ -26,7 +26,7 @@
             <h2>차량 등록</h2>
         </div>
         <div class="card">
-            <form action="/reserve/inputVehicle" method="post">
+            <form action="${pageContext.request.contextPath}/reserve/inputVehicle" method="post">
                 <table border="1" style="width: 100%">
                     <tr>
                         <th>차량 번호</th>
