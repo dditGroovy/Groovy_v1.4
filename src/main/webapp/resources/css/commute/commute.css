@@ -177,3 +177,8 @@
     position: sticky;
     top: 0;
 }
+.month-btn:hover {
+    background: var(--color-main);
+    box-shadow: var(--clay-btn);
+    color: white;
+}
