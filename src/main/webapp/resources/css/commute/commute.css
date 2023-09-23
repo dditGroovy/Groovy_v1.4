@@ -140,8 +140,10 @@
     font-size: 11px;
     padding: var(--vh-12) 0;
 }
-
-/*  근태 현황   */
+#weekly-table thead th, #weekly-table tbody td {
+    width: calc(100%/5);
+}
+    /*  근태 현황   */
 #commute-list {
     display: flex;
     flex-direction: column;
