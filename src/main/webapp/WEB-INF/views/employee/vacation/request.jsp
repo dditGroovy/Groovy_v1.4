@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link rel="stylesheet" href="/resources/css/sanction/myVacation.css">
+
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
@@ -10,11 +12,11 @@
             <h1><a href="${pageContext.request.contextPath}/salary/paystub/checkPassword">내 급여</a></h1>
             <h1><a href="${pageContext.request.contextPath}/vacation/request">휴가 기록</a></h1>
         </header>
-        <button type="button" class="btn btn-out-sm btn-modal" data-name="requestVacation" data-action="request">휴가 신청하기
-        </button>
+        <button type="button" class="btn btn-fill-bl-sm font-md font-18 btn-modal" data-name="requestVacation" data-action="request" id="requestVacation">휴가 신청
+            <i class="icon i-add-white"></i></button>
         <br><br>
-        <h3 class="content-title font-b">휴가 신청 기록</h3>
-        <div id="vacationTable">
+        <div id="countWrap" class="color-font-md">전체 <span id="countBox" class="font-b font-14"></span></div>
+        <div id="record" class="card-df">
 
         </div>
     </div>
@@ -165,16 +167,19 @@
                 url: "/vacation/record",
                 type: "GET",
                 success: function (data) {
-                    let code = `<table border="1">
-                        <tr>
+                    count = data.length;
+                    document.querySelector("#countBox").innerText = count;
+                    let code = `<table border="1" class='vacationTable'>
+                        <thead><tr>
 
-                    <td>신청 번호</td>
-                    <td>휴가 기간</td>
-                    <td>휴가 구분</td>
-                    <td>휴가 종류</td>
-                    <td>결재 상태</td>
-                        </tr>`;
+                    <th class="sticky-th">신청 번호</th>
+                    <th class="sticky-th">휴가 기간</th>
+                    <th class="sticky-th">휴가 구분</th>
+                    <th class="sticky-th">휴가 종류</th>
+                    <th class="sticky-th">결재 상태</th>
+                        </tr></thead><tbody>`;
                     $.each(data, function (index, recodeVO) {
+
                         console.log(recodeVO)
                         code += `<tr>
                         <td><a href="#" data-name="detailVacation" data-seq="\${recodeVO.yrycUseDtlsSn}"
@@ -182,11 +187,11 @@
                         <td>\${recodeVO.yrycUseDtlsBeginDate} - \${recodeVO.yrycUseDtlsEndDate}</td>
                         <td>\${recodeVO.commonCodeYrycUseKind}</td>
                         <td>\${recodeVO.commonCodeYrycUseSe}</td>
-                        <td>\${recodeVO.commonCodeYrycState}</td>
+                        <td><span class="state">\${recodeVO.commonCodeYrycState}</span></td>
                     </tr>`;
                     });
-                    code += "</table>"
-                    $("#vacationTable").html(code);
+                    code += "</tbody></table>"
+                    $("#record").html(code);
                 },
                 error: function (xhr, status, error) {
                     console.log("code: " + xhr.status);
@@ -260,6 +265,7 @@
                     alert("ajax 성공");
                     close()
                     resetModal();
+                    loadRecord()
                 },
                 error: function (error) {
                     alert("ajax 실패");

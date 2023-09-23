@@ -71,21 +71,26 @@
         width: var(--vw-24);
         height: var(--vw-24);
     }
+
 </style>
 
 <div class="content-container">
     <header id="tab-header">
-        <h1><a href="/notice/loadNoticeList" class="on">공지사항</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/notice/loadNoticeList" class="on">공지사항</a></h1>
     </header>
     <div class="content-wrapper">
         <div class="content-header">
             <div class="box-sort-search">
-                <form action="${pageContext.request.contextPath}/notice/findNotice" method="get">
+                <form action="${pageContext.request.contextPath}/notice/find" method="get">
                     <div class="select-wrapper">
                         <select name="sortBy" id="" class="stroke selectBox">
                             <option value="DESC">최신순</option>
                             <option value="ASC">오래된순</option>
                         </select>
+                    </div>
+                    <div class="">
+                        <input type="date" name="startDay" value=""/>
+                        <input type="date" name="endDay" value=""/>
                     </div>
                     <div id="search" class="search input-free-white">
                         <input type="text" name="keyword" placeholder="검색어를 입력하세요." value="${param.keyword}"/>
@@ -122,3 +127,47 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        let today = new Date();
+
+        let oneMonthAgo = new Date(today);
+        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+        let startDayInput = $('input[name="startDay"]');
+        startDayInput.val(oneMonthAgo.toISOString().substr(0, 10));
+
+        let endDayInput = $('input[name="endDay"]');
+        endDayInput.val(today.toISOString().substr(0, 10));
+
+        startDayInput.on('change', function () {
+            let startDate = new Date(startDayInput.val());
+            let endDate = new Date(endDayInput.val());
+
+            if (startDate > endDate) {
+                startDayInput.val(today.toISOString().substr(0, 10));
+                endDayInput.val(today.toISOString().substr(0, 10));
+            }
+        });
+
+        endDayInput.on('change', function () {
+            let startDate = new Date(startDayInput.val());
+            let endDate = new Date(endDayInput.val());
+
+            if (startDate > endDate) {
+                startDayInput.val(today.toISOString().substr(0, 10));
+                endDayInput.val(today.toISOString().substr(0, 10));
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+

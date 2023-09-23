@@ -1,0 +1,73 @@
+@import "../commonStyle.css";
+
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+#profileImage {
+    border-radius: 50%;
+    width: calc((100 / var(--vw)) * 100vw);
+    height: calc((100 / var(--vw)) * 100vw);
+}
+#userSignProfile{
+    border: var(--color-bg-grey);
+    width: calc((100 / var(--vw)) * 100vw);
+    height: calc((100 / var(--vw)) * 100vw);
+}
+
+.modifyPhoto {
+    width: calc((32 / var(--vw)) * 100vw);
+    height: calc((32 / var(--vw)) * 100vw);
+    position: relative;
+    top: calc((-8 / var(--vw)) * 100vw);
+    left: calc((-24 / var(--vw)) * 100vw);
+}
+
+.profile-wrap {
+    width: calc((500 / var(--vw)) * 100vw);
+    height: calc((300 / var(--vh)) * 100vh);
+}
+
+.profile-header {
+    display: flex;
+
+}

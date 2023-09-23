@@ -58,7 +58,7 @@
                             <th rowspan="2" class="sanctionTh">결재</th>
                             <th>기안</th>
                             <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
-                                <th>${lineVO.commonCodeClsf}</th>
+                                <th>${lineVO.emplNm} ${lineVO.commonCodeClsf}</th>
                             </c:forEach>
                         </tr>
                         <tr id="applovalObtt" class="obtt">
@@ -134,98 +134,13 @@
                     <div class="form-label">
                         반려 사유
                     </div>
-                    <p class="file-content form-out-content">${lineVO.sanctnLineReturnResn}${lineVO.emplNm}${lineVO.commonCodeClsf}</p>
+                    <p class="file-content form-out-content">${lineVO.sanctnLineReturnResn}</p>
                 </c:if>
             </c:forEach>
         </div>
     </div>
 
-   <%-- <div id="formCard">
-        <div class="formHeader">
-            <div class="btnWrap">
-                <div id="myLine">
-                    <hr>
-                    <p>기안</p>
-                    <p>${sanction.emplNm}</p>
-                    <p><img src="/uploads/sign/${sanction.uploadFileStreNm}"/></p>
-                    <p>${sanction.elctrnSanctnRecomDate}</p>
-                    <p>${sanction.commonCodeSanctProgrs}</p>
-                    <p>${sanction.commonCodeClsf}</p>
-                    <hr>
-                </div>
-                <div id="approvalLine">
-                    <p>결재선</p>
 
-                    <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
-                        <c:choose>
-                            <c:when test="${lineVO.commonCodeSanctProgrs == '반려'}">
-                                <p>반려</p>
-                            </c:when>
-                            <c:when test="${lineVO.commonCodeSanctProgrs == '승인' }">
-                                <p><img src="/uploads/sign/${lineVO.uploadFileStreNm}"/></p>
-                            </c:when>
-                            <c:otherwise>
-                                <p>${lineVO.emplNm}</p>
-                            </c:otherwise>
-                        </c:choose>
-                        <p>${lineVO.sanctnLineDate}</p>
-                        <p>${lineVO.commonCodeSanctProgrs}</p>
-                        <p>${lineVO.commonCodeClsf}</p>
-                        <hr>
-                    </c:forEach>
-
-                    <c:forEach var="refrnVO" items="${refrnList}" varStatus="stat">
-                        <p>참조</p>
-                        <p>${refrnVO.emplNm} ${refrnVO.commonCodeDept} ${refrnVO.commonCodeClsf}</p>
-                        <hr>
-                    </c:forEach>
-                </div>
-            </div>
-            <br/>
-            <div class="formTitle">
-                <p class="main-title"> ${sanction.elctrnSanctnSj}</p>
-            </div>
-        </div>
-        <div class="formContent">
-                ${sanction.elctrnSanctnDc}
-        </div>
-        <div class="formFile">
-            <c:if test="${file != null}">
-                <p><a href="/file/download/sanction?uploadFileSn=${file.uploadFileSn}">${file.uploadFileOrginlNm}</a>
-                    <fmt:formatNumber value="${file.uploadFileSize / 1024.0}"
-                                      type="number" minFractionDigits="1" maxFractionDigits="1"/> KB</p>
-            </c:if>
-        </div>
-        <div id="returnResn">
-            <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
-                <c:if test="${lineVO.sanctnLineReturnResn != null }">
-                    <p>반려사유</p>
-                    <p>${lineVO.emplNm}${lineVO.commonCodeClsf}</p>
-                    <p>${lineVO.sanctnLineReturnResn}</p>
-                </c:if>
-            </c:forEach>
-        </div>
-            &lt;%&ndash; 세션에 담긴 사번이 문서의 기안자 사번과 같고 결재 코드가 최초 상신 상태일 때&ndash;%&gt;
-        <c:if test="${CustomUser.employeeVO.emplId == sanction.elctrnSanctnDrftEmplId && sanction.commonCodeSanctProgrs == '상신' }">
-            <button type="button" onclick="collect()">회수</button>
-        </c:if>
-        <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
-            &lt;%&ndash; 세션에 담긴 사번이 문서의 결재자 사번과 같고 결재 상태가 대기이며 결재의 상태가 반려가 아닌 경우&ndash;%&gt;
-            <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
-                        && (lineVO.commonCodeSanctProgrs == '대기')
-                        && (sanction.commonCodeSanctProgrs != '반려')
-                        && (lineVO.elctrnSanctnFinalAt == 'N')}">
-                <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})">승인</button>
-                <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})">반려</button>
-            </c:if>
-            <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
-                        && (lineVO.commonCodeSanctProgrs == '대기')
-                        && (sanction.commonCodeSanctProgrs != '반려')
-                        && (lineVO.elctrnSanctnFinalAt == 'Y')}">
-                <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})">최종승인</button>
-                <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})">반려</button>
-            </c:if>
-        </c:forEach>--%>
         <br><br>
     <div class="btn-wrap close-btn-wrap">
         <button type="button" onclick="closeWindow()" class="btn btn-fill-bl-sm">닫기</button>
@@ -366,3 +281,94 @@
         }
     </script>
 </sec:authorize>
+
+
+
+
+
+<%-- <div id="formCard">
+       <div class="formHeader">
+           <div class="btnWrap">
+               <div id="myLine">
+                   <hr>
+                   <p>기안</p>
+                   <p>${sanction.emplNm}</p>
+                   <p><img src="/uploads/sign/${sanction.uploadFileStreNm}"/></p>
+                   <p>${sanction.elctrnSanctnRecomDate}</p>
+                   <p>${sanction.commonCodeSanctProgrs}</p>
+                   <p>${sanction.commonCodeClsf}</p>
+                   <hr>
+               </div>
+               <div id="approvalLine">
+                   <p>결재선</p>
+
+                   <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
+                       <c:choose>
+                           <c:when test="${lineVO.commonCodeSanctProgrs == '반려'}">
+                               <p>반려</p>
+                           </c:when>
+                           <c:when test="${lineVO.commonCodeSanctProgrs == '승인' }">
+                               <p><img src="/uploads/sign/${lineVO.uploadFileStreNm}"/></p>
+                           </c:when>
+                           <c:otherwise>
+                               <p>${lineVO.emplNm}</p>
+                           </c:otherwise>
+                       </c:choose>
+                       <p>${lineVO.sanctnLineDate}</p>
+                       <p>${lineVO.commonCodeSanctProgrs}</p>
+                       <p>${lineVO.commonCodeClsf}</p>
+                       <hr>
+                   </c:forEach>
+
+                   <c:forEach var="refrnVO" items="${refrnList}" varStatus="stat">
+                       <p>참조</p>
+                       <p>${refrnVO.emplNm} ${refrnVO.commonCodeDept} ${refrnVO.commonCodeClsf}</p>
+                       <hr>
+                   </c:forEach>
+               </div>
+           </div>
+           <br/>
+           <div class="formTitle">
+               <p class="main-title"> ${sanction.elctrnSanctnSj}</p>
+           </div>
+       </div>
+       <div class="formContent">
+               ${sanction.elctrnSanctnDc}
+       </div>
+       <div class="formFile">
+           <c:if test="${file != null}">
+               <p><a href="/file/download/sanction?uploadFileSn=${file.uploadFileSn}">${file.uploadFileOrginlNm}</a>
+                   <fmt:formatNumber value="${file.uploadFileSize / 1024.0}"
+                                     type="number" minFractionDigits="1" maxFractionDigits="1"/> KB</p>
+           </c:if>
+       </div>
+       <div id="returnResn">
+           <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
+               <c:if test="${lineVO.sanctnLineReturnResn != null }">
+                   <p>반려사유</p>
+                   <p>${lineVO.emplNm}${lineVO.commonCodeClsf}</p>
+                   <p>${lineVO.sanctnLineReturnResn}</p>
+               </c:if>
+           </c:forEach>
+       </div>
+           &lt;%&ndash; 세션에 담긴 사번이 문서의 기안자 사번과 같고 결재 코드가 최초 상신 상태일 때&ndash;%&gt;
+       <c:if test="${CustomUser.employeeVO.emplId == sanction.elctrnSanctnDrftEmplId && sanction.commonCodeSanctProgrs == '상신' }">
+           <button type="button" onclick="collect()">회수</button>
+       </c:if>
+       <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
+           &lt;%&ndash; 세션에 담긴 사번이 문서의 결재자 사번과 같고 결재 상태가 대기이며 결재의 상태가 반려가 아닌 경우&ndash;%&gt;
+           <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
+                       && (lineVO.commonCodeSanctProgrs == '대기')
+                       && (sanction.commonCodeSanctProgrs != '반려')
+                       && (lineVO.elctrnSanctnFinalAt == 'N')}">
+               <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})">승인</button>
+               <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})">반려</button>
+           </c:if>
+           <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
+                       && (lineVO.commonCodeSanctProgrs == '대기')
+                       && (sanction.commonCodeSanctProgrs != '반려')
+                       && (lineVO.elctrnSanctnFinalAt == 'Y')}">
+               <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})">최종승인</button>
+               <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})">반려</button>
+           </c:if>
+       </c:forEach>--%>

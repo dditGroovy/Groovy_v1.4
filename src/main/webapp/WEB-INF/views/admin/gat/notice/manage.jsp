@@ -43,7 +43,7 @@
         init(params) {
             this.eGui = document.createElement('a');
             /* 매핑한거 넣으쇼*/
-            this.eGui.setAttribute('href', `/notice/detailForAdmin?notiEtprCode=\${params.data.notiEtprCode}`);
+            this.eGui.setAttribute('href', `/notice/detail?notiEtprCode=\${params.data.notiEtprCode}`);
             this.eGui.innerText = params.value;
         }
 
@@ -65,7 +65,7 @@
             this.deleteBtn = this.eGui.querySelector(".deleteNotice");
             /*ajax나 뭐 알아서 추가 하기~*/
             this.deleteBtn.onclick = () => {
-                location.href = "/notice/deleteNotice?notiEtprCode=" + this.id
+                location.href = "/notice/delete?notiEtprCode=" + this.id
             };
         }
 

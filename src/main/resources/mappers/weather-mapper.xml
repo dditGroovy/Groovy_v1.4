@@ -3,7 +3,8 @@
 <mapper namespace="kr.co.groovy.weather.WeatherMapper">
     <update id="saveWeather" parameterType="String">
         UPDATE WETHR
-        SET WETHR_DATA = #{data}
+        SET WETHR_DATA = #{data},
+            WETHR_DATE = SYSDATE
         WHERE WETHR_SN = 1
     </update>
     <select id="loadWeather" resultType="String">
