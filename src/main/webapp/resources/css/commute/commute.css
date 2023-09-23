@@ -167,7 +167,6 @@
     overflow-y: auto;
 }
 #commuteTable .form {
-    height: 100%;
     table-layout: fixed;
 }
 #commuteTable tbody {
