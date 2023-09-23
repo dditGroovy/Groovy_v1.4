@@ -16,7 +16,7 @@ body {
 .container {
     width: 100%;
     min-height: 100vh;
-    padding: calc((93/var(--vh)*100vh)) calc((50/var(--vw)*100vw)) 0 calc((50/var(--vw)*100vw));
+    padding: calc((93/var(--vh)*100vh)) calc((50/var(--vw)*100vw));
     background-color: var(--color-bg-grey);
 }
 .content-container {
@@ -57,10 +57,10 @@ body {
     height: calc((100 / var(--vw)) * 100vw);
 }
 /*  scroll  */
-div::-webkit-scrollbar, ul::-webkit-scrollbar {
-    width: 8px;
+tbody::-webkit-scrollbar,div::-webkit-scrollbar, ul::-webkit-scrollbar {
+    width: 0;
 }
-div::-webkit-scrollbar-thumb, ul::-webkit-scrollbar-thumb {
+tbody::-webkit-scrollbar-thumb,div::-webkit-scrollbar-thumb, ul::-webkit-scrollbar-thumb {
     height: 20%;
     background: var(--color-main);
     border-radius: 10px;
