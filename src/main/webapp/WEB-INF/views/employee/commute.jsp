@@ -84,7 +84,7 @@
         <div class="modal-layer card-df sm commute-status">
             <div class="modal-top">
                 <div class="modal-title">근태 현황 확인</div>
-                <button type="button" class="modal-close btn js-modal-close">
+                <button type="button" class="modal-close btn close">
                     <i class="icon i-close">X</i>
                 </button>
             </div>
