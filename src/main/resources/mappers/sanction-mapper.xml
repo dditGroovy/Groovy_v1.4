@@ -206,10 +206,13 @@
                S.ELCTRN_SANCTN_AFTER_PRCS,
                E.EMPL_NM,
                E.COMMON_CODE_CLSF,
-               E.COMMON_CODE_DEPT
+               E.COMMON_CODE_DEPT,
+               U.UPLOAD_FILE_STRE_NM
         FROM ELCTRN_SANCTN S,
-             EMPL E
+             EMPL E,
+             UPLOAD_FILE U
         WHERE S.ELCTRN_SANCTN_DRFT_EMPL_ID = E.EMPL_ID
+          AND E.SIGN_ETPR_CODE = UPLOAD_FILE_ETPR_CODE
           AND ELCTRN_SANCTN_ETPR_CODE = #{elctrnSanctnEtprCode}
     </select>
     <select id="loadAwaiting" parameterType="String" resultType="sanctionLineVO">
@@ -302,12 +305,12 @@
     </delete>
     <select id="loadSanctionList" parameterType="String" resultType="sanctionVO">
         /* kr.co.groovy.sanction.SanctionMapper 결재 관리 - 내역 불러오기 */
-        SELECT E.ELCTRN_SANCTN_ETPR_CODE,       -- 결재 번호
-               E.ELCTRN_SANCTN_SJ,              -- 결재 양식
-               E.ELCTRN_SANCTN_FINAL_DATE,      -- 결재 승인일
-               E.ELCTRN_SANCTN_DRFT_EMPL_ID,    -- 기안자 사번
-               P.EMPL_NM,                       -- 기안자 성명
-               P.COMMON_CODE_DEPT               -- 기안자 부서
+        SELECT E.ELCTRN_SANCTN_ETPR_CODE,    -- 결재 번호
+               E.ELCTRN_SANCTN_SJ,           -- 결재 양식
+               E.ELCTRN_SANCTN_FINAL_DATE,   -- 결재 승인일
+               E.ELCTRN_SANCTN_DRFT_EMPL_ID, -- 기안자 사번
+               P.EMPL_NM,                    -- 기안자 성명
+               P.COMMON_CODE_DEPT            -- 기안자 부서
         FROM ELCTRN_SANCTN E,
              SANCTN_FORMAT F,
              EMPL P
