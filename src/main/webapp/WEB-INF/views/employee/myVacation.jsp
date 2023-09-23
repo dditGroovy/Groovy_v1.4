@@ -14,7 +14,7 @@
                     <li class="status-item total-item">
                         <p class="status-item-title total-item-title">발생 연차</p>
                         <p class="status-item-content total-item-content">
-                            <a href="#" class="strong font-b font-32">${usedVacationCnt}</a>개</p>
+                            <a href="#" class="strong font-b font-32">${totalVacationCnt}</a>개</p>
                     </li>
                     <li class="status-item total-item">
                         <p class="status-item-title total-item-title">사용 연차</p>
