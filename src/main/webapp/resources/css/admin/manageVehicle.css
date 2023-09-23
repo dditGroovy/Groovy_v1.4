@@ -1,0 +1,91 @@
+.header {
+    display: flex;
+    align-items: center;
+    gap: var(--vw-64);
+    align-items: flex-end;
+    padding-bottom: var(--vh-24);
+    border-bottom: 1px solid var(--color-stroke);
+}
+
+.current-resve {
+    display: inline-block;
+}
+
+.titleWrap {
+    display: flex;
+    align-items: center;
+    gap: var(--vw-64);
+    align-items: flex-end;
+}
+
+.count {
+    color: var(--color-main);
+}
+
+.more {
+    color: var(--color-font-md);
+}
+
+table {
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0);
+    text-align: center;
+    border-collapse: collapse;
+}
+
+tr {
+    border-bottom: var(--color-stroke);
+    height: var(--vh-56);
+    font-size: var(--font-size-14);
+}
+
+tr:hover{
+    background-color: var(--color-bg-sky);
+    transition: .5s;
+}
+
+.table-container {
+    max-height: calc((180 / 1080) * 100vh);
+    overflow-y: auto;
+}
+
+table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: white;
+}
+
+thead th {
+    border-bottom: 1px solid var(--color-font-row);
+    font-size: var(--font-size-14);
+}
+
+.returnCarBtn {
+    width: calc((80 / 1920) * 100vw);
+    height: calc((36 / 1080) * 100vh);
+    border-radius: 20px;
+    border: 1px solid var(--color-font-md);
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--color-font-md);
+    font-size: var(--font-size-14);
+    margin: 0 auto;
+}
+
+.vehicle-card {
+    adding: var(--vw-32);
+    margin: var(--vh-24) 0;
+}
+
+#vehicles {
+    justify-content: space-between;
+}
+
+.btn-fill-bl-sm {
+    width: calc((184 / 1920) * 100vw);
+    height: calc((48 / 1080) * 100vh);
+}
+
+.font-wh {
+    color: var(--color-white);
+}
