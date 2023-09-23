@@ -38,7 +38,6 @@
                 TO_CHAR(SYSDATE, 'yyyy')
             </otherwise>
         </choose>
-        ORDER BY TARAT_STDR_NM ASC
     </select>
 
     <select id="loadEmpList" resultType="employeeVO">
@@ -54,6 +53,7 @@
     <select id="loadPaymentList" parameterType="String" resultType="salaryVO">
         SELECT S.SALARY_PYMNT_DATE,
                S.SALARY_EMPL_ID,
+               (SELECT EMPL_NM FROM EMPL WHERE SALARY_EMPL_ID = EMPL_ID) as EMPL_NM,
                S.SALARY_BSLRY,
                S.SALARY_OVTIME_ALLWNC,
                E.EMPL_NM
@@ -173,9 +173,7 @@
         SELECT DCLZ_EMPL_ID,
                SUM(
                        CASE
-                           WHEN DCLZ_DAIL_WORK_TIME
-                               <
-                                480 THEN DCLZ_DAIL_WORK_TIME
+                           WHEN DCLZ_DAIL_WORK_TIME < 480 THEN DCLZ_DAIL_WORK_TIME
                            ELSE 480
                            END
                    )                                                                  AS REAL_WORK_TIME,
@@ -236,8 +234,9 @@
                                    12 * 0.3)
                    end as salary_bslry
         from empl e
-        where e.COMMON_CODE_DEPT not in 'DEPT015'
-           or e.COMMON_CODE_CLSF not in 'CLSF010'
+        where (e.COMMON_CODE_DEPT not in 'DEPT015'
+            or e.COMMON_CODE_CLSF not in 'CLSF010')
+          and EMPL_ID like (#{year} || '%')
     </select>
 
     <select id="getCoWtrmsAbsenc" resultType="commuteVO" parameterType="String">
@@ -248,15 +247,34 @@
         group by DCLZ_EMPL_ID
     </select>
 
+
+    <select id="isInsertSalaryDtsmt" parameterType="Map" resultType="int">
+        select COUNT(INSERT_AT)
+        from SALARY_DTSMT
+        where SALARY_EMPL_ID = #{salaryEmplId}
+          and to_char(to_date(SALARY_DTSMT_ISSU_DATE, 'yy-mm-dd hh24:mi:ss'), 'yyyy-mm')
+            = to_char(to_date(#{date}, 'yyyy-mm'), 'yyyy-mm')
+    </select>
+
+    <select id="isInsertSalary" resultType="int">
+        select COUNT(INSERT_AT)
+        from SALARY
+        where SALARY_EMPL_ID = #{salaryEmplId}
+          and to_char(to_date(SALARY_PYMNT_DATE, 'yy-mm-dd hh24:mi:ss'), 'yyyy-mm')
+            = to_char(to_date(#{date}, 'yyyy-mm'), 'yyyy-mm')
+    </select>
+
     <insert id="inputSalary" parameterType="paystubVO">
         INSERT INTO SALARY ( SALARY_PYMNT_DATE
                            , SALARY_EMPL_ID
                            , SALARY_BSLRY
-                           , SALARY_OVTIME_ALLWNC)
+                           , SALARY_OVTIME_ALLWNC
+                           , INSERT_AT)
         VALUES ( #{salaryDtsmtIssuDate}
                , #{salaryEmplId}
                , #{salaryBslry}
-               , #{salaryOvtimeAllwnc})
+               , #{salaryOvtimeAllwnc}
+               , #{insertAt})
     </insert>
 
     <insert id="inputSalaryDtsmt" parameterType="paystubVO">
@@ -271,8 +289,9 @@
                                  , SALARY_DTSMT_INCMTAX
                                  , SALARY_DTSMT_LOCALITY_INCMTAX
                                  , SALARY_DTSMT_DDC_TOTAMT
-                                 , SALARY_DTSMT_NET_PAY)
-        VALUES ('SD-AT-' || TO_CHAR(ADD_MONTHS(SYSDATE, -1), 'YYMM') || '-' || #{salaryEmplId},
+                                 , SALARY_DTSMT_NET_PAY
+                                 , INSERT_AT)
+        VALUES ('SD-AT-' || TO_CHAR((#{salaryDtsmtIssuDate}), 'YYMM') || '-' || #{salaryEmplId},
                 #{salaryDtsmtIssuDate},
                 #{salaryEmplId},
                 #{salaryDtsmtPymntTotamt},
@@ -283,6 +302,9 @@
                 #{salaryDtsmtIncmtax},
                 #{salaryDtsmtLocalityIncmtax},
                 #{salaryDtsmtDdcTotamt},
-                #{salaryDtsmtNetPay})
+                #{salaryDtsmtNetPay},
+                #{insertAt})
     </insert>
+
+
 </mapper>

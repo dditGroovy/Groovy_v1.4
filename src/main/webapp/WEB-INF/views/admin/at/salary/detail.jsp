@@ -14,11 +14,7 @@
                 </tr>
             </c:forEach>
         </table>
-        <select id="salaryYear">
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-        </select>
+        <select name="sortOptions" id="yearSelect" class="stroke"></select>
     </div>
     <div id="paymentList">
     </div>
@@ -29,14 +25,36 @@
     let year;
     let tariffList;
 
+    let yearSelect = document.querySelector("#yearSelect");
+
+    getAllYear();
+
+    function getAllYear() {
+        $.ajax({
+            type: 'get',
+            url: `/salary/years`,
+            dataType: 'json',
+            success: function (result) {
+                let code = ``;
+                for (let i = 0; i < result.length; i++) {
+                    code += `<option value="\${result[i]}">\${result[i]}</option>`;
+                }
+                yearSelect.innerHTML = code;
+                year = result[0];
+            },
+            error: function (xhr) {
+                xhr.status;
+            }
+        });
+    }
+
     function getPaymentList(id) {
-        year = $("#salaryYear").val();
+        year = $("#yearSelect").val();
         $.ajax({
             url: `/salary/payment/list/\${id}/\${year}`,
             type: 'GET',
             success: function (data) {
-                tariffList = data.tariffList
-                console.log(data);
+                tariffList = data.tariffList;
                 let code = "<table border=1>";
                 if (data.salaryList.length === 0) {
                     code += "<tr><td>상세 내역이 없습니다</td></tr>";
@@ -67,7 +85,7 @@
 
     $("#paymentList").on("click", ".getDetail", function (event) {
         event.preventDefault();
-        const emplNm = $(this).data("emplNm");
+        const emplNm = $(this).data("emplnm");
         const month = $(this).data("month");
         const bslry = parseInt($(this).data("bslry"));
         const allwnc = parseInt($(this).data("allwnc"));

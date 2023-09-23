@@ -25,4 +25,5 @@ public class PaystubVO {
     private int salaryDtsmtLocalityIncmtax; // 지방소득세 | salary_dtsmt
     private int salaryDtsmtDdcTotamt; // 공제액계 | salary_dtsmt
     private int salaryDtsmtNetPay; // 실수령액 | salary_dtsmt
+    private String insertAt;
 }

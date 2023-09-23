@@ -57,6 +57,14 @@ public class SalaryController {
     @GetMapping("/list")
     public String loadEmpList(Model model) {
         List<EmployeeVO> list = service.loadEmpList();
+        list.sort(new Comparator<EmployeeVO>() {
+            @Override
+            public int compare(EmployeeVO o1, EmployeeVO o2) {
+                String emplId1 = o1.getEmplId();
+                String emplId2 = o2.getEmplId();
+                return emplId1.compareTo(emplId2);
+            }
+        });
         model.addAttribute("empList", list);
         return "admin/at/salary/detail";
     }
@@ -72,6 +80,7 @@ public class SalaryController {
     public Map<String, Object> loadPaymentList(@PathVariable String emplId, @PathVariable String year) {
         List<SalaryVO> salaryVOList = service.loadPaymentList(emplId, year);
         List<TariffVO> tariffVOList = service.loadTariff(year);
+        log.info(salaryVOList.toString());
         Map<String, Object> map = new HashMap<>();
         map.put("salaryList", salaryVOList);
         map.put("tariffList", tariffVOList);
@@ -133,7 +142,6 @@ public class SalaryController {
     public String calculatePage(Model model) {
         List<CommuteAndPaystub> cnpList = service.schedulingSalaryExactCalculation();
         model.addAttribute("cnpList", cnpList);
-
         return "admin/at/salary/salaryCalculate";
     }
 
