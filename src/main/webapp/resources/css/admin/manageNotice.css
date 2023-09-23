@@ -1,0 +1,74 @@
+.noticeHeader {
+    margin-bottom: var(--vh-56);
+}
+
+.noticeDiv {
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: var(--vh-16);
+}
+
+#quickFilter {
+    width: calc((400 / var(--vw)) * 100vw); 
+    height: calc((60 / var(--vh)) * 100vh);
+}
+
+#insertNoti {
+    width: calc((180 / var(--vw)) * 100vw); 
+    height: calc((60 / var(--vh)) * 100vh);
+}
+
+.deleteNotice {
+    width: calc((80 / 1920) * 100vw);
+    height: calc((36 / 1080) * 100vh);
+    border-radius: 20px;
+    border: 1px solid var(--color-font-md);
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--color-font-md);
+    font-size: var(--font-size-14);
+    margin: 0 auto;
+    margin-top: 8px;
+}
+
+.icon {
+    width: var(--vw-24); 
+    height: var(--vh-24); 
+    margin-bottom: 3px;
+}
+
+
+/* grid */
+.card .ag-root-wrapper {
+    border: none;
+    margin: 0;
+    font-size: var(--font-size-14);
+}
+
+.card {
+    height: calc((800 / 1080) * 100vh) !important;
+    overflow: hidden;
+}
+
+.ag-theme-material {
+    width: 100%;
+    height: calc((360 / 1080) * 100vh);
+    text-align: center;
+    --ag-font-family : var(--font-reg);
+    --ag-font-size : var(--font-size-14);
+}
+
+.ag-header-cell-label {
+    justify-content: center;
+}
+
+.ag-header-row-column, .ag-header-viewport {
+    background-color: var(--color-bg-sky);
+}
+
+.ag-header {
+    border : none;
+}
+
+.ag-row-even, .ag-row-odd {
+    border-color: var(--color-bg-grey);
+}
