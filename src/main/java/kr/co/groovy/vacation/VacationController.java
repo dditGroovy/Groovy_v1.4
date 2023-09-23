@@ -39,26 +39,30 @@ public class VacationController {
     }
 
     /* 휴가 결재 관련 */
+    @GetMapping("/request")
+    public String requestVacation() {
+        return "employee/vacation/request";
+    }
+
     @GetMapping("/record")
-    public String vacationRecord(Model model, Principal principal) {
-        String emplId = principal.getName();
-        List<VacationUseVO> vacationRecord = service.loadVacationRecord(emplId);
-        model.addAttribute("vacationRecord", vacationRecord);
-        return "employee/vacation/record";
+    @ResponseBody
+    public List<VacationUseVO> loadVacationRecord(Principal principal) {
+        return service.loadVacationRecord(principal.getName());
     }
 
 
-    @GetMapping("/loadData/{yrycUseDtlsSn}")
+    // enum 처리 안 함(코드 그대로)
+    @GetMapping("/data/{yrycUseDtlsSn}")
     @ResponseBody
     public ResponseEntity<VacationUseVO> loadVacationData(@PathVariable int yrycUseDtlsSn) {
         VacationUseVO vo = service.loadVacationData(yrycUseDtlsSn);
         return ResponseEntity.ok(vo);
     }
 
-    //
+    // enum 처리 함
     @GetMapping("/detail/{yrycUseDtlsSn}")
     @ResponseBody
-    public VacationUseVO vacationDetail(@PathVariable int yrycUseDtlsSn) {
+    public VacationUseVO loadVacationDetail(@PathVariable int yrycUseDtlsSn) {
         return service.loadVacationDetail(yrycUseDtlsSn);
     }
 
@@ -69,14 +73,14 @@ public class VacationController {
     }
 
 
-    /* 휴가 신청 폼 */
-    @GetMapping("/request")
-    public String requestVacation(Model model, Principal principal) {
-        String emplId = principal.getName();
-        List<VacationUseVO> vacationRecord = service.loadVacationRecord(emplId);
-        model.addAttribute("vacationRecord", vacationRecord);
-        return "employee/vacation/request";
-    }
+//    /* 휴가 신청 폼 */
+//    @GetMapping("/request")
+//    public String requestVacation(Model model, Principal principal) {
+//        String emplId = principal.getName();
+//        List<VacationUseVO> vacationRecord = service.loadVacationRecord(emplId);
+//        model.addAttribute("vacationRecord", vacationRecord);
+//        return "employee/vacation/request";
+//    }
 
     /* 휴가 신청 submit */
     @PostMapping("/request")

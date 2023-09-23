@@ -13,28 +13,9 @@
         <button type="button" class="btn btn-out-sm btn-modal" data-name="requestVacation" data-action="request">휴가 신청하기
         </button>
         <br><br>
-        <div>
-            <h3 class="content-title font-b">휴가 신청 기록</h3>
-            <table border="1">
-                <tr>
-                    <td>신청 번호</td>
-                    <td>휴가 기간</td>
-                    <td>휴가 구분</td>
-                    <td>휴가 종류</td>
-                    <td>결재 상태</td>
-                </tr>
-                <c:forEach var="recodeVO" items="${vacationRecord}" varStatus="stat">
-                    <tr>
-                        <td><a href="#" data-name="detailVacation" data-seq="${recodeVO.yrycUseDtlsSn}"
-                               class="detailLink">${stat.count}</a></td>
-                        <td>${recodeVO.yrycUseDtlsBeginDate} - ${recodeVO.yrycUseDtlsEndDate}</td>
-                        <td>${recodeVO.commonCodeYrycUseKind}</td>
-                        <td>${recodeVO.commonCodeYrycUseSe}</td>
-                        <td>${recodeVO.commonCodeYrycState}</td>
+        <h3 class="content-title font-b">휴가 신청 기록</h3>
+        <div id="vacationTable">
 
-                    </tr>
-                </c:forEach>
-            </table>
         </div>
     </div>
 
@@ -173,6 +154,50 @@
     <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
     <script>
+
+
+        $(document).ready(function () {
+            loadRecord()
+        });
+
+        function loadRecord() {
+            $.ajax({
+                url: "/vacation/record",
+                type: "GET",
+                success: function (data) {
+                    let code = `<table border="1">
+                        <tr>
+
+                    <td>신청 번호</td>
+                    <td>휴가 기간</td>
+                    <td>휴가 구분</td>
+                    <td>휴가 종류</td>
+                    <td>결재 상태</td>
+                        </tr>`;
+                    $.each(data, function (index, recodeVO) {
+                        console.log(recodeVO)
+                        code += `<tr>
+                        <td><a href="#" data-name="detailVacation" data-seq="\${recodeVO.yrycUseDtlsSn}"
+                               class="detailLink">\${index + 1}</a></td>
+                        <td>\${recodeVO.yrycUseDtlsBeginDate} - \${recodeVO.yrycUseDtlsEndDate}</td>
+                        <td>\${recodeVO.commonCodeYrycUseKind}</td>
+                        <td>\${recodeVO.commonCodeYrycUseSe}</td>
+                        <td>\${recodeVO.commonCodeYrycState}</td>
+                    </tr>`;
+                    });
+                    code += "</table>"
+                    $("#vacationTable").html(code);
+                },
+                error: function (xhr, status, error) {
+                    console.log("code: " + xhr.status);
+                }
+            });
+        }
+
+
+
+
+
         const startDateName = "yrycUseDtlsBeginDate";
         const endDateName = "yrycUseDtlsEndDate";
 
@@ -184,12 +209,14 @@
         const detailVacation = document.querySelector(".detailVacation");
         const detailLink = document.querySelectorAll(".detailLink");
 
-        detailLink.forEach(link => {
-            link.addEventListener("click", e => {
-                const num = link.getAttribute("data-seq");
+
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('detailLink')) {
+                const num = event.target.getAttribute('data-seq');
                 loadDetail(num);
-            })
-        })
+            }
+        });
+
 
         // 결재하기 시작
         let param;
@@ -243,7 +270,7 @@
         function loadDetail(num) {
             $.ajax({
                 type: "GET",
-                url: `/vacation/loadData/\${num}`,
+                url: `/vacation/data/\${num}`,
                 success: function (data) {
                     modalOpen();
                     detailVacation.classList.add("on");

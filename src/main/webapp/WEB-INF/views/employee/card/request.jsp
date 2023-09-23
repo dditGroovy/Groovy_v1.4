@@ -148,7 +148,7 @@
                 url: "/card/record",
                 type: "GET",
                 success: function (data) {
-                    var code = `<table border="1">
+                    let code = `<table border="1">
                         <tr>
                             <td>신청 번호</td>
                             <td>사용 기간</td>

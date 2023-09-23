@@ -59,7 +59,8 @@
     </select>
     <select id="loadSanction" parameterType="String" resultType="sanctionVO">
         SELECT ELCTRN_SANCTN_SJ,
-               ELCTRN_SANCTN_RECOM_DATE
+               ELCTRN_SANCTN_RECOM_DATE,
+               ELCTRN_SANCTN_ETPR_CODE
         FROM ELCTRN_SANCTN
         WHERE ROWNUM &lt;= 10
           AND ELCTRN_SANCTN_DRFT_EMPL_ID = #{emplId}

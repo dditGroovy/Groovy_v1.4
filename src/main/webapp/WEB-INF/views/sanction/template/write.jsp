@@ -176,7 +176,7 @@
 
         function loadVacationData() {
             $.ajax({
-                url: `/vacation/loadData/\${num}`,
+                url: `/vacation/detail/\${num}`,
                 type: "GET",
                 success: function (data) {
                     console.log(data)
@@ -290,13 +290,15 @@
         }
 
         // 결재 테이블 insert 후 첨부 파일 있다면 업로드 실행
-        function appendFile(file) {
-            let form = file;
-            let formData = new FormData();
-            formData.append('file', form);
+        function appendFile(paramFile) {
+            file = paramFile;
+            console.log(file)
         }
 
         function uploadFile() {
+            let form = file;
+            let formData = new FormData();
+            formData.append('file', form);
             $.ajax({
                 url: `/file/upload/sanction/\${etprCode}`,
                 type: "POST",

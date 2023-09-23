@@ -151,6 +151,19 @@
 
     $(document).ready(function () {
 
+        function createDynamicFunction(param) {
+            console.log(param)
+            return function () {
+                window.open('/sanction/read/' + param, '결재', 'width=1160,height=1400');
+            }
+        }
+
+        // 이벤트 위임을 사용하여 클릭 이벤트를 바인딩합니다.
+        $(".saction-list").on("click", ".list-item", function () {
+            var dynamicFunction = createDynamicFunction($(this).data("param"));
+            dynamicFunction();
+        });
+
         // 진행 중인 결재 불러오기 (10개)
         $.ajax({
             url: `/common/sanction/\${dclzEmplId}`,
@@ -158,10 +171,10 @@
             success: function (data) {
                 code = "";
                 $.each(data, function (index, item) {
-                    code += `<li><a href="#" class="list-item">
-                                    <p class="list-context">\${item.elctrnSanctnSj}</p>
-                                    <span class="list-date">\${item.elctrnSanctnRecomDate}</span>
-                            </a></li>`
+                    code += `<li><a href="#" class="list-item" data-param="\${item.elctrnSanctnEtprCode}">
+                            <p class="list-context">\${item.elctrnSanctnSj}</p>
+                            <span class="list-date">\${item.elctrnSanctnRecomDate}</span>
+                    </a></li>`
                 })
                 $(".saction-list").html(code);
             },
@@ -169,6 +182,8 @@
                 console.log("code: " + xhr.status)
             }
         })
+
+
 
         // 공지사항 불러오기 (최신 2개)
         $.ajax({
@@ -192,8 +207,6 @@
                 console.log("code: " + xhr.status)
             }
         })
-
-
         // -----------------------------------------------------------날짜 포맷팅
         let before = new Date();
 

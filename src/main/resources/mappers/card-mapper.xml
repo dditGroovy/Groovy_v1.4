@@ -133,6 +133,7 @@
         </selectKey>
     </insert>
     <select id="loadRequestDetail" parameterType="int" resultType="cardReservationVO">
+        <![CDATA[
         SELECT CPR_CARD_RESVE_SN,
                CPR_CARD_RESVE_BEGIN_DATE,
                CPR_CARD_RESVE_CLOS_DATE,
@@ -146,8 +147,10 @@
                COMMON_CODE_YRYC_STATE
         FROM CPR_CARD_RESVE
         WHERE CPR_CARD_RESVE_SN = #{cprCardResveSn}
+        ]]>
     </select>
     <select id="loadCardRecord" parameterType="String" resultType="cardReservationVO">
+        <![CDATA[
         SELECT CPR_CARD_RESVE_SN,
                CPR_CARD_RESVE_BEGIN_DATE,
                CPR_CARD_RESVE_CLOS_DATE,
@@ -162,6 +165,7 @@
         FROM CPR_CARD_RESVE
         WHERE CPR_CARD_RESVE_EMPL_ID = #{emplId}
         ORDER BY CPR_CARD_RESVE_SN ASC
+        ]]>
     </select>
     <update id="modifyStatus" parameterType="map">
         UPDATE CPR_CARD_RESVE
@@ -169,6 +173,7 @@
         WHERE CPR_CARD_RESVE_SN = #{approveId}
     </update>
     <select id="loadSanctionList" resultType="cardReservationVO">
+        <![CDATA[
         SELECT C.CPR_CARD_RESVE_SN,
                C.CPR_CARD_RESVE_BEGIN_DATE,
                C.CPR_CARD_RESVE_CLOS_DATE,
@@ -187,6 +192,7 @@
              EMPL E
         WHERE C.CPR_CARD_RESVE_EMPL_ID = E.EMPL_ID
           AND COMMON_CODE_YRYC_STATE = 'YRYC032'
+        ]]>
     </select>
     <update id="modifyRequest" parameterType="cardReservationVO">
         UPDATE CPR_CARD_RESVE
