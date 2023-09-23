@@ -33,13 +33,15 @@
                         <div class="section-inner flex-inner">
                             <div class="commute">
                                 <div class="commute-area commute-work card-df card">
-                                    <button type="button" id="work" data-io="0" class="btn-commute btn-3d icon-area pd-32">
+                                    <button type="button" id="work" data-io="0"
+                                            class="btn-commute btn-3d icon-area pd-32">
                                         <h3 class="content-title font-b">출근</h3>
                                         <p id="workTime">00:00</p>
                                     </button>
                                 </div>
                                 <div class="commute-area commute-leave card-df card">
-                                    <button type="button" id="leave" data-io="1" class="btn-commute btn-3d icon-area pd-32">
+                                    <button type="button" id="leave" data-io="1"
+                                            class="btn-commute btn-3d icon-area pd-32">
                                         <h3 class="content-title font-b">퇴근</h3>
                                         <p id="leaveTime">00:00</p>
                                     </button>
@@ -143,7 +145,7 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 
 </sec:authorize>
 <script>
@@ -151,20 +153,19 @@
 
     $(document).ready(function () {
 
+        // 결재 문서 팝업
         function createDynamicFunction(param) {
-            console.log(param)
             return function () {
-                window.open('/sanction/read/' + param, '결재', 'width=1160,height=1400');
+                window.open('/sanction/read/' + param, '결재', 'width=900,height=1000');
             }
         }
 
-        // 이벤트 위임을 사용하여 클릭 이벤트를 바인딩합니다.
         $(".saction-list").on("click", ".list-item", function () {
             var dynamicFunction = createDynamicFunction($(this).data("param"));
             dynamicFunction();
         });
 
-        // 진행 중인 결재 불러오기 (10개)
+        // '진행' 중인 결재 불러오기 (10개)
         $.ajax({
             url: `/common/sanction/\${dclzEmplId}`,
             type: "get",
@@ -182,7 +183,6 @@
                 console.log("code: " + xhr.status)
             }
         })
-
 
 
         // 공지사항 불러오기 (최신 2개)

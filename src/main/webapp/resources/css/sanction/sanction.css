@@ -375,6 +375,7 @@ th{
     font-family: var(--font-reg);
     padding: var(--vh-12) var(--vw-24);
 }
+.form td    {padding: 0;}
 .file-content a {
     display: block;
 

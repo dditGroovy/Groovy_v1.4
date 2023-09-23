@@ -2,82 +2,103 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/commute/commute.css">
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
+    <div class="content-container">
+        <header id="tab-header">
+            <h1><a href="${pageContext.request.contextPath}/employee/commute" class="on">출·퇴근 현황</a></h1>
+        </header>
+        <main>
+            <div class="main-inner commute-inner">
+                <section id="commute">
+                    <div class="commute-today">
+                        <div class="object"></div>
+                        <div class="commute-service">
+                            <div class="commute-btn-wrap">
+                                <button type="button" id="goBtn" class="btn btn-free-white commute-btn">출근 <span
+                                        id="attend" class="commute-time">00:00</span></button>
+                                <button type="button" id="leaveBtn" class="btn btn-free-white commute-btn">퇴근 <span
+                                        id="leave" class="commute-time">00:00</span></button>
+                            </div>
+                            <div class="commute-time-wrap">
+                                <div class="commute-time-inner">
+                                    <div class="commute-time-today commute-time">
+                                        <h2>오늘 근무 시간</h2>
+                                        <p class="time" id="todayTime">00시간 00분</p>
+                                    </div>
+                                    <div class="commute-time-week commute-time">
+                                        <h2>이번주 총 근무 시간</h2>
+                                        <p id="weeklyTotal" class="time">00시간 00분</p>
+                                    </div>
+                                </div>
+                                <div id="progress-container">
+                                    <div id="progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="commute-week">
+                        <div class="commute-week-area card-df card pd-32">
+                            <div class="area-header">
+                                <h3 class="content-title font-b">주간 출 · 퇴근 시간 확인</h3>
+                            </div>
+                            <div class="area-body">
+                                <table id="weekly-table">
+                                    <thead>
+                                    <tr>
+                                        <th>월</th>
+                                        <th>화</th>
+                                        <th>수</th>
+                                        <th>목</th>
+                                        <th>금</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr id="weeklyAttendTime"></tr>
+                                    <tr id="weeklyLeaveTime"></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="commute-list">
+                    <div class="content-header">
+                        <h2 class="main-title">근태 현황</h2>
+                        <div class="select-wrapper">
+                            <select name="sortOptions" id="yearSelect" class="stroke selectBox"></select>
+                        </div>
+                    </div>
+                    <div class="content-body">
+                        <div id="monthDiv"></div>
+                    </div>
+                </section>
 
-    <style>
-        table, td, tr, th {
-            border: 1px solid #333;
-        }
 
-        #progress-container {
-            width: 100%;
-            background-color: #DDDDDD;
-        }
-
-        #progress-bar {
-            width: 0;
-            height: 30px;
-            line-height: 30px;
-            background-color: #5796F3;
-            text-align: center;
-        }
-    </style>
-<div class="content-container">
-        <h1>수정수정 - 8</h1>
-        <h1>${CustomUser.employeeVO.emplId}</h1>
-        <h1>${commuteVO}</h1>
-        <div>
-            <button type="button" id="goBtn">출근 <span id="attend">00:00</span></button>
-        </div>
-        <div>
-            <button type="button" id="leaveBtn">퇴근 <span id="leave">00:00</span></button>
-        </div>
-        <div>
-            <p>오늘 근무 시간</p>
-            <p id="todayTime">00시간 00분</p>
-        </div>
-        <div>
-            <p>이번주 총 근무 시간</p>
-            <p id="weeklyTotal">00시간 00분</p>
-        </div>
-
-        <div id="progress-container">
-            <div id="progress-bar"></div>
-        </div>
-
-        <div>
-            <p>주간 출 • 퇴근 시간 확인</p>
-            <table border="1">
-                <tr>
-                    <th>월</th>
-                    <th>화</th>
-                    <th>수</th>
-                    <th>목</th>
-                    <th>금</th>
-                </tr>
-                <tr id="weeklyAttendTime"></tr>
-                <tr id="weeklyLeaveTime"></tr>
-            </table>
-        </div>
-
-        <div>
-            <p>근태 현황</p>
-            <select name="sortOptions" id="yearSelect" class="stroke"></select>
-            <div id="monthDiv"></div>
-        </div>
-
-        <div class="modal">
-            <div>
-                <p>근태 현황</p>
-                <i></i>
             </div>
-
-            <div id="commuteTable"></div>
-            <button type="button">확인</button>
+        </main>
+    </div>
+    <div id="modal" class="modal-dim">
+        <div class="dim-bg"></div>
+        <div class="modal-layer card-df sm commute-status">
+            <div class="modal-top">
+                <div class="modal-title">근태 현황 확인</div>
+                <button type="button" class="modal-close btn close">
+                    <i class="icon i-close">X</i>
+                </button>
+            </div>
+            <div class="modal-container">
+                <div class="modal-content input-wrap">
+                    <div id="commuteTable"></div>
+                </div>
+            </div>
+            <div class="modal-foote btn-wrapper">
+                <button type="button" class="btn btn-fill-wh-sm close">확인</button>
+            </div>
         </div>
     </div>
+    <script src="/resources/js/modal.js"></script>
     <script>
         let dclzEmplId = `${CustomUser.employeeVO.emplId}`;
         let goBtn = document.querySelector("#goBtn");
@@ -316,9 +337,9 @@
                     let code = ``;
                     for (let i = 1; i <= 12; i++) {
                         if (rslt.includes(i < 10 ? `0\${i}` : `\${i}`)) {
-                            code += `<button type="button" onclick="getCommuteByYearMonth(this)" >\${i}월</button>`;
+                            code += `<button type="button" onclick="getCommuteByYearMonth(this)" class="month-btn btn btn-free-white">\${i}월</button>`;
                         } else {
-                            code += `<button type="button" disabled>\${i}월</button>`;
+                            code += `<button type="button" disabled class="month-btn btn btn-free-white">\${i}월</button>`;
                         }
                     }
                     monthDiv.innerHTML = code;
@@ -330,6 +351,8 @@
         }
 
         function getCommuteByYearMonth(monthBtn) {
+
+
             //년도 - 월 버튼 선택시
             let month = parseInt(monthBtn.innerText);
             month = month < 10 ? `0\${month}` : month;
@@ -345,14 +368,15 @@
                 contentType: 'json',
                 dataType: 'json',
                 success: function (rslt) {
-                    formatTime()
+                    formatTime();
                     let commuteTable = document.querySelector("#commuteTable");
-                    code = `<table border="1">
-                                <tr>
-                                    <th>날짜</th>
-                                    <th>상태</th>
-                                    <th>근무시간</th>
-                                </tr>`;
+                    code = `<table class="form">
+                                <thead>
+                                    <tr>
+                                        <th>날짜</th>
+                                        <th>상태</th>
+                                        <th>근무시간</th>
+                                    </tr></thead>`;
 
                     for (let i = 0; i < rslt.length; i++) {
                         let beforeDate = new Date(rslt[i].dclzWorkDe);
@@ -386,6 +410,10 @@
                     }
                     code += `</table>`;
                     commuteTable.innerHTML = code;
+                    const modalDm = document.querySelector(".modal-dim");
+                    const modalLayer = document.querySelector(".commute-status");
+                    modalDm.style.display = "block";
+                    modalLayer.classList.add("on");
                 },
                 error: function (xhr) {
                     xhr.status;
@@ -410,7 +438,6 @@
                     } else {
                         width++;
                         elem.style.width = width + "%";
-                        elem.innerHTML = width;
                     }
                 }
             }

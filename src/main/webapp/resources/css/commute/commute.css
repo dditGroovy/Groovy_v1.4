@@ -1,0 +1,186 @@
+@import "../commonStyle.css";
+
+/*  공통  */
+
+
+
+/*  이번 주 출퇴근    */
+#commute {
+    display: flex;
+    gap: calc((72/var(--vw))*100vw);
+    height: calc((256/var(--vh))*100vh);
+}
+#commute > div {
+    flex: 1;
+    height: 100%;
+}
+.commute-today {
+    display: flex;
+    gap: var(--vw-24);
+}
+.commute-today .object {
+    position: relative;
+    width: calc((320/var(--vw))*100vw);
+    height: 100%;
+
+}
+.commute-today .object::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/resources/images/object/card.png") no-repeat center / cover;
+}
+.commute-today .commute-service {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-16);
+}
+.commute-btn-wrap {
+    display: flex;
+    gap: var(--vw-24);
+}
+.commute-btn {
+    height: var(--vh-56);
+    font-family: var(--font-b);
+    color: var(--color-font-high);
+    font-size: var(--font-size-18);
+    display: flex;
+    gap: var(--vw-32);
+    align-items: center;
+    padding: 0 var(--vw-24);
+    box-shadow: 1px 1px 10px rgba(0,0,0,.1);
+}
+.commute-time-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vw-24);
+}
+.commute-time-wrap .commute-time-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.commute-time {
+    text-align: center;
+    flex: 1;
+    font-family: var(--font-reg);
+}
+.commute-time > h2 {
+    font-size: var(--font-size-18);
+    color: var(--color-font-md);
+    margin-bottom: var(--vh-8);
+    white-space: nowrap;
+}
+.commute-time > p.time {
+    font-size: var(--font-size-24);
+}
+#progress-container {
+    position: relative;
+    width: 100%;
+    border-radius: var(--vw-12);
+    border: 1px solid var(--color-stroke);
+    background-color: #DDDDDD;
+    margin-top: var(--vh-16);
+}
+#progress-container::before {
+    content: "0h";
+    position: absolute;
+    left: 4px;
+    top: -12px ;
+    font-size: var(--font-size-14);
+}
+#progress-container::after {
+    content: "52h";
+    position: absolute;
+    right: 4px;
+    top: -12px ;
+    font-size: var(--font-size-14);
+}
+
+#progress-bar {
+    width: 0;
+    height: var(--vh-48);
+    line-height: var(--vh-48);
+    background-color: var(--color-main);
+    border-radius: var(--vw-12);
+    text-align: center;
+    color: var(--color-white);
+    font-size: var(--font-size-14);
+    box-shadow: var(--clay-btn);
+}
+
+.commute-week .commute-week-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: var(--vh-24);
+}
+#weekly-table {
+    width: 100%;
+    border: 1px solid var(--color-stroke);
+    text-align: center;
+}
+#weekly-table thead {
+    background: var(--color-bg-sky);
+
+}
+#weekly-table thead th {
+    color: var(--color-main);
+    padding: var(--vh-12) 0;
+    font-size: 14px;
+}
+#weekly-table tbody {
+    border: 1px solid var(--color-stroke);
+}
+#weekly-table tbody td {
+    font-size: 11px;
+    padding: var(--vh-12) 0;
+}
+#weekly-table thead th, #weekly-table tbody td {
+    width: calc(100%/5);
+}
+    /*  근태 현황   */
+#commute-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+}
+#commute-list .content-header {
+    display: flex;
+    justify-content: space-between;
+}
+#monthDiv {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--vw-24);
+}
+.month-btn {
+    height: calc((96/var(--vh))*100vh);
+}
+
+/*commuteTable*/
+#commuteTable {
+    height: calc((560/1920)*100vh);
+    overflow-y: auto;
+}
+#commuteTable .form {
+    table-layout: fixed;
+}
+#commuteTable tbody {
+
+    overflow-y:auto;
+    text-align: center;
+}
+#commuteTable .form  th {
+    position: sticky;
+    top: 0;
+}
+.month-btn:hover {
+    background: var(--color-main);
+    box-shadow: var(--clay-btn);
+    color: white;
+}

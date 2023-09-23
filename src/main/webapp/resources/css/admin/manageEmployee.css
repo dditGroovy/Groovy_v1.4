@@ -58,6 +58,7 @@
     height: calc((60/1080) * 100vh);
     text-align: center;
     border: none;
+    font-size: var(--font-size-14);
 }
 
 .employeeTable th{

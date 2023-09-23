@@ -6,7 +6,10 @@
 </head>
 <body>
 <form action="#">
-    <table border="1" style="width: 100%">
+
+
+
+    <table border="1"  class="form-table">
         <colgroup>
             <col style="width: 15%;">
             <col style="width: 35%;">
@@ -15,45 +18,48 @@
         </colgroup>
         <tr>
             <td class="form-title">문서 종류</td>
-            <td><span id="sanctnCate">법인카드사용신청서</span></td>
+            <td class="form-content"><span id="sanctnCate">법인카드사용신청서</span></td>
             <td class="form-title">문서 번호</td>
-            <td><span id="sanctionNo"></span></td>
+            <td class="form-content"><span id="sanctionNo"></span></td>
         </tr>
         <tr>
             <td class="form-title">기안 부서</td>
-            <td><span>회계팀</span></td>
+            <td class="form-content"><span>회계팀</span></td>
             <td class="form-title">기안자</td>
-            <td><span id="writer"></span></td>
+            <td class="form-content"><span id="writer"></span></td>
         </tr>
         <tr>
             <td class="form-title">기안 일자</td>
-            <td><span id="writeDate"></span></td>
+            <td class="form-content"><span id="writeDate"></span></td>
             <td class="form-title">완료 일자</td>
-            <td><span id="elctrnSanctnFinalDate"></span></td>
+            <td class="form-content"><span id="elctrnSanctnFinalDate"></span></td>
         </tr>
         <tr>
             <td class="form-title">사용 시작 일자</td>
-            <td>
+            <td class="form-content">
                 <span id="cprCardResveBeginDate" style="width: 99%"></span></td>
             <td class="form-title">사용 종료 일자</td>
-            <td>
+            <td class="form-content">
                 <span id="cprCardResveClosDate" style="width: 99%"></span></td>
         </tr>
         <tr>
             <td class="form-title">사용처</td>
-            <td><span id="cprCardUseLoca" style="width: 99%"></span></td>
+            <td class="form-content"><span id="cprCardUseLoca" style="width: 99%"></span></td>
             <td class="form-title">사용 예상 금액</td>
-            <td><span id="cprCardUseExpectAmount" style="width: 99%"></span>
+            <td class="form-content"><span id="cprCardUseExpectAmount" style="width: 99%"></span>
         </tr>
         <tr>
             <td class="form-title">사용 목적</td>
-            <td colspan="3"><span id="cprCardUsePurps" style="width: 99%"></span></td>
+            <td class="form-content" colspan="3"><span id="cprCardUsePurps" style="width: 99%"></span></td>
         </tr>
     </table>
     <div class="message-wrap">
         <p class="message">위와 같은 내용으로 법인카드 사용을 신청하오니 허락하여 주시기 바랍니다.</p>
         <p id="requestDate"></p>
     </div>
+
+
+
 </form>
 </body>
 </html>

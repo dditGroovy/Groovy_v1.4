@@ -6,7 +6,7 @@
     <div class="dim-bg"></div>
     <div class="modal-layer card-df sm emplCard">
         <div class="modal-top">
-            <div class="modal-title">사원 관리</div>
+            <div class="modal-title">사원 추</div>
             <button type="button" class="modal-close btn js-modal-close">
                 <i class="icon i-close close">X</i>
             </button>
