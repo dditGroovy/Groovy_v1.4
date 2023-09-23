@@ -40,7 +40,7 @@ public class ReservationController {
     public ModelAndView insertVehicle(VehicleVO vehicleVO, ModelAndView mav) {
         int count = service.inputVehicle(vehicleVO);
         if (count > 0) {
-            mav.setViewName("redirect:/gat/manageVehicle");
+            mav.setViewName("redirect:/reserve/manageVehicle");
         }
         return mav;
     }
