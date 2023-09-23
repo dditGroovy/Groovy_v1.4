@@ -15,9 +15,7 @@
 }
 /*  메인   */
 /*  공통  */
-.content-title {
-    font-size: var(--font-size-18);
-}
+
 .content {
     display: flex;
     flex-direction: column;
