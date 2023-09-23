@@ -311,9 +311,6 @@
                     let code = ``;
                     for (let i = 0; i < rslt.length; i++) {
                         code += `<option value="\${rslt[i]}">\${rslt[i]}</option>`;
-                        if(rslt[i] == 2023){
-                            code += `<option value="\${rslt[i]}" selected>\${rslt[i]}</option>`;
-                        }
                     }
                     yearSelect.innerHTML = code;
                     selectedYear = rslt[0];
