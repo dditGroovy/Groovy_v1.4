@@ -82,7 +82,7 @@
         END}
 
     </update>
-    <update id="reject" parameterType="String">
+    <update id="reject" parameterType="map">
         /* kr.co.groovy.sanction.SanctionMapper 결재 반려 - 결재 문서의 상태 변경 및 반려 사유 등록 */
         {CALL DECLARE
         BEGIN

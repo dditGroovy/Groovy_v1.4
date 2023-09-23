@@ -44,7 +44,7 @@ public interface SanctionMapper {
 
     void finalApprove(@Param("elctrnSanctnemplId") String elctrnSanctnemplId, @Param("elctrnSanctnEtprCode") String elctrnSanctnEtprCode);
 
-    void reject(@Param("elctrnSanctnemplId") String elctrnSanctnemplId, @Param("sanctnLineReturnResn") String sanctnLineReturnResn, @Param("elctrnSanctnEtprCode") String elctrnSanctnEtprCode);
+    void reject(Map<String, Object> map);
 
     void collect(String elctrnSanctnEtprCode);
 

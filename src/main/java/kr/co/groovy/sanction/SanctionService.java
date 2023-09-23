@@ -41,8 +41,8 @@ public class SanctionService {
         mapper.finalApprove(elctrnSanctnemplId, elctrnSanctnEtprCode);
     }
 
-    public void reject(String elctrnSanctnemplId, String sanctnLineReturnResn, String elctrnSanctnEtprCode) {
-        mapper.reject(elctrnSanctnemplId, sanctnLineReturnResn, elctrnSanctnEtprCode);
+    public void reject(Map<String, Object> map) {
+        mapper.reject(map);
     }
 
     public void collect(String elctrnSanctnEtprCode) {
