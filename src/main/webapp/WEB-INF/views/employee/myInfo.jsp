@@ -212,19 +212,24 @@
     $(document).ready(function () {
         initializeCheckboxes();
 
+        // 패스워드 변경 모달
         $("#modifyPass").on("click", function () {
             openModal();
         })
-        // 저장 버튼 클릭 시 모든 변경 사항을 업데이트
+
+
+
+
+        // 저장 버튼 클릭 시 모든 변경 사항 업데이트
         $("#saveButton").on("click", function () {
             let profileForm = new FormData($("#profileForm")[0]);
             let profileFile = profileForm.get("profileFile");
-            if (profileFile) {
+            if (profileFile.size !== 0 && profileFile.name !== '') {
                 updateProfile();
             }
             let signForm = new FormData($("#signForm")[0]);
             let signFile = signForm.get("signPhotoFile");
-            if (signFile) {
+            if (signFile.size !== 0 || signFile.name !== '') {
                 updateSign();
             }
             saveNotificationSettings();
@@ -232,6 +237,7 @@
 
         // 프로필 사진 수정
         function updateProfile() {
+            let formData = new FormData($("#profileForm")[0]);
             $.ajax({
                 type: "POST",
                 url: "/employee/modifyProfile",
@@ -241,9 +247,11 @@
                 cache: false,
                 success: function (response) {
                     console.log("프로필 사진 수정 성공", response);
-                    var newImageUrl = "/uploads/profile/" + response;
+                    let newImageUrl = "/uploads/profile/" + response;
                     $("#profileImage").attr("src", newImageUrl);
                     $("#asideProfile").attr("src", newImageUrl);
+                    $("#empProflPhotoFile").val("");
+
                 },
                 error: function (xhr, textStatus, error) {
                     console.log("AJAX 오류:", error);
@@ -254,6 +262,8 @@
 
         // 서명 사진 수정
         function updateSign() {
+            let formData = new FormData($("#signForm")[0]);
+
             $.ajax({
                 type: "POST",
                 url: "/employee/modifySign",
@@ -262,9 +272,11 @@
                 processData: false,
                 cache: false,
                 success: function (response) {
-                    console.log("서명 사진 수정 성공");
-                    var newImageUrl = "/uploads/sign/" + response;
+                    console.log("서명 사진 수정 성공", response);
+                    let newImageUrl = "/uploads/sign/" + response;
                     $("#userSignProfile").attr("src", newImageUrl);
+                    $("#emplSignFile").val("");
+
                 },
                 error: function (xhr, textStatus, error) {
                     console.log("AJAX 오류:", error);
