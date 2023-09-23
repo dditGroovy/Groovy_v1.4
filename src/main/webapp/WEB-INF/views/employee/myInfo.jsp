@@ -226,45 +226,51 @@
         // 프로필 사진 수정
         function updateProfile() {
             var formData = new FormData($("#profileForm")[0]);
-            $.ajax({
-                type: "POST",
-                url: "/employee/modifyProfile",
-                data: formData,
-                contentType: false,
-                processData: false,
-                cache: false,
-                success: function (response) {
-                    console.log("프로필 사진 수정 성공", response);
-                    var newImageUrl = "/uploads/profile/" + response;
-                    $("#profileImage").attr("src", newImageUrl)
-                    $("#asideProfile").attr("src", newImageUrl)
-                },
-                error: function (xhr, textStatus, error) {
-                    console.log("AJAX 오류:", error);
-                }
-            });
+            var profileFile = formData.get("profileFile");
+            if (profileFile) { 
+                $.ajax({
+                    type: "POST",
+                    url: "/employee/modifyProfile",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    success: function (response) {
+                        console.log("프로필 사진 수정 성공", response);
+                        var newImageUrl = "/uploads/profile/" + response;
+                        $("#profileImage").attr("src", newImageUrl);
+                        $("#asideProfile").attr("src", newImageUrl);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        console.log("AJAX 오류:", error);
+                    }
+                });
+            }
         }
 
 
         // 서명 사진 수정
         function updateSign() {
             var formData = new FormData($("#signForm")[0]);
-            $.ajax({
-                type: "POST",
-                url: "/employee/modifySign",
-                data: formData,
-                contentType: false,
-                processData: false,
-                cache: false,
-                success: function (response) {
-                    console.log("서명 사진 수정 성공");
-                    var newImageUrl = "/uploads/sign/" + response;
-                    $("#userSignProfile").attr("src", newImageUrl)
-                },
-                error: function (xhr, textStatus, error) {
-                    console.log("AJAX 오류:", error);
-                }
-            });
+            var signFile = formData.get("signPhotoFile");
+            if (signFile) {
+                $.ajax({
+                    type: "POST",
+                    url: "/employee/modifySign",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    success: function (response) {
+                        console.log("서명 사진 수정 성공");
+                        var newImageUrl = "/uploads/sign/" + response;
+                        $("#userSignProfile").attr("src", newImageUrl);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        console.log("AJAX 오류:", error);
+                    }
+                });
+            }
         }
 
         // 초기 체크 상태 설정
