@@ -24,7 +24,7 @@ public class SanctionController {
     CommonService commonService;
 
 
-    public SanctionController(SanctionService service, CommonService commonService, WebApplicationContext context) {
+    public SanctionController(SanctionService service, CommonService commonService) {
         this.service = service;
         this.commonService = commonService;
     }

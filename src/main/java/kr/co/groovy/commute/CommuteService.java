@@ -2,6 +2,7 @@ package kr.co.groovy.commute;
 
 import kr.co.groovy.enums.LaborStatus;
 import kr.co.groovy.enums.VacationKind;
+import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vacation.VacationMapper;
 import kr.co.groovy.vo.CommuteVO;
 import kr.co.groovy.vo.VacationUseVO;
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @Slf4j
 @Service
 public class CommuteService {
@@ -61,13 +64,21 @@ public class CommuteService {
 
     public CommuteVO getAttend(String dclzEmplId) {
         return commuteMapper.getAttend(dclzEmplId);
-    };
+    }
 
-    public int getMaxWeeklyWorkTimeByDay(CommuteVO commuteVO) {return commuteMapper.getMaxWeeklyWorkTimeByDay(commuteVO);}
+    ;
+
+    public int getMaxWeeklyWorkTimeByDay(CommuteVO commuteVO) {
+        return commuteMapper.getMaxWeeklyWorkTimeByDay(commuteVO);
+    }
 
     public void insertCommuteByVacation(Map<String, Object> paramMap) {
         log.info("insertCommuteByVacation");
         int id = Integer.parseInt((String) paramMap.get("vacationId"));
+        ParamMap map = ParamMap.init();
+        map.put("approveId", id);
+        map.put("state", "YRYC032");
+        vacationMapper.modifyStatus(map);
         VacationUseVO vo = vacationMapper.loadVacationBySn(id);
         String vacationUse = vo.getCommonCodeYrycUseSe();
         String vacationKind = vo.getCommonCodeYrycUseKind();

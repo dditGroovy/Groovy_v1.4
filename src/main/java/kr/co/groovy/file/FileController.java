@@ -22,9 +22,9 @@ public class FileController {
     String uploadPath;
     final
     FileService service;
-
-    public FileController(String uploadPath, FileService service) {
-        this.uploadPath = uploadPath;
+    // TODO 경로 주입 바꾸기 (운영서버로)
+    public FileController(String uploadSeoju, FileService service) {
+        this.uploadPath = uploadSeoju;
         this.service = service;
     }
 

@@ -45,7 +45,7 @@
                                 <a href="${pageContext.request.contextPath}/sanction/write/DEPT010?format=SANCTN_FORMAT013"
                                    class="btn-3d icon-area" id="vacation">
                                     <h4 class="main-title">여름 휴가</h4>
-                                    <p class="main-desc">으른이들의 방학 ✈</p>
+                                    <p class="main-desc">으른이들의 방학 ✈️</p>
                                 </a>
                             </li>
                             <li class="sanction-list-item">
@@ -72,7 +72,7 @@
                             <li class="sanction-list-item">
                                 <a href="${pageContext.request.contextPath}/card/request" class="btn-3d icon-area" id="card">
                                     <h4 class="main-title">법인카드 신청</h4>
-                                    <p class="main-desc">회사 법인 카드 신청💳️</p>
+                                    <p class="main-desc">긴히 쓸 일이 있어요  💳️</p>
                                 </a>
                             </li>
                         </ul>
