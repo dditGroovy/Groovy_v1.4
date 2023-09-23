@@ -518,7 +518,7 @@ input[name=tabs]:checked + label.tab {
 }
 
 .grid-card .content .ag-theme-alpine {
-    height: calc((150 / 1080) * 100vh);
+    height: calc((200 / 1080) * 100vh);
 }
 
 .grid-card .ag-center-cols-container {
@@ -528,6 +528,6 @@ input[name=tabs]:checked + label.tab {
 
 .grid-card {
     padding: var(--vw-32);
-    height: calc((304 / 1080) * 100vh) !important;
+    height: calc((350 / 1080) * 100vh) !important;
     overflow: hidden;
 }
