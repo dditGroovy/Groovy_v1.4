@@ -11,18 +11,13 @@
 <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-grid.css">
 <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-theme-alpine.css">
 <link rel="stylesheet" href="/resources/css/admin/manageRoom.css">
-<link rel="stylesheet" href="/resources/css/commonGrid.css">
 <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
 
 <div class="content-container">
-    <div class="wrap">
-        <ul>
-            <li><a href="/reservation/room" class="tab tab-active font-md font-36">시설 관리</a></li>
-            <li><a href="/reservation/list" class="tab font-md font-36">예약 현황</a></li>
-        </ul>
-    </div>
-    <br/>
-    <br/>
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/reservation/room" class="on">시설 관리</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/reservation/list">예약 현황</a></h1>
+    </header>
     <div class="cardWrap">
         <div class="card card-df grid-card">
             <div class="header">
@@ -32,12 +27,10 @@
                 </p>
                 <a href="/reservation/list" class="more font-11 font-md">더보기 <i class="icon i-arr-rt" style="fill: red"></i></a>
             </div>
-            <br/>
             <div class="content">
                 <div id="myGrid" class="ag-theme-alpine"></div>
             </div>
         </div>
-        <br/>
         <div class="card card-df facility-card">
             <div class="header">
                 <div class="titleWrap" style="display: block">

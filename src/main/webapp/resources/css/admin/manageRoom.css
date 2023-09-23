@@ -100,12 +100,12 @@ table tr td, table tr th {
     text-align: center;
 }
 
-.tab {
+.menu {
     margin-right: var(--vw-64);
     color: var(--color-font-md);
 }
 
-.tab.tab-active {
+.menu.menu-active {
     color: var(--color-font-high);
 }
 
@@ -140,6 +140,8 @@ table tr td, table tr th {
 
 .facility-card {
     padding: var(--vw-32);
+    margin: var(--vh-24) 0;
+
 }
 
 .manage-header {
