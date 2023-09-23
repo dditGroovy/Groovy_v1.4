@@ -19,7 +19,7 @@ public class AttendanceController {
         this.service = service;
     }
 
-    @GetMapping("/manageDclz")
+    @GetMapping("/manage")
     public String manageDclz(Model model) {
         List<Integer> deptTotalWorkTime = service.deptTotalWorkTime();
         List<Integer> deptAvgWorkTime = service.deptAvgWorkTime();
@@ -31,7 +31,7 @@ public class AttendanceController {
         return "admin/hrt/attendance/all";
     }
 
-    @GetMapping("/manageDclz/{deptCode}")
+    @GetMapping("/manage/{deptCode}")
     public String manageDclzDept(Model model, @PathVariable String deptCode) {
         String deptDclzList = service.loadDeptDclz(deptCode);
         model.addAttribute("deptDclzList", deptDclzList);

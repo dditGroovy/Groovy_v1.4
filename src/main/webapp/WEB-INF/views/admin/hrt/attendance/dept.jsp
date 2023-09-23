@@ -1,42 +1,33 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<style>
-    #dclzNav > ul {
-        display: flex;
-        gap: 48px;
-    }
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/attendance.css">
 
-    #myGrid {
-        width: 100%;
-        height: calc((360 / 1080) * 100vh);
-    }
-</style>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="content-container">
-    <header>
-        <ul>
-            <li><a href="${pageContext.request.contextPath}/attendance/manageDclz">근태 관리</a></li>
-            <li><a href="${pageContext.request.contextPath}/employee/loadLog">로그 관리</a></li>
-        </ul>
-        <nav id="dclzNav">
-            <ul>
-                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz">전체</a></li>
-                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT010">인사</a></li>
-                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT011">회계</a></li>
-                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT012">영업</a></li>
-                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT013">홍보</a></li>
-                <li><a href="${pageContext.request.contextPath}/attendance/manageDclz/DEPT014">총무</a></li>
-            </ul>
-        </nav>
+    <header id="tab-header">
+        <h1><a class="on" href="${pageContext.request.contextPath}/attendance/manage">근태 관리</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/employee/loadLog">로그 관리</a></h1>
     </header>
-    <br/><br/><br/>
+    <nav class="nav">
+        <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manage'">전체</button>
+        <button class="btn btn-fill-wh-sm font-18 font-md" id="DEPT010" onclick="location.href='${pageContext.request.contextPath}/attendance/manage/DEPT010'">인사</button>
+        <button class="btn btn-fill-wh-sm font-18 font-md" id="DEPT011" onclick="location.href='${pageContext.request.contextPath}/attendance/manage/DEPT011'">회계</button>
+        <button class="btn btn-fill-wh-sm font-18 font-md" id="DEPT012" onclick="location.href='${pageContext.request.contextPath}/attendance/manage/DEPT012'">영업</button>
+        <button class="btn btn-fill-wh-sm font-18 font-md" id="DEPT013" onclick="location.href='${pageContext.request.contextPath}/attendance/manage/DEPT013'">홍보</button>
+        <button class="btn btn-fill-wh-sm font-18 font-md" id="DEPT014" onclick="location.href='${pageContext.request.contextPath}/attendance/manage/DEPT014'">총무</button>
+    </nav>
     <main>
-        <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
-        <div id="myGrid" class="ag-theme-alpine"></div>
+        <div id="myGrid" class="ag-theme-material"></div>
     </main>
 </div>
 <script>
     const deptDclzList = ${deptDclzList};
+    const currentPageUrl = window.location.href;
+    const lastPart = currentPageUrl.substring(currentPageUrl.lastIndexOf("/") + 1);
+    const currentPageBtn = document.getElementById(lastPart);
+
+    currentPageBtn.classList.remove("btn-fill-wh-sm");
+    currentPageBtn.classList.add("btn-fill-bl-sm");
 
     const getMedalString = function (param) {
         const str = `${param} `;
@@ -51,20 +42,15 @@
     }
 
     const columnDefs = [
-        {
-            field: "emplId", headerName: "사원번호", getQuickFilterText: (params) => {
-                return getMedalString(params.value);
-            }
-        },
-        {field: "emplNm", headerName: "이름"},
-        {field: "clsfNm", headerName: "직급"},
-        {field: "defaulWorkDate", headerName: "소정근무일수"},
-        {field: "realWikWorkDate", headerName: "실제근무일수"},
-        {field: "defaulWorkTime", headerName: "소정근무시간"},
-        {field: "realWorkTime", headerName: "실제근무시간"},
-        {field: "overWorkTime", headerName: "총 연장 근무시간"},
-        {field: "totalWorkTime", headerName: "총 근무시간"},
-        {field: "avgWorkTime", headerName: "평균 근무시간"},
+        {field: "emplNm", headerName: "이름", width: 170, resizable: true},
+        {field: "clsfNm", headerName: "직급", width: 120, resizable: true},
+        {field: "defaulWorkDate", headerName: "소정근무일수", width: 150, resizable: true},
+        {field: "realWikWorkDate", headerName: "실제근무일수", width: 150, resizable: true},
+        {field: "defaulWorkTime", headerName: "소정근무시간", width: 170, resizable: true},
+        {field: "realWorkTime", headerName: "실제근무시간", width: 170, resizable: true},
+        {field: "overWorkTime", headerName: "총 연장 근무시간", width: 170, resizable: true},
+        {field: "totalWorkTime", headerName: "총 근무시간", width: 170, resizable: true},
+        {field: "avgWorkTime", headerName: "평균 근무시간", width: 170, resizable: true},
     ];
 
     const rowData = deptDclzList;

@@ -24,7 +24,7 @@
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/sanction/admin/DEPT010"><i class="icon i-sanction"></i >결재 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/employee/manageEmp"><i class="icon i-emp"></i >사원 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/vacation/manage"><i class="icon i-todo"></i >연차 관리</a></li>
-                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/attendance/manageDclz"><i class="icon i-job"></i >근태 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/attendance/manage"><i class="icon i-job"></i >근태 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/schedule/scheduleMain"><i class="icon i-calendar"></i>회사 일정 관리</a></li>
                 </ul>
             </ul>

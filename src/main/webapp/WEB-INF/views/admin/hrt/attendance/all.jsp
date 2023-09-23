@@ -4,21 +4,18 @@
 <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="content-container">
-
-    <header>
-        <ul class="header">
-            <li class="font-36 font-md"><a href="${pageContext.request.contextPath}/attendance/manageDclz">근태 관리</a></li>
-            <li class="font-36 font-md"><a class="color-font-row" href="${pageContext.request.contextPath}/employee/loadLog">로그 관리</a></li>
-        </ul>
-        <div class="nav">
-            <button class="btn btn-fill-bl-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manageDclz'">전체</button>
-            <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manageDclz/DEPT010'">인사</button>
-            <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manageDclz/DEPT011'">회계</button>
-            <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manageDclz/DEPT012'">영업</button>
-            <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manageDclz/DEPT013'">홍보</button>
-            <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manageDclz/DEPT014'">총무</button>
-        </div>
+    <header id="tab-header">
+            <h1><a class="on" href="${pageContext.request.contextPath}/attendance/manage">근태 관리</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/employee/loadLog">로그 관리</a></h1>
     </header>
+    <nav class="nav">
+        <button class="btn btn-fill-bl-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manage'">전체</button>
+        <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manage/DEPT010'">인사</button>
+        <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manage/DEPT011'">회계</button>
+        <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manage/DEPT012'">영업</button>
+        <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manage/DEPT013'">홍보</button>
+        <button class="btn btn-fill-wh-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manage/DEPT014'">총무</button>
+    </nav>
     <main>
         <div class="wrap" id="chartsJsWrap">
             <div class="chart-area">
