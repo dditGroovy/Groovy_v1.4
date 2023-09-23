@@ -1,4 +1,4 @@
-@import "../commonStyle.css";
+/*@import "../commonStyle.css";*/
 
 .toggle {
     position: relative;
@@ -43,6 +43,10 @@ input:checked + .slider:before {
     transform: translateX(26px);
 }
 
+
+
+
+
 #profileImage {
     border-radius: 50%;
     width: calc((100 / var(--vw)) * 100vw);
@@ -50,7 +54,7 @@ input:checked + .slider:before {
 }
 
 #userSignProfile {
-    border: var(--color-bg-grey);
+    border: 1px solid lightgray;
     width: calc((100 / var(--vw)) * 100vw);
     height: calc((100 / var(--vw)) * 100vw);
 }
@@ -63,13 +67,13 @@ input:checked + .slider:before {
 }
 
 .profile-wrap, .sign-wrap {
-    width: calc((500 / var(--vw)) * 100vw);
+    width: calc((480 / var(--vw)) * 100vw);
     height: calc((360 / 1080) * 100vh);
 
 }
 
 .alert-wrap {
-    width: calc((400 / var(--vw)) * 100vw);
+    width: calc((416 / var(--vw)) * 100vw);
     height: calc((740 / 1080) * 100vh);
 }
 
@@ -78,9 +82,10 @@ input:checked + .slider:before {
 
 }
 
-.content-body {
+.info-content {
     display: flex;
-    gap: var(--vw-24)
+    gap: var(--vw-24);
+    justify-content: center;
 }
 
 .flex-inner {
@@ -127,4 +132,22 @@ input:checked + .slider:before {
 }
 #profileForm, #signForm    {
     padding: var(--vw-32) 0;
+}
+
+.right {
+    display: flex;
+    gap: var(--vw-24);
+}
+#saveButton, #modifyPass {
+    width: calc((160 / var(--vw)) * 100vw);
+    padding: 10px;
+    font-size: var(--font-size-14);
+    margin-left: var(--vw-10)
+
+
+}
+.info-btn  {
+    position: absolute;
+    right: 6%;
+    bottom: 6%;
 }

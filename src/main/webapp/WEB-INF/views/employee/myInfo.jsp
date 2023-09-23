@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link rel="stylesheet" href="/resources/css/employee/myInfo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/employee/myInfo.css">
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
@@ -11,18 +11,18 @@
         </header>
 
 
-        <div class="btn-wrap">
-            <button type="button" id="saveButton" class="btn btn-free-white"> 저장</button>
-            <button type="button" id="modifyPass" class="btn btn-free-white btn-modal"
+        <div class="info-btn">
+            <button type="button" id="saveButton" class="btn btn-fill-bl-sm "> 저장</button>
+            <button type="button" id="modifyPass" class="btn btn-fill-wh-sm  btn-modal"
                     data-name="modifyPassword" data-action="modify">비밀번호 변경
             </button>
         </div>
-        <div class="content-body">
+        <div class="info-content">
             <section class="left">
                 <div class="section-inner flex-inner">
                     <div class="profile-wrap card-df pd-32">
                         <div class="info-header ">
-                            <img src="/resources/images/Icon3d/change.png"/>
+                            <img src="${pageContext.request.contextPath}/resources/images/Icon3d/change.png"/>
                             <div>
                                 <h2 class="info-title font-b">프로필 변경</h2>
                                 <p class="info-desc  font-md">프로필 사진을 변경합니다.</p>
@@ -49,7 +49,7 @@
                         <div class="info-header">
                             <img src="/resources/images/Icon3d/Key.png"/>
                             <div>
-                                <h2 class="info-title font-b">서명 변경</h2>
+                                <h2 class="info-title font-b">서명 설정</h2>
                                 <p class="info-desc  font-md">전자결재에 필요한 서명을 설정합니다.</p>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
             <section class="right">
                 <div class="alert-wrap card-df pd-32 ">
                     <div class="info-header ">
-                        <img src="/resources/images/Icon3d/alarm.png"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/Icon3d/alarm.png"/>
                         <div>
                             <h2 class="info-title font-b">알림 설정</h2>
                             <p class="info-desc font-md">알림 범위를 설정합니다.</p>
@@ -153,6 +153,17 @@
                         </div>
                     </form>
                 </div>
+
+
+                <div class="alert-wrap card-df pd-32 ">
+                    <div class="info-header ">
+                        <img src="/resources/images/Icon3d/User.png"/>
+                        <div>
+                            <h2 class="info-title font-b">내 정보 변경</h2>
+                            <p class="info-desc font-md">개인 정보를 변경합니다.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
             <%--   비밀번호 수정 모달     --%>
@@ -216,8 +227,6 @@
         $("#modifyPass").on("click", function () {
             openModal();
         })
-
-
 
 
         // 저장 버튼 클릭 시 모든 변경 사항 업데이트
