@@ -14,6 +14,7 @@ public class PaystubVO {
     private String salaryDtsmtEtprCode; // salary_dtsmt
     private Date salaryDtsmtIssuDate; // salary, salary_dtsmt
     private String salaryEmplId; // salary, salary_dtsmt
+    private String salaryEmplNm; // salary, salary_dtsmt
     private int salaryBslry; // 통상임금 | salary
     private double salaryOvtimeAllwnc; // 시간외수당 | salary
     private int salaryDtsmtPymntTotamt; // 지급액계 | salary_dtsmt
@@ -26,4 +27,5 @@ public class PaystubVO {
     private int salaryDtsmtDdcTotamt; // 공제액계 | salary_dtsmt
     private int salaryDtsmtNetPay; // 실수령액 | salary_dtsmt
     private String insertAt;
+    private String month;
 }

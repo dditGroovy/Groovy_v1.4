@@ -1,33 +1,55 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<style>
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .wrap ul {
+        display: flex;
+        gap: 10px
+    }
+
+    #myGrid {
+        width: 100%;
+        height: calc((360 / 1080) * 100vh);
+    }
+</style>
+<script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <div class="content-container">
-    <h2>급여 상세</h2>
-    <div>
-        <table border=" 1">
-            <c:forEach var="emplVO" items="${empList}" varStatus="stat">
-                <tr>
-                    <td><a href="#" onclick="getPaymentList(${emplVO.emplId})"> ${emplVO.emplId}</a></td>
-                    <td>${emplVO.emplNm}</td>
-                    <td>${emplVO.commonCodeDept}팀</td>
-                    <td>${emplVO.commonCodeClsf}</td>
-                </tr>
-            </c:forEach>
-        </table>
+    <div class="wrap">
+    </div>
+    <br/>
+
+    <br/><br/>
+    <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
+    <button>급여명세서 다운로드</button>
+    <button>급여명세서 일괄전송</button>
+    <div class="cardWrap">
+        <div class="card">
+            <div id="myGrid" class="ag-theme-alpine"></div>
+        </div>
+    </div>
+    <div class="serviceWrap">
         <select name="sortOptions" id="yearSelect" class="stroke"></select>
+        <div id="dtsmtDiv"><span>사원을 선택하세요</span></div> <!-- 여기에 급여명세서 리스트 뜸 -->
     </div>
-    <div id="paymentList">
-    </div>
-    <div id="paymentDetail">
+    <div id="paymentDetail"> <!-- 월별 급여명세서 확인 -->
     </div>
 </div>
 <script>
     let year;
     let tariffList;
-
+    let id = document.querySelector("a").getAttribute("data-id");
     let yearSelect = document.querySelector("#yearSelect");
 
     getAllYear();
+
+    yearSelect.addEventListener("change", function () {
+        selectedYear = yearSelect.options[yearSelect.selectedIndex].value;
+    });
 
     function getAllYear() {
         $.ajax({
@@ -48,74 +70,144 @@
         });
     }
 
-    function getPaymentList(id) {
-        year = $("#yearSelect").val();
-        $.ajax({
-            url: `/salary/payment/list/\${id}/\${year}`,
-            type: 'GET',
-            success: function (data) {
-                tariffList = data.tariffList;
-                let code = "<table border=1>";
-                if (data.salaryList.length === 0) {
-                    code += "<tr><td>상세 내역이 없습니다</td></tr>";
-                } else {
-                    for (let i = 0; i < data.salaryList.length; i++) {
-                        code += "<tr>";
-                        code += `<td>\${data.salaryList[i].salaryPymntDate}월</td>`;
-                        code += `<td><a href="#" class="getDetail" data-bslry="\${data.salaryList[i].salaryBslry}"
-                                                                   data-allwnc="\${data.salaryList[i].salaryOvtimeAllwnc}"
-                                                                   data-emplNm="\${data.salaryList[i].emplNm}"
-                                                                   data-month="\${data.salaryList[i].salaryPymntDate}">급여명세서 보기</a></td>`;
-                        code += "</tr>";
-                    }
-                }
-                code += "</table>";
-                $("#paymentList").html(code);
-
-            },
-            error: function (xhr) {
-                console.log(xhr.status)
-            }
-        })
-    }
-
     function formatNumber(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    $("#paymentList").on("click", ".getDetail", function (event) {
-        event.preventDefault();
-        const emplNm = $(this).data("emplnm");
-        const month = $(this).data("month");
-        const bslry = parseInt($(this).data("bslry"));
-        const allwnc = parseInt($(this).data("allwnc"));
-        const payment = parseInt(bslry) + parseInt(allwnc); // 총 지급액
-        let deduction = 0; // 총 공제액
-        let taxes = {};
-        for (let i = 0; i < tariffList.length; i++) {
-            if (i !== tariffList.length - 1) {
-                taxes[i] = payment * tariffList[i].taratStdrValue / 100;
-            } else {
-                taxes[i] = taxes[4] * tariffList[i].taratStdrValue / 100;
-            }
-            deduction += parseInt(taxes[i]);
-        }
-        let code = "";
-        code += `<p>실 지급액</p>`;
-        code += `<p>\${formatNumber(payment-deduction)}</p>`;
-        code += `<p>급여 상세</p>`;
-        code += `<p>\${month}  \${emplNm}</p><hr>`;
-        code += `<p>지급 \${formatNumber(payment)} 원</p>`;
-        code += `<p>통상임금 \${formatNumber(bslry)} 원</p>`;
-        code += `<p>시간외수당 \${formatNumber(allwnc)} 원</p><hr>`;
-        code += `<p>공제 \${formatNumber(deduction)} 원</p>`;
+    function onQuickFilterChanged() {
+        gridOptions.api.setQuickFilter(document.getElementById('quickFilter').value);
+    }
 
-        for (let i in taxes) {
-            if (taxes.hasOwnProperty(i)) {
-                code += `<p>\${tariffList[i].taratStdrNm} \${formatNumber(taxes[i].toFixed(0))} 원</p>`;
+    const columnDefs = [
+        {
+            headerCheckboxSelection: true,
+            checkboxSelection: true,
+            width: 250
+        },
+        {field: "emplId", headerName: "사번", width: 250},
+        {field: "emplNm", headerName: "이름", width: 250},
+        {field: "commonCodeDept", headerName: "팀", width: 250},
+        {field: "commonCodeClsf", headerName: "직급", width: 250},
+    ];
+
+    const rowData = [];
+    <c:forEach var="employeeVO" items="${empList}">
+    rowData.push({
+        emplId: "${employeeVO.emplId}",
+        emplNm: "${employeeVO.emplNm}",
+        commonCodeDept: "${employeeVO.commonCodeDept}",
+        commonCodeClsf: "${employeeVO.commonCodeClsf}",
+    })
+    </c:forEach>
+
+    const gridOptions = {
+        columnDefs: columnDefs,
+        rowData: rowData,
+        onRowClicked: function (event) {
+            let emplId = event.data.emplId;
+            let year = yearSelect.options[yearSelect.selectedIndex].value;
+            let dtsmtDiv = document.querySelector("#dtsmtDiv");
+            let childSpan = dtsmtDiv.querySelector("span");
+            if (childSpan) {
+                dtsmtDiv.removeChild(childSpan);
             }
+            $.ajax({
+                url: `/salary/payment/list/\${emplId}/\${year}`,
+                type: "get",
+                dataType: 'json',
+                success: function (result) {
+                    let listCode = "<table border=1 id='salaryDtsmtList'>";
+                    if (result.length === 0) {
+                        listCode += `<tr><td>상세 내역이 없습니다.</td></tr>`;
+                    }
+                    for (let i = 0; i < result.length; i++) {
+                        listCode += "<tr>";
+                        listCode += `<td>\${result[i].month}월</td>`;
+                        listCode += `<td><button class="getDetail">급여명세서 보기</button></td>`;
+                        listCode += "</tr>";
+                    }
+                    listCode += `</table>`;
+                    dtsmtDiv.innerHTML = listCode;
+
+                    const detailButtons = document.querySelectorAll(".getDetail");
+                    detailButtons.forEach(function (button, index) {
+                        button.addEventListener("click", function () {
+                            const selectedResult = result[index];
+                            console.log(selectedResult);
+                            let dtsmtCode = `
+                            <p>\${selectedResult.month}월 - \${selectedResult.salaryEmplNm}</p>
+                            <p>실 수령액</p>
+                            <p>\${selectedResult.salaryDtsmtNetPay}원</p>
+                            <hr>
+                            <p>급여 상세</p>
+                            <table border="1">
+                                <tr>
+                                    <th>지급</th>
+                                    <td>\${selectedResult.salaryDtsmtPymntTotamt}원</td>
+                                </tr>
+                                <tr>
+                                    <th>통상임금</th>
+                                    <td>\${selectedResult.salaryBslry}원</td>
+                                </tr>
+                                <tr>
+                                    <th>초과근무수당</th>
+                                    <td>\${selectedResult.salaryOvtimeAllwnc}원</td>
+                                </tr>
+                                <tr>
+                                    <th>공제</th>
+                                    <td>\${selectedResult.salaryDtsmtDdcTotamt}원</td>
+                                </tr>
+                                <tr>
+                                    <th>국민연금</th>
+                                    <td>\${selectedResult.salaryDtsmtSisNp}원</td>
+                                </tr>
+                                <tr>
+                                    <th>건강보험</th>
+                                    <td>\${selectedResult.salaryDtsmtSisHi}원</td>
+                                </tr>
+                                <tr>
+                                    <th>고용보험</th>
+                                    <td>\${selectedResult.salaryDtsmtSisEi}원</td>
+                                </tr>
+                                <tr>
+                                    <th>산재보험</th>
+                                    <td>\${selectedResult.salaryDtsmtSisWci}원</td>
+                                </tr>
+                                <tr>
+                                    <th>소득세</th>
+                                    <td>\${selectedResult.salaryDtsmtIncmtax}원</td>
+                                </tr>
+                                <tr>
+                                    <th>지방소득세</th>
+                                    <td>\${selectedResult.salaryDtsmtLocalityIncmtax}원</td>
+                                </tr>
+                            </table>
+                            `;
+                            document.querySelector("#paymentDetail").innerHTML = dtsmtCode;
+                        });
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log("code: " + xhr.status);
+                    console.log("message: " + xhr.responseText);
+                    console.log("error: " + xhr.error);
+                }
+            });
         }
-        $("#paymentDetail").html(code);
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const gridDiv = document.querySelector('#myGrid');
+        new agGrid.Grid(gridDiv, gridOptions);
     });
 
+    function linkCellRenderer(params) {
+        const link = document.createElement('a');
+        link.href = '#';
+        link.innerText = params.value;
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+        });
+        return link;
+    }
 </script>

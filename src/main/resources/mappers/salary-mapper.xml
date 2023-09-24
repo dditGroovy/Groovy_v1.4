@@ -50,17 +50,27 @@
         FROM EMPL
     </select>
 
-    <select id="loadPaymentList" parameterType="String" resultType="salaryVO">
-        SELECT S.SALARY_PYMNT_DATE,
-               S.SALARY_EMPL_ID,
-               (SELECT EMPL_NM FROM EMPL WHERE SALARY_EMPL_ID = EMPL_ID) as EMPL_NM,
-               S.SALARY_BSLRY,
-               S.SALARY_OVTIME_ALLWNC,
-               E.EMPL_NM
-        FROM SALARY S,
-             EMPL E
-        WHERE S.SALARY_EMPL_ID = E.EMPL_ID
-          AND SALARY_EMPL_ID = #{emplId}
+    <select id="loadPaymentList" parameterType="String" resultType="paystubVO">
+        SELECT SD.SALARY_DTSMT_ISSU_DATE
+             , SD.SALARY_DTSMT_ETPR_CODE
+             , S.SALARY_EMPL_ID
+             , S.SALARY_BSLRY
+             , S.SALARY_OVTIME_ALLWNC
+             , (SELECT EMPL_NM FROM EMPL WHERE S.SALARY_EMPL_ID = EMPL.EMPL_ID) AS SALARY_EMPL_NM
+             , SD.SALARY_DTSMT_PYMNT_TOTAMT
+             , SD.SALARY_DTSMT_SIS_NP
+             , SD.SALARY_DTSMT_SIS_HI
+             , SD.SALARY_DTSMT_SIS_EI
+             , SD.SALARY_DTSMT_SIS_WCI
+             , SD.SALARY_DTSMT_INCMTAX
+             , SD.SALARY_DTSMT_LOCALITY_INCMTAX
+             , SD.SALARY_DTSMT_DDC_TOTAMT
+             , SD.SALARY_DTSMT_NET_PAY
+             , TO_CHAR(sd.SALARY_DTSMT_ISSU_DATE, 'mm')                         as MONTH
+        FROM SALARY S
+                 INNER JOIN SALARY_DTSMT SD
+                            ON S.SALARY_PYMNT_DATE = SD.SALARY_DTSMT_ISSU_DATE AND S.SALARY_EMPL_ID = SD.SALARY_EMPL_ID
+        WHERE S.SALARY_EMPL_ID = #{emplId}
           AND TO_CHAR(SALARY_PYMNT_DATE, 'YYYY') = #{year}
     </select>
 
