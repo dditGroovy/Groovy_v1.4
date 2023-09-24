@@ -9,15 +9,15 @@
 <div class="content-container">
     <header id="tab-header">
         <h1><a href="${pageContext.request.contextPath}/reserve/manageVehicle">차량 관리</a></h1>
-        <h1><a class="on" 료href="${pageContext.request.contextPath}/reserve/loadVehicle">예약 관리</a></h1>
+        <h1><a class="on" href="${pageContext.request.contextPath}/reserve/loadVehicle">예약 관리</a></h1>
     </header>
-    <div class="serviceWrap">
+    <div class="wrap">
         <div id="search" class="input-free-white">
             <i class="icon i-search"></i>
             <input type="text" id="quickFilter" placeholder="검색어를 입력하세요." oninput="onQuickFilterChanged()"/>
         </div>
     </div>
-    <div class="cardWrap">
+    <div class="card-wrap">
         <div class="card">
             <div id="myGrid" class="ag-theme-material"></div>
         </div>
