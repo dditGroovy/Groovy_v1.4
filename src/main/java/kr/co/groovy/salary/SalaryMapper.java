@@ -17,7 +17,7 @@ public interface SalaryMapper {
 
     List<EmployeeVO> loadEmpList();
 
-    List<SalaryVO> loadPaymentList(@Param("emplId") String emplId, @Param("year") String year);
+    List<PaystubVO> loadPaymentList(@Param("emplId") String emplId, @Param("year") String year);
 
     PaystubVO loadRecentPaystub(String emplId);
 
@@ -49,4 +49,6 @@ public interface SalaryMapper {
 
     int isInsertSalary(Map<String, String> map);
     int isInsertSalaryDtsmt(Map<String, String> map);
+
+    
 }

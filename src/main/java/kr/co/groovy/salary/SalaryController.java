@@ -77,14 +77,11 @@ public class SalaryController {
 
     @GetMapping("/payment/list/{emplId}/{year}")
     @ResponseBody
-    public Map<String, Object> loadPaymentList(@PathVariable String emplId, @PathVariable String year) {
-        List<SalaryVO> salaryVOList = service.loadPaymentList(emplId, year);
-        List<TariffVO> tariffVOList = service.loadTariff(year);
-        log.info(salaryVOList.toString());
-        Map<String, Object> map = new HashMap<>();
-        map.put("salaryList", salaryVOList);
-        map.put("tariffList", tariffVOList);
-        return map;
+    public List<PaystubVO> loadPaymentList(@PathVariable String emplId, @PathVariable String year) {
+        log.info(emplId, year);
+        List<PaystubVO> paystubVOS = service.loadPaymentList(emplId, year);
+        log.info(paystubVOS.toString());
+        return paystubVOS;
     }
 
     @GetMapping("/paystub")

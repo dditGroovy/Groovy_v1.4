@@ -61,7 +61,7 @@ public class SalaryService {
         return list;
     }
 
-    List<SalaryVO> loadPaymentList(String emplId, String year) {
+    List<PaystubVO> loadPaymentList(String emplId, String year) {
         return mapper.loadPaymentList(emplId, year);
     }
 
@@ -109,7 +109,6 @@ public class SalaryService {
         String date = year + "-" + month;
         List<CommuteAndPaystub> cnpList = new ArrayList<>();
         List<CommuteVO> commute = mapper.getCommuteByYearAndMonth(date);
-        log.info(commute.toString());
         List<CommuteVO> wtrmsAbsencEmplList = mapper.getCoWtrmsAbsenc(date);
         List<PaystubVO> salaryBslry = mapper.getSalaryBslry(String.valueOf(year));
         List<TariffVO> tariffList = mapper.loadTariff(String.valueOf(year));
@@ -163,18 +162,15 @@ public class SalaryService {
                     cnpList.add(cnp);
 
                     // 더미 다 넣으면 없애기
-//                    List<CommuteAndPaystub> commuteAndPaystubList = getCommuteAndPaystubList(year, month - 1);
-//                    Map<String, String> map = new HashMap<>();
-//                    for (CommuteAndPaystub commuteAndPaystub : commuteAndPaystubList) {
-//                        map.put("salaryEmplId", commuteAndPaystub.getPaystubVO().getSalaryEmplId());
-//                        map.put("date", year + "-" + month);
-//                        if (mapper.isInsertSalary(map) == 0 && mapper.isInsertSalaryDtsmt(map) == 0) {
-//                            commuteAndPaystub.getPaystubVO().setSalaryDtsmtIssuDate(new Date(year - 1900, month - 1, 14));
-//                            commuteAndPaystub.getPaystubVO().setInsertAt("Y");
-//                            mapper.inputSalary(commuteAndPaystub.getPaystubVO());
-//                            mapper.inputSalaryDtsmt(commuteAndPaystub.getPaystubVO());
-//                        }
-//                    }
+                    Map<String, String> map = new HashMap<>();
+                    map.put("salaryEmplId", cnp.getPaystubVO().getSalaryEmplId());
+                    map.put("date", year + "-" + (month - 1));
+                    if (mapper.isInsertSalary(map) == 0 && mapper.isInsertSalaryDtsmt(map) == 0) {
+                        cnp.getPaystubVO().setSalaryDtsmtIssuDate(new Date(year - 1900, month - 1, 14));
+                        cnp.getPaystubVO().setInsertAt("Y");
+                        mapper.inputSalary(cnp.getPaystubVO());
+                        mapper.inputSalaryDtsmt(cnp.getPaystubVO());
+                    }
                 }
             }
         }
