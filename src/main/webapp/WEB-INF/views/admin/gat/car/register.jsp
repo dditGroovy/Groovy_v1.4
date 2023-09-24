@@ -1,61 +1,42 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<style>
-    ul {
-        list-style: none;
-        padding-left: 0;
-    }
-
-    .wrap ul {
-        display: flex;
-        gap: 10px
-    }
-
-    input[type=text], input[type=number] {
-        width: 95%
-    }
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/registerVehicle.css">
 <div class="content-container">
-    <div class="wrap">
-        <ul>
-            <li><a href="/reserve/manageVehicle" class="tab">차량 관리</a></li>
-            <li><a href="/reserve/loadVehicle" class="tab">예약 현황</a></li>
-        </ul>
-    </div>
+    <header id="tab-header">
+        <h1><a class="on" href="${pageContext.request.contextPath}/reserve/manageVehicle">차량 관리</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/reserve/loadVehicle">예약 관리</a></h1>
+    </header>
     <div class="cardWrap">
-        <div class="cardTitle">
-            <h2>차량 등록</h2>
+        <div class="card-title card-df">
+            <h2 class="font-md font-18 color-font-md">차량 등록</h2>
         </div>
-        <div class="card">
+        <div class="card card-df grid-card">
             <form action="${pageContext.request.contextPath}/reserve/inputVehicle" method="post">
-                <table border="1" style="width: 100%">
+                <table border="1">
                     <tr>
-                        <th>차량 번호</th>
-                        <td><input type="text" name="vhcleNo" id="vhcleNo"></td>
+                        <th class="font-md font-18 color-font-high">차량 번호</th>
+                        <td><input class="input" type="text" name="vhcleNo" id="vhcleNo" placeholder="차량 번호"></td>
                     </tr>
                     <tr>
-                        <th>차종</th>
-                        <td><input type="text" name="vhcleVhcty" id="vhcleVhcty"></td>
+                        <th class="font-md font-18 color-font-high">차종</th>
+                        <td><input class="input" type="text" name="vhcleVhcty" id="vhcleVhcty" placeholder="차종"></td>
                     </tr>
                     <tr>
-                        <th>차량 정원</th>
-                        <td><input type="number" name="vhclePsncpa" id="vhclePsncpa"></td>
+                        <th class="font-md font-18 color-font-high">차량 정원</th>
+                        <td><input class="input" type="number" name="vhclePsncpa" id="vhclePsncpa" placeholder="정원"></td>
                     </tr>
                     <tr>
-                        <th>하이패스 부착 여부</th>
-                        <td style="display: flex; gap: 24px;">
-                            <div>
-                                <input type="radio" name="commonCodeHipassAsnAt" id="HIPASS010" value="HIPASS010"
-                                       checked>
-                                <label for="HIPASS010">부착</label>
-                            </div>
-                            <div>
-                                <input type="radio" name="commonCodeHipassAsnAt" id="HIPASS011" value="HIPASS011">
-                                <label for="HIPASS011">미부착</label>
-                            </div>
+                        <th class="font-md font-18 color-font-high">하이패스 부착 여부</th>
+                        <td>
+                            <input type="radio" name="commonCodeHipassAsnAt" id="HIPASS010" class="checkbox-hipass" value="HIPASS010">
+                            <label class="label-radio font-14" for="HIPASS010">부착</label>
+                            <input type="radio" name="commonCodeHipassAsnAt" id="HIPASS011" class="checkbox-hipass" value="HIPASS011">
+                            <label class="label-radio font-14" for="HIPASS011">미부착</label>
                         </td>
                     </tr>
                 </table>
-                <button>등록하기</button>
+                <div class="button-wrap">
+                    <button class="btn btn-fill-bl-sm font-14 font-md">등록하기</button>
+                </div>
             </form>
         </div>
     </div>

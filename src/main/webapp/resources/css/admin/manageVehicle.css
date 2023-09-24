@@ -96,8 +96,8 @@ thead th {
 }
 
 .icon-car {
-    width: calc((72 / 1920) * 100vw) !important;
-    height: calc((72 / 1920) * 100vw) !important;
+    width: calc((72 / var(--vw)) * 100vw) !important;
+    height: calc((72 / var(--vh)) * 100vh) !important;
     background-image: url("/resources/images/Icon3d/car.png");
     background-repeat: no-repeat;
     margin-right: var(--vw-48);
@@ -127,8 +127,8 @@ thead th {
 }
 
 .line{
-    margin-left: calc((8 / 1920) * 100vw);
-    margin-right: calc((8 / 1920) * 100vw);
+    margin-left: calc((8 / var(--vw)) * 100vw);
+    margin-right: calc((8 / var(--vw)) * 100vw);
     color : var(--color-font-row);
     font-size: var(--font-size-11);
 }

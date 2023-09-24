@@ -79,7 +79,7 @@
                     <p class="font-18 font-md"><span class="font-md font-36 count">${listSize}</span>건</p>
                 </div>
                 <div class="btnWrap">
-                    <button class="btn btn-fill-bl-sm font-18 font-md font-wh" onclick="location.href='${pageContext.request.contextPath}/reserve/inputVehicle'">차량 등록 +</button>
+                    <button class="btn btn-fill-bl-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/reserve/inputVehicle'">차량 등록 +</button>
                 </div>
             </div>
             <div class="content">
