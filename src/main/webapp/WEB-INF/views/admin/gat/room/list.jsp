@@ -78,12 +78,7 @@ class ClassBtn {
                         }
                     }
                 });
-        } else {
-            // 예약이 이미 끝났으므로 버튼을 비활성화합니다.
-            this.eGui.innerHTML = `
-                <button class="cancelRoom" id="${params.value}" disabled>예약 취소</button>
-            `;
-        }
+        } 
     }
 
     getGui() {
@@ -108,12 +103,12 @@ function onQuickFilterChanged() {
 
 const columnDefs = [
     {field: "fcltyResveSn", headerName: "예약번호", cellRenderer: returnValue, width: 100, cellStyle: {textAlign: "center"}},
-    {field: "commonCodeFcltyKindParent", headerName: "시설 종류 구분",width: 159, getQuickFilterText: (params) => {return params.value}, cellStyle: {textAlign: "center"}},
-    {field: "commonCodeFcltyKind", headerName: "시설 이름",width: 200, cellStyle: {textAlign: "center"}},
+    {field: "commonCodeFcltyKindParent", headerName: "시설 종류 구분",width: 150, getQuickFilterText: (params) => {return params.value}, cellStyle: {textAlign: "center"}},
+    {field: "commonCodeFcltyKind", headerName: "시설 이름",width: 150, cellStyle: {textAlign: "center"}},
     {field: "fcltyResveBeginTime", headerName: "시작 일시",width: 200,  cellStyle: {textAlign: "center"}},
     {field: "fcltyResveEndTime", headerName: "끝 일시", width: 200, cellStyle: {textAlign: "center"}},
-    {field: "fcltyResveEmplNm", headerName: "예약 사원(사번)",width: 250,  cellStyle: {textAlign: "center"}},
-    {field: "fcltyResveRequstMatter", headerName: "요청사항", width: 230, cellStyle: {textAlign: "center"}},
+    {field: "fcltyResveEmplNm", headerName: "예약 사원(사번)",width: 200,  cellStyle: {textAlign: "center"}},
+    {field: "fcltyResveRequstMatter", headerName: "요청사항", width: 200, cellStyle: {textAlign: "center"}},
     {field: "chk", headerName: " ", cellRenderer: ClassBtn,width: 150,  cellStyle: {textAlign: "center"}},
 ];
 const rowData = [];

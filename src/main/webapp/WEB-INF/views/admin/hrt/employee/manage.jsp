@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link rel="stylesheet" href="/resources/css/admin/manageEmployee.css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<!--    사원 추가 모달   -->
+<!-- 사원 추가 모달 -->
 <div id="modal" class="modal-dim" style="display: none">
     <div class="dim-bg"></div>
-    <div class="modal-layer card-df sm emplCard">
+    <div class="modal-layer card-df sm emplCard" style="display: block">
         <div class="modal-top">
-            <div class="modal-title">사원 추</div>
+            <div class="modal-title"><i class="icon-user"></i>사원 추가</div>
             <button type="button" class="modal-close btn js-modal-close">
                 <i class="icon i-close close">X</i>
             </button>
@@ -14,94 +14,137 @@
         <div class="modal-container">
             <form name="insertEmp" action="/employee/inputEmp" method="post">
                 <div class="modal-content">
-                    <!-- seoju : csrf 토큰 추가-->
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    <input type="hidden" name="enabled" value="1"/>
-                    <input type="hidden" name="proflPhotoFileStreNm" value="groovy_noProfile.png"/>
-                    <input type="hidden" name="signPhotoFileStreNm" value="groovy_noSign.png"/>
-                    <label>비밀번호</label>
-                    <input type="password" name="emplPassword" required><br/>
+                    <div class="accordion-wrap">
+                        <div class="que" onclick="accordion(this);">
+                            <p class="font-md font-18 color-font-md">1. 기본 정보 입력</p>
+                            <i class="icon i-arr-bt"></i>
+                        </div>
+                        <div class="anw">
+                            <div class="grid-anw">
+                                <!-- seoju : csrf 토큰 추가-->
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                <input type="hidden" name="enabled" value="1"/>
+                                <input type="hidden" name="proflPhotoFileStreNm" value="groovy_noProfile.png"/>
+                                <input type="hidden" name="signPhotoFileStreNm" value="groovy_noSign.png"/>
+                                <div class="accordion-row">
+                                    <label>이름</label><br/>
+                                    <input type="text" name="emplNm" placeholder="이름 입력" required><br/>
+                                </div>
+                                <div class="accordion-row">
+                                    <label>비밀번호</label><br/>
+                                    <input type="password" name="emplPassword" placeholder="비밀번호 입력" required><br/>
+                                </div>
+                                <div class="accordion-row">
+                                    <label>이메일</label><br/>
+                                    <input type="email" name="emplEmail" id="emplEmail" placeholder="이메일 입력" required><br/>
+                                </div>
+                                <div class="accordion-row">
+                                    <label>휴대폰 번호</label><br/>
+                                    <input type="text" name="emplTelno" placeholder="휴대폰 번호 입력" required><br/>
+                                </div>
+                                <div class="accordion-row">
+                                    <label class="checkBoxLabel">최종학력</label><br/>
+                                    <div class="radioBox">
+                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu1" value="LAST_ACDMCR010" checked>
+                                        <label for="empEdu1">고졸</label>
+                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu2" value="LAST_ACDMCR011">
+                                        <label for="empEdu2">학사</label>
+                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu3" value="LAST_ACDMCR012">
+                                        <label for="empEdu3">석사</label>
+                                        <input type="radio" name="commonCodeLastAcdmcr" id="empEdu4" value="LAST_ACDMCR013">
+                                        <label for="empEdu3">박사</label><br/>
+                                    </div>
+                                </div>
+                                <div class="accordion-row">
+                                    <label>생년월일</label><br/>
+                                    <input type="date" value="2000-01-01" name="emplBrthdy" required><br/>
+                                </div>
+                            </div>
+                            <div class="accordion-row">
+                                <label>우편번호</label>
+                                <button type="button" id="findZip" class="btn btn-free-blue">우편번호 찾기</button>
+                                <input type="text" name="emplZip" class="emplZip" required><br/>
+                                <div class="addrWrap">
+                                    <div>
+                                        <label>주소</label><br/>
+                                        <input type="text" name="emplAdres" class="emplAdres" required>
+                                    </div>
+                                    <div>
+                                        <label>상세주소</label>
+                                        <input type="text" name="emplDetailAdres" class="emplDetailAdres" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    <label>이름</label>
-                    <input type="text" name="emplNm" required><br/>
-
-                    <label>휴대폰 번호</label>
-                    <input type="text" name="emplTelno" required><br/>
-
-                    <label>우편번호</label>
-                    <input type="text" name="emplZip" class="emplZip" required><br/>
-                    <button type="button" id="findZip">우편번호 찾기</button>
-
-                    <label>주소</label>
-                    <input type="text" name="emplAdres" class="emplAdres" required><br/>
-                    <label>상세주소</label>
-                    <input type="text" name="emplDetailAdres" class="emplDetailAdres" required><br/>
-
-                    <label>생년월일</label>
-                    <input type="date" value="2000-01-01" name="emplBrthdy" required><br/>
-
-                    <%-- commonCodeLastAcdmcr --%>
-                    <label>최종학력</label>
-                    <input type="radio" name="commonCodeLastAcdmcr" id="empEdu1" value="LAST_ACDMCR010" checked>
-                    <label for="empEdu1">고졸</label>
-                    <input type="radio" name="commonCodeLastAcdmcr" id="empEdu2" value="LAST_ACDMCR011">
-                    <label for="empEdu2">학사</label>
-                    <input type="radio" name="commonCodeLastAcdmcr" id="empEdu3" value="LAST_ACDMCR012">
-                    <label for="empEdu3">석사</label>
-                    <input type="radio" name="commonCodeLastAcdmcr" id="empEdu4" value="LAST_ACDMCR013">
-                    <label for="empEdu3">박사</label><br/>
-
-                    <%-- commonCodeClsf --%>
-                    <label>직급</label>
-                    <input type="radio" name="commonCodeClsf" id="empPos1" value="CLSF016" checked>
-                    <label for="empPos1">사원</label>
-                    <input type="radio" name="commonCodeClsf" id="empPos2" value="CLSF015">
-                    <label for="empPos2">대리</label>
-                    <input type="radio" name="commonCodeClsf" id="empPos3" value="CLSF014">
-                    <label for="empPos3">과장</label>
-                    <input type="radio" name="commonCodeClsf" id="empPos4" value="CLSF013">
-                    <label for="empPos4">차장</label>
-                    <input type="radio" name="commonCodeClsf" id="empPos5" value="CLSF012">
-                    <label for="empPos5">팀장</label>
-                    <input type="radio" name="commonCodeClsf" id="empPos6" value="CLSF011">
-                    <label for="empPos6">부장</label>
-                    <%--TODO 지우기 --%>
-                    <input type="radio" name="commonCodeClsf" id="empPos7" value="CLSF010">
-                    <label for="empPos7">대표이사</label>
-
-                    <%-- commonCodeDept --%>
-                    <label>부서</label>
-                    <select name="commonCodeDept" id="emp-department">
-                        <option value="DEPT010">인사팀</option>
-                        <option value="DEPT011">회계팀</option>
-                        <option value="DEPT012">영업팀</option>
-                        <option value="DEPT013">홍보팀</option>
-                        <option value="DEPT014">총무팀</option>
-                        <%--TODO 지우기 --%>
-                        <option value="DEPT015">경영자</option>
-                    </select><br/>
-
-                    <label>입사일</label>
-                    <input type="date" value="" name="emplEncpn" id="joinDate" required><br/>
-                    <label>사원번호</label>
-                    <input type="text" name="emplId" id="emplId" required readonly>
-                    <button id="generateId" type="button">사원 번호 생성</button>
-                    <br/>
-
-                    <label>이메일</label>
-                    <input type="email" name="emplEmail" id="emplEmail" required><br/>
-
-                    <label>재직 상태 설정</label>
-                    <input type="radio" name="commonCodeHffcSttus" id="office" value="HFFC010" checked>
-                    <label for="office">재직</label>
-                    <input type="radio" name="commonCodeHffcSttus" id="leave" value="HFFC011">
-                    <label for="leave">휴직</label>
-                    <input type="radio" name="commonCodeHffcSttus" id="quit" value="HFFC012">
-                    <label for="quit">퇴사</label>
-                    <br/><br/>
+                    <div class="accordion-wrap">
+                        <div class="que" onclick="accordion(this)">
+                            <p class="font-md font-18 color-font-md">2. 인사 정보 입력</p>
+                            <i class="icon i-arr-bt"></i>
+                        </div>
+                        <div class="anw">
+                            <div class="accordion-row">
+                                <label>부서</label> <br/>
+                                <div class="select-wrapper">
+                                    <select name="commonCodeDept" id="emp-department" class="stroke selectBox">
+                                        <option value="DEPT010">인사팀</option>
+                                        <option value="DEPT012">영업팀</option>
+                                        <option value="DEPT013">홍보팀</option>
+                                        <option value="DEPT014">총무팀</option>
+                                        <option value="DEPT015">경영자</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="accordion-row">
+                                <label>직급</label> <br/>
+                                <div class="radioBox">
+                                    <input type="radio" name="commonCodeClsf" id="empPos1" value="CLSF016" checked>
+                                    <label for="empPos1" class="radioLabel">사원</label>
+                                    <input type="radio" name="commonCodeClsf" id="empPos2" value="CLSF015">
+                                    <label for="empPos2" class="radioLabel">대리</label>
+                                    <input type="radio" name="commonCodeClsf" id="empPos3" value="CLSF014">
+                                    <label for="empPos3" class="radioLabel">과장</label>
+                                    <input type="radio" name="commonCodeClsf" id="empPos4" value="CLSF013">
+                                    <label for="empPos4" class="radioLabel">차장</label>
+                                    <input type="radio" name="commonCodeClsf" id="empPos5" value="CLSF012">
+                                    <label for="empPos5" class="radioLabel">팀장</label>
+                                    <input type="radio" name="commonCodeClsf" id="empPos6" value="CLSF011">
+                                    <label for="empPos6" class="radioLabel">부장</label>
+                                    <input type="radio" name="commonCodeClsf" id="empPos7" value="CLSF010">
+                                    <label for="empPos7" class="radioLabel">대표이사</label>
+                                </div>
+                            </div>
+                            <div class="accordion-row">
+                                <label>입사일</label> <br/>
+                                <input type="date" value="" name="emplEncpn" id="joinDate" required><br/>
+                            </div>
+                            <div class="accordion-row">
+                                <label>사원번호</label>
+                                <button id="generateId" type="button" class="btn btn-free-blue empBtn">사원 번호 생성</button>
+                                <input type="text" name="emplId" id="emplId" required readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-wrap">
+                        <div class="que" onclick="accordion(this)">
+                            <p class="font-md font-18 color-font-md">3. 재직 상태 설정</p>
+                            <i class="icon i-arr-bt"></i>
+                        </div>
+                        <div class="anw">
+                            <div class="radioBox radio-box">
+                                <input type="radio" name="commonCodeHffcSttus" id="office" value="HFFC010" checked>
+                                <label for="office">재직</label>
+                                <input type="radio" name="commonCodeHffcSttus" id="leave" value="HFFC011">
+                                <label for="leave">휴직</label>
+                                <input type="radio" name="commonCodeHffcSttus" id="quit" value="HFFC012">
+                                <label for="quit">퇴사</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="modal-footer btn-wrapper">
-                        <button type="submit" id="insert">등록</button>
-                        <button type="reset">지우기</button>
+                        <button type="reset" class="btn btn-fill-wh-sm close">취소</button>
+                        <button type="submit" id="insert" class="btn btn-fill-bl-sm">등록</button>
                     </div>
                 </div>
             </form>
@@ -140,7 +183,8 @@
                         <button type="button" id="findEmp" class="btn-search btn-flat btn">검색</button>
                     </div>
                 </div>
-                <button type="button" id="addEmployee" data-name="emplCard" class="btn btn-fill-bl-sm font-md font-18 btn-modal">사원추가 <i
+                <button type="button" id="addEmployee" data-name="emplCard"
+                        class="btn btn-fill-bl-sm font-md font-18 btn-modal">사원추가 <i
                         class="icon i-add-white"></i></button>
             </div>
         </form>
@@ -153,6 +197,28 @@
 </div>
 <script src="/resources/js/modal.js"></script>
 <script>
+    function accordion(element) {
+        var before = document.querySelector(".accordion-active");
+        var content = element.nextElementSibling;
+
+        if (before && before !== element) {
+            before.nextElementSibling.style.maxHeight = null;
+            before.classList.remove("accordion-active");
+        }
+        element.classList.toggle("accordion-active");
+
+        if (content.style.maxHeight !== "0px") {
+            content.style.maxHeight = "0px";
+        } else {
+            let anws = document.querySelectorAll(".anw");
+            anws.forEach( anw => {
+                anw.style.maxHeight = "0px";
+            });
+            content.style.maxHeight = content.scrollHeight + "px";
+            content.style.borderTop = "1px solid var(--color-stroke)";
+        }
+    }
+
     $("#findZip").on("click", function () {
         // 다음 주소 API
         new daum.Postcode({
