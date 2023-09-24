@@ -250,27 +250,27 @@
     </select>
 
     <select id="getCoWtrmsAbsenc" resultType="commuteVO" parameterType="String">
-        select DCLZ_EMPL_ID, count(DCLZ_WORK_DE) as CO_WTRMS_ABSENC
-        from dclz
+        SELECT DCLZ_EMPL_ID, COUNT(DCLZ_WORK_DE) AS CO_WTRMS_ABSENC
+        FROM DCLZ
         WHERE COMMON_CODE_LABOR_STTUS = 'LABOR_STTUS015'
-          and DCLZ_WORK_DE BETWEEN TRUNC(to_date(#{date}, 'yy-mm'), 'MM') AND LAST_DAY(to_date(#{date}, 'yy-mm'))
-        group by DCLZ_EMPL_ID
+          AND DCLZ_WORK_DE BETWEEN TRUNC(TO_DATE(#{date}, 'YY-MM'), 'MM') AND LAST_DAY(TO_DATE(#{DATE}, 'YY-MM'))
+        GROUP BY DCLZ_EMPL_ID
     </select>
 
     <select id="isInsertSalaryDtsmt" parameterType="Map" resultType="int">
         SELECT COUNT(INSERT_AT)
         FROM SALARY_DTSMT
         WHERE SALARY_EMPL_ID = #{salaryEmplId}
-          AND TO_CHAR(TO_DATE(SALARY_DTSMT_ISSU_DATE, 'YY-MM-DD HH24:MI:SS'), 'YYYY-MM')
-            = TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM')
+          AND TO_CHAR(TO_DATE(SALARY_DTSMT_ISSU_DATE), 'YYYY-MM')
+            = TO_CHAR(TO_DATE(#{date}), 'YYYY-MM')
     </select>
 
     <select id="isInsertSalary" resultType="int">
         SELECT COUNT(INSERT_AT)
         FROM SALARY
         WHERE SALARY_EMPL_ID = #{salaryemplid}
-          AND TO_CHAR(TO_DATE(SALARY_PYMNT_DATE, 'YY-MM-DD HH24:MI:SS'), 'YYYY-MM')
-            = TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM')
+          AND TO_CHAR(TO_DATE(SALARY_PYMNT_DATE), 'YYYY-MM')
+            = TO_CHAR(TO_DATE(#{date}), 'YYYY-MM')
     </select>
 
     <insert id="inputSalary" parameterType="paystubVO">
