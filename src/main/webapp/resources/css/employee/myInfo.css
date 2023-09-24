@@ -126,12 +126,14 @@ input:checked + .slider:before {
 
 .info-body {
     text-align: center;
+    justify-content: center;
     height: 90%;
 
 }
 
 #profileForm, #signForm {
     padding: var(--vw-32) 0;
+
 }
 
 #profileForm {
@@ -174,3 +176,10 @@ input:checked + .slider:before {
     border: 1px solid var(--color-bg-darkGrey);
 
 }
+/*.sign-btn{*/
+/*    width: calc((144 / var(--vw)) * 100vw);*/
+/*    padding: var(--vh-8);*/
+/*    border: 1px solid var(--color-bg-darkGrey);*/
+/*    border-radius: 20px;*/
+
+/*}*/

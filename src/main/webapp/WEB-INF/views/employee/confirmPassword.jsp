@@ -2,29 +2,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <sec:authentication property="principal" var="CustomUser"/>
+
 <div class="content-container">
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/employee/myInfo" class="on">내 정보 관리</a></h1>
+    </header>
 
-<main>
-    <div>
-        <p>비밀번호 확인</p>
-    </div>
-    <div>
-        <input type="password" id="password" placeholder="PASSWORD"/>
-        <button>확인</button>
-    </div>
-</main>
-
+    <main>
+        <div>
+            <p>비밀번호 확인</p>
+        </div>
+        <div>
+            <input type="password" id="password" placeholder="PASSWORD"/>
+            <button>확인</button>
+        </div>
+    </main>
 </div>
 
 <script>
-    $("button").click(function() {
+    $("button").click(function () {
         let password = $("#password").val();
         $.ajax({
             url: "/salary/paystub/checkPassword",
             type: "post",
             data: password,
             contentType: "application/json",
-            success: function(result) {
+            success: function (result) {
                 if (result === "success") {
                     window.location.href = "/employee/myInfo";
                 } else {
@@ -32,7 +35,7 @@
                     $("#password").val("")
                 }
             },
-            error : function (xhr) {
+            error: function (xhr) {
                 alert("오류로 인하여 비밀번호를 확인할 수 없습니다.");
             }
         });

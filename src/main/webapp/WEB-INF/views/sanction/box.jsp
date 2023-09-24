@@ -34,7 +34,7 @@
                     <div class="main-content">
                         <ul class="sanction-list">
                             <li class="sanction-list-item">
-                                <a href="${pageContext.request.contextPath}/sanction/write/DEPT010?format=SANCTN_FORMAT011"
+                                <a href="${pageContext.request.contextPath}/vacation/request"
                                    class="btn-3d icon-area" id="refresh">
                                     <h4 class="main-title">연차</h4>
                                     <p class="main-desc">눈치 보지 말고 🙌</p>
@@ -42,28 +42,28 @@
                             </li>
 
                             <li class="sanction-list-item">
-                                <a href="${pageContext.request.contextPath}/sanction/write/DEPT010?format=SANCTN_FORMAT013"
+                                <a href="${pageContext.request.contextPath}/vacation/request"
                                    class="btn-3d icon-area" id="vacation">
                                     <h4 class="main-title">여름 휴가</h4>
                                     <p class="main-desc">으른이들의 방학 ✈️</p>
                                 </a>
                             </li>
                             <li class="sanction-list-item">
-                                <a href="${pageContext.request.contextPath}/sanction/write/DEPT010?format=SANCTN_FORMAT013"
+                                <a href="${pageContext.request.contextPath}/vacation/request"
                                    class="btn-3d icon-area" id="birthday">
                                     <h4 class="main-title">생일</h4>
                                     <p class="main-desc">주인공은 점심에 퇴근해 🎈</p>
                                 </a>
                             </li>
                             <li class="sanction-list-item">
-                                <a href="${pageContext.request.contextPath}/sanction/write/DEPT010?format=SANCTN_FORMAT013"
+                                <a href="${pageContext.request.contextPath}/vacation/request"
                                    class="btn-3d icon-area" id="event">
                                     <h4 class="main-title">경조사</h4>
                                     <p class="main-desc">기쁠 때나 슬플 때나 <br /> 그루비가 함께합니다 🙆‍♀️</p>
                                 </a>
                             </li>
                             <li class="sanction-list-item">
-                                <a href="${pageContext.request.contextPath}/sanction/write/DEPT010?format=SANCTN_FORMAT013"
+                                <a href="${pageContext.request.contextPath}/vacation/request"
                                    class="btn-3d icon-area" id="sick">
                                     <h4 class="main-title">병가</h4>
                                     <p class="main-desc">아픈 것도 서러운데 퇴근 🏃‍♂️🏃‍♀️</p>

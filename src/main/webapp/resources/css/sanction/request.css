@@ -14,34 +14,36 @@
     height: var(--vw-24) !important;
 }
 
-.vacationTable {
+.requestTable {
     width: 100%;
     border: none;
+
 }
 
 
-.vacationTable td, .vacationTable th{
+.requestTable td, .requestTable th{
     width: calc(100%/8);
     height: calc((60/1080) * 100vh);
     text-align: center;
     border: none;
     font-size: var(--font-size-14);
+
 }
 
-.vacationTable th{
+.requestTable th{
     background: var(--color-bg-sky);
     border-bottom: 1px solid var(--color-bg-darkGrey);
     top: 0;
     position: sticky;
 }
 
-.vacationTable tr{
+.requestTable tr{
     background: var(--color-white);
     border-bottom: 1px solid var(--color-bg-darkGrey);
 
 }
 
-.vacationTable tr:hover{
+.requestTable tr:hover{
     background: var(--color-bg-sky);
     transition: .5s;
 }
@@ -61,4 +63,12 @@
 #record {
     padding: var(--vh-24);
     /*height: calc((718/var(--vh))*100vh);*/
+}
+.request-btn{
+   position: absolute;
+    right: 3%;
+    top: 15%;
+}
+#countWrap {
+    margin : 1%
 }

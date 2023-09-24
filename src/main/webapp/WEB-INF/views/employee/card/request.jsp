@@ -2,18 +2,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sanction/request.css">
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
         <header id="tab-header">
-            <h1><a href="${pageContext.request.contextPath}/card/request" class="on">법인카드 신청</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/card/request" class="on">법인카드 신청기록</a></h1>
         </header>
-        <button type="button" class="btn btn-out-sm btn-modal" data-name="requestCard" data-action="request">법인카드 신청하기
-        </button>
+        <div class="request-btn">
+            <button type="button" class="btn btn-fill-bl-sm font-18 btn-modal" data-name="requestCard"
+                    data-action="request">
+                법인카드
+                신청
+                <i class="icon i-add-white"></i></button>
+        </div>
         <br><br>
-        <h3 class="content-title font-b">법인카드 신청 기록</h3>
-        <div id="cardTable">
+        <div id="countWrap" class="color-font-md">전체 <span id="countBox" class="font-b font-14"></span></div>
+        <div id="record" class="card-df">
 
         </div>
     </div>
@@ -148,15 +154,17 @@
                 url: "/card/record",
                 type: "GET",
                 success: function (data) {
-                    let code = `<table border="1">
-                        <tr>
-                            <td>신청 번호</td>
-                            <td>사용 기간</td>
-                            <td>사용처</td>
-                            <td>사용 목적</td>
-                            <td>사용 예상 금액</td>
-                            <td>결재 상태</td>
-                        </tr>`;
+                    count = data.length;
+                    document.querySelector("#countBox").innerText = count;
+                    let code = `<table border="1" class='requestTable'>
+                        <thead><tr>
+                            <th>신청 번호</th>
+                            <th>사용 기간</th>
+                            <th>사용처</th>
+                            <th>사용 목적</th>
+                            <th>사용 예상 금액</th>
+                            <th>결재 상태</th>
+                        </tr></thead><tbody>`;
                     $.each(data, function (index, recodeVO) {
                         code += `<tr>
                             <td><a href="#" data-name="detailCard" data-seq="\${recodeVO.cprCardResveSn}" class="detailLink">\${index + 1}</a></td>
@@ -164,11 +172,11 @@
                             <td>\${recodeVO.cprCardUseLoca}</td>
                             <td>\${recodeVO.cprCardUsePurps}</td>
                             <td>\${formatNumber(recodeVO.cprCardUseExpectAmount)}원</td>
-                            <td>\${recodeVO.commonCodeYrycState === 'YRYC030' ? '미상신' : (recodeVO.commonCodeYrycState === 'YRYC031' ? '상신' : '승인')}</td>
+                            <td><span class="state">\${recodeVO.commonCodeYrycState === 'YRYC030' ? '미상신' : (recodeVO.commonCodeYrycState === 'YRYC031' ? '상신' : '승인')}</span></td>
                         </tr>`;
                     });
-                    code += "</table>"
-                    $("#cardTable").html(code);
+                    code += "</tbody></table>"
+                    $("#record").html(code);
                 },
                 error: function (xhr, status, error) {
                     console.log("code: " + xhr.status);

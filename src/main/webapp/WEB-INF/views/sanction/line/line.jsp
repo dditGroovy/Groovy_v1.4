@@ -301,9 +301,9 @@
                     <div class="line-block">`;
 
                             label.emplInfo.forEach(function (empl) {
-                                result += `<span class="line-detail" data-id="\${empl.emplId}"">\${empl.emplNm}</span>`;
-                                result += `<span class="dept">\${empl.commonCodeDept}</span>`;
-                                result += `<span class="clsf">\${empl.commonCodeClsf}</span></span>`;
+                                result += `<span class="line-detail" data-id="\${empl.emplId}"">\${empl.emplNm} \${empl.commonCodeDept} \${empl.commonCodeClsf}</span>`;
+                                // result += `<span class="dept">\${empl.commonCodeDept}</span>`;
+                                // result += `<span class="clsf">\${empl.commonCodeClsf}</span></span>`;
                             });
 
                             result += `</div><button type="button" class="btn removeBtn">X</button></li>`;
@@ -439,8 +439,8 @@
                 const newDiv = document.createElement("div");
                 newDiv.classList = "line-block";
 
-                const newText = document.createElement("p")
-                newText.classList = "name";
+                const newText = document.createElement("span")
+                newText.classList = "name"; // 이름
                 newText.append(text);
 
                 newDiv.append(newText);
@@ -478,7 +478,7 @@
                 for (let index = sanctionLineItems.length - 1; index >= 0; index--) {
                     const item = sanctionLineItems[index];
                     const id = item.querySelector("input").value;
-                    const name = item.querySelector(".name").innerText;
+                    const name = item.querySelector(".name").innerText.split(' ')[0];
                     data.sanctionLine[sanctionLineItems.length - index] = {id, name};
                 }
             } else {

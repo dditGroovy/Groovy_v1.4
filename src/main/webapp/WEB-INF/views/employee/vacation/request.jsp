@@ -2,19 +2,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<link rel="stylesheet" href="/resources/css/sanction/myVacation.css">
+<link rel="stylesheet" href="/resources/css/sanction/request.css">
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
         <header id="tab-header">
-            <h1><a href="${pageContext.request.contextPath}/vacation" class="on">내 휴가</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/vacation" >내 휴가</a></h1>
             <h1><a href="${pageContext.request.contextPath}/salary/paystub/checkPassword">내 급여</a></h1>
-            <h1><a href="${pageContext.request.contextPath}/vacation/request">휴가 기록</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/vacation/request" class="on">휴가 기록</a></h1>
         </header>
-        <button type="button" class="btn btn-fill-bl-sm font-md font-18 btn-modal" data-name="requestVacation" data-action="request" id="requestVacation">휴가 신청
-            <i class="icon i-add-white"></i></button>
-        <br><br>
+        <div class="request-btn">
+        <button type="button" class="btn btn-fill-bl-sm font-18 btn-modal" data-name="requestVacation" data-action="request" id="requestVacation">휴가 신청
+            <i class="icon i-add-white"></i></button></div> <br><br>
         <div id="countWrap" class="color-font-md">전체 <span id="countBox" class="font-b font-14"></span></div>
         <div id="record" class="card-df">
 
@@ -169,7 +169,7 @@
                 success: function (data) {
                     count = data.length;
                     document.querySelector("#countBox").innerText = count;
-                    let code = `<table border="1" class='vacationTable'>
+                    let code = `<table border="1" class='requestTable'>
                         <thead><tr>
 
                     <th class="sticky-th">신청 번호</th>
