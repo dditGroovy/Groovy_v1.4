@@ -49,7 +49,7 @@ public class AlarmHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String msg = message.getPayload();
-        System.out.println("****msg = " + msg);
+        log.info("****msg ={}", msg);
         if (msg != null) {
             String[] msgs = msg.split(",");
             String seq = msgs[0];
@@ -188,6 +188,19 @@ public class AlarmHandler extends TextWebSocketHandler {
                             "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
                                     "<h1>[법인카드 신청]</h1>\n" +
                                     "<p>법인카드 신청이 승인 되셨습니다.</p>" +
+                                    "</a>",
+                            url, seq
+                    );
+                    receiveSession.sendMessage(new TextMessage(notificationHtml));
+                }
+            } else if (category.equals("sign")) {
+                String receiveId = msgs[3];
+                WebSocketSession receiveSession = userSessionMap.get(receiveId);
+                if (receiveSession != null && receiveSession.isOpen()) {
+                    String notificationHtml = String.format(
+                            "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
+                                    "<h1>[서명 등록 요청]</h1>\n" +
+                                    "<p>내 정보 관리에서 서명을 등록해주세요.</p>" +
                                     "</a>",
                             url, seq
                     );
