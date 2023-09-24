@@ -3,46 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/manageVehicle.css">
-<style>
-    /*ul {*/
-    /*    list-style: none;*/
-    /*    padding-left: 0;*/
-    /*}*/
-
-    /*.wrap ul {*/
-    /*    display: flex;*/
-    /*    gap: 10px*/
-    /*}*/
-
-    /*.header, .titleWrap {*/
-    /*    display: flex;*/
-    /*    align-items: center;*/
-    /*    gap: 10px;*/
-    /*}*/
-
-    /*table tr {*/
-    /*    display: flex;*/
-    /*}*/
-
-    /*table tr td, table tr th {*/
-    /*    flex: 1;*/
-    /*}*/
-
-    /*.carInfo ul {*/
-    /*    border: 1px solid black*/
-    /*}*/
-
-    /*.carInfo ul, .carInfo ul li {*/
-    /*    display: flex;*/
-    /*    align-items: center;*/
-    /*    gap: 20px;*/
-    /*}*/
-
-    /*.content > ul {*/
-    /*    display: flex;*/
-    /*    flex-direction: column;*/
-    /*}*/
-</style>
 <div class="content-container">
     <header id="tab-header">
         <h1><a class="on" href="${pageContext.request.contextPath}/reserve/manageVehicle">차량 관리</a></h1>
@@ -119,7 +79,7 @@
                     <p class="font-18 font-md"><span class="font-md font-36 count">${listSize}</span>건</p>
                 </div>
                 <div class="btnWrap">
-                    <button class="btn btn-fill-bl-sm"><a class="font-18 font-md font-wh" href="/reserve/inputVehicle">차량 등록 +</a></button>
+                    <button class="btn btn-fill-bl-sm font-18 font-md font-wh" onclick="location.href='${pageContext.request.contextPath}/reserve/inputVehicle'">차량 등록 +</button>
                 </div>
             </div>
             <div class="content">

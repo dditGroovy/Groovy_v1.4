@@ -1,7 +1,7 @@
 package kr.co.groovy.enums;
 
 public enum Hipass {
-    HIPASS010("가능"), HIPASS011("불가능");
+    HIPASS010("부착"), HIPASS011("미부착");
     private String label;
 
     Hipass(String label) {
