@@ -1,6 +1,5 @@
 package kr.co.groovy.salary;
 
-import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vo.*;
 import org.apache.ibatis.annotations.Param;
 

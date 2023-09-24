@@ -11,7 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 @Slf4j
@@ -161,18 +163,17 @@ public class SalaryService {
                     paystubVO.setSalaryDtsmtNetPay(paystubVO.getSalaryDtsmtPymntTotamt() - paystubVO.getSalaryDtsmtDdcTotamt());
                     CommuteAndPaystub cnp = new CommuteAndPaystub(commuteVO, paystubVO);
                     cnpList.add(cnp);
-
-                    Map<String, String> map = new HashMap<>();
-                    for (CommuteAndPaystub commuteAndPaystub : cnpList) {
-                        map.put("salaryEmplId", commuteAndPaystub.getPaystubVO().getSalaryEmplId());
-                        map.put("date", year + "-" + month);
-                        if (mapper.isInsertSalary(map) == 0 && mapper.isInsertSalaryDtsmt(map) == 0) {
-                            commuteAndPaystub.getPaystubVO().setSalaryDtsmtIssuDate(new Date(Integer.parseInt(year) - 1900, Integer.parseInt(month) - 1, 14));
-                            commuteAndPaystub.getPaystubVO().setInsertAt("Y");
-                            mapper.inputSalary(commuteAndPaystub.getPaystubVO());
-                            mapper.inputSalaryDtsmt(commuteAndPaystub.getPaystubVO());
-                        }
-                    }
+//                    Map<String, String> map = new HashMap<>();
+//                    for (CommuteAndPaystub commuteAndPaystub : cnpList) {
+//                        map.put("salaryEmplId", commuteAndPaystub.getPaystubVO().getSalaryEmplId());
+//                        map.put("date", year + "-" + month);
+//                        if (mapper.isInsertSalary(map) == 0 && mapper.isInsertSalaryDtsmt(map) == 0) {
+//                            commuteAndPaystub.getPaystubVO().setSalaryDtsmtIssuDate(new Date(Integer.parseInt(year) - 1900, Integer.parseInt(month) - 1, 14));
+//                            commuteAndPaystub.getPaystubVO().setInsertAt("Y");
+//                            mapper.inputSalary(commuteAndPaystub.getPaystubVO());
+//                            mapper.inputSalaryDtsmt(commuteAndPaystub.getPaystubVO());
+//                        }
+//                    }
                 }
             }
         }
@@ -193,14 +194,18 @@ public class SalaryService {
         LocalDate localDate = LocalDate.now();
         int year = localDate.getYear();
         int month = localDate.getMonthValue();
+        LocalDate inputDate = LocalDate.of(year, month, 14);
+        Instant instant = inputDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
 
         List<CommuteAndPaystub> cnpList = getCommuteAndPaystubList(String.valueOf(year), String.valueOf(month - 1));
         Map<String, String> map = new HashMap<>();
         for (CommuteAndPaystub cnp : cnpList) {
             map.put("salaryEmplId", cnp.getPaystubVO().getSalaryEmplId());
-            map.put("date", year + "-" + month);
+            map.put("date", String.valueOf(inputDate));
+            log.info(String.valueOf(mapper.isInsertSalary(map)));
+            log.info(String.valueOf(mapper.isInsertSalaryDtsmt(map)));
             if (mapper.isInsertSalary(map) == 0 && mapper.isInsertSalaryDtsmt(map) == 0) {
-                cnp.getPaystubVO().setSalaryDtsmtIssuDate(new Date(year - 1900, month - 1, 14));
+                cnp.getPaystubVO().setSalaryDtsmtIssuDate(Date.from(instant));
                 cnp.getPaystubVO().setInsertAt("Y");
                 mapper.inputSalary(cnp.getPaystubVO());
                 mapper.inputSalaryDtsmt(cnp.getPaystubVO());
