@@ -55,9 +55,9 @@
                 <c:set var="reservedList" value="${todayReservedVehicles}"/>
                 <c:set var="listSize" value="${fn:length(reservedList)}"/>
                 <p class="current-resve">
-                    <a href="${pageContext.request.contextPath}/reserve/loadVehicle" class="totalResve font-18 font-md"><span class="font-md font-36 count">${listSize}</span>건</a>
+                    <a href="${pageContext.request.contextPath}/reserve/loadVehicle" class="font-18 font-md"><span class="font-md font-36 count">${listSize}</span>건</a>
                 </p>
-                <a href="${pageContext.request.contextPath}/reserve/loadVehicle" class="more font-11 font-md">더보기 <i class="icon i-arr-rt" style="fill: red"></i></a>
+                <a href="${pageContext.request.contextPath}/reserve/loadVehicle" class="font-11 font-md more">더보기 <i class="icon i-arr-rt"></i></a>
             </div>
             <div class="content">
                 <div class="table-container">
@@ -73,41 +73,50 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="vehicleVO" items="${todayReservedVehicles}">
-                            <tr>
-                                <td>${vehicleVO.vhcleResveNoRedefine}</td>
-                                <td>${vehicleVO.vhcleNo}</td>
-                                <c:set var="beginTimeStr" value="${vehicleVO.vhcleResveBeginTime}"/>
-                                <fmt:formatDate value="${beginTimeStr}" pattern="HH:mm" var="beginTime"/>
-                                <td>${beginTime}</td>
-                                <c:set var="endTimeStr" value="${vehicleVO.vhcleResveEndTime}"/>
-                                <fmt:formatDate value="${endTimeStr}" pattern="HH:mm" var="endTime"/>
-                                <td>${endTime}</td>
-                                <td>${vehicleVO.vhcleResveEmplNm}(${vehicleVO.vhcleResveEmplId})</td>
-                                <td>
-                                    <c:if test="${vehicleVO.vhcleResveReturnAt == 'N'}">
-                                        <button class="returnCarBtn" id="\${params.value}">반납 확인</button>
-                                        <p class="btn returnStatus" style="display: none;">반납완료</p>
-                                    </c:if>
-                                    <c:if test="${vehicleVO.vhcleResveReturnAt == 'Y'}">
-                                        <p class="returnStatus">반납완료</p>
-                                    </c:if>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <c:choose>
+                            <c:when test="${not empty todayReservedVehicles}">
+                                <c:forEach items="${todayReservedVehicles}" var="vehicleVO">
+                                    <tr>
+                                        <td>${vehicleVO.vhcleResveNoRedefine}</td>
+                                        <td>${vehicleVO.vhcleNo}</td>
+                                        <c:set var="beginTimeStr" value="${vehicleVO.vhcleResveBeginTime}"/>
+                                        <fmt:formatDate value="${beginTimeStr}" pattern="HH:mm" var="beginTime"/>
+                                        <td>${beginTime}</td>
+                                        <c:set var="endTimeStr" value="${vehicleVO.vhcleResveEndTime}"/>
+                                        <fmt:formatDate value="${endTimeStr}" pattern="HH:mm" var="endTime"/>
+                                        <td>${endTime}</td>
+                                        <td>${vehicleVO.vhcleResveEmplNm}(${vehicleVO.vhcleResveEmplId})</td>
+                                        <td>
+                                            <c:if test="${vehicleVO.vhcleResveReturnAt == 'N'}">
+                                                <button class="returnCarBtn" id="\${params.value}">반납 확인</button>
+                                                <p class="btn returnStatus" style="display: none;">반납완료</p>
+                                            </c:if>
+                                            <c:if test="${vehicleVO.vhcleResveReturnAt == 'Y'}">
+                                                <p class="returnStatus">반납완료</p>
+                                            </c:if>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td class="no-list" colspan="6">예약 정보가 없습니다.</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <div class="card card-df grid-card">
+        <div class="card card-df vehicle-card">
             <div class="header" id="vehicles">
                 <div class="titleWrap">
                     <h3 class="manage-header font-b font-24">등록된 차량</h3>
                     <c:set var="vehicleList" value="${allVehicles}"/>
                     <c:set var="listSize" value="${fn:length(vehicleList)}"/>
-                    <p><span class="font-md font-36 count">${listSize}</span>건</p>
+                    <p class="font-18 font-md"><span class="font-md font-36 count">${listSize}</span>건</p>
                 </div>
                 <div class="btnWrap">
                     <button class="btn btn-fill-bl-sm"><a class="font-18 font-md font-wh" href="/reserve/inputVehicle">차량 등록 +</a></button>
@@ -117,20 +126,22 @@
                 <ul>
                     <c:forEach var="vehicle" items="${allVehicles}">
                         <li>
-                            <div class="carInfo">
-                                <ul>
+                            <div class="card card-df carInfo">
+                                <ul class="car-list">
                                     <li class="carInfoList">
-                                        <i class="icon i-vehicle"></i>
-                                        <h4>${vehicle.vhcleVhcty}</h4>
-                                        <span>${vehicle.vhcleNo}</span>
+                                        <i class="icon-car"></i>
+                                        <h4 class="font font-sb font-24 vehicle-type">${vehicle.vhcleVhcty}</h4>
+                                        <span class="font font-reg font-18">${vehicle.vhcleNo}</span>
                                     </li>
                                     <li class="carInfoList">
-                                        <h5>정원</h5>
-                                        <span>${vehicle.vhclePsncpa}명</span>
+                                        <h5 class="font font-sb font-18 vehicle-personnel">정원</h5>
+                                        <span class="line">|</span>
+                                        <span class="font font-reg font-18">${vehicle.vhclePsncpa}명</span>
                                     </li>
                                     <li class="carInfoList">
-                                        <h5>하이패스</h5>
-                                        <span>${vehicle.commonCodeHipassAsnAt}</span>
+                                        <h5 class="font font-sb font-18 hipass">하이패스</h5>
+                                        <span class="line">|</span>
+                                        <span class="font font-reg font-18">${vehicle.commonCodeHipassAsnAt}</span>
                                     </li>
                                 </ul>
                             </div>

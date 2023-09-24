@@ -20,6 +20,7 @@
 
 .count {
     color: var(--color-main);
+    margin-right: calc((5 / 1080) * 100vh);;
 }
 
 .more {
@@ -73,8 +74,8 @@ thead th {
 }
 
 .vehicle-card {
-    adding: var(--vw-32);
-    margin: var(--vh-24) 0;
+    padding: var(--vw-32);
+    margin-top: var(--vh-24);
 }
 
 #vehicles {
@@ -89,3 +90,46 @@ thead th {
 .font-wh {
     color: var(--color-white);
 }
+
+.no-list {
+    height: calc((150 / 1920) * 100vw);
+}
+
+.icon-car {
+    width: calc((72 / 1920) * 100vw) !important;
+    height: calc((72 / 1920) * 100vw) !important;
+    background-image: url("/resources/images/Icon3d/car.png");
+    background-repeat: no-repeat;
+    margin-right: var(--vw-48);
+}
+
+.car-list {
+    display: flex;
+    gap: calc((90 / 1920) * 100vw);
+}
+
+.carInfo, .carInfoList{
+    display: flex !important;
+    align-items: center;
+}
+
+.carInfo {
+    padding: var(--vh-32) var(--vw-48);
+    margin-top: var(--vh-12);
+}
+
+.font {
+    color: var(--color-font-md);
+}
+
+.vehicle-type {
+    margin-right: var(--vw-16);
+}
+
+.line{
+    margin-left: calc((8 / 1920) * 100vw);
+    margin-right: calc((8 / 1920) * 100vw);
+    color : var(--color-font-row);
+    font-size: var(--font-size-11);
+}
+
