@@ -177,7 +177,7 @@
 }
 #commuteTable .form  th {
     position: sticky;
-    top: 0;
+    top: -1px;
 }
 .month-btn:hover {
     background: var(--color-main);

@@ -34,10 +34,10 @@ body {
     top: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--vh-48);
+    gap: var(--vh-24);
     width: calc((344 / var(--vw)) * 100vw);
     height: 100vh;
-    padding-top: var(--vh-64);
+    padding-top: var(--vh-48);
     background-color: var(--color-white);
     border-right: 1px solid var(--color-stroke);
     box-shadow: var(--clay-card);
@@ -77,13 +77,10 @@ tbody::-webkit-scrollbar-thumb,div::-webkit-scrollbar-thumb, ul::-webkit-scrollb
 }
 
 /* uuser-service */
-.user-service {
-    width: 50%;
-}
 .user-service ul {
-
     display: flex;
     align-items: center;
+    gap: var(--vw-12)
 }
 .user-service ul li {
     display: flex;
@@ -95,21 +92,27 @@ tbody::-webkit-scrollbar-thumb,div::-webkit-scrollbar-thumb, ul::-webkit-scrollb
 .ic-mail {margin-right: 4px;}
 .user-service ul li:first-child {
     justify-content: flex-start;
-    border-right: 1px solid #C8CDD4;
 }
 .user .btn-wrap {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
 }
 .user .btn-wrap #logout {
     column-span: 2;
 }
+#videoConference {
+    position: relative;}
 i.icon {
     display: inline-block;
     width: var(--vw-16);
     height: var(--vw-16);
     /*border: 1px solid blue;*/
     vertical-align: middle;
+}
+.user button a{
+    display: block;
+    padding:  var(--vh-8) var(--vw-12);
 }
 /*  관리자 aside   */
 .department.nav-list a {
@@ -155,6 +158,12 @@ i.icon {
     width: var(--vw-16);
     height: var(--vw-16);
 }
+.btn-wrap #reservation::before {
+    background: url("/resources/images/icon/group.svg") 100% center / cover;
+}
+.btn-wrap #videoConference::before {
+    background: url("/resources/images/icon/share.svg") 100% center / cover;
+}
 .btn-detail {transition: 0.35s; opacity: 0;}
 .btn-wrap #videoConference:hover .btn-detail, .btn-wrap #reservation:hover .btn-detail{opacity: 1;}
 .btn-wrap #videoConference:hover::before, .btn-wrap #reservation:hover::before{opacity: 0;}
@@ -196,6 +205,10 @@ i.icon {
     right: calc((50 / 1920) * 100vw);
 }
 #floating ul {display: flex; gap: 8px;}
+#floating a i.icon {
+    width: var(--vw-32);
+    height: var(--vw-32);
+}
 /*  sign in */
 .container.login {
     display: flex;
@@ -246,6 +259,7 @@ i.icon {
     width: calc((516 / var(--vw)) * 100vw);
     height: var(--vh-64);
     background: var(--color-bg-sky);
+    padding-left: var(--vw-24);
 }
 /*input[type="text"], input[type="submit"], input[type="password"] {
     width: calc((516 / var(--vw)) * 100vw);
