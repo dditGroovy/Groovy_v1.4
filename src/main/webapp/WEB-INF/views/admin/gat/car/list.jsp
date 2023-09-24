@@ -12,10 +12,6 @@
         <h1><a class="on" 료href="${pageContext.request.contextPath}/reserve/loadVehicle">예약 관리</a></h1>
     </header>
     <div class="serviceWrap">
-        <!--<select name="filter" id="filter">
-            <option value="vhcleNo">차량번호</option>
-            <option value="vhcleVhcty">차종</option>
-        </select>-->
         <div id="search" class="input-free-white">
             <i class="icon i-search"></i>
             <input type="text" id="quickFilter" placeholder="검색어를 입력하세요." oninput="onQuickFilterChanged()"/>
