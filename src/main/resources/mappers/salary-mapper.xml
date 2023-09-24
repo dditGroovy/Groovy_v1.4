@@ -257,21 +257,20 @@
         group by DCLZ_EMPL_ID
     </select>
 
-
     <select id="isInsertSalaryDtsmt" parameterType="Map" resultType="int">
-        select COUNT(INSERT_AT)
-        from SALARY_DTSMT
-        where SALARY_EMPL_ID = #{salaryEmplId}
-          and to_char(to_date(SALARY_DTSMT_ISSU_DATE, 'yy-mm-dd hh24:mi:ss'), 'yyyy-mm')
-            = to_char(to_date(#{date}, 'yyyy-mm'), 'yyyy-mm')
+        SELECT COUNT(INSERT_AT)
+        FROM SALARY_DTSMT
+        WHERE SALARY_EMPL_ID = #{salaryEmplId}
+          AND TO_CHAR(TO_DATE(SALARY_DTSMT_ISSU_DATE, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM')
+            = TO_CHAR(TO_DATE(#{date}, 'YYYY-MM'), 'YYYY-MM')
     </select>
 
     <select id="isInsertSalary" resultType="int">
-        select COUNT(INSERT_AT)
-        from SALARY
-        where SALARY_EMPL_ID = #{salaryEmplId}
-          and to_char(to_date(SALARY_PYMNT_DATE, 'yy-mm-dd hh24:mi:ss'), 'yyyy-mm')
-            = to_char(to_date(#{date}, 'yyyy-mm'), 'yyyy-mm')
+        SELECT COUNT(INSERT_AT)
+        FROM SALARY
+        WHERE SALARY_EMPL_ID = #{salaryemplid}
+          AND TO_CHAR(TO_DATE(SALARY_PYMNT_DATE, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM')
+            = TO_CHAR(TO_DATE(#{date}, 'YYYY-MM'), 'YYYY-MM')
     </select>
 
     <insert id="inputSalary" parameterType="paystubVO">
@@ -280,7 +279,7 @@
                            , SALARY_BSLRY
                            , SALARY_OVTIME_ALLWNC
                            , INSERT_AT)
-        VALUES ( to_date(#{salaryDtsmtIssuDate}, 'yy-mm-dd')
+        VALUES (to_date(#{salaryDtsmtIssuDate}, 'yy-mm-dd')
                , #{salaryEmplId}
                , #{salaryBslry}
                , #{salaryOvtimeAllwnc}
