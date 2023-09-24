@@ -261,16 +261,16 @@
         SELECT COUNT(INSERT_AT)
         FROM SALARY_DTSMT
         WHERE SALARY_EMPL_ID = #{salaryEmplId}
-          AND TO_CHAR(TO_DATE(SALARY_DTSMT_ISSU_DATE, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM')
-            = TO_CHAR(TO_DATE(#{date}, 'YYYY-MM'), 'YYYY-MM')
+          AND TO_CHAR(TO_DATE(SALARY_DTSMT_ISSU_DATE, 'YY-MM-DD HH24:MI:SS'), 'YYYY-MM')
+            = TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM')
     </select>
 
     <select id="isInsertSalary" resultType="int">
-        SELECT COUNT(INSERT_AT)
+        SELECT INSERT_AT, TO_CHAR(TO_DATE(SALARY_PYMNT_DATE, 'YY-MM-DD HH24:MI:SS'), 'YYYY-MM')
         FROM SALARY
         WHERE SALARY_EMPL_ID = #{salaryemplid}
-          AND TO_CHAR(TO_DATE(SALARY_PYMNT_DATE, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM')
-            = TO_CHAR(TO_DATE(#{date}, 'YYYY-MM'), 'YYYY-MM')
+          AND TO_CHAR(TO_DATE(SALARY_PYMNT_DATE, 'YY-MM-DD HH24:MI:SS'), 'YYYY-MM')
+            = TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM')
     </select>
 
     <insert id="inputSalary" parameterType="paystubVO">
