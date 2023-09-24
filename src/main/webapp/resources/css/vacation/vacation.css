@@ -32,7 +32,7 @@
 .vacation-list {
     position: relative;
     width: 100%;
-    height: calc((572/1080)*100vh);
+    height: calc((480/1080)*100vh);
     display: flex;
     flex-direction: column;
     overflow-y: auto;

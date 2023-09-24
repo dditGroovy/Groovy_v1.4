@@ -2,17 +2,42 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <sec:authentication property="principal" var="CustomUser"/>
-
-<main>
-    <div>
-        <p>비밀번호 확인</p>
-    </div>
-    <div>
-        <input type="password" id="password" placeholder="PASSWORD"/>
-        <button>확인</button>
-    </div>
-</main>
-
+<style>
+    .content-header {
+        display: flex;
+        flex-direction: column;
+        gap: var(--vh-24);
+    }
+    .checkBtn{
+        width: calc((120/var(--vw))*100vw);
+        height: var(--vh-64);
+    }
+    main {
+        display: flex;
+        flex-direction: column;
+        gap: var(--vh-56);
+    }
+</style>
+<div class="content-container">
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/vacation">내 휴가</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/salary/paystub/checkPassword" class="on">내 급여</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/vacation/request">휴가 기록</a></h1>
+    </header>
+    <main>
+        <div class="content-header">
+            <h2 class="main-title">비밀번호 확인 🤭</h2>
+            <p class="main-desc">
+                개인정보 보호를 위해 비밀번호를 <br />
+                한번 더 확인합니다.
+            </p>
+        </div>
+        <div>
+            <input type="password" id="password" placeholder="PASSWORD" class="userPw btn-free-white input-l"/>
+            <button class="btn-free-blue checkBtn btn">확인</button>
+        </div>
+    </main>
+</div>
 <script>
     $("button").click(function() {
         let password = $("#password").val();

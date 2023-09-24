@@ -215,7 +215,7 @@
 }
 .checkBox:checked {background-color: var(--color-main);}
 .checkBox:checked::before {
-    background-image: url("../images/icon/check.svg");
+    background-image: url("/resources/images/icon/check.svg");
 }
 .checkBoxLabel {font-size: var(--font-size-11);}
 
@@ -237,34 +237,35 @@
 
 /* icon */
 .icon { width: var(--vw-24); height: var(--vw-24); background-size: cover; background-position: center; display: inline-block; vertical-align: middle;}
-.i-arr-bt{background-image: url("../images/icon/i-arr-bt.svg");}
-.i-arr-up{background-image: url("../images/icon/i-arr-up.svg");}
-.i-arr-lt{background-image: url("../images/icon/i-arr-left.svg");}
-.i-arr-rt{background-image: url("../images/icon/i-arr-right.svg");}
-.i-home {content:url("../images/icon/home.svg");}
-.i-job {content:url("../images/icon/job.svg");}
-.i-vacation {content:url("../images/icon/magic-star.svg");}
-.i-todo {content:url("../images/icon/todo.svg");}
-.i-sanction {content:url("../images/icon/document.svg");}
-.i-calendar {content:url("../images/icon/calendar.svg");}
-.i-community {content:url("../images/icon/group.svg");}
-.i-notice {content:url("../images/icon/board.svg");}
-.i-share {content:url("../images/icon/share.svg");}
-.i-org {content:url("../images/icon/profile-2user.svg");}
-.i-mail {content:url("../images/icon/mail-unread.svg");}
-.i-signOut {content:url("../images/icon/logout.svg");}
-.i-view {content: url("../images/icon/view.svg")}
-.i-search {content: url("../images/icon/search-normal.svg")}
-.i-chat {content:url("../images/icon/send.svg");}
-.i-emp {content:url("../images/icon/idCard.svg");}
-.i-parking {content:url("../images/icon/parking.svg");}
-.i-building {content:url("../images/icon/building.svg");}
-.i-money {content:url("../images/icon/money.svg");}
-.i-card {content:url("../images/icon/card.svg");}
-.i-pig {content:url("../images/icon/pig.svg");}
-.i-meal {content:url("../images/icon/meal.svg");}
-.i-add {content:url("../images/icon/add.svg");}
-.i-add-white {content:url("../images/icon/add-white.svg");}
+.i-arr-bt{background-image: url("/resources/images/icon/i-arr-bt.svg");}
+.i-arr-up{background-image: url("/resources/images/icon/i-arr-up.svg");}
+.i-arr-lt{background-image: url("/resources/images/icon/i-arr-left.svg");}
+.i-arr-rt{background-image: url("/resources/images/icon/i-arr-right.svg");}
+.i-home {content:url("/resources/images/icon/home.svg");}
+.i-job {content:url("/resources/images/icon/job.svg");}
+.i-vacation {content:url("/resources/images/icon/magic-star.svg");}
+.i-todo {content:url("/resources/images/icon/todo.svg");}
+.i-sanction {content:url("/resources/images/icon/document.svg");}
+.i-calendar {content:url("/resources/images/icon/calendar.svg");}
+.i-community {content:url("/resources/images/icon/group.svg");}
+.i-notice {content:url("/resources/images/icon/board.svg");}
+.i-share {content:url("/resources/images/icon/share.svg");}
+.i-org {content:url("/resources/images/icon/profile-2user.svg");}
+.i-mail {content:url("/resources/images/icon/mail-unread.svg");}
+.i-signOut {content:url("/resources/images/icon/logout.svg");}
+.i-view {content: url("/resources/images/icon/view.svg")}
+.i-search {content: url("/resources/images/icon/search-normal.svg")}
+.i-chat {content:url("/resources/images/icon/send.svg");}
+.i-emp {content:url("/resources/images/icon/idCard.svg");}
+.i-parking {content:url("/resources/images/icon/parking.svg");}
+.i-building {content:url("/resources/images/icon/building.svg");}
+.i-money {content:url("/resources/images/icon/money.svg");}
+.i-card {content:url("/resources/images/icon/card.svg");}
+.i-pig {content:url("/resources/images/icon/pig.svg");}
+.i-meal {content:url("/resources/images/icon/meal.svg");}
+.i-add {content:url("/resources/images/icon/add.svg");}
+.i-add-white {content:url("/resources/images/icon/add-white.svg");}
+.i-down {content:url("/resources/images/icon/down-arrow-blue.svg");}
 .nav-list a:hover .icon, .nav-list a.active .icon {
     filter: invert(94%) sepia(100%) saturate(0%) hue-rotate(236deg) brightness(106%) contrast(106%);
 }
@@ -297,7 +298,7 @@
     display: block;
     width: var(--vw-24);
     height: var(--vw-24);
-    background: url("../images/icon/i-arr-bt.svg") center 100% / cover;
+    background: url("/resources/images/icon/i-arr-bt.svg") center 100% / cover;
     opacity: .5;
 }
 

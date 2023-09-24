@@ -16,7 +16,7 @@ body {
 .container {
     width: 100%;
     min-height: 100vh;
-    padding: calc((93/var(--vh)*100vh)) calc((50/var(--vw)*100vw));
+    padding: calc((93/var(--vh)*100vh)) calc((50/var(--vw)*100vw)) 0;
     background-color: var(--color-bg-grey);
 }
 .content-container {
