@@ -269,7 +269,11 @@
                             code += `<td>\${res[i].commonCodeClsf}</td>`;
                             code += `<td>\${res[i].emplEncpn}</td>`;
                             code += `<td>\${res[i].emplBrthdy}</td>`;
-                            code += `<td>\${res[i].signPhotoFileStreNm == 'groovy_noSign.png' ? '<button type="button" class="signBtn btn">서명 등록 요청</button>' : "등록완료"}</td>`;
+                            if (res[i].signPhotoFileStreNm == 'groovy_noSign.png') {
+                                code += `<td><button type="button" class="signBtn btn font-14" data-id="\${res[i].emplId}">서명 등록 요청</button></td>`;
+                            } else {
+                                code += `<td>등록완료</td>`;
+                            }
                             code += `<td>\${(res[i].commonCodeHffcSttus == 'HFFC010') ? "재직" : (res[i].commonCodeHffcSttus == 'HFFC011') ? "휴직" : "퇴직"}</td>`;
                             code += "</tr>";
                         }
@@ -337,7 +341,11 @@
                             code += `<td>\${res[i].commonCodeClsf}</td>`;
                             code += `<td>\${res[i].emplEncpn}</td>`;
                             code += `<td>\${res[i].emplBrthdy}</td>`;
-                            code += `<td>\${res[i].signPhotoFileStreNm == 'groovy_noSign.png' ? '<button type="button" class="signBtn btn border-radius-50">서명 등록 요청</button>' : "등록완료"}</td>`;
+                            if (res[i].signPhotoFileStreNm == 'groovy_noSign.png') {
+                                code += `<td><button type="button" class="signBtn btn font-14" data-id="\${res[i].emplId}">서명 등록 요청</button></td>`;
+                            } else {
+                                code += `<td>등록완료</td>`;
+                            }
                             code += `<td>\${(res[i].commonCodeHffcSttus == 'HFFC010') ? "재직" : (res[i].commonCodeHffcSttus == 'HFFC011') ? "휴직" : "퇴직"}</td>`;
                             code += "</tr>";
                         }
@@ -362,5 +370,52 @@
                 checkbox.checked = this.checked;
             });
         });
+
+        $(document).on("click", ".signBtn", function () {
+            console.log(this)
+            let emplId = this.getAttribute("data-id");
+
+            $.get("/alarm/getMaxAlarm")
+                .then(function (maxNum) {
+                    maxNum = parseInt(maxNum) + 1;
+
+                    let ntcnEmplId = emplId;
+                    let url = '/employee/confirm';
+                    let content = `<div class="alarmBox">
+                                        <a href="\${url}" id="fATag" data-seq="\${maxNum}">
+                                            <h1>[서명 등록 요청]</h1>
+                                            <p>내 정보 관리에서 서명을 등록새주세요.</p>
+                                        </a>
+                                        <button type="button" class="readBtn">읽음</button>
+                                    </div>`;
+                    let alarmVO = {
+                        "ntcnEmplId": ntcnEmplId,
+                        "ntcnSn": maxNum,
+                        "ntcnUrl": url,
+                        "ntcnCn": content,
+                        "commonCodeNtcnKind": 'NONE'
+                    };
+
+                    //알림 생성 및 페이지 이동
+                    $.ajax({
+                        type: 'post',
+                        url: '/alarm/insertAlarmTarget',
+                        data: alarmVO,
+                        success: function (rslt) {
+                            if (socket) {
+                                //알람번호,카테고리,url,보낸사람이름,받는사람아이디
+                                let msg = maxNum + ",sign," + url + "," + ntcnEmplId;
+                                socket.send(msg);
+                            }
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.status);
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    console.log("최대 알람 번호 가져오기 오류:", error);
+                });
+        })
     })
 </script>

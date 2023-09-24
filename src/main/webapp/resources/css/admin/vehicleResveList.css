@@ -27,6 +27,10 @@ div[col-id="chk"] {
     padding: calc((7 / var(--vw)) * 100vw) calc((7 / var(--vh)) * 100vh);
 }
 
+.wrap {
+    margin-bottom: var(--vh-24);
+}
+
 #search {
     border-radius: 8px !important;
     width: calc((400 / var(--vw)) * 100vw);

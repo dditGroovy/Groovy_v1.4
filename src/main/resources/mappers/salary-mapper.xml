@@ -8,6 +8,7 @@
                ANSLRY_ALLWNC
         FROM ANSLRY
         WHERE COMMON_CODE_DEPT_CRSF LIKE 'DEPT%'
+        AND ANSLRY_STDR_YEAR = TO_CHAR(SYSDATE, 'YYYY')
     </select>
 
     <select id="loadBonus" resultType="annualSalaryVO">
@@ -17,6 +18,7 @@
                ANSLRY_ALLWNC
         FROM ANSLRY
         WHERE COMMON_CODE_DEPT_CRSF LIKE 'CLSF%'
+        AND ANSLRY_STDR_YEAR = TO_CHAR(SYSDATE, 'YYYY')
         ORDER BY COMMON_CODE_DEPT_CRSF DESC
     </select>
 

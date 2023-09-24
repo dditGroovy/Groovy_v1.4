@@ -30,9 +30,9 @@ public class SalaryController {
     // 인사팀의 사원 연봉, 수당 및 세율 관리
     @GetMapping("")
     public String loadSalary(Model model) {
-        List<AnnualSalaryVO> salaryList = service.loadSalary();
-        List<AnnualSalaryVO> bonusList = service.loadBonus();
-        List<TariffVO> tariffVOList = service.loadTariff("");
+        List<AnnualSalaryVO> salaryList = service.loadSalary(); // 올해 기본급
+        List<AnnualSalaryVO> bonusList = service.loadBonus(); // 올해 직책수당
+        List<TariffVO> tariffVOList = service.loadTariff(""); // 올해 세율
         model.addAttribute("salary", salaryList);
         model.addAttribute("bonus", bonusList);
         model.addAttribute("tariffList", tariffVOList);
