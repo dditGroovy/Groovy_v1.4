@@ -1,43 +1,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<style>
-    ul {
-        list-style: none;
-        padding-left: 0;
-    }
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/vehicleResveList.css">
 
-    .wrap ul {
-        display: flex;
-        gap: 10px
-    }
-
-    #myGrid {
-        width: 100%;
-        height: calc((360 / 1080) * 100vh);
-    }
-</style>
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+
 <div class="content-container">
-    <div class="wrap">
-        <ul>
-            <li><a href="/reserve/manageVehicle" class="tab">차량 관리</a></li>
-            <li><a href="/reserve/loadVehicle" class="tab">예약 현황</a></li>
-        </ul>
-    </div>
-    <br/>
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/reserve/manageVehicle">차량 관리</a></h1>
+        <h1><a class="on" 료href="${pageContext.request.contextPath}/reserve/loadVehicle">예약 관리</a></h1>
+    </header>
     <div class="serviceWrap">
         <!--<select name="filter" id="filter">
             <option value="vhcleNo">차량번호</option>
             <option value="vhcleVhcty">차종</option>
         </select>-->
-        <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
+        <div id="search" class="input-free-white">
+            <i class="icon i-search"></i>
+            <input type="text" id="quickFilter" placeholder="검색어를 입력하세요." oninput="onQuickFilterChanged()"/>
+        </div>
     </div>
-    <br/><br/>
     <div class="cardWrap">
         <div class="card">
-            <div id="myGrid" class="ag-theme-alpine"></div>
+            <div id="myGrid" class="ag-theme-material"></div>
         </div>
     </div>
 </div>
@@ -99,7 +85,7 @@
     }
 
     const columnDefs = [
-        {field: "vhcleResveNo", headerName: "예약번호", cellRenderer: returnCar},
+        {field: "vhcleResveNo", headerName: "예약번호", width: 120, cellRenderer: returnCar},
         {
             field: "vhcleNo", headerName: "차량번호", getQuickFilterText: (params) => {
                 return getMedalString(params.value);
@@ -107,7 +93,7 @@
         },
         {field: "vhcleResveBeginTime", headerName: "시작 일자"},
         {field: "vhcleResveEndTime", headerName: "끝 일자"},
-        {field: "vhcleResveEmpNm", headerName: "예약 사원"},
+        {field: "vhcleResveEmpNm", headerName: "예약 사원", width: 120},
         {field: "vhcleResveEmplId", headerName: "사번"},
         {field: "chk", headerName: " ", cellRenderer: ClassComp},
     ];

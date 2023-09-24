@@ -1,0 +1,53 @@
+.ag-theme-material {
+    width: 100%;
+    height: calc((600 / 1080) * 100vh);
+    text-align: center;
+    --ag-font-family : var(--font-reg);
+    --ag-font-size : var(--font-size-14);
+    margin-bottom: var(--vh-56);
+}
+
+.ag-header-cell-label {
+    justify-content: center;
+}
+
+.ag-header-row-column, .ag-header-viewport {
+    background-color: var(--color-bg-sky);
+}
+
+.ag-header {
+    border : none;
+}
+
+.ag-row-even, .ag-row-odd {
+    border-color: var(--color-bg-grey);
+}
+
+div[col-id="chk"] {
+    padding: calc((7 / var(--vw)) * 100vw) calc((7 / var(--vh)) * 100vh);
+}
+
+#search {
+    border-radius: 8px !important;
+    width: calc((400 / var(--vw)) * 100vw);
+    height: var(--vh-48);
+}
+
+#quickFilter {
+    outline: none;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    border-radius: 8px !important;
+    width: calc((350 / var(--vw)) * 100vw);
+}
+
+.returnCarBtn {
+    width: calc((80 / var(--vw)) * 100vw);
+    height: calc((36 / var(--vh)) * 100vh);
+    border-radius: 20px;
+    border: 1px solid var(--color-font-md);
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--color-font-md);
+    font-size: var(--font-size-14);
+    margin: auto;
+}
