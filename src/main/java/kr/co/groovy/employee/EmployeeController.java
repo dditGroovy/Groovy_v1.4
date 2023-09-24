@@ -1,11 +1,13 @@
 package kr.co.groovy.employee;
 
+import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.vo.ConnectionLogVO;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,9 +21,12 @@ import java.util.UUID;
 public class EmployeeController {
     private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
     final EmployeeService service;
+    final
+    BCryptPasswordEncoder encoder;
 
-    public EmployeeController(EmployeeService service) {
+    public EmployeeController(EmployeeService service, BCryptPasswordEncoder encoder) {
         this.service = service;
+        this.encoder = encoder;
     }
 
 
@@ -72,6 +77,7 @@ public class EmployeeController {
     public String initPasswordForm() {
         return "initPassword";
     }
+
     @PostMapping("/initPassword")
     public String initPassword(@RequestParam("emplId") String emplId, @RequestParam("emplPassword") String emplPassword) {
         this.service.initPassword(emplId, emplPassword);
@@ -83,18 +89,17 @@ public class EmployeeController {
         return "employee/myInfo";
     }
 
+    @GetMapping("/confirm")
+    public String confirmPassword() {
+        return "employee/confirmPassword";
+    }
+
     @PostMapping("/modifyProfile")
     @ResponseBody
     public String modifyProfile(String emplId, @RequestPart(value = "profileFile") MultipartFile profileFile) {
-        log.info("modifyProfile");
         return service.modifyProfile(emplId, profileFile);
     }
 
-    @PostMapping("/modifyPassword")
-    @ResponseBody
-    public void modifyPassword(String emplId, String emplPassword) {
-        service.modifyPassword(emplId, emplPassword);
-    }
 
     @PostMapping("/modifySign")
     @ResponseBody
@@ -161,6 +166,22 @@ public class EmployeeController {
         mav.addObject("logList", list);
         mav.setViewName("admin/hrt/employee/connectionLog");
         return mav;
+    }
+
+
+    @PostMapping("/modifyPassword")
+    @ResponseBody
+    public String modifyPassword(@RequestParam("currentPassword") String currentPassword,
+                                 @RequestParam("newPassword") String newPassword, Authentication authentication) {
+        CustomUser customUser = (CustomUser) authentication.getPrincipal();
+        EmployeeVO vo = customUser.getEmployeeVO();
+
+        if (encoder.matches(currentPassword, vo.getEmplPassword())) {
+            vo.setEmplPassword(encoder.encode(newPassword));
+            service.modifyPassword(vo.getEmplId(), newPassword);
+            return "correct";
+        }
+        return "incorrect";
     }
 
 

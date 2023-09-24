@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
     .content-header {
@@ -113,7 +114,9 @@
                             <div class="notice-footer">
                                 <div class="box-view">
                                     <i class="icon i-view"></i>
-                                    <span class="text-view-count font-11 color-font-md">${noticeVO.notiRdcnt} views</span>
+                                    <span class="text-view-count font-11 color-font-md"><fmt:formatNumber type="number"
+                                                                                                          value="${noticeVO.notiRdcnt}"
+                                                                                                          pattern="#,##0"/> views</span>
                                 </div>
                                 <div class="box-date">
                                     <span class="font-11 color-font-md">${noticeVO.notiDate}</span>

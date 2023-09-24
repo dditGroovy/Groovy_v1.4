@@ -65,15 +65,17 @@
             <p>${noticeDetail.notiContent}</p>
             <div class="box-view-date">
                 <div class="box-view">
-                    <i class="icon icon-view-24"></i>
-                    <span class="text-view-count">${noticeDetail.notiRdcnt}</span> view
+                    <i class="icon i-view"></i>
+                    <span class="text-view-count"><fmt:formatNumber type="number"
+                                                                    value="${noticeDetail.notiRdcnt}"
+                                                                    pattern="#,##0"/> views</span>
                 </div>
                 <div class="box-date">
-                    ${noticeDetail.notiDate}
+                    <fmt:formatDate value="${noticeDetail.notiDate}" pattern="yyyy년 MM월dd일" />
+
                 </div>
                 <c:if test="${notiFiles != null}">
                     <c:forEach var="notiFile" items="${notiFiles}" varStatus="stat">
-                        <%--                <p><a href="/common/fileDownload?uploadFileSn=${notiFile.uploadFileSn}">${notiFile.uploadFileOrginlNm}</a>--%>
                         <p>
                             <a href="/file/download/notice?uploadFileSn=${notiFile.uploadFileSn}">${notiFile.uploadFileOrginlNm}</a>
                             <fmt:formatNumber value="${notiFile.uploadFileSize / 1024.0}"

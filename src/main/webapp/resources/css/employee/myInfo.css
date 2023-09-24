@@ -44,9 +44,6 @@ input:checked + .slider:before {
 }
 
 
-
-
-
 #profileImage {
     border-radius: 50%;
     width: calc((100 / var(--vw)) * 100vw);
@@ -67,15 +64,17 @@ input:checked + .slider:before {
 }
 
 .profile-wrap, .sign-wrap {
-    width: calc((480 / var(--vw)) * 100vw);
+    width: calc((536 / var(--vw)) * 100vw);
     height: calc((360 / 1080) * 100vh);
 
 }
 
 .alert-wrap {
-    width: calc((416 / var(--vw)) * 100vw);
+    width: calc((440 / var(--vw)) * 100vw);
     height: calc((740 / 1080) * 100vh);
 }
+
+
 
 .profile-header {
     display: flex;
@@ -125,29 +124,53 @@ input:checked + .slider:before {
     font-size: var(--font-size-14);
 }
 
-.info-body{
+.info-body {
     text-align: center;
-    height: 70%;
+    height: 90%;
 
 }
-#profileForm, #signForm    {
+
+#profileForm, #signForm {
     padding: var(--vw-32) 0;
+}
+
+#profileForm {
+    margin-left: 8%;
+}
+
+#alertForm {
+    overflow-y: auto;
+    height: 100%;
 }
 
 .right {
     display: flex;
     gap: var(--vw-24);
 }
+
 #saveButton, #modifyPass {
     width: calc((160 / var(--vw)) * 100vw);
     padding: 10px;
     font-size: var(--font-size-14);
     margin-left: var(--vw-10)
-
-
 }
-.info-btn  {
+
+.info-btn {
     position: absolute;
-    right: 6%;
+    right: 4%;
     bottom: 6%;
+}
+
+.new-pass, .current-pass {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pass-wrap input[type="password"] {
+    width: calc((224 / var(--vw)) * 100vw);
+    padding: var(--vh-12);
+    border-radius: 20px;
+    border: 1px solid var(--color-bg-darkGrey);
+
 }

@@ -68,3 +68,16 @@ function validateEmpty(formId) {
 function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+function validatePassword(password) {
+    if (password.length < 8 || password.length > 19) {
+        return false;
+    }
+    if (!/\d/.test(password)) {
+        return false;
+    }
+    if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password)) {
+        return false;
+    }
+    return true;
+}

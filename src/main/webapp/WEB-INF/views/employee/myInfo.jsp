@@ -78,83 +78,84 @@
                             <p class="info-desc font-md">알림 범위를 설정합니다.</p>
                         </div>
                     </div>
-                    <form action="#">
-                        <div class="box-toggle">
-                            <p class="toggle-title ">업무 요청</p>
-                            <label class="toggle" for="dutyRequest">
-                                <input type="checkbox" id="dutyRequest" name="dutyRequest"
-                                       value="${CustomUser.employeeVO.notificationVO.dutyRequest}">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="box-toggle">
-                            <p class="toggle-title">댓글</p>
-                            <label class="toggle" for="answer">
-                                <input type="checkbox" id="answer" name="answer"
-                                       value="${CustomUser.employeeVO.notificationVO.answer}">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="box-toggle">
-                            <p class="toggle-title">팀 커뮤니티</p>
-                            <label class="toggle" for="teamNotice">
-                                <input type="checkbox" id="teamNotice" name="teamNotice"
-                                       value="${CustomUser.employeeVO.notificationVO.teamNotice}">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="box-toggle">
-                            <p class="toggle-title">공지사항</p>
-                            <label class="toggle" for="companyNotice">
-                                <input type="checkbox" id="companyNotice" name="companyNotice"
-                                       value="${CustomUser.employeeVO.notificationVO.companyNotice}">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="box-toggle">
-                            <p class="toggle-title">일정</p>
-                            <label class="toggle" for="schedule">
-                                <input type="checkbox" id="schedule" name="schedule"
-                                       value="${CustomUser.employeeVO.notificationVO.schedule}">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="box-toggle">
-                            <p class="toggle-title">채팅 방 개설 알림</p>
-                            <label class="toggle" for="newChattingRoom">
-                                <input type="checkbox" id="newChattingRoom" name="newChattingRoom"
-                                       value="${CustomUser.employeeVO.notificationVO.newChattingRoom}">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="box-toggle">
-                            <p class="toggle-title">메일 수신 알림</p>
-                            <label class="toggle" for="emailReception">
-                                <input type="checkbox" id="emailReception" name="emailReception"
-                                       value="${CustomUser.employeeVO.notificationVO.emailReception}">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="box-toggle">
-                            <p class="toggle-title">전자결재수신</p>
-                            <label class="toggle" for="electronSanctionReception">
-                                <input type="checkbox" id="electronSanctionReception" name="electronSanctionReception"
-                                       value="${CustomUser.employeeVO.notificationVO.electronSanctionReception}">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="box-toggle">
-                            <p class="toggle-title">전자결재결과</p>
-                            <label class="toggle" for="electronSanctionResult">
-                                <input type="checkbox" id="electronSanctionResult" name="electronSanctionResult"
-                                       value="${CustomUser.employeeVO.notificationVO.electronSanctionResult}">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </form>
+                    <div class="info-body">
+                        <form action="#" id="alertForm">
+                            <div class="box-toggle">
+                                <p class="toggle-title ">업무 요청</p>
+                                <label class="toggle" for="dutyRequest">
+                                    <input type="checkbox" id="dutyRequest" name="dutyRequest"
+                                           value="${CustomUser.employeeVO.notificationVO.dutyRequest}">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="box-toggle">
+                                <p class="toggle-title">댓글</p>
+                                <label class="toggle" for="answer">
+                                    <input type="checkbox" id="answer" name="answer"
+                                           value="${CustomUser.employeeVO.notificationVO.answer}">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="box-toggle">
+                                <p class="toggle-title">팀 커뮤니티</p>
+                                <label class="toggle" for="teamNotice">
+                                    <input type="checkbox" id="teamNotice" name="teamNotice"
+                                           value="${CustomUser.employeeVO.notificationVO.teamNotice}">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="box-toggle">
+                                <p class="toggle-title">공지사항</p>
+                                <label class="toggle" for="companyNotice">
+                                    <input type="checkbox" id="companyNotice" name="companyNotice"
+                                           value="${CustomUser.employeeVO.notificationVO.companyNotice}">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="box-toggle">
+                                <p class="toggle-title">일정</p>
+                                <label class="toggle" for="schedule">
+                                    <input type="checkbox" id="schedule" name="schedule"
+                                           value="${CustomUser.employeeVO.notificationVO.schedule}">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="box-toggle">
+                                <p class="toggle-title">채팅 방 개설 알림</p>
+                                <label class="toggle" for="newChattingRoom">
+                                    <input type="checkbox" id="newChattingRoom" name="newChattingRoom"
+                                           value="${CustomUser.employeeVO.notificationVO.newChattingRoom}">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="box-toggle">
+                                <p class="toggle-title">메일 수신 알림</p>
+                                <label class="toggle" for="emailReception">
+                                    <input type="checkbox" id="emailReception" name="emailReception"
+                                           value="${CustomUser.employeeVO.notificationVO.emailReception}">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="box-toggle">
+                                <p class="toggle-title">전자결재수신</p>
+                                <label class="toggle" for="electronSanctionReception">
+                                    <input type="checkbox" id="electronSanctionReception"
+                                           name="electronSanctionReception"
+                                           value="${CustomUser.employeeVO.notificationVO.electronSanctionReception}">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="box-toggle">
+                                <p class="toggle-title">전자결재결과</p>
+                                <label class="toggle" for="electronSanctionResult">
+                                    <input type="checkbox" id="electronSanctionResult" name="electronSanctionResult"
+                                           value="${CustomUser.employeeVO.notificationVO.electronSanctionResult}">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-
-
                 <div class="alert-wrap card-df pd-32 ">
                     <div class="info-header ">
                         <img src="/resources/images/Icon3d/User.png"/>
@@ -163,10 +164,19 @@
                             <p class="info-desc font-md">개인 정보를 변경합니다.</p>
                         </div>
                     </div>
+                    <div class="info-body">
+
+                    </div>
                 </div>
             </section>
         </div>
-            <%--   비밀번호 수정 모달     --%>
+
+
+            <%--
+
+            비밀번호 수정 모달
+
+                 --%>
         <div id="modal" class="modal-dim">
             <div class="dim-bg"></div>
             <div class="modal-layer card-df sm modifyPassword">
@@ -177,16 +187,32 @@
                     </button>
                 </div>
                 <div class="modal-container">
-                    <form method="post" id="passForm">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        <label for="emplPassword">현재 비밀번호 입력</label>
-                        <input type="password" name="currentPassword" id="emplPassword" placeholder="현재 비밀번호를 입력하세요."/>
-                        <label for="emplPasswordCheck1">새로운 비밀번호 입력</label>
-                        <input type="password" name="emplPassword" id="emplPasswordCheck1"
-                               placeholder="새로운 비밀번호를 입력하세요."/>
-                        <input type="password" name="reEmplPassword" placeholder="새로운 비밀번호를 입력하세요."/>
-                        <input type="hidden" name="emplId" readonly value="${CustomUser.employeeVO.emplId}"><br/>
-                    </form>
+                    <div class="pass-wrap">
+                        <form method="post" id="passForm">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <input type="hidden" name="emplId" value="${CustomUser.employeeVO.emplId}">
+
+                            <div class="current-pass">
+                                <div>
+                                    <label for="emplPassword">현재 비밀번호 입력</label>
+                                    <input type="password" name="currentPassword" id="emplPassword"
+                                           placeholder="현재 비밀번호를 입력하세요."/>
+                                </div>
+                            </div>
+
+                            <div class="new-pass">
+                                <div>
+                                    <label for="emplPasswordCheck1">새로운 비밀번호 입력</label>
+                                    <input type="password" name="newPassword" id="emplPasswordCheck1"
+                                           placeholder="새로운 비밀번호를 입력하세요."/>
+                                    <input type="password" name="reEmplPassword" placeholder="새로운 비밀번호를 입력하세요."/>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="modifyRes">여기 결과 출력됨
+
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer btn-wrapper">
                     <button type="submit" class="btn btn-fill-bl-sm" id="iSave">확인</button>
@@ -198,10 +224,21 @@
     </div>
 </sec:authorize>
 <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
-<script>
+<script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
 
+<script>
     // 패스워드 변경
     $("#iSave").on("click", function () {
+        let newPassword = $('input[name="newPassword"]').val();
+        let reEnteredPassword = $('input[name="reEmplPassword"]').val();
+
+        if (newPassword !== reEnteredPassword) {
+            $("#modifyRes").html('새로운 비밀번호가 일치하지 않습니다.');
+            return;
+        } else if (!validatePassword(newPassword)) {
+            $("#modifyRes").html('비밀번호는 영문자, 숫자, 특수문자 조합의 8~20자리를 사용해야 합니다.');
+            return;
+        }
         let formData = new FormData($("#passForm")[0]);
         $.ajax({
             type: "POST",
@@ -210,8 +247,12 @@
             contentType: false,
             processData: false,
             success: function (response) {
-                alert("비밀번호가 정상적으로 변경되었습니다.");
-                close()
+                if (response === 'incorrect') {
+                    $("#modifyRes").html('현재 비밀번호를 확인해 주세요.')
+                } else {
+                    alert('비밀번호 변경이 완료되었습니다.');
+                    close()
+                }
             },
             error: function (xhr, textStatus, error) {
                 console.log("AJAX 오류:", error);
@@ -219,15 +260,50 @@
         });
     });
 
+    // 이미지 미리보기(프로필/서명)
+    function previewImage(inputFieldId, imageId) {
+        $(inputFieldId).on("change", function (e) {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                $(imageId).attr("src", e.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    previewImage("#empProflPhotoFile", "#profileImage");
+    previewImage("#emplSignFile", "#userSignProfile");
+
+    // 프로필/서명 파일 형식 제한
+    const allowedExtensions = ["png", "jpg", "jpeg"];
+
+    $("#empProflPhotoFile, #emplSignFile").on("change", function (e) {
+        let file = e.target.files[0];
+        if (file) {
+            let extension = file.name.split(".").pop().toLowerCase();
+
+            if (allowedExtensions.includes(extension)) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $(this).siblings("img").attr("src", e.target.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert("허용되지 않은 파일 형식입니다.");
+                $(this).val("");
+            }
+        }
+    });
+
 
     $(document).ready(function () {
         initializeCheckboxes();
-
         // 패스워드 변경 모달
         $("#modifyPass").on("click", function () {
+            resetModal()
             openModal();
         })
-
 
         // 저장 버튼 클릭 시 모든 변경 사항 업데이트
         $("#saveButton").on("click", function () {
@@ -242,6 +318,7 @@
                 updateSign();
             }
             saveNotificationSettings();
+            alert("내 정보가 정상적으로 변경되었습니다.")
         });
 
         // 프로필 사진 수정
@@ -272,7 +349,6 @@
         // 서명 사진 수정
         function updateSign() {
             let formData = new FormData($("#signForm")[0]);
-
             $.ajax({
                 type: "POST",
                 url: "/employee/modifySign",
@@ -296,7 +372,6 @@
         // 초기 체크 상태 설정
         function initializeCheckboxes() {
             const checkboxIds = ["dutyRequest", "answer", "teamNotice", "companyNotice", "schedule", "newChattingRoom", "emailReception", "electronSanctionReception", "electronSanctionResult"];
-
             checkboxIds.forEach(function (checkboxId) {
                 const checkbox = document.getElementById(checkboxId);
                 const value = checkbox.value;
@@ -312,7 +387,6 @@
         function saveNotificationSettings() {
             const notificationSettings = {};
             const checkboxIds = ["dutyRequest", "answer", "teamNotice", "companyNotice", "schedule", "newChattingRoom", "emailReception", "electronSanctionReception", "electronSanctionResult"];
-
             checkboxIds.forEach(function (checkboxId) {
                 const checkbox = document.getElementById(checkboxId);
                 notificationSettings[checkboxId] = checkbox.checked ? "NTCN_AT010" : "NTCN_AT011";
@@ -330,6 +404,12 @@
                     console.log("AJAX 오류:", error);
                 }
             });
+        }
+
+        function resetModal() {
+            $('input[name="currentPassword"]').val('');
+            $('input[name="newPassword"]').val('');
+            $('input[name="reEmplPassword"]').val('');
         }
     });
 </script>
