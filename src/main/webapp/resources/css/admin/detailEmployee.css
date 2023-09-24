@@ -1,0 +1,82 @@
+.side-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--vw-12);
+    background: var(--color-white);
+    padding: 8px var(--vw-24);
+    margin-bottom: var(--vh-32);
+}
+
+.btn-sm {
+    padding: var(--vw-12);
+    border-radius: 8px !important;
+}
+
+.employeeTable {
+    width: 100%;
+    border: none;
+    background: var(--color-white);
+    box-shadow: 8px 8px 16px 0px rgba(191, 210, 230, 0.30);
+}
+
+.employeeTable input[type="text"],
+.employeeTable input[type="password"],
+.employeeTable input[type="email"]{
+    cursor: default;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: var(--font-size-14);
+    font-family: var(--font-reg);
+}
+
+.employeeTable tr {
+    height: calc((56/1080) * 100vh);
+    padding-left: var(--vw-24);
+    font-size: var(--font-size-14);
+
+}
+
+.employeeTable td{
+    border: none;
+    font-size: var(--font-size-14);
+    padding-left: var(--vw-24);
+
+}
+
+.employeeTable .title {
+    background: var(--color-bg-sky);
+    padding-left: var(--vw-24);
+    width: calc((150/1920) * 100vw);
+}
+
+.quater-content {
+    width: 40%;
+}
+
+.select-wrapper::after {
+    left: 22%;
+}
+
+.employeeTable input[type="date"] {
+    border: none;
+    width: 30%;
+    font-family: var(--font-reg);
+    font-size: var(--font-size-14);
+}
+
+.addrBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc((180/1920) * 100vw);
+    height: calc((56/1080) * 100vh);
+}
+
+#findZip {
+    width: calc((200 / 1920) * 100vw);
+    height: calc((32 / 1920) * 100vw);
+    margin: 8px;
+}
