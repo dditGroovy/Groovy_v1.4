@@ -36,7 +36,18 @@
         <select name="sortOptions" id="yearSelect" class="stroke"></select>
         <div id="dtsmtDiv"><span>사원을 선택하세요</span></div> <!-- 여기에 급여명세서 리스트 뜸 -->
     </div>
-    <div id="paymentDetail"> <!-- 월별 급여명세서 확인 -->
+    <div id="modal" class="modal-dim" style="display: none">
+        <div class="dim-bg"></div>
+        <div class="modal-layer card-df sm emplCard" style="display: block">
+            <div class="modal-top">
+                <div class="modal-title">
+
+                </div>
+            </div>
+            <div class="modal-container">
+
+            </div>
+        </div>
     </div>
 </div>
 <script>
@@ -123,7 +134,7 @@
                     for (let i = 0; i < result.length; i++) {
                         listCode += "<tr>";
                         listCode += `<td>\${result[i].month}월</td>`;
-                        listCode += `<td><button class="getDetail">급여명세서 보기</button></td>`;
+                        listCode += `<td><button class="getDetail" >급여명세서 보기</button></td>`;
                         listCode += "</tr>";
                     }
                     listCode += `</table>`;
@@ -144,8 +155,11 @@
                             const formattedSisWci = formatNumber(selectedResult.salaryDtsmtSisWci);
                             const formattedIncmtax = formatNumber(selectedResult.salaryDtsmtIncmtax);
                             const formattedLocalityIncmtax = formatNumber(selectedResult.salaryDtsmtLocalityIncmtax);
-                            let dtsmtCode = `
-                            <p>\${selectedResult.month}월 - \${selectedResult.salaryEmplNm}</p>
+
+                            let title = `<p>\${selectedResult.month}월 - \${selectedResult.salaryEmplNm}</p>`;
+                            document.querySelector(".modal-title").innerHTML = title;
+
+                            let content = `
                             <p>실 수령액</p>
                             <p>\${formattedNetPay}원</p>
                             <hr>
@@ -193,7 +207,6 @@
                                 </tr>
                             </table>
                             `;
-                            document.querySelector("#paymentDetail").innerHTML = dtsmtCode;
                         });
                     });
                 },

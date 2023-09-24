@@ -280,7 +280,7 @@
                            , SALARY_BSLRY
                            , SALARY_OVTIME_ALLWNC
                            , INSERT_AT)
-        VALUES ( #{salaryDtsmtIssuDate}
+        VALUES ( to_date(#{salaryDtsmtIssuDate}, 'yy-mm-dd')
                , #{salaryEmplId}
                , #{salaryBslry}
                , #{salaryOvtimeAllwnc}
