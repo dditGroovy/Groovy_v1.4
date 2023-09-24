@@ -86,6 +86,7 @@ public class SalaryService {
     }
 
     public PaystubVO loadPaystubDetail(String emplId, String paymentDate) {
+        log.info(paymentDate);
         return mapper.loadPaystubDetail(emplId, paymentDate);
     }
 
@@ -107,15 +108,10 @@ public class SalaryService {
 
     public List<CommuteAndPaystub> getCommuteAndPaystubList(String year, String month) {
         String date = year + "-" + month;
-        month = Integer.parseInt(month) < 10 ? "0" + month : month;
-        log.info(date);
         List<CommuteAndPaystub> cnpList = new ArrayList<>();
         List<CommuteVO> commute = mapper.getCommuteByYearAndMonth(date);
-        log.info(commute.toString());
         List<CommuteVO> wtrmsAbsencEmplList = mapper.getCoWtrmsAbsenc(date);
-        log.info(wtrmsAbsencEmplList.toString());
         List<PaystubVO> salaryBslry = mapper.getSalaryBslry(year);
-        log.info(salaryBslry.toString());
         List<TariffVO> tariffList = mapper.loadTariff(year);
         for (CommuteVO commuteVO : commute) {
             for (PaystubVO paystubVO : salaryBslry) {
@@ -165,7 +161,18 @@ public class SalaryService {
                     paystubVO.setSalaryDtsmtNetPay(paystubVO.getSalaryDtsmtPymntTotamt() - paystubVO.getSalaryDtsmtDdcTotamt());
                     CommuteAndPaystub cnp = new CommuteAndPaystub(commuteVO, paystubVO);
                     cnpList.add(cnp);
-                    log.info(String.valueOf(cnp));
+
+                    Map<String, String> map = new HashMap<>();
+                    for (CommuteAndPaystub commuteAndPaystub : cnpList) {
+                        map.put("salaryEmplId", commuteAndPaystub.getPaystubVO().getSalaryEmplId());
+                        map.put("date", year + "-" + month);
+                        if (mapper.isInsertSalary(map) == 0 && mapper.isInsertSalaryDtsmt(map) == 0) {
+                            commuteAndPaystub.getPaystubVO().setSalaryDtsmtIssuDate(new Date(Integer.parseInt(year) - 1900, Integer.parseInt(month) - 1, 14));
+                            commuteAndPaystub.getPaystubVO().setInsertAt("Y");
+                            mapper.inputSalary(commuteAndPaystub.getPaystubVO());
+                            mapper.inputSalaryDtsmt(commuteAndPaystub.getPaystubVO());
+                        }
+                    }
                 }
             }
         }
