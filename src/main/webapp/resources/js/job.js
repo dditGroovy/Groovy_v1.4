@@ -15,7 +15,7 @@ function closeModal() {
 let jobProgressVO;
 
 //들어온 업무 요청
-document.querySelector("#receiveJobContainer").addEventListener("click", (event) => {
+document.querySelector("#receive-job").addEventListener("click", (event) => {
     const target = event.target;
     let jobNo = null;
 
@@ -151,7 +151,7 @@ document.querySelector(".requestJob").addEventListener("click", () => {
 });
 
 //업무 요청하기(상세)
-document.getElementById("requestJobContainer").addEventListener("click", (event) => {
+document.getElementById("request-job").addEventListener("click", (event) => {
     openModal("#modal-requestDetail-job");
 
     if (event.target.classList.contains("requestJobDetail")) {
