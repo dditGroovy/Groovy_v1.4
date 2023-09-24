@@ -1,0 +1,97 @@
+.side-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--vw-12);
+    background: var(--color-white);
+    padding: 8px var(--vw-24);
+    margin-bottom: var(--vh-12);
+}
+
+.btn-sm {
+    padding: var(--vw-12);
+    border-radius: 8px !important;
+}
+
+.salaryTable, .incomeTaxTable, .sisTable {
+    width: 100%;
+    height: var(--vh-56);
+    background: var(--color-white);
+    border: none;
+    margin-bottom: var(--vh-32);
+    box-shadow: 8px 8px 16px 0px rgba(191, 210, 230, 0.30);
+}
+
+.salaryTable tr {
+    text-align: center;
+    font-size: var(--font-size-14);
+    height: var(--vh-56);
+}
+
+.salaryTable td,
+.incomeTaxTable td,
+.incomeTaxTable th,
+.sisTable td,
+.sisTable th{
+    border: none;
+}
+
+.tableHeader {
+    background: var(--color-bg-sky);
+    width: 20%;
+}
+
+.tableData {
+    padding: 0 var(--vw-24);
+}
+.incomeTaxTable tr,
+.sisTable tr{
+    font-size: var(--font-size-14);
+    height: var(--vh-56);
+}
+
+.input-data {
+    border: 1px solid var(--color-font-row);
+    padding: 4px;
+    text-align: right;
+    border-radius: 4px;
+    margin-right: 8px;
+    font-size: var(--font-size-14);
+}
+
+.dataTitle {
+    margin-right: 8px;
+}
+
+.dataTitleTwo {
+    margin-left: calc((64/1920) * 100vw);
+}
+
+.modalTable {
+    display: flex;
+    justify-content: center;
+    padding: var(--vw-32);
+}
+
+.modal-header {
+    background: var(--color-bg-sky);
+    font-size: var(--font-size-14);
+    height: var(--vh-56);
+}
+
+tr.modal-header th:first-child {
+    padding: var(--vh-12) var(--vw-32);
+}
+
+tr.modal-header th:last-child {
+    padding: var(--vh-12) var(--vw-64);
+}
+
+tr.modal-data td:first-child {
+    text-align: center;
+    font-size: var(--font-size-14);
+    padding: var(--vh-12);
+}
+
+
