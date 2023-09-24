@@ -246,7 +246,6 @@
         from empl e
         where (e.COMMON_CODE_DEPT not in 'DEPT015'
             or e.COMMON_CODE_CLSF not in 'CLSF010')
-          and EMPL_ID like (#{year} || '%')
     </select>
 
     <select id="getCoWtrmsAbsenc" resultType="commuteVO" parameterType="String">

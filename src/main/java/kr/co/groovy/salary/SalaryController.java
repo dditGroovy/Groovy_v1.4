@@ -145,7 +145,7 @@ public class SalaryController {
     @GetMapping("/selectedDate")
     @ResponseBody
     public List<CommuteAndPaystub> getCommuteAndPaystubByYearAndMonth(@RequestParam("year") String year, @RequestParam("month") String month) {
-        return service.getCommuteAndPaystubList(Integer.parseInt(year), Integer.parseInt(month));
+        return service.getCommuteAndPaystubList(year, month);
     }
 
     @GetMapping("/years")

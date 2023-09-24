@@ -133,53 +133,63 @@
                     detailButtons.forEach(function (button, index) {
                         button.addEventListener("click", function () {
                             const selectedResult = result[index];
-                            console.log(selectedResult);
+                            const formattedNetPay = formatNumber(selectedResult.salaryDtsmtNetPay);
+                            const formattedPymntTotamt = formatNumber(selectedResult.salaryDtsmtPymntTotamt);
+                            const formattedBslry = formatNumber(selectedResult.salaryBslry);
+                            const formattedOvtimeAllwnc = formatNumber(selectedResult.salaryOvtimeAllwnc);
+                            const formattedDdcTotamt = formatNumber(selectedResult.salaryDtsmtDdcTotamt);
+                            const formattedSisNp = formatNumber(selectedResult.salaryDtsmtSisNp);
+                            const formattedSisHi = formatNumber(selectedResult.salaryDtsmtSisHi);
+                            const formattedSisEi = formatNumber(selectedResult.salaryDtsmtSisEi);
+                            const formattedSisWci = formatNumber(selectedResult.salaryDtsmtSisWci);
+                            const formattedIncmtax = formatNumber(selectedResult.salaryDtsmtIncmtax);
+                            const formattedLocalityIncmtax = formatNumber(selectedResult.salaryDtsmtLocalityIncmtax);
                             let dtsmtCode = `
                             <p>\${selectedResult.month}월 - \${selectedResult.salaryEmplNm}</p>
                             <p>실 수령액</p>
-                            <p>\${selectedResult.salaryDtsmtNetPay}원</p>
+                            <p>\${formattedNetPay}원</p>
                             <hr>
                             <p>급여 상세</p>
                             <table border="1">
                                 <tr>
                                     <th>지급</th>
-                                    <td>\${selectedResult.salaryDtsmtPymntTotamt}원</td>
+                                    <td>\${formattedPymntTotamt}원</td>
                                 </tr>
                                 <tr>
                                     <th>통상임금</th>
-                                    <td>\${selectedResult.salaryBslry}원</td>
+                                    <td>\${formattedBslry}원</td>
                                 </tr>
                                 <tr>
                                     <th>초과근무수당</th>
-                                    <td>\${selectedResult.salaryOvtimeAllwnc}원</td>
+                                    <td>\${formattedOvtimeAllwnc}원</td>
                                 </tr>
                                 <tr>
                                     <th>공제</th>
-                                    <td>\${selectedResult.salaryDtsmtDdcTotamt}원</td>
+                                    <td>\${formattedDdcTotamt}원</td>
                                 </tr>
                                 <tr>
                                     <th>국민연금</th>
-                                    <td>\${selectedResult.salaryDtsmtSisNp}원</td>
+                                    <td>\${formattedSisNp}원</td>
                                 </tr>
                                 <tr>
                                     <th>건강보험</th>
-                                    <td>\${selectedResult.salaryDtsmtSisHi}원</td>
+                                    <td>\${formattedSisHi}원</td>
                                 </tr>
                                 <tr>
                                     <th>고용보험</th>
-                                    <td>\${selectedResult.salaryDtsmtSisEi}원</td>
+                                    <td>\${formattedSisEi}원</td>
                                 </tr>
                                 <tr>
                                     <th>산재보험</th>
-                                    <td>\${selectedResult.salaryDtsmtSisWci}원</td>
+                                    <td>\${formattedSisWci}원</td>
                                 </tr>
                                 <tr>
                                     <th>소득세</th>
-                                    <td>\${selectedResult.salaryDtsmtIncmtax}원</td>
+                                    <td>\${formattedIncmtax}원</td>
                                 </tr>
                                 <tr>
                                     <th>지방소득세</th>
-                                    <td>\${selectedResult.salaryDtsmtLocalityIncmtax}원</td>
+                                    <td>\${formattedLocalityIncmtax}원</td>
                                 </tr>
                             </table>
                             `;

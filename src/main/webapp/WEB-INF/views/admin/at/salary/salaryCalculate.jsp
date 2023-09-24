@@ -80,7 +80,7 @@
                 let code = ``;
                 for (let i = 1; i <= 12; i++) {
                     if (result.includes(i < 10 ? `0\${i}` : `\${i}`)) {
-                        code += `<button type="button" onclick="getSalaryByYearAndMonth(this)" >\${i}월</button>`;
+                        code += `<button type="button" onclick="getSalaryByYearAndMonth(\${year}, this)" >\${i}월</button>`;
                     } else {
                         code += `<button type="button" disabled>\${i}월</button>`;
                     }
@@ -93,7 +93,7 @@
         });
     }
 
-    function getSalaryByYearAndMonth(monthBtn) {
+    function getSalaryByYearAndMonth(year, monthBtn) {
         let month = parseInt(monthBtn.innerText);
         month = month < 10 ? `0\${month}` : month;
         $.ajax({
@@ -101,7 +101,7 @@
             contentType: 'application/json;charset=utf-8',
             type: 'get',
             data: {
-                year: selectedYear,
+                year: year,
                 month: month
             },
             dataType: 'json',
@@ -206,4 +206,8 @@
         });
         return link;
     }
+    function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
 </script>
