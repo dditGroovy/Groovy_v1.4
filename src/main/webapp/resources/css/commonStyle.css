@@ -266,6 +266,7 @@
 .i-add {content:url("/resources/images/icon/add.svg");}
 .i-add-white {content:url("/resources/images/icon/add-white.svg");}
 .i-down {content:url("/resources/images/icon/down-arrow-blue.svg");}
+.i-send-blue {content:url("/resources/images/icon/send-blue.svg");}
 .nav-list a:hover .icon, .nav-list a.active .icon {
     filter: invert(94%) sepia(100%) saturate(0%) hue-rotate(236deg) brightness(106%) contrast(106%);
 }
