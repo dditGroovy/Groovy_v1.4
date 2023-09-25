@@ -1,0 +1,81 @@
+.noticeHeader {
+    margin-bottom: var(--vh-56);
+}
+
+.noticeRegisterTitle {
+	border: 1px solid var(--color-stroke); 
+    border-radius: 8px;
+    height: var(--vh-56);
+}
+
+.noticeRegisterTitleName {
+    padding: 11px;
+}
+
+#uploadForm {
+    padding: 30px;
+}
+
+.noticeCard {
+	margin-top: 24px;
+}
+
+label {
+	display:inline-block;
+	width: 150px;
+	padding-top: 8px;
+}
+
+hr {
+    background: var(--color-stroke);
+    height:1px;
+    border:0
+}
+
+#noti-category {
+	font-size: var(--font-size-14);
+	border: 1px solid var(--color-stroke); 
+    border-radius: 8px;
+    height: var(--vw-40);
+    width: calc((240 / var(--vw)) * 100vw);
+    padding: 5px;
+}
+
+#noti-title {
+	font-size: var(--font-size-14);
+	border: 1px solid var(--color-stroke); 
+    border-radius: 8px;
+    height: var(--vw-40);
+    width: calc((1200 / var(--vw)) * 100vw);
+    padding: 5px;
+    padding-left: 10px;
+}
+
+#noti-content {
+	font-size: var(--font-size-14);
+    border: 1px solid var(--color-stroke); 
+    border-radius: 8px;
+    height: calc((320 / var(--vh)) * 100vh);
+    width: calc((1200 / var(--vw)) * 100vw);
+    padding: 5px;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.notiDiv {
+	display: flex;
+}
+
+.notiContentText {
+	padding-top: 100px;
+}
+
+.divButton {
+	display : flex;
+	justify-content: center;
+    align-items: center;
+}
+
+#submitBtn {
+font-size: var(--font-size-14);
+}

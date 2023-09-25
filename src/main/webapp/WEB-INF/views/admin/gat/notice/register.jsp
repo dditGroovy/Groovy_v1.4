@@ -1,24 +1,46 @@
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<link rel="stylesheet"
+	href="/resources/css/admin/manageNoticeRegister.css">
 <div class="content-container">
-    <form action="#" method="post"
-          enctype="multipart/form-data" id="uploadForm">
-        <label for="noti-title">공지 제목</label>
-        <input type="text" name="notiTitle" id="noti-title" required><br/>
-        <label for="noti-content">공지 내용</label>
-        <textarea cols="50" rows="10" name="notiContent" id="noti-content" required></textarea><br>
-        <label for="noti-category">카테고리</label>
-        <select name="notiCtgryIconFileStreNm" id="noti-category">
-            <option value="important.png">중요</option>
-            <option value="notice.png">공지</option>
-            <option value="event.png">행사</option>
-            <option value="obituary.png">부고</option>
-        </select>
-        <br>
-        <label for="noti-file">파일 첨부</label>
-        <input type="file" name="notiFiles" id="noti-file" multiple><br/>
-        <button type="button" id="submitBtn">등록</button>
-    </form>
+	<h1 class="noticeHeader tab-header font-md font-36">공지사항 관리</h1>
+	<div class="noticeRegisterTitle bg-wht">
+		<p class="noticeRegisterTitleName color-font-md">공지사항 등록</p>
+	</div>
+
+	<div class="noticeCard card-df">
+		<form action="#" method="post" enctype="multipart/form-data" id="uploadForm">
+			<div class="notiDiv">
+				<label class="font-md font-18" for="noti-category">공지사항 분류</label> 
+	            <select name="notiCtgryIconFileStreNm" id="noti-category">
+					<option value="important.png">중요</option>
+					<option value="notice.png">공지</option>
+					<option value="event.png">행사</option>
+					<option value="obituary.png">부고</option>
+				</select><br>
+			</div>
+			<hr>  
+			<div class="notiDiv">
+				<label class="font-md font-18" for="noti-title">제목</label> 
+				<input type="text" name="notiTitle" id="noti-title" required><br/>
+			</div>
+			<hr> 
+			<div class="notiDiv">
+				<label class="font-md font-18" for="noti-file">파일 첨부</label> 
+				<input type="file" name="notiFiles" id="noti-file" multiple><br/>
+			</div>	
+				<hr>
+			<div class="notiDiv">
+				<label class="notiContentText font-md font-18" for="noti-content">내용</label>
+				<textarea cols="50" rows="10" name="notiContent" id="noti-content" required></textarea>
+			</div>
+			<br><br>
+			<div class="divButton">
+				<button type="button" class="btn-fill-bl-sm" id="submitBtn">등록하기</button>
+			</div>		
+		</form>
+	</div>
 </div>
 <script>
     let maxNum;
@@ -28,7 +50,7 @@
         let formData = new FormData(form);
 
         $.ajax({
-            url: "/notice/input",
+            url: "/notice/inputNotice",
             type: 'POST',
             data: formData,
             dataType: 'text',
@@ -42,7 +64,7 @@
                         maxNum = parseInt(maxNum) + 1;
                         console.log("최대 알람 번호:", maxNum);
 
-                        let url = '/notice/detail?notiEtprCode=' + notiEtprCode;
+                        let url = '/notice/noticeDetail?notiEtprCode=' + notiEtprCode;
                         let content = `<div class="alarmBox">
                                             <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                                 <h1>[전체공지]</h1>
@@ -68,7 +90,7 @@
                                     let msg = maxNum + ",noti," + url;
                                     socket.send(msg);
                                 }
-                                location.href = "/notice/manage";
+                                location.href = "/notice/manageNotice";
                             },
                             error: function (xhr) {
                                 console.log(xhr.status);
