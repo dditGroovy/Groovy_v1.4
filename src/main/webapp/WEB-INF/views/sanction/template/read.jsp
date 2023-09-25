@@ -8,6 +8,7 @@
     .container {
         padding: var(--vh-24) var(--vw-24);
     }
+
     .file_box {
         border: 2px solid rgb(13 110 253 / 25%);
         border-radius: 10px;
@@ -27,24 +28,30 @@
                     <c:if test="${CustomUser.employeeVO.emplId == sanction.elctrnSanctnDrftEmplId && sanction.commonCodeSanctProgrs == '상신' }">
                         <button type="button" onclick="collect()" class="btn btn-free-blue" id="collectBtn">회수</button>
                     </c:if>
-                            <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
-                                <%--&lt;%&ndash; 세션에 담긴 사번이 문서의 결재자 사번과 같고 결재 상태가 대기이며 결재의 상태가 반려가 아닌 경우&ndash;%&gt;--%>
-                                <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
+                    <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
+                        <%--&lt;%&ndash; 세션에 담긴 사번이 문서의 결재자 사번과 같고 결재 상태가 대기이며 결재의 상태가 반려가 아닌 경우&ndash;%&gt;--%>
+                        <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
                                     && (lineVO.commonCodeSanctProgrs == '대기')
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'N')}">
-                                                <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})" class="btn btn-free-blue">승인</button>
-                                                <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})" class="btn btn-free-red rejectBtn" data-name="reject">반려</button>
-                                            </c:if>
-                                            <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
+                            <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})"
+                                    class="btn btn-free-blue">승인
+                            </button>
+                            <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
+                                    class="btn btn-free-red rejectBtn" data-name="reject">반려
+                            </button>
+                        </c:if>
+                        <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
                                     && (lineVO.commonCodeSanctProgrs == '대기')
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'Y')}">
-                                                <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})">최종승인
-                                                </button>
-                                                <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})" class="btn btn-free-red rejectBtn" data-name="reject">반려</button>
-                                </c:if>
-                            </c:forEach>
+                            <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})">최종승인
+                            </button>
+                            <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
+                                    class="btn btn-free-red rejectBtn" data-name="reject">반려
+                            </button>
+                        </c:if>
+                    </c:forEach>
                 </div>
                 <br/>
                 <div class="formTitle">
@@ -64,10 +71,10 @@
                         <tr id="applovalObtt" class="obtt">
                             <td>
                                 <div class="obtt-inner">
-                                <p class="approval-person">
-                                    <img src="/uploads/sign/${sanction.uploadFileStreNm}"/>
-                                </p>
-                                <span class="approval-date">${sanction.elctrnSanctnRecomDate}</span>
+                                    <p class="approval-person">
+                                        <img src="/uploads/sign/${sanction.uploadFileStreNm}"/>
+                                    </p>
+                                    <span class="approval-date">${sanction.elctrnSanctnRecomDate}</span>
                                 </div>
                             </td>
                             <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
@@ -119,9 +126,10 @@
             </div>
             <c:choose>
                 <c:when test="${file != null}">
-                <p class="file-content form-out-content"><a href="/file/download/sanction?uploadFileSn=${file.uploadFileSn}">${file.uploadFileOrginlNm}</a>
-                    <fmt:formatNumber value="${file.uploadFileSize / 1024.0}"
-                                      type="number" minFractionDigits="1" maxFractionDigits="1"/> KB</p>
+                    <p class="file-content form-out-content"><a
+                            href="/file/download/sanction?uploadFileSn=${file.uploadFileSn}">${file.uploadFileOrginlNm}</a>
+                        <fmt:formatNumber value="${file.uploadFileSize / 1024.0}"
+                                          type="number" minFractionDigits="1" maxFractionDigits="1"/> KB</p>
                 </c:when>
                 <c:otherwise>
                     <p class="file-content form-out-content">파일 없음</p>
@@ -141,7 +149,7 @@
     </div>
 
 
-        <br><br>
+    <br><br>
     <div class="btn-wrap close-btn-wrap">
         <button type="button" onclick="closeWindow()" class="btn btn-fill-bl-sm">닫기</button>
     </div>
@@ -175,26 +183,9 @@
     <script>
         window.jsPDF = window.jspdf.jsPDF;
         //pdf  다운로드
-        $("#downBtn").on("click", function (){
+        $("#downBtn").on("click", function () {
 
-        })
-        function downloadButtonClickHandler(result) {
-            console.log(result);
-            const formattedNetPay = formatNumber(result.salaryDtsmtNetPay);
-            const formattedPymntTotamt = formatNumber(result.salaryDtsmtPymntTotamt);
-            const formattedBslry = formatNumber(result.salaryBslry);
-            const formattedOvtimeAllwnc = formatNumber(result.salaryOvtimeAllwnc);
-            const formattedDdcTotamt = formatNumber(result.salaryDtsmtDdcTotamt);
-            const formattedSisNp = formatNumber(result.salaryDtsmtSisNp);
-            const formattedSisHi = formatNumber(result.salaryDtsmtSisHi);
-            const formattedSisEi = formatNumber(result.salaryDtsmtSisEi);
-            const formattedSisWci = formatNumber(result.salaryDtsmtSisWci);
-            const formattedIncmtax = formatNumber(result.salaryDtsmtIncmtax);
-            const formattedLocalityIncmtax = formatNumber(result.salaryDtsmtLocalityIncmtax);
-            const formattedDate = formatDate(result.salaryDtsmtIssuDate);
-            str = `<jsp:include page="specification.jsp"/>`
-            let element = document.querySelector("#downloadDiv");
-            element.innerHTML = str;
+            let element = $(".content-wrapper");
             html2canvas(element).then((canvas) => {
                 let imgData = canvas.toDataURL('image/png');
                 let imgWidth = 150;
@@ -216,11 +207,10 @@
                     heightLeft -= pageHeight;
                 }
 
-                let fileName = `테스트.pdf`;
+                let fileName = `\${sanction.elctrnSanctnEtprCode}.pdf`;
                 doc.save(fileName);
             });
-        }
-
+        })
 
 
         let rejectReason;
@@ -335,9 +325,6 @@
         }
     </script>
 </sec:authorize>
-
-
-
 
 
 <%-- <div id="formCard">
