@@ -16,7 +16,7 @@ public class AlarmVO {
     private String ntcnEmplId;
     private String ntcnCn;
     private String ntcnUrl;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date ntcnDate;
     private String commonCodeNtcnKind;
 

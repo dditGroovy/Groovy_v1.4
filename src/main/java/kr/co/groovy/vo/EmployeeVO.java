@@ -20,9 +20,9 @@ public class EmployeeVO {
     private String emplZip;
     private String emplAdres;
     private String emplDetailAdres;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date emplEncpn; // 입사일
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date emplBrthdy;
     private String enabled;
     private String commonCodeDept; // 부서구분

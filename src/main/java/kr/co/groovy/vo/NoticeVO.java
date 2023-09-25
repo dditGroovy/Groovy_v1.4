@@ -14,7 +14,7 @@ public class NoticeVO {
     private String notiEtprCode;
     private String notiTitle;
     private String notiContent;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date notiDate;
     private int notiRdcnt;
     private String notiCtgryIconFileStreNm;

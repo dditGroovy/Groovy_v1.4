@@ -15,7 +15,7 @@ public class ClubVO {
     private String clbEtprCode;
     private String clbNm;
     private String clbDc;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date clbDate;
     private int clbPsncpa;
     private String clbChirmnEmplId;

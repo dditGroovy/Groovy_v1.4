@@ -18,11 +18,11 @@ public class JobVO {
     private String jobRequstEmplProfl;
     private String jobSj;
     private String jobCn;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date jobBeginDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date jobClosDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date jobRequstDate;
     private String commonCodeDutyKind;
 

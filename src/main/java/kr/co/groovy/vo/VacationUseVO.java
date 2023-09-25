@@ -12,9 +12,9 @@ import java.sql.Date;
 @ToString
 public class VacationUseVO {
     private int yrycUseDtlsSn;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date yrycUseDtlsBeginDate;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date yrycUseDtlsEndDate;
     private String yrycUseDtlsRm;
     private String commonCodeYrycUseKind;

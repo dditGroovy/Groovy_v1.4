@@ -165,8 +165,13 @@
                             <th>사용 예상 금액</th>
                             <th>결재 상태</th>
                         </tr></thead><tbody>`;
-                    $.each(data, function (index, recodeVO) {
+                    if (data.length === 0) {
                         code += `<tr>
+                            <td colspan="5">법인 카드 신청 기록이 없습니다.</td>
+                        </tr>`
+                    } else {
+                        $.each(data, function (index, recodeVO) {
+                            code += `<tr>
                             <td><a href="#" data-name="detailCard" data-seq="\${recodeVO.cprCardResveSn}" class="detailLink">\${index + 1}</a></td>
                             <td>\${recodeVO.cprCardResveBeginDate} - \${recodeVO.cprCardResveClosDate}</td>
                             <td>\${recodeVO.cprCardUseLoca}</td>
@@ -174,7 +179,8 @@
                             <td>\${formatNumber(recodeVO.cprCardUseExpectAmount)}원</td>
                             <td><span class="state">\${recodeVO.commonCodeYrycState === 'YRYC030' ? '미상신' : (recodeVO.commonCodeYrycState === 'YRYC031' ? '상신' : '승인')}</span></td>
                         </tr>`;
-                    });
+                        });
+                    }
                     code += "</tbody></table>"
                     $("#record").html(code);
                 },

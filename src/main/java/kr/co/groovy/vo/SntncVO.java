@@ -17,7 +17,7 @@ public class SntncVO {
     private String sntncWrtingEmplNm;
     private String sntncSj;
     private String sntncCn;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date sntncWrtingDate;
     private String commonCodeSntncCtgry;
     private int recomendCnt;

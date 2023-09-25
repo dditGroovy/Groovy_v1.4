@@ -17,7 +17,7 @@ public class AnswerVO {
     private String answerWrtingEmplId;
     private String answerWrtingEmplNm;
     private String answerCn;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date answerDate;
     private String proflPhotoFileStreNm;
 

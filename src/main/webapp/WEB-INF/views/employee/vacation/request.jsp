@@ -8,13 +8,16 @@
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
         <header id="tab-header">
-            <h1><a href="${pageContext.request.contextPath}/vacation" >내 휴가</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/vacation">내 휴가</a></h1>
             <h1><a href="${pageContext.request.contextPath}/salary/paystub/checkPassword">내 급여</a></h1>
             <h1><a href="${pageContext.request.contextPath}/vacation/request" class="on">휴가 기록</a></h1>
         </header>
         <div class="request-btn">
-        <button type="button" class="btn btn-fill-bl-sm font-18 btn-modal" data-name="requestVacation" data-action="request" id="requestVacation">휴가 신청
-            <i class="icon i-add-white"></i></button></div> <br><br>
+            <button type="button" class="btn btn-fill-bl-sm font-18 btn-modal" data-name="requestVacation"
+                    data-action="request" id="requestVacation">휴가 신청
+                <i class="icon i-add-white"></i></button>
+        </div>
+        <br><br>
         <div id="countWrap" class="color-font-md">전체 <span id="countBox" class="font-b font-14"></span></div>
         <div id="record" class="card-df">
 
@@ -171,17 +174,20 @@
                     document.querySelector("#countBox").innerText = count;
                     let code = `<table border="1" class='requestTable'>
                         <thead><tr>
-
-                    <th class="sticky-th">신청 번호</th>
-                    <th class="sticky-th">휴가 기간</th>
-                    <th class="sticky-th">휴가 구분</th>
-                    <th class="sticky-th">휴가 종류</th>
-                    <th class="sticky-th">결재 상태</th>
+                        <th class="sticky-th">신청 번호</th>
+                        <th class="sticky-th">휴가 기간</th>
+                        <th class="sticky-th">휴가 구분</th>
+                        <th class="sticky-th">휴가 종류</th>
+                        <th class="sticky-th">결재 상태</th>
                         </tr></thead><tbody>`;
-                    $.each(data, function (index, recodeVO) {
-
-                        console.log(recodeVO)
+                    if (data.length === 0) {
                         code += `<tr>
+                            <td colspan="5">휴가 신청 기록이 없습니다.</td>
+                        </tr>`
+                    } else {
+                        $.each(data, function (index, recodeVO) {
+                            console.log(recodeVO)
+                            code += `<tr>
                         <td><a href="#" data-name="detailVacation" data-seq="\${recodeVO.yrycUseDtlsSn}"
                                class="detailLink">\${index + 1}</a></td>
                         <td>\${recodeVO.yrycUseDtlsBeginDate} - \${recodeVO.yrycUseDtlsEndDate}</td>
@@ -189,7 +195,9 @@
                         <td>\${recodeVO.commonCodeYrycUseSe}</td>
                         <td><span class="state">\${recodeVO.commonCodeYrycState}</span></td>
                     </tr>`;
-                    });
+
+                        });
+                    }
                     code += "</tbody></table>"
                     $("#record").html(code);
                 },
@@ -198,9 +206,6 @@
                 }
             });
         }
-
-
-
 
 
         const startDateName = "yrycUseDtlsBeginDate";

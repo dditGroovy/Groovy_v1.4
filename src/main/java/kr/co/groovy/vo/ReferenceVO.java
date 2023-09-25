@@ -14,7 +14,7 @@ public class ReferenceVO {
     private String elctrnSanctnEtprCode;
     // 결재 문서함 출력용
     private String emplNm;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date elctrnSanctnRecomDate; // 기안일
     private String elctrnSanctnSj; // 제목
     private String commonCodeDept; // 부서
