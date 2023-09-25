@@ -1,6 +1,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<script src="/resources/ckeditor/ckeditor.js"></script>
 <link rel="stylesheet"
 	href="/resources/css/admin/manageNoticeRegister.css">
 <div class="content-container">
@@ -45,11 +46,19 @@
 	</div>
 </div>
 <script>
+	let editor = CKEDITOR.replace("noti-content");
+
     let maxNum;
 
     $("#submitBtn").on("click", function () {
+    	let editor = CKEDITOR.instances["noti-content"];
+        let content = editor.getData();
+    	
         let form = $('#uploadForm')[0];
         let formData = new FormData(form);
+        formData.append("notiContent", content);
+        
+        console.log(content);
 
         $.ajax({
             url: "/notice/input",
