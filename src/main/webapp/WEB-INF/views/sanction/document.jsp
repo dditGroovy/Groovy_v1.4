@@ -27,6 +27,7 @@
             </div>
         </main>
 </div>
+    <script src="${pageContext.request.contextPath}/resources/js/sanction.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -65,7 +66,7 @@
                         $("#inProgress").html(code);
                         $(".openSanction").click(function (event) {
                             event.preventDefault();
-                            window.open($(this).attr("href"), "결재", "width = 1200, height = 1200");
+                            window.open($(this).attr("href"), "결재", getWindowSize());
                         });
                     }
                 });
@@ -101,7 +102,7 @@
                         $("#inProgress").html(code);
                         $(".openSanction").click(function (event) {
                             event.preventDefault();
-                            window.open($(this).attr("href"), "결재", "width = 1200, height = 1200");
+                            window.open($(this).attr("href"), "결재", getWindowSize());
                         });
                     }
                 })
@@ -132,7 +133,7 @@
                         $("#inProgress").html(code);
                         $(".openSanction").click(function (event) {
                             event.preventDefault();
-                            window.open($(this).attr("href"), "결재", "width = 1200, height = 1200");
+                            window.open($(this).attr("href"), "결재", getWindowSize());
                         });
                     }
                 })

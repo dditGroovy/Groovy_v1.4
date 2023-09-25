@@ -17,16 +17,17 @@
         text-align: center;
     }
 </style>
-<a href="#" class="btn btn-free-blue" id="downBtn" onclick="downloadAsPDF()">문서 다운로드</a>
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-wrapper">
         <div class="content-header">
             <div class="form-header">
                 <div class="btn-wrap">
+                    <a href="#" class="btn btn-free-white" id="downBtn" onclick="downloadAsPDF()"><i
+                            class="icon i-down"></i></a>
                         <%--    세션에 담긴 사번이 문서의 기안자 사번과 같고 결재 코드가 최초 상신 상태일 때    --%>
                     <c:if test="${CustomUser.employeeVO.emplId == sanction.elctrnSanctnDrftEmplId && sanction.commonCodeSanctProgrs == '상신' }">
-                        <button type="button" onclick="collect()" class="btn btn-free-blue" id="collectBtn">회수</button>
+                        <button type="button" onclick="collect()" class="btn btn-free-white" id="collectBtn">회수</button>
                     </c:if>
                     <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
                         <%--&lt;%&ndash; 세션에 담긴 사번이 문서의 결재자 사번과 같고 결재 상태가 대기이며 결재의 상태가 반려가 아닌 경우&ndash;%&gt;--%>
@@ -35,10 +36,10 @@
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'N')}">
                             <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-blue">승인
+                                    class="btn btn-free-white">승인
                             </button>
                             <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-red rejectBtn" data-name="reject">반려
+                                    class="btn btn-free-white rejectBtn" data-name="reject">반려
                             </button>
                         </c:if>
                         <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
@@ -49,12 +50,13 @@
                                     class="btn btn-free-white rejectBtn">최종승인
                             </button>
                             <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-red rejectBtn" data-name="reject">반려
+                                    class="btn btn-free-white rejectBtn" data-name="reject">반려
                             </button>
                         </c:if>
                     </c:forEach>
                 </div>
-                <br/>
+                <br/> <br/>
+
                 <div class="formTitle">
                     <p class="main-title"> ${sanction.elctrnSanctnSj}</p>
                 </div>
@@ -101,16 +103,18 @@
                         </tr>
                     </table>
                 </div>
-                <div id="refer">
-                    <table id="refer-line" class="line-table">
-                        <tr id="referOtt" class="ott">
-                            <th class="sanctionTh">참조</th>
-                            <c:forEach var="refrnVO" items="${refrnList}" varStatus="stat">
-                                <td>${refrnVO.emplNm}</td>
-                            </c:forEach>
-                        </tr>
-                    </table>
-                </div>
+                <c:if test="${refrnList}!=null">
+                    <div id="refer">
+                        <table id="refer-line" class="line-table">
+                            <tr id="referOtt" class="ott">
+                                <th class="sanctionTh">참조</th>
+                                <c:forEach var="refrnVO" items="${refrnList}" varStatus="stat">
+                                    <td>${refrnVO.emplNm}</td>
+                                </c:forEach>
+                            </tr>
+                        </table>
+                    </div>
+                </c:if>
             </div>
         </div>
         <div class="content-body">
@@ -121,22 +125,24 @@
                     ${sanction.elctrnSanctnDc}
             </div>
         </div>
-        <div class="form-file">
-            <div class="file-label form-label">
-                첨부 파일
+        <c:if test="${file}!=null">
+            <div class="form-file">
+                <div class="file-label form-label">
+                    첨부 파일
+                </div>
+                <c:choose>
+                    <c:when test="${file != null}">
+                        <p class="file-content form-out-content"><a
+                                href="/file/download/sanction?uploadFileSn=${file.uploadFileSn}">${file.uploadFileOrginlNm}</a>
+                            <fmt:formatNumber value="${file.uploadFileSize / 1024.0}"
+                                              type="number" minFractionDigits="1" maxFractionDigits="1"/> KB</p>
+                    </c:when>
+                    <c:otherwise>
+                        <p class="file-content form-out-content">파일 없음</p>
+                    </c:otherwise>
+                </c:choose>
             </div>
-            <c:choose>
-                <c:when test="${file != null}">
-                    <p class="file-content form-out-content"><a
-                            href="/file/download/sanction?uploadFileSn=${file.uploadFileSn}">${file.uploadFileOrginlNm}</a>
-                        <fmt:formatNumber value="${file.uploadFileSize / 1024.0}"
-                                          type="number" minFractionDigits="1" maxFractionDigits="1"/> KB</p>
-                </c:when>
-                <c:otherwise>
-                    <p class="file-content form-out-content">파일 없음</p>
-                </c:otherwise>
-            </c:choose>
-        </div>
+        </c:if>
         <div id="returnResn">
             <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
                 <c:if test="${lineVO.sanctnLineReturnResn != null }">
@@ -185,6 +191,7 @@
 
         // pdf 생성
         window.jsPDF = window.jspdf.jsPDF;
+
         function downloadAsPDF() {
             let element = document.querySelector(".content-wrapper");
 

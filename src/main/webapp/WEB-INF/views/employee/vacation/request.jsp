@@ -158,6 +158,7 @@
 
     <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/sanction.js"></script>
     <script>
 
 
@@ -230,20 +231,32 @@
 
         // 결재하기 시작
         let param;
+        let childWindow;
         let vacationKind;
         if (vacationKind === 'YRYC010') {
             param = 'SANCTN_FORMAT011'
         } else {
             param = 'SANCTN_FORMAT012'
         }
+
         $("#startSanction").on("click", function () {
             $("#modifyVacation").prop("disabled", true)
-            window.open(`/sanction/format/DEPT010/\${param}`, "결재", "width = 1200, height = 1200")
+            openChildWindow()
+            checkChildWindow()
         })
 
-        function refreshParent() {
-            location.reload(); // 새로고침
+        function openChildWindow() {
+            childWindow = window.open(`/sanction/format/DEPT010/\${param}`, '결재', getWindowSize());
         }
+
+        function checkChildWindow() {
+            if (childWindow && childWindow.closed) {
+                $("#modifyVacation").prop("disabled", false);
+            } else {
+                setTimeout(checkChildWindow, 1000);
+            }
+        }
+
 
         // 수정 후 제출
         $("#modifySubmit").on("click", function () {

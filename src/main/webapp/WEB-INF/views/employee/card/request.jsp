@@ -143,6 +143,7 @@
 
     <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/sanction.js"></script>
     <script>
 
         $(document).ready(function () {
@@ -211,7 +212,7 @@
         let childWindow;
 
         function openChildWindow() {
-            childWindow = window.open('/sanction/format/DEPT011/SANCTN_FORMAT010', '결재', 'width=1160,height=1400');
+            childWindow = window.open('/sanction/format/DEPT011/SANCTN_FORMAT010', '결재', getWindowSize());
         }
 
         function checkChildWindow() {
