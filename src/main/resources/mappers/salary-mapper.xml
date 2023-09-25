@@ -261,7 +261,7 @@
         SELECT COUNT(INSERT_AT)
         FROM SALARY_DTSMT
         WHERE SALARY_EMPL_ID = #{salaryEmplId}
-          AND TO_DATE(TO_CHAR(TO_DATE(SALARY_DTSMT_ISSU_DATE, 'YY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
+          AND TO_DATE(TO_CHAR(TO_DATE(SALARY_DTSMT_ISSU_DATE, 'YYYY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
             = TO_DATE(TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
     </select>
 
@@ -269,7 +269,7 @@
         SELECT COUNT(INSERT_AT)
         FROM SALARY
         WHERE SALARY_EMPL_ID = #{salaryemplid}
-          AND TO_DATE(TO_CHAR(TO_DATE(SALARY_PYMNT_DATE, 'YY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
+          AND TO_DATE(TO_CHAR(TO_DATE(SALARY_PYMNT_DATE, 'YYYY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
             = TO_DATE(TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
     </select>
 
