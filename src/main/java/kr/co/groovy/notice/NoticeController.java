@@ -27,9 +27,9 @@ public class NoticeController {
     final
     String uploadPath;
 
-    public NoticeController(NoticeService service, String uploadPath) {
+    public NoticeController(NoticeService service, String uploadSeoju) {
         this.service = service;
-        this.uploadPath = uploadPath;
+        this.uploadPath = uploadSeoju;
     }
 
     /* 관리자 */

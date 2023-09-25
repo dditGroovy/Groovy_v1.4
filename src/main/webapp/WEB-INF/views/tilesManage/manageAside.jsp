@@ -21,7 +21,7 @@
             <ul class="depth1">
                 <li class="department nav-list"><a href="#" class="active">인사팀  <i class="icon i-arr-bt"></i></a></li>
                 <ul class="depth2">
-                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/sanction/admin/DEPT010"><i class="icon i-sanction"></i >결재 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/sanction/admin/DEPT010"><i class="icon i-sanction"></i >수신 문서함</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/employee/manageEmp"><i class="icon i-emp"></i >사원 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/vacation/manage"><i class="icon i-todo"></i >연차 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/attendance/manage"><i class="icon i-job"></i >근태 관리</a></li>
@@ -33,7 +33,7 @@
             <ul class="depth1">
                 <li class="department nav-list"><a href="#">총무팀 <i class="icon i-arr-bt"></i></a></li>
                 <ul class="depth2">
-                    <li class="depth2-nav-list"><a href="#" ><i class="icon i-sanction"></i>결재 관리</a></li>
+                    <li class="depth2-nav-list"><a href="#" ><i class="icon i-sanction"></i>수신 문서함</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/notice/manage"><i class="icon i-notice"></i>공지사항 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/club/admin"><i class="icon i-share"></i>동호회 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/reservation/room"><i class="icon i-building"></i>시설 관리</a></li>
@@ -46,7 +46,7 @@
             <ul class="depth1">
                 <li class="department nav-list"><a href="#">회계팀  <i class="icon i-arr-bt"></i></a></li>
                 <ul class="depth2">
-                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/sanction/admin/DEPT011"><i class="icon i-sanction"></i>결재 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/sanction/admin/DEPT011"><i class="icon i-sanction"></i>수신 문서함</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/card/manage"><i class="icon i-card"></i>회사 카드 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/salary/calculate"><i class="icon i-pig"></i >급여 정산</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/salary/list"><i class="icon i-todo"></i>급여 명세서 관리</a></li>

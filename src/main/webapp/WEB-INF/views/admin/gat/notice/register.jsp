@@ -29,9 +29,17 @@
 			</div>
 			<hr> 
 			<div class="notiDiv">
-				<label class="font-md font-18" for="noti-file">파일 첨부</label> 
+				<label class="font-md font-18" for="noti-file">파일 직접 선택</label>
 				<input type="file" name="notiFiles" id="noti-file" multiple><br/>
-			</div>	
+			</div>
+			<div class="form-file">
+				<div class="file-box">
+					<p class="file-name">이곳에 파일을 끌어 놓으세요.</p>
+					<input type="file" name="notiFiles" id="notiFile" multiple/>
+				</div>
+			</div>
+
+
 				<hr>
 			<div class="notiDiv">
 				<label class="notiContentText font-md font-18" for="noti-content">내용</label>
@@ -46,13 +54,17 @@
 </div>
 <script>
     let maxNum;
+	let file= $('#noti-file')[0].files[0];
 
     $("#submitBtn").on("click", function () {
         let form = $('#uploadForm')[0];
         let formData = new FormData(form);
+		formData.append('notifiles', file);
+		console.log("업로드 시 파일", file)
 
-        $.ajax({
-            url: "/notice/inputNotice",
+
+		$.ajax({
+            url: "/notice/input",
             type: 'POST',
             data: formData,
             dataType: 'text',
@@ -108,4 +120,75 @@
             }
         })
     });
+
+
+	/*
+
+
+    파일 드래그 앤 드롭
+
+
+     */
+
+	function appendFile(paramFile) {
+		file = paramFile;
+		console.log(file)
+	}
+
+
+	const fileBox = document.querySelector(".file-box");
+	const fileBtn = fileBox.querySelector("#notiFile");
+	let formData;
+
+	/* 박스 안에 Drag 들어왔을 때 */
+	fileBox.addEventListener('dragenter', function (e) {
+	});
+	/* 박스 안에 Drag를 하고 있을 때 */
+	fileBox.addEventListener('dragover', function (e) {
+		e.preventDefault();
+		console.log(e.dataTransfer.types);
+		const vaild = e.dataTransfer.types.indexOf('Files') >= 0;
+		!vaild ? this.style.backgroundColor = '#F5FAFF' : this.style.backgroundColor = '#F5FAFF';
+	});
+	/* 박스 밖으로 Drag가 나갈 때 */
+	fileBox.addEventListener('dragleave', function (e) {
+		this.style.backgroundColor = '#F9FAFB';
+	});
+	/* 박스 안에서 Drag를 Drop했을 때 */
+	fileBox.addEventListener('drop', function (e) {
+		e.preventDefault();
+		this.style.backgroundColor = '#F9FAFB';
+
+		const data = e.dataTransfer;
+
+		//유효성 Check
+		if (!isValid(data)) return;
+
+		//파일 이름을 text로 표시
+		const fileNameInput = document.querySelector(".file-name");
+		let filename = e.dataTransfer.files[0].name;
+		fileNameInput.innerHTML = filename;
+
+		appendFile(data.files[0]);
+		console.log(file)
+
+
+	});
+
+	/*  파일 유효성 검사   */
+	function isValid(data) {
+
+		//파일인지 유효성 검사
+		if (data.types.indexOf('Files') < 0)
+			return false;
+
+
+		//파일의 사이즈는 50MB 미만
+		if (data.files[0].size >= 1024 * 1024 * 50) {
+			alert('50MB 이상인 파일은 업로드할 수 없습니다.');
+			return false;
+		}
+
+		return true;
+	}
 </script>
