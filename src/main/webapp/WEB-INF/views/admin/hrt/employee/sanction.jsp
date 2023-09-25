@@ -1,34 +1,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<style>
-    ul {
-        list-style: none;
-        padding-left: 0;
-    }
+<link rel="stylesheet" href="/resources/css/admin/adminSanction.css">
 
-    .wrap ul {
-        display: flex;
-        gap: 10px
-    }
-
-    #myGrid {
-        width: 100%;
-        height: calc((360 / 1080) * 100vh);
-    }
-</style>
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <div class="content-container">
-    <div class="wrap">
-    </div>
-    <br/>
-    <div class="serviceWrap">
+
+	<h1 class="sanctionHeader tab-header font-md font-36">수신 문서함</h1>
+
+    <div id="search" class="serviceWrap">
+    	<i class="icon i-search"></i>
         <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
     </div>
-    <br/><br/>
-    <div class="sanctionWrap">
-        <div class="sanction">
+
+    <div class="cardWrap">
+        <div class="card">
             <div id="myGrid" class="ag-theme-alpine"></div>
         </div>
     </div>
@@ -40,17 +27,18 @@
     }
 
     const columnDefs = [
-        {field: "status", headerName: "번호"},
+        {field: "status", headerName: "번호", width: 70, cellStyle: {textAlign: "center"}},
         {
             field: "elctrnSanctnEtprCode",
             headerName: "결재번호",
-            cellRenderer: linkCellRenderer
+            cellRenderer: linkCellRenderer,
+            cellStyle: {textAlign: "center"}
         },
-        {field: "elctrnSanctnSj", headerName: "결재양식"},
-        {field: "elctrnSanctnFinalDate", headerName: "결재승인일"},
-        {field: "commonCodeDept", headerName: "부서"},
-        {field: "elctrnSanctnDrftEmplId", headerName: "사번"},
-        {field: "emplNm", headerName: "이름"},
+        {field: "elctrnSanctnSj", headerName: "결재양식", cellStyle: {textAlign: "center"}},
+        {field: "elctrnSanctnFinalDate", headerName: "결재승인일", cellStyle: {textAlign: "center"}},
+        {field: "commonCodeDept", headerName: "부서", width: 100, cellStyle: {textAlign: "center"}},
+        {field: "elctrnSanctnDrftEmplId", headerName: "사번", cellStyle: {textAlign: "center"}},
+        {field: "emplNm", headerName: "이름", cellStyle: {textAlign: "center"}},
 
     ];
     const rowData = [];
