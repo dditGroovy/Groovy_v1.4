@@ -8,7 +8,7 @@
                ANSLRY_ALLWNC
         FROM ANSLRY
         WHERE COMMON_CODE_DEPT_CRSF LIKE 'DEPT%'
-        AND ANSLRY_STDR_YEAR = TO_CHAR(SYSDATE, 'YYYY')
+          AND ANSLRY_STDR_YEAR = TO_CHAR(SYSDATE, 'YYYY')
     </select>
 
     <select id="loadBonus" resultType="annualSalaryVO">
@@ -18,7 +18,7 @@
                ANSLRY_ALLWNC
         FROM ANSLRY
         WHERE COMMON_CODE_DEPT_CRSF LIKE 'CLSF%'
-        AND ANSLRY_STDR_YEAR = TO_CHAR(SYSDATE, 'YYYY')
+          AND ANSLRY_STDR_YEAR = TO_CHAR(SYSDATE, 'YYYY')
         ORDER BY COMMON_CODE_DEPT_CRSF DESC
     </select>
 
@@ -63,12 +63,12 @@
                 FROM COMMON C,
                      EMPL E
                 WHERE E.EMPL_ID = S.SALARY_EMPL_ID
-                  AND C.COMMON_CODE = E.COMMON_CODE_DEPT)                             AS DEPT_NM
+                  AND C.COMMON_CODE = E.COMMON_CODE_DEPT)                       AS DEPT_NM
              , (SELECT C.COMMON_NAME
                 FROM COMMON C,
                      EMPL E
                 WHERE E.EMPL_ID = S.SALARY_EMPL_ID
-                  AND C.COMMON_CODE = E.COMMON_CODE_CLSF)                             AS CLSF_NM
+                  AND C.COMMON_CODE = E.COMMON_CODE_CLSF)                       AS CLSF_NM
              , (SELECT EMPL_NM FROM EMPL WHERE S.SALARY_EMPL_ID = EMPL.EMPL_ID) AS SALARY_EMPL_NM
              , SD.SALARY_DTSMT_PYMNT_TOTAMT
              , SD.SALARY_DTSMT_SIS_NP
@@ -79,7 +79,7 @@
              , SD.SALARY_DTSMT_LOCALITY_INCMTAX
              , SD.SALARY_DTSMT_DDC_TOTAMT
              , SD.SALARY_DTSMT_NET_PAY
-             , TO_CHAR(sd.SALARY_DTSMT_ISSU_DATE, 'MM')                         as MONTH
+             , TO_CHAR(SD.SALARY_DTSMT_ISSU_DATE, 'MM')                         as MONTH
         FROM SALARY S
                  INNER JOIN SALARY_DTSMT SD
                             ON S.SALARY_PYMNT_DATE = SD.SALARY_DTSMT_ISSU_DATE AND S.SALARY_EMPL_ID = SD.SALARY_EMPL_ID
@@ -172,9 +172,10 @@
                S.SALARY_BSLRY,
                S.SALARY_OVTIME_ALLWNC
         FROM SALARY_DTSMT SD
-            INNER JOIN SALARY S
-                ON TO_CHAR(SD.SALARY_DTSMT_ISSU_DATE,'YYYY-MM-DD') = TO_CHAR(S.SALARY_PYMNT_DATE, 'YYYY-MM-DD')
-                       AND SD.SALARY_EMPL_ID = S.SALARY_EMPL_ID
+                 INNER JOIN SALARY S
+                            ON TO_CHAR(SD.SALARY_DTSMT_ISSU_DATE, 'YYYY-MM-DD') =
+                               TO_CHAR(S.SALARY_PYMNT_DATE, 'YYYY-MM-DD')
+                                AND SD.SALARY_EMPL_ID = S.SALARY_EMPL_ID
         WHERE SD.SALARY_EMPL_ID = #{emplId}
           AND TO_CHAR(SD.SALARY_DTSMT_ISSU_DATE, 'YYYY-MM-DD') = TO_CHAR(S.SALARY_PYMNT_DATE, 'YYYY-MM-DD')
           AND TO_CHAR(SD.SALARY_DTSMT_ISSU_DATE, 'YYYY-MM-DD') = #{paymentDate}
@@ -271,7 +272,7 @@
         GROUP BY DCLZ_EMPL_ID
     </select>
 
-    <select id="isInsertSalaryDtsmt" parameterType="Map" resultType="int">
+    <select id="existsInsertedSalaryDtsmt" parameterType="Map" resultType="int">
         SELECT COUNT(INSERT_AT)
         FROM SALARY_DTSMT
         WHERE SALARY_EMPL_ID = #{salaryEmplId}
@@ -279,12 +280,17 @@
             = TO_DATE(TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
     </select>
 
-    <select id="isInsertSalary" resultType="int">
+    <select id="existsInsertedSalary" resultType="int">
         SELECT COUNT(INSERT_AT)
         FROM SALARY
         WHERE SALARY_EMPL_ID = #{salaryemplid}
           AND TO_DATE(TO_CHAR(SALARY_PYMNT_DATE, 'YYYY-MM'), 'YYYY-MM')
             = TO_DATE(TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
+    </select>
+    <select id="existsUploadedFile" resultType="int" parameterType="String">
+        select count(UPLOAD_FILE_ETPR_CODE)
+        from UPLOAD_FILE
+        where UPLOAD_FILE_ETPR_CODE = #{salaryDtsmtEtprCode}
     </select>
 
     <insert id="inputSalary" parameterType="paystubVO">
@@ -293,7 +299,7 @@
                            , SALARY_BSLRY
                            , SALARY_OVTIME_ALLWNC
                            , INSERT_AT)
-        VALUES (#{salaryDtsmtIssuDate}
+        VALUES ( #{salaryDtsmtIssuDate}
                , #{salaryEmplId}
                , #{salaryBslry}
                , #{salaryOvtimeAllwnc}
@@ -328,6 +334,22 @@
                 #{salaryDtsmtNetPay},
                 #{insertAt})
     </insert>
+    <insert id="inputSalaryDtsmtPdf" parameterType="map">
+        INSERT INTO UPLOAD_FILE(UPLOAD_FILE_SN,
+                                UPLOAD_FILE_ETPR_CODE,
+                                UPLOAD_FILE_ORGINL_NM,
+                                UPLOAD_FILE_STRE_NM,
+                                UPLOAD_FILE_SIZE,
+                                UPLOAD_FILE_RGSDE)
+        VALUES (UPLOAD_FILE_SEQ.nextval,
+                #{salaryDtsmtEtprcode},
+                #{originalFileName},
+                #{newFileName},
+                #{fileSize},
+                sysdate)
+    </insert>
+
+
 
 
 </mapper>

@@ -16,6 +16,7 @@
         width: 100%;
         height: calc((360 / 1080) * 100vh);
     }
+
 </style>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <div class="content-container">
@@ -53,9 +54,7 @@
             </div>
         </div>
     </div>
-    <div id="downloadDiv" style="visibility: hidden;">
-
-    </div>
+    <div id="downloadDiv" style="position: absolute; top: -9999px; left: -9999px;"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -94,9 +93,13 @@
 
     function formatDate(millisecond) {
         let date = new Date(millisecond);
-        let month = date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth();
+        let month = date.getMonth() + 2;
+        month = month < 10 ? "0" + month : month;
+        return date.getFullYear() + "-" + month + "-" + date.getDate();
+    }
 
-        return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     function onQuickFilterChanged() {
@@ -197,7 +200,6 @@
     }
 
     function getDetailClickHandler(result) {
-        console.log(result);
         const formattedNetPay = formatNumber(result.salaryDtsmtNetPay);
         const formattedPymntTotamt = formatNumber(result.salaryDtsmtPymntTotamt);
         const formattedBslry = formatNumber(result.salaryBslry);
@@ -213,58 +215,57 @@
         let title = `<p>\${result.month}월 - \${result.salaryEmplNm}</p>`;
         document.querySelector("#paymentTitle").innerHTML = title;
         let content = `
-                            <p>실 수령액</p>
-                            <p>\${formattedNetPay}원</p>
-                            <hr>
-                            <p>급여 상세</p>
-                            <table border="1">
-                                <tr>
-                                    <th>지급</th>
-                                    <td>\${formattedPymntTotamt}원</td>
-                                </tr>
-                                <tr>
-                                    <th>통상임금</th>
-                                    <td>\${formattedBslry}원</td>
-                                </tr>
-                                <tr>
-                                    <th>초과근무수당</th>
-                                    <td>\${formattedOvtimeAllwnc}원</td>
-                                </tr>
-                                <tr>
-                                    <th>공제</th>
-                                    <td>\${formattedDdcTotamt}원</td>
-                                </tr>
-                                <tr>
-                                    <th>국민연금</th>
-                                    <td>\${formattedSisNp}원</td>
-                                </tr>
-                                <tr>
-                                    <th>건강보험</th>
-                                    <td>\${formattedSisHi}원</td>
-                                </tr>
-                                <tr>
-                                    <th>고용보험</th>
-                                    <td>\${formattedSisEi}원</td>
-                                </tr>
-                                <tr>
-                                    <th>산재보험</th>
-                                    <td>\${formattedSisWci}원</td>
-                                </tr>
-                                <tr>
-                                    <th>소득세</th>
-                                    <td>\${formattedIncmtax}원</td>
-                                </tr>
-                                <tr>
-                                    <th>지방소득세</th>
-                                    <td>\${formattedLocalityIncmtax}원</td>
-                                </tr>
-                            </table>
-                            `;
+            <p>실 수령액</p>
+            <p>\${formattedNetPay}원</p>
+            <hr>
+            <p>급여 상세</p>
+            <table border="1">
+                <tr>
+                    <th>지급</th>
+                    <td>\${formattedPymntTotamt}원</td>
+                </tr>
+                <tr>
+                    <th>통상임금</th>
+                    <td>\${formattedBslry}원</td>
+                </tr>
+                <tr>
+                    <th>초과근무수당</th>
+                    <td>\${formattedOvtimeAllwnc}원</td>
+                </tr>
+                <tr>
+                    <th>공제</th>
+                    <td>\${formattedDdcTotamt}원</td>
+                </tr>
+                <tr>
+                    <th>국민연금</th>
+                    <td>\${formattedSisNp}원</td>
+                </tr>
+                <tr>
+                    <th>건강보험</th>
+                    <td>\${formattedSisHi}원</td>
+                </tr>
+                <tr>
+                    <th>고용보험</th>
+                    <td>\${formattedSisEi}원</td>
+                </tr>
+                <tr>
+                    <th>산재보험</th>
+                    <td>\${formattedSisWci}원</td>
+                </tr>
+                <tr>
+                    <th>소득세</th>
+                    <td>\${formattedIncmtax}원</td>
+                </tr>
+                <tr>
+                    <th>지방소득세</th>
+                    <td>\${formattedLocalityIncmtax}원</td>
+                </tr>
+            </table>
+            `;
         document.querySelector("#paymentDetail").innerHTML = content;
     }
 
     function downloadButtonClickHandler(result) {
-        console.log(result);
         const formattedNetPay = formatNumber(result.salaryDtsmtNetPay);
         const formattedPymntTotamt = formatNumber(result.salaryDtsmtPymntTotamt);
         const formattedBslry = formatNumber(result.salaryBslry);
@@ -277,10 +278,12 @@
         const formattedIncmtax = formatNumber(result.salaryDtsmtIncmtax);
         const formattedLocalityIncmtax = formatNumber(result.salaryDtsmtLocalityIncmtax);
         const formattedDate = formatDate(result.salaryDtsmtIssuDate);
-        str = `<jsp:include page="specification.jsp"/>`
-        let element = document.querySelector("#downloadDiv");
-        element.innerHTML = str;
-        html2canvas(element).then((canvas) => {
+
+        let format = `<jsp:include page="specification.jsp"/>`
+        let downloadDiv = document.querySelector("#downloadDiv");
+        downloadDiv.innerHTML = format;
+
+        html2canvas(downloadDiv).then((canvas) => {
             let imgData = canvas.toDataURL('image/png');
             let imgWidth = 150;
             let pageHeight = 300;
@@ -302,17 +305,53 @@
             }
 
             let fileName = `\${result.salaryDtsmtEtprCode}.pdf`;
-            doc.save(fileName);
-        });
-    }
 
-    function formatNumber(num) {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            $.ajax({
+                url: "/salary/uploadFile",
+                type: 'post',
+                data: JSON.stringify({
+                    etprCode: `\${result.salaryDtsmtEtprCode}`,
+                    datauri: doc.output('datauristring')
+                }),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
+                },
+                error: function (xhr, status, error) {
+                    console.log("code: " + xhr.status);
+                    console.log("message: " + xhr.responseText);
+                    console.log("error: " + xhr.error);
+                }
+            })
+        });
     }
 
     document.querySelector("#makePdfDtsmt").addEventListener("click", function () {
         const selectedData = getSelectedRowData();
-        console.log(selectedData);
+        selectedData.forEach(function (data) {
+            let emplId = data.emplId;
+            let nowDate = new Date();
+            let nowYear = nowDate.getFullYear();
+            let nowMonth = nowDate.getMonth() + 1;
+            nowMonth = nowMonth < 10 ? "0" + nowMonth : nowMonth;
+
+            $.ajax({
+                url: `/salary/payment/list/\${emplId}/\${year}`,
+                type: 'get',
+                dataType: 'json',
+                success: function (result) {
+                    const monthlyData = result.filter(function (item) {
+                        let searchDate = new Date(item.salaryDtsmtIssuDate);
+                        return searchDate.getFullYear() == nowYear && (searchDate.getMonth() + 1) == nowMonth;
+                    });
+                    for (let i = 0; i < monthlyData.length; i++) {
+                        const selectedResult = monthlyData[i];
+                        downloadButtonClickHandler(selectedResult);
+                    }
+                }
+            });
+        });
     });
 
     function getSelectedRowData() {

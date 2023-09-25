@@ -418,48 +418,7 @@ public class EmailService {
         return content;
     }
 
-//    public String inputNotice(EmailVO vo, MultipartFile[] notiFiles) {
-//        int emailSeq = emailMapper.getEmailSeq();
-//        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
-//        Date currentDate = new java.util.Date();
-//        String formattedDate = sdf.format(currentDate);
 //
-//        String emailEtprCode = "EMAIL-" + emailSeq + "-" + formattedDate;
-//        vo.setEmailEtprCode(emailEtprCode);
-//
-//        try {
-//            String path = uploadPath + "/email";
-//            log.info("notice path: " + path);
-//            File uploadDir = new File(path);
-//            if (!uploadDir.exists()) {
-//                if (uploadDir.mkdirs()) {
-//                    log.info("폴더 생성 성공");
-//                } else {
-//                    log.info("폴더 생성 실패");
-//                }
-//            }
-//            for (MultipartFile emailFile : notiFiles) {
-//                String originalFileName = emailFile.getOriginalFilename();
-//                String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-//                String newFileName = UUID.randomUUID() + "." + extension;
-//
-//                File saveFile = new File(path, newFileName);
-//                emailFile.transferTo(saveFile);
-//
-//                long fileSize = emailFile.getSize();
-//                HashMap<String, Object> map = new HashMap<>();
-//                map.put("notiEtprCode", emailEtprCode);
-//                map.put("originalFileName", originalFileName);
-//                map.put("newFileName", newFileName);
-//                map.put("fileSize", fileSize);
-//                emailMapper.uploadEmailFile(map);
-//                log.info("공지 파일 등록 성공");
-//            }
-//        } catch (Exception e) {
-//            log.info("공지 파일 등록 실패");
-//        }
-//        return emailEtprCode; //알림 url
-//    }
 
     public String sentMail(EmailVO emailVO, MultipartFile[] emailFiles, EmployeeVO employeeVO) {
         String emplEmail = employeeVO.getEmplEmail();

@@ -11,6 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URI;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -23,8 +26,11 @@ public class SalaryService {
     final
     SalaryMapper mapper;
 
-    public SalaryService(SalaryMapper mapper) {
+    final String uploadHyejin;
+
+    public SalaryService(SalaryMapper mapper, String uploadHyejin) {
         this.mapper = mapper;
+        this.uploadHyejin = uploadHyejin;
     }
 
     List<AnnualSalaryVO> loadSalary() {
@@ -163,20 +169,21 @@ public class SalaryService {
                     paystubVO.setSalaryDtsmtNetPay(paystubVO.getSalaryDtsmtPymntTotamt() - paystubVO.getSalaryDtsmtDdcTotamt());
                     CommuteAndPaystub cnp = new CommuteAndPaystub(commuteVO, paystubVO);
                     cnpList.add(cnp);
-                    Map<String, String> map = new HashMap<>();
-                    LocalDate inputDate = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), 14);
-                    Instant instant = inputDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-
-                    for (CommuteAndPaystub commuteAndPaystub : cnpList) {
-                        map.put("salaryEmplId", commuteAndPaystub.getPaystubVO().getSalaryEmplId());
-                        map.put("date", String.valueOf(inputDate));
-                        if (mapper.isInsertSalary(map) == 0 && mapper.isInsertSalaryDtsmt(map) == 0) {
-                            commuteAndPaystub.getPaystubVO().setSalaryDtsmtIssuDate(Date.from(instant));
-                            commuteAndPaystub.getPaystubVO().setInsertAt("Y");
-                            mapper.inputSalary(commuteAndPaystub.getPaystubVO());
-                            mapper.inputSalaryDtsmt(commuteAndPaystub.getPaystubVO());
-                        }
-                    }
+//
+//                    Map<String, String> map = new HashMap<>();
+//                    LocalDate inputDate = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), 14);
+//                    Instant instant = inputDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+//
+//                    for (CommuteAndPaystub commuteAndPaystub : cnpList) {
+//                        map.put("salaryEmplId", commuteAndPaystub.getPaystubVO().getSalaryEmplId());
+//                        map.put("date", String.valueOf(inputDate));
+//                        if (mapper.existsInsertedSalary(map) == 0 && mapper.existsInsertedSalaryDtsmt(map) == 0) {
+//                            commuteAndPaystub.getPaystubVO().setSalaryDtsmtIssuDate(Date.from(instant));
+//                            commuteAndPaystub.getPaystubVO().setInsertAt("Y");
+//                            mapper.inputSalary(commuteAndPaystub.getPaystubVO());
+//                            mapper.inputSalaryDtsmt(commuteAndPaystub.getPaystubVO());
+//                        }
+//                    }
                 }
             }
         }
@@ -192,7 +199,7 @@ public class SalaryService {
         return cnpList;
     }
 
-    @Scheduled(cron = "0 0 14 * * ?")
+    @Scheduled(cron = "0 0 14 * * ?") // 매달 14일에 인서트하는용일뿐. ..
     public List<CommuteAndPaystub> schedulingSalaryExactCalculation() {
         LocalDate localDate = LocalDate.now();
         int year = localDate.getYear();
@@ -205,16 +212,67 @@ public class SalaryService {
         for (CommuteAndPaystub cnp : cnpList) {
             map.put("salaryEmplId", cnp.getPaystubVO().getSalaryEmplId());
             map.put("date", String.valueOf(inputDate));
-            log.info(String.valueOf(mapper.isInsertSalary(map)));
-            log.info(String.valueOf(mapper.isInsertSalaryDtsmt(map)));
-            if (mapper.isInsertSalary(map) == 0 && mapper.isInsertSalaryDtsmt(map) == 0) {
+            if (mapper.existsInsertedSalary(map) == 0 && mapper.existsInsertedSalaryDtsmt(map) == 0) {
                 cnp.getPaystubVO().setSalaryDtsmtIssuDate(Date.from(instant));
                 cnp.getPaystubVO().setInsertAt("Y");
-                mapper.inputSalary(cnp.getPaystubVO());
-                mapper.inputSalaryDtsmt(cnp.getPaystubVO());
+                int inputSalary = mapper.inputSalary(cnp.getPaystubVO());
+                int inputSalaryDtsmt = mapper.inputSalaryDtsmt(cnp.getPaystubVO());
+                if (inputSalary != 0 && inputSalaryDtsmt != 0) {
+                    log.info("success");
+                }
             }
         }
         return cnpList;
+    }
+
+    public String inputSalaryDtsmtPdf(Map<String, String> map) {
+        String datauri = map.get("datauri");
+        String etprCode = map.get("etprCode");
+
+        try {
+            String uploadPath = uploadHyejin + "/salary";
+            log.info("salary uploadPath: " + uploadPath);
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                if (uploadDir.mkdirs()) {
+                    log.info("폴더 생성 성공");
+                } else {
+                    log.info("폴더 생성 실패");
+                }
+            }
+
+            URI uri = new URI(datauri);
+            log.info(datauri);
+            String path = null;
+            if ("data".equals(uri.getScheme())) {
+                String dataPart = uri.getRawSchemeSpecificPart();
+                String base64Data = dataPart.substring(dataPart.indexOf(',') + 1);
+                byte[] decodedData = Base64.getDecoder().decode(base64Data);
+
+                String fileName = etprCode + ".pdf";
+                File saveFile = new File(uploadPath, fileName);
+                FileOutputStream fos = new FileOutputStream(saveFile);
+                fos.write(decodedData);
+            } else {
+                path = uri.getPath();
+                File saveFile = new File(uploadPath, path);
+            }
+
+            if (mapper.existsUploadedFile(etprCode) == 0) {
+                Map<String, Object> inputMap = new HashMap<>();
+                inputMap.put("salaryDtsmtEtprcode", etprCode);
+                inputMap.put("originalFileName", "default"); // 저장할거면 블롭으로 바꿀지 상의
+                inputMap.put("newFileName", etprCode + ".pdf");
+                inputMap.put("fileSize", 0);
+
+                mapper.inputSalaryDtsmtPdf(inputMap);
+            }
+            log.info("급여명세서 저장 성공");
+        } catch (Exception e) {
+            log.info("급여명세서 저장 실패");
+            e.printStackTrace();
+        }
+        return "";
     }
 }
 

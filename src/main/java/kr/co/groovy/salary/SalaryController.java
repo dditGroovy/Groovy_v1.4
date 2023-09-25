@@ -3,12 +3,17 @@ package kr.co.groovy.salary;
 import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.vo.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
@@ -140,7 +145,8 @@ public class SalaryController {
 
     @GetMapping("/calculate")
     public String calculatePage(Model model) {
-        List<CommuteAndPaystub> cnpList = service.schedulingSalaryExactCalculation();
+        LocalDate localDate = LocalDate.now();
+        List<CommuteAndPaystub> cnpList = service.getCommuteAndPaystubList(String.valueOf(localDate.getYear()), String.valueOf(localDate.getMonthValue() - 1));
         model.addAttribute("cnpList", cnpList);
         return "admin/at/salary/salaryCalculate";
     }
@@ -161,5 +167,12 @@ public class SalaryController {
     @ResponseBody
     public List<String> getExistsMonthPerYears(@RequestParam("year") String year) {
         return service.getExistsMonthPerYears(year);
+    }
+
+    @PostMapping("/uploadFile")
+    @ResponseBody
+    public String inputSalaryDtsmtPdf(@RequestBody Map<String, String> map) {
+        service.inputSalaryDtsmtPdf(map);
+        return "";
     }
 }
