@@ -22,7 +22,7 @@
                 <div class="section-inner flex-inner">
                     <div class="profile-wrap card-df pd-32">
                         <div class="info-header ">
-                            <img src="${pageContext.request.contextPath}/resources/images/Icon3d/change.png"/>
+                            <img src="${pageContext.request.contextPath}/resources/images/Icon3d/change.png" class="info-icon"/>
                             <div>
                                 <h2 class="info-title font-b">프로필 변경</h2>
                                 <p class="info-desc  font-md">프로필 사진을 변경합니다.</p>
@@ -47,7 +47,7 @@
 
                     <div class="sign-wrap card-df pd-32">
                         <div class="info-header">
-                            <img src="/resources/images/Icon3d/Key.png"/>
+                            <img src="${pageContext.request.contextPath}/resources/images/Icon3d/Key.png" class="info-icon"/>
                             <div>
                                 <h2 class="info-title font-b">서명 설정</h2>
                                 <p class="info-desc  font-md">전자결재에 필요한 서명을 설정합니다.</p>
@@ -73,7 +73,7 @@
             <section class="right">
                 <div class="alert-wrap card-df pd-32 ">
                     <div class="info-header ">
-                        <img src="${pageContext.request.contextPath}/resources/images/Icon3d/alarm.png"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/Icon3d/alarm.png" class="info-icon"/>
                         <div>
                             <h2 class="info-title font-b">알림 설정</h2>
                             <p class="info-desc font-md">알림 범위를 설정합니다.</p>
@@ -159,7 +159,7 @@
                 </div>
                 <div class="alert-wrap card-df pd-32 ">
                     <div class="info-header ">
-                        <img src="/resources/images/Icon3d/User.png"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/Icon3d/User.png" class="info-icon"/>
                         <div>
                             <h2 class="info-title font-b">내 정보 변경</h2>
                             <p class="info-desc font-md">개인 정보를 변경합니다.</p>
