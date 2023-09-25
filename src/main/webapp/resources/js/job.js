@@ -63,6 +63,31 @@ document.querySelector("#receive-job").addEventListener("click", (event) => {
     }
 });
 
+let jobRejects = document.querySelectorAll(".jobReject");
+jobRejects.forEach(jobReject => {
+    jobReject.addEventListener("click", (e) => {
+        let jobNo = e.target.parentNode.previousElementSibling.getAttribute("data-seq");
+        jobProgressVO = {
+            "commonCodeDutySttus": "거절",
+            "jobNo": jobNo
+        }
+        rejectOrAgree(jobProgressVO);
+    });
+});
+
+let jobAgrees = document.querySelectorAll(".jobAgree");
+jobAgrees.forEach(jobAgree => {
+    jobAgree.addEventListener("click", (e) => {
+        let jobNo = e.target.parentNode.previousElementSibling.getAttribute("data-seq");
+        jobProgressVO = {
+            "commonCodeDutySttus": "승인",
+            "jobNo": jobNo
+        }
+        rejectOrAgree(jobProgressVO);
+    });
+});
+
+
 //요청 받은 업무 목록
 document.querySelector(".new-request").addEventListener("click", (event) => {
     const target = event.target;
@@ -113,22 +138,24 @@ document.querySelector(".new-request").addEventListener("click", (event) => {
 document.querySelector("#reject").addEventListener("click", () => {
     jobProgressVO["commonCodeDutySttus"] = "거절"
     rejectOrAgree(jobProgressVO);
-})
+});
 
 document.querySelector("#agree").addEventListener("click", () => {
     jobProgressVO["commonCodeDutySttus"] = "승인"
     rejectOrAgree(jobProgressVO);
-})
+});
 
 document.querySelector("#rejectJob").addEventListener("click", () => {
     jobProgressVO["commonCodeDutySttus"] = "거절"
     rejectOrAgree(jobProgressVO);
-})
+});
 
 document.querySelector("#agreeJob").addEventListener("click", () => {
     jobProgressVO["commonCodeDutySttus"] = "승인"
     rejectOrAgree(jobProgressVO);
-})
+});
+
+
 
 //요청 상태 변경 함수(거절, 승인)
 function rejectOrAgree(jobProgressVO) {
