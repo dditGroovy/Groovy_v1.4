@@ -78,9 +78,7 @@ public class SalaryController {
     @GetMapping("/payment/list/{emplId}/{year}")
     @ResponseBody
     public List<PaystubVO> loadPaymentList(@PathVariable String emplId, @PathVariable String year) {
-        log.info(emplId, year);
         List<PaystubVO> paystubVOS = service.loadPaymentList(emplId, year);
-        log.info(paystubVOS.toString());
         return paystubVOS;
     }
 
@@ -92,6 +90,11 @@ public class SalaryController {
         model.addAttribute("paystub", recentPaystub);
         model.addAttribute("years", years);
         return "employee/mySalary";
+    }
+
+    @GetMapping("/dstmtForm")
+    public String goDstmtForm() {
+        return "admin/at/salary/specification";
     }
 
     @GetMapping("/paystub/checkPassword")
