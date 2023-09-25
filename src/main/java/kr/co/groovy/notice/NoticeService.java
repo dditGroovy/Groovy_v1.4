@@ -18,9 +18,9 @@ public class NoticeService {
     final
     String uploadPath;
 
-    public NoticeService(NoticeMapper mapper, String uploadSeoju) {
+    public NoticeService(NoticeMapper mapper, String uploadPath) {
         this.mapper = mapper;
-        this.uploadPath = uploadSeoju;
+        this.uploadPath = uploadPath;
     }
     /* 관리자 */
     public String inputNotice(NoticeVO vo, MultipartFile[] notiFiles) {

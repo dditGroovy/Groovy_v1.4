@@ -66,7 +66,7 @@
                         maxNum = parseInt(maxNum) + 1;
                         console.log("최대 알람 번호:", maxNum);
 
-                        let url = '/notice/noticeDetail?notiEtprCode=' + notiEtprCode;
+                        let url = '/notice/detail?notiEtprCode=' + notiEtprCode;
                         let content = `<div class="alarmBox">
                                             <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                                 <h1>[전체공지]</h1>
@@ -92,7 +92,7 @@
                                     let msg = maxNum + ",noti," + url;
                                     socket.send(msg);
                                 }
-                                location.href = "/notice/manageNotice";
+                                location.href = "/notice/manage";
                             },
                             error: function (xhr) {
                                 console.log(xhr.status);
