@@ -16,6 +16,19 @@
     padding: 30px;
 }
 
+input[type=file]::file-selector-button {
+	background-color: var(--color-white); 
+	border-radius: var(--size-32); 
+	border: 1px solid var(--color-stroke); 
+	box-shadow: var(--clay-card);  
+	outline-color: var(--color-main); 
+	color: var(--color-main);
+
+	font-size: var(--font-size-14);
+	height: var(--vh-40);
+	width: calc((130 / var(--vw)) * 100vw);
+}
+
 .noticeCard {
 	margin-top: 24px;
 }
