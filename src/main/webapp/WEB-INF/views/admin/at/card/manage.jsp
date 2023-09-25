@@ -278,6 +278,8 @@
             url: "/card/inputCard",
             type: "post",
             data: formData,
+            processData: false,
+            contentType: false,
             success: function (result) {
                 loadAllCard();
             },
