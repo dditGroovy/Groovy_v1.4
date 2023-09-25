@@ -158,7 +158,11 @@ public class EmployeeController {
     public void modifyEmp(EmployeeVO vo) {
         service.modifyEmp(vo);
     }
-
+    @PostMapping("/modifyInfo")
+    @ResponseBody
+    public void modifyInfo(EmployeeVO vo) {
+        service.modifyInfo(vo);
+    }
     // 연결 로그 로드
     @GetMapping("/loadLog")
     ModelAndView loadConnectionLog(ModelAndView mav, String today) {

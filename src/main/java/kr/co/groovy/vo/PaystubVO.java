@@ -28,4 +28,6 @@ public class PaystubVO {
     private int salaryDtsmtNetPay; // 실수령액 | salary_dtsmt
     private String insertAt;
     private String month;
+    private String DeptNm;
+    private String ClsfNm;
 }

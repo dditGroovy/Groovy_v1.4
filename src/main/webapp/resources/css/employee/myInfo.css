@@ -75,7 +75,6 @@ input:checked + .slider:before {
 }
 
 
-
 .profile-header {
     display: flex;
 
@@ -125,19 +124,23 @@ input:checked + .slider:before {
 }
 
 .info-body {
-    text-align: center;
+    /*text-align: center;*/
     justify-content: center;
     height: 90%;
 
 }
 
 #profileForm, #signForm {
+    margin-top: 2%;
     padding: var(--vw-32) 0;
+    text-align: center;
+
 
 }
 
 #profileForm {
     margin-left: 8%;
+
 }
 
 #alertForm {
@@ -176,15 +179,71 @@ input:checked + .slider:before {
     border: 1px solid var(--color-bg-darkGrey);
 
 }
-/*.sign-btn{*/
-/*    width: calc((144 / var(--vw)) * 100vw);*/
-/*    padding: var(--vh-8);*/
-/*    border: 1px solid var(--color-bg-darkGrey);*/
-/*    border-radius: 20px;*/
 
-/*}*/
 
-.info-icon  {
+.info-icon {
     width: var(--vw-48);
     height: var(--vw-48);
+}
+
+
+input[type='text'] {
+    cursor: pointer;
+    background-color: var(--color-white);
+    border: none;
+    /*border: 1px solid var(--color-stroke);*/
+    border-radius: var(--size-32);
+    outline-color: var(--color-main);
+    padding: var(--vw-12);
+    width: 100%;
+}
+
+.tel-div, .addr-div {
+    position: relative;
+}
+
+.modify-btn {
+    position: absolute;
+    right: 1%;
+    padding: 2%;
+    margin-top: 3%;
+    background-color: transparent;
+
+}
+
+.modify-icon {
+    opacity: 1;
+    width: var(--vw-32);
+    height: var(--vw-32);
+}
+.my-info label {
+    color: var(--color-font-md);
+    font-family: var(--font-md);
+    font-size: var(--font-size-14);
+    padding-left: var(--vw-12);
+    display: inline-block;
+    margin: 15px 0;
+
+
+}
+.my-info{
+    margin-top: 5%;
+    overflow-y: auto;
+
+}
+.toggle-title{
+    color: var(--color-font-md);
+    font-family: var(--font-md);
+    font-size: var(--font-size-14);
+    padding-left: var(--vw-12);
+}
+.info-name {
+    color: var(--color-font-md);
+    font-family: var(--font-md);
+    font-size: var(--font-size-18);
+    margin: 8px 0;
+
+}
+.info-clsf {
+    font-size: var(--font-size-11);
 }

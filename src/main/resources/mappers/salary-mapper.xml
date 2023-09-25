@@ -59,6 +59,17 @@
              , S.SALARY_BSLRY
              , S.SALARY_OVTIME_ALLWNC
              , (SELECT EMPL_NM FROM EMPL WHERE S.SALARY_EMPL_ID = EMPL.EMPL_ID) AS SALARY_EMPL_NM
+             , (SELECT C.COMMON_NAME
+                FROM COMMON C,
+                     EMPL E
+                WHERE E.EMPL_ID = S.SALARY_EMPL_ID
+                  AND C.COMMON_CODE = E.COMMON_CODE_DEPT)                             AS DEPT_NM
+             , (SELECT C.COMMON_NAME
+                FROM COMMON C,
+                     EMPL E
+                WHERE E.EMPL_ID = S.SALARY_EMPL_ID
+                  AND C.COMMON_CODE = E.COMMON_CODE_CLSF)                             AS CLSF_NM
+             , (SELECT EMPL_NM FROM EMPL WHERE S.SALARY_EMPL_ID = EMPL.EMPL_ID) AS SALARY_EMPL_NM
              , SD.SALARY_DTSMT_PYMNT_TOTAMT
              , SD.SALARY_DTSMT_SIS_NP
              , SD.SALARY_DTSMT_SIS_HI

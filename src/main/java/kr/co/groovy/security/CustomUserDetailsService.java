@@ -1,6 +1,8 @@
 package kr.co.groovy.security;
 
 import kr.co.groovy.employee.EmployeeMapper;
+import kr.co.groovy.enums.ClassOfPosition;
+import kr.co.groovy.enums.Department;
 import kr.co.groovy.vo.ConnectionLogVO;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
@@ -32,6 +34,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (notificationVO != null) {
             employeeVO.setNotificationVO(notificationVO);
         }
+        employeeVO.setDeptNm(Department.valueOf(employeeVO.getCommonCodeDept()).label());
+        employeeVO.setClsfNm(ClassOfPosition.valueOf(employeeVO.getCommonCodeClsf()).label());
         return employeeVO == null ? null : new CustomUser(employeeVO);
     }
 }

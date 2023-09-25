@@ -22,7 +22,8 @@
                 <div class="section-inner flex-inner">
                     <div class="profile-wrap card-df pd-32">
                         <div class="info-header ">
-                            <img src="${pageContext.request.contextPath}/resources/images/Icon3d/change.png" class="info-icon"/>
+                            <img src="${pageContext.request.contextPath}/resources/images/Icon3d/change.png"
+                                 class="info-icon"/>
                             <div>
                                 <h2 class="info-title font-b">프로필 변경</h2>
                                 <p class="info-desc  font-md">프로필 사진을 변경합니다.</p>
@@ -47,7 +48,8 @@
 
                     <div class="sign-wrap card-df pd-32">
                         <div class="info-header">
-                            <img src="${pageContext.request.contextPath}/resources/images/Icon3d/Key.png" class="info-icon"/>
+                            <img src="${pageContext.request.contextPath}/resources/images/Icon3d/Key.png"
+                                 class="info-icon"/>
                             <div>
                                 <h2 class="info-title font-b">서명 설정</h2>
                                 <p class="info-desc  font-md">전자결재에 필요한 서명을 설정합니다.</p>
@@ -58,7 +60,7 @@
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <input type="hidden" name="emplId"
                                        value="${CustomUser.employeeVO.emplId}"><br/>
-<%--                                <div class="sign-btn"> <i class="icon i-add"></i>등록하기</div>--%>
+                                    <%--                                <div class="sign-btn"> <i class="icon i-add"></i>등록하기</div>--%>
                                 <label for="emplSignFile">
                                     <img id="userSignProfile"
                                          src="${pageContext.request.contextPath}/uploads/sign/${CustomUser.employeeVO.signPhotoFileStreNm}"
@@ -73,7 +75,8 @@
             <section class="right">
                 <div class="alert-wrap card-df pd-32 ">
                     <div class="info-header ">
-                        <img src="${pageContext.request.contextPath}/resources/images/Icon3d/alarm.png" class="info-icon"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/Icon3d/alarm.png"
+                             class="info-icon"/>
                         <div>
                             <h2 class="info-title font-b">알림 설정</h2>
                             <p class="info-desc font-md">알림 범위를 설정합니다.</p>
@@ -81,8 +84,8 @@
                     </div>
                     <div class="info-body">
                         <form action="#" id="alertForm">
-                            <div class="box-toggle">
-                                <p class="toggle-title ">업무 요청</p>
+                            <div class="box-toggle" style="margin-top: 3%">
+                                <p class="toggle-title  font-14 ">업무 요청</p>
                                 <label class="toggle" for="dutyRequest">
                                     <input type="checkbox" id="dutyRequest" name="dutyRequest"
                                            value="${CustomUser.employeeVO.notificationVO.dutyRequest}">
@@ -90,7 +93,7 @@
                                 </label>
                             </div>
                             <div class="box-toggle">
-                                <p class="toggle-title">댓글</p>
+                                <p class="toggle-title font-14">댓글</p>
                                 <label class="toggle" for="answer">
                                     <input type="checkbox" id="answer" name="answer"
                                            value="${CustomUser.employeeVO.notificationVO.answer}">
@@ -98,7 +101,7 @@
                                 </label>
                             </div>
                             <div class="box-toggle">
-                                <p class="toggle-title">팀 커뮤니티</p>
+                                <p class="toggle-title font-14">팀 커뮤니티</p>
                                 <label class="toggle" for="teamNotice">
                                     <input type="checkbox" id="teamNotice" name="teamNotice"
                                            value="${CustomUser.employeeVO.notificationVO.teamNotice}">
@@ -106,7 +109,7 @@
                                 </label>
                             </div>
                             <div class="box-toggle">
-                                <p class="toggle-title">공지사항</p>
+                                <p class="toggle-title font-14">공지사항</p>
                                 <label class="toggle" for="companyNotice">
                                     <input type="checkbox" id="companyNotice" name="companyNotice"
                                            value="${CustomUser.employeeVO.notificationVO.companyNotice}">
@@ -114,7 +117,7 @@
                                 </label>
                             </div>
                             <div class="box-toggle">
-                                <p class="toggle-title">일정</p>
+                                <p class="toggle-title font-14">일정</p>
                                 <label class="toggle" for="schedule">
                                     <input type="checkbox" id="schedule" name="schedule"
                                            value="${CustomUser.employeeVO.notificationVO.schedule}">
@@ -122,7 +125,7 @@
                                 </label>
                             </div>
                             <div class="box-toggle">
-                                <p class="toggle-title">채팅 방 개설 알림</p>
+                                <p class="toggle-title font-14">채팅 방 개설 알림</p>
                                 <label class="toggle" for="newChattingRoom">
                                     <input type="checkbox" id="newChattingRoom" name="newChattingRoom"
                                            value="${CustomUser.employeeVO.notificationVO.newChattingRoom}">
@@ -130,7 +133,7 @@
                                 </label>
                             </div>
                             <div class="box-toggle">
-                                <p class="toggle-title">메일 수신 알림</p>
+                                <p class="toggle-title font-14">메일 수신 알림</p>
                                 <label class="toggle" for="emailReception">
                                     <input type="checkbox" id="emailReception" name="emailReception"
                                            value="${CustomUser.employeeVO.notificationVO.emailReception}">
@@ -138,7 +141,7 @@
                                 </label>
                             </div>
                             <div class="box-toggle">
-                                <p class="toggle-title">전자결재수신</p>
+                                <p class="toggle-title font-14">전자 결재 수신</p>
                                 <label class="toggle" for="electronSanctionReception">
                                     <input type="checkbox" id="electronSanctionReception"
                                            name="electronSanctionReception"
@@ -147,7 +150,7 @@
                                 </label>
                             </div>
                             <div class="box-toggle">
-                                <p class="toggle-title">전자결재결과</p>
+                                <p class="toggle-title font-14">전자 결재 결과</p>
                                 <label class="toggle" for="electronSanctionResult">
                                     <input type="checkbox" id="electronSanctionResult" name="electronSanctionResult"
                                            value="${CustomUser.employeeVO.notificationVO.electronSanctionResult}">
@@ -159,13 +162,65 @@
                 </div>
                 <div class="alert-wrap card-df pd-32 ">
                     <div class="info-header ">
-                        <img src="${pageContext.request.contextPath}/resources/images/Icon3d/User.png" class="info-icon"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/Icon3d/User.png"
+                             class="info-icon"/>
                         <div>
-                            <h2 class="info-title font-b">내 정보 변경</h2>
-                            <p class="info-desc font-md">개인 정보를 변경합니다.</p>
+                            <h2 class="info-title font-b">내 정보</h2>
+                            <p class="info-desc font-md">개인 정보를 확인 · 변경합니다.</p>
                         </div>
                     </div>
-                    <div class="info-body">
+                    <div class="info-body my-info">
+
+                        <form name="" id="myInfoForm" method="post">
+                            <div class="">
+                                <label>사번</label> <br/>
+                                <input type="text" value="${CustomUser.employeeVO.emplId}" name="emplId"
+                                       readonly><br/>
+                            </div>
+                            <div class="">
+                                <label>직무</label> <br/>
+                                <input type="text" value="${CustomUser.employeeVO.deptNm}"
+                                       readonly><br/>
+                            </div>
+                            <div class="">
+                                <label>이메일</label> <br/>
+                                <input type="text" value="${CustomUser.employeeVO.emplEmail}" readonly><br/>
+                            </div>
+                            <div class="">
+                                <div class="tel-div">
+                                    <button type="button" id="modifyTel" class="btn font-11 modify-btn">연락처 수정
+                                            <%--                                        <img--%>
+                                            <%--                                            class="modify-icon"--%>
+                                            <%--                                            src="${pageContext.request.contextPath}/resources/images/modifySign.png"/>--%>
+                                    </button>
+                                </div>
+                                <label>연락처</label>
+                                <input type="text"
+                                       value="${CustomUser.employeeVO.emplTelno}"
+                                       name="emplTelno" readonly>
+                            </div>
+
+                            <div class="accordion-row">
+                                <div class="addr-div">
+                                    <button type="button" id="findZip" class="btn font-11 modify-btn">
+                                        주소 수정
+                                    </button>
+                                </div>
+                                <div class="addrWrap">
+                                    <label>우편번호</label>
+                                    <input type="text" name="emplZip" class="emplZip" value="${CustomUser.employeeVO.emplZip}" readonly><br/>
+                                    <div>
+                                        <label>주소</label><br/>
+                                        <input type="text" name="emplAdres" class="emplAdres" value="${CustomUser.employeeVO.emplAdres}" readonly>
+                                    </div>
+                                    <div>
+                                        <label>상세주소</label>
+                                        <input type="text" name="emplDetailAdres" class="emplDetailAdres" value="${CustomUser.employeeVO.emplDetailAdres}" readonly >
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
 
                     </div>
                 </div>
@@ -226,6 +281,7 @@
 </sec:authorize>
 <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
     // 패스워드 변경
@@ -297,6 +353,26 @@
         }
     });
 
+    $("#modifyTel").on("click", function (){
+        let telInput =  $("input[name='emplTelno']")
+        telInput.val("010-")
+        telInput.prop("readonly",false)
+        telInput.css("border", '1px solid var(--color-stroke)')
+        telInput.on('input', function() {
+            let telno = telInput.val().replace(/-/g, '');
+
+            if (telno.length >= 4) {
+                telno = telno.slice(0, 3) + '-' + telno.slice(3);
+            }
+            if (telno.length >= 9) {
+                telno = telno.slice(0, 8) + '-' + telno.slice(8);
+            }
+            if (telno.length > 13) {
+                telno = telno.slice(0, 13);
+            }
+            telInput.val(telno);
+        });
+    })
 
     $(document).ready(function () {
         initializeCheckboxes();
@@ -304,6 +380,20 @@
         $("#modifyPass").on("click", function () {
             resetModal()
             openModal();
+        })
+
+        $("#findZip").on("click", function (){
+            let addrInputs = $(".addrWrap input");
+            addrInputs.prop("readonly",false)
+            addrInputs.css("border", '1px solid var(--color-stroke)')
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    $(".emplZip").val(data.zonecode);
+                    $(".emplAdres").val(data.address);
+                    $(".emplDetailAdres").val("");
+                    $(".emplDetailAdres").focus();
+                }
+            }).open();
         })
 
         // 저장 버튼 클릭 시 모든 변경 사항 업데이트
@@ -318,9 +408,33 @@
             if (signFile.size !== 0 || signFile.name !== '') {
                 updateSign();
             }
+            updateMyInfo();
             saveNotificationSettings();
             alert("내 정보가 정상적으로 변경되었습니다.")
         });
+
+        // 개인 정보 수정
+        function updateMyInfo() {
+            let formData = new FormData($("#myInfoForm")[0]);
+            $.ajax({
+                type: "POST",
+                url: "/employee/modifyInfo",
+                data: formData,
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function (response) {
+                    console.log("개인 정보 수정 성공", response);
+                    $(".my-info input").prop("readonly", true)
+                    $(".my-info input").css("border", "none")
+                },
+                error: function (xhr, textStatus, error) {
+                    console.log("AJAX 오류:", error);
+                }
+            });
+        }
+
+
 
         // 프로필 사진 수정
         function updateProfile() {
