@@ -202,7 +202,7 @@
 
                             <div class="accordion-row">
                                 <div class="addr-div">
-                                    <button type="button" id="findZip" class="btn font-11 modify-btn">
+                                    <button type="button" id="findZip" class="btn  font-11 modify-btn">
                                         주소 수정
                                     </button>
                                 </div>

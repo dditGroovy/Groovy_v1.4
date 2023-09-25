@@ -187,16 +187,6 @@ input:checked + .slider:before {
 }
 
 
-input[type='text'] {
-    cursor: pointer;
-    background-color: var(--color-white);
-    border: none;
-    /*border: 1px solid var(--color-stroke);*/
-    border-radius: var(--size-32);
-    outline-color: var(--color-main);
-    padding: var(--vw-12);
-    width: 100%;
-}
 
 .tel-div, .addr-div {
     position: relative;
@@ -208,6 +198,8 @@ input[type='text'] {
     padding: 2%;
     margin-top: 3%;
     background-color: transparent;
+    color: var(--color-font-md);
+
 
 }
 
@@ -217,33 +209,36 @@ input[type='text'] {
     height: var(--vw-32);
 }
 .my-info label {
-    color: var(--color-font-md);
+    color: #444a52;
     font-family: var(--font-md);
     font-size: var(--font-size-14);
     padding-left: var(--vw-12);
     display: inline-block;
     margin: 15px 0;
 
-
 }
+input[type='text'] {
+    color: var(--color-font-md);
+    font-family: var(--font-reg);
+    font-size: 13px;
+    cursor: pointer;
+    background-color: var(--color-white);
+    border: none;
+    /*border: 1px solid var(--color-stroke);*/
+    border-radius: var(--size-32);
+    outline-color: var(--color-main);
+    padding: var(--vw-12);
+    width: 100%;
+}
+
 .my-info{
     margin-top: 5%;
     overflow-y: auto;
 
 }
 .toggle-title{
-    color: var(--color-font-md);
+    color: #444a52;
     font-family: var(--font-md);
     font-size: var(--font-size-14);
     padding-left: var(--vw-12);
-}
-.info-name {
-    color: var(--color-font-md);
-    font-family: var(--font-md);
-    font-size: var(--font-size-18);
-    margin: 8px 0;
-
-}
-.info-clsf {
-    font-size: var(--font-size-11);
 }

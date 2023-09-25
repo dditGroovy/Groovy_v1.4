@@ -33,13 +33,13 @@ public class ScheduleController {
 		
 		@GetMapping("/emplScheduleMain") 
 		public String emplScheduleMain() {
-			return "schedule/emplCalendar";
+			return "common/schedule";
 		}
 		
 	
 		@GetMapping("/scheduleMain")
 		public String scheduleMain() {
-			return "schedule/calendar";
+			return "admin/hrt/schedule/schedule";
 		}
 	
 		
