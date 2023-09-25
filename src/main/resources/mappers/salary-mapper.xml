@@ -68,7 +68,7 @@
              , SD.SALARY_DTSMT_LOCALITY_INCMTAX
              , SD.SALARY_DTSMT_DDC_TOTAMT
              , SD.SALARY_DTSMT_NET_PAY
-             , TO_CHAR(sd.SALARY_DTSMT_ISSU_DATE, 'mm')                         as MONTH
+             , TO_CHAR(sd.SALARY_DTSMT_ISSU_DATE, 'MM')                         as MONTH
         FROM SALARY S
                  INNER JOIN SALARY_DTSMT SD
                             ON S.SALARY_PYMNT_DATE = SD.SALARY_DTSMT_ISSU_DATE AND S.SALARY_EMPL_ID = SD.SALARY_EMPL_ID
