@@ -208,14 +208,17 @@
                                 </div>
                                 <div class="addrWrap">
                                     <label>우편번호</label>
-                                    <input type="text" name="emplZip" class="emplZip" value="${CustomUser.employeeVO.emplZip}" readonly><br/>
+                                    <input type="text" name="emplZip" class="emplZip"
+                                           value="${CustomUser.employeeVO.emplZip}" readonly><br/>
                                     <div>
                                         <label>주소</label><br/>
-                                        <input type="text" name="emplAdres" class="emplAdres" value="${CustomUser.employeeVO.emplAdres}" readonly>
+                                        <input type="text" name="emplAdres" class="emplAdres"
+                                               value="${CustomUser.employeeVO.emplAdres}" readonly>
                                     </div>
                                     <div>
                                         <label>상세주소</label>
-                                        <input type="text" name="emplDetailAdres" class="emplDetailAdres" value="${CustomUser.employeeVO.emplDetailAdres}" readonly >
+                                        <input type="text" name="emplDetailAdres" class="emplDetailAdres"
+                                               value="${CustomUser.employeeVO.emplDetailAdres}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -249,23 +252,22 @@
                             <input type="hidden" name="emplId" value="${CustomUser.employeeVO.emplId}">
 
                             <div class="current-pass">
+                                <label for="emplPassword">현재 비밀번호 입력</label>
                                 <div>
-                                    <label for="emplPassword">현재 비밀번호 입력</label>
                                     <input type="password" name="currentPassword" id="emplPassword"
                                            placeholder="현재 비밀번호를 입력하세요."/>
                                 </div>
                             </div>
-
                             <div class="new-pass">
+                                <label for="emplPasswordCheck1">새로운 비밀번호 입력</label>
                                 <div>
-                                    <label for="emplPasswordCheck1">새로운 비밀번호 입력</label>
-                                    <input type="password" name="newPassword" id="emplPasswordCheck1"
-                                           placeholder="새로운 비밀번호를 입력하세요."/>
-                                    <input type="password" name="reEmplPassword" placeholder="새로운 비밀번호를 입력하세요."/>
+                                        <input type="password" name="newPassword" id="emplPasswordCheck1"
+                                               placeholder="새로운 비밀번호를 입력하세요."/>
+                                        <input type="password" name="reEmplPassword" placeholder="새로운 비밀번호를 입력하세요." />
                                 </div>
                             </div>
                         </form>
-                        <div id="modifyRes">여기 결과 출력됨
+                        <div id="modifyRes">
 
                         </div>
                     </div>
@@ -305,7 +307,7 @@
             processData: false,
             success: function (response) {
                 if (response === 'incorrect') {
-                    $("#modifyRes").html('현재 비밀번호를 확인해 주세요.')
+                    $("#modifyRes").val('현재 비밀번호를 확인해 주세요.')
                 } else {
                     alert('비밀번호 변경이 완료되었습니다.');
                     close()
@@ -353,12 +355,12 @@
         }
     });
 
-    $("#modifyTel").on("click", function (){
-        let telInput =  $("input[name='emplTelno']")
+    $("#modifyTel").on("click", function () {
+        let telInput = $("input[name='emplTelno']")
         telInput.val("010-")
-        telInput.prop("readonly",false)
+        telInput.prop("readonly", false)
         telInput.css("border", '1px solid var(--color-stroke)')
-        telInput.on('input', function() {
+        telInput.on('input', function () {
             let telno = telInput.val().replace(/-/g, '');
 
             if (telno.length >= 4) {
@@ -382,9 +384,9 @@
             openModal();
         })
 
-        $("#findZip").on("click", function (){
+        $("#findZip").on("click", function () {
             let addrInputs = $(".addrWrap input");
-            addrInputs.prop("readonly",false)
+            addrInputs.prop("readonly", false)
             addrInputs.css("border", '1px solid var(--color-stroke)')
             new daum.Postcode({
                 oncomplete: function (data) {
@@ -433,7 +435,6 @@
                 }
             });
         }
-
 
 
         // 프로필 사진 수정

@@ -187,7 +187,6 @@ input:checked + .slider:before {
 }
 
 
-
 .tel-div, .addr-div {
     position: relative;
 }
@@ -208,6 +207,7 @@ input:checked + .slider:before {
     width: var(--vw-32);
     height: var(--vw-32);
 }
+
 .my-info label {
     color: #444a52;
     font-family: var(--font-md);
@@ -217,6 +217,30 @@ input:checked + .slider:before {
     margin: 15px 0;
 
 }
+
+.pass-wrap {
+    margin: 70px;
+}
+
+.pass-wrap label {
+    color: #444a52;
+    font-family: var(--font-md);
+    font-size: var(--font-size-14);
+    display: block;
+    padding-left: var(--vw-64);
+
+}
+
+.pass-wrap input {
+    display: block;
+    margin: 15px;
+
+}
+
+.new-pass label {
+    position: relative;
+}
+
 input[type='text'] {
     color: var(--color-font-md);
     font-family: var(--font-reg);
@@ -231,14 +255,27 @@ input[type='text'] {
     width: 100%;
 }
 
-.my-info{
+.my-info {
     margin-top: 5%;
     overflow-y: auto;
 
 }
-.toggle-title{
+
+.toggle-title {
     color: #444a52;
     font-family: var(--font-md);
     font-size: var(--font-size-14);
     padding-left: var(--vw-12);
+}
+
+#modifyRes {
+    color: var(--color-main);
+    font-family: var(--font-reg);
+    font-size: var(--font-size-14);
+    text-align: center;
+    margin-top: var(--vh-24);
+}
+
+.modal-layer {
+    gap: 0;
 }

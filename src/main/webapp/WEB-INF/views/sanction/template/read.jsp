@@ -16,7 +16,7 @@
         text-align: center;
     }
 </style>
-<a href="/pdf" class="btn btn-free-blue" id="downBtn">문서 다운로드</a>
+<a href="#" class="btn btn-free-blue" id="downBtn">문서 다운로드</a>
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-wrapper">
@@ -167,8 +167,62 @@
             </div>
         </div>
     </div>
+
     <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <script>
+        window.jsPDF = window.jspdf.jsPDF;
+        //pdf  다운로드
+        $("#downBtn").on("click", function (){
+
+        })
+        function downloadButtonClickHandler(result) {
+            console.log(result);
+            const formattedNetPay = formatNumber(result.salaryDtsmtNetPay);
+            const formattedPymntTotamt = formatNumber(result.salaryDtsmtPymntTotamt);
+            const formattedBslry = formatNumber(result.salaryBslry);
+            const formattedOvtimeAllwnc = formatNumber(result.salaryOvtimeAllwnc);
+            const formattedDdcTotamt = formatNumber(result.salaryDtsmtDdcTotamt);
+            const formattedSisNp = formatNumber(result.salaryDtsmtSisNp);
+            const formattedSisHi = formatNumber(result.salaryDtsmtSisHi);
+            const formattedSisEi = formatNumber(result.salaryDtsmtSisEi);
+            const formattedSisWci = formatNumber(result.salaryDtsmtSisWci);
+            const formattedIncmtax = formatNumber(result.salaryDtsmtIncmtax);
+            const formattedLocalityIncmtax = formatNumber(result.salaryDtsmtLocalityIncmtax);
+            const formattedDate = formatDate(result.salaryDtsmtIssuDate);
+            str = `<jsp:include page="specification.jsp"/>`
+            let element = document.querySelector("#downloadDiv");
+            element.innerHTML = str;
+            html2canvas(element).then((canvas) => {
+                let imgData = canvas.toDataURL('image/png');
+                let imgWidth = 150;
+                let pageHeight = 300;
+                let imgHeight = parseInt(canvas.height * imgWidth / canvas.width)
+                let heightLeft = imgHeight;
+                let margin = 10;
+
+                let doc = new jsPDF('p', 'mm', 'a4');
+
+                let position = 30;
+
+                doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                let fileName = `테스트.pdf`;
+                doc.save(fileName);
+            });
+        }
+
+
+
         let rejectReason;
         let rejectId;
         let etprCode = '${sanction.elctrnSanctnEtprCode}';
