@@ -67,7 +67,7 @@ hr {
 }
 
 .notiContentText {
-	padding-top: 100px;
+	padding-top: 140px;
 }
 
 .divButton {
@@ -83,4 +83,8 @@ font-size: var(--font-size-14);
 .select-wrapper::after {
 	width: var(--vw-18);
     height: var(--vw-18);
+}
+
+#cke_noti-content {
+	width: calc((1200 / var(--vw)) * 100vw);
 }
