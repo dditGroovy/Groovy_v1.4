@@ -13,12 +13,14 @@
 		<form action="#" method="post" enctype="multipart/form-data" id="uploadForm">
 			<div class="notiDiv">
 				<label class="font-md font-18" for="noti-category">공지사항 분류</label> 
-	            <select name="notiCtgryIconFileStreNm" id="noti-category">
+				<div class="select-wrapper">
+					<select name="notiCtgryIconFileStreNm" id="noti-category" class="selectBox">
 					<option value="important.png">중요</option>
 					<option value="notice.png">공지</option>
 					<option value="event.png">행사</option>
 					<option value="obituary.png">부고</option>
-				</select><br>
+					</select><br>
+				</div>
 			</div>
 			<hr>  
 			<div class="notiDiv">

@@ -79,3 +79,8 @@ hr {
 #submitBtn {
 font-size: var(--font-size-14);
 }
+
+.select-wrapper::after {
+	width: var(--vw-18);
+    height: var(--vw-18);
+}
