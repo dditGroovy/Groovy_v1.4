@@ -201,17 +201,22 @@ section .content-wrap {
 }
 
 /*  todo    */
+#todoBoard {
+    overflow-x: hidden;
+}
 /*.job-inner-bt {
     position: absolute;
     top: calc((516/var(--vh))*100vh);
-    width: 200%;
+    overflow-x: hidden;
 }*/
 .todoBoardListWrapper {
-    display: grid;
-    grid-template-columns: repeat(5, calc((304/var(--vw))*100vw));
+    display: flex;
     gap: var(--vw-32);
+    width: 100%;
+    margin-left: -482px;
 }
 .todoBoardList {
+    width: calc((304/var(--vw))*100vw) !important;
     background: var(--color-white);
     overflow: hidden;
 }
@@ -234,16 +239,18 @@ section .content-wrap {
     font-family: var(--font-b);
 }
 .list-content {
-    border: 1px solid red;
     min-height: calc((120/var(--vh))*100vh);
+    padding-bottom: var(--vh-24);
+    background: var(--color-white);
+    box-shadow: var(--clay-card);
 }
 .todoBoardList .list-content .no-list {
     height: auto;
-    margin-top: 15%;
+    transform: translateY(25%);
 }
 .todoCard {
     width: 100%;
-    padding: var(--vh-16) var(--vw-32);
+    padding: var(--vh-24) var(--vw-32);
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -261,4 +268,40 @@ section .content-wrap {
 .toDoClosDate {
     font-size: 11px;
     color: var(--color-font-md);
+}
+.dutyProgrs {
+    width: var(--vw-48);
+    padding: var(--vh-8) var(--vw-12);
+    font-size: 11px;
+    color: white;
+}
+.before-progress {
+    background: var(--color-error);
+}
+.dutykind {
+    width: var(--vw-48);
+    padding: var(--vh-8) var(--vw-12);
+    border-width: 1px;
+    border-style: solid;
+    font-size: 11px;
+}
+.badge-duty-meeting {
+    color: #5a23ff;
+    border-color: #5a23ff;
+}
+.badge-personal-meeting {
+    color: #ff7023;
+    border-color: #ff7023;
+}
+.badge-team-meeting {
+    color: var(--color-main);
+    border-color: var(--color-main);
+}
+.badge-edu-meeting {
+    color: #6c2c00;
+    border-color: #6c2c00;
+}
+.badge-etc-meeting {
+    color: #ff23d3;
+    border-color: #ff23d3;
 }

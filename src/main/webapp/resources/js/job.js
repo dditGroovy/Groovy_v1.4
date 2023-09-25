@@ -89,7 +89,7 @@ jobAgrees.forEach(jobAgree => {
 
 
 //요청 받은 업무 목록
-document.querySelector(".new-request").addEventListener("click", (event) => {
+/*document.querySelector(".new-request").addEventListener("click", (event) => {
     const target = event.target;
     let jobNo = null;
 
@@ -133,8 +133,9 @@ document.querySelector(".new-request").addEventListener("click", (event) => {
             }
         });
     }
-});
+});*/
 
+/*
 document.querySelector("#reject").addEventListener("click", () => {
     jobProgressVO["commonCodeDutySttus"] = "거절"
     rejectOrAgree(jobProgressVO);
@@ -154,6 +155,7 @@ document.querySelector("#agreeJob").addEventListener("click", () => {
     jobProgressVO["commonCodeDutySttus"] = "승인"
     rejectOrAgree(jobProgressVO);
 });
+*/
 
 
 
@@ -238,7 +240,7 @@ addJobs.forEach(addJob => {
 });
 
 //신규 등록
-document.querySelector(".new-job .regist").addEventListener("click", () => {
+/*document.querySelector(".new-job .regist").addEventListener("click", () => {
     let formData = new FormData(document.querySelector("#registNewJob"));
     let requiredList = ["jobSj", "jobCn", "jobBeginDate", "jobClosDate"];
     let validation = true;
@@ -268,7 +270,7 @@ document.querySelector(".new-job .regist").addEventListener("click", () => {
             console.log(xhr.status);
         }
     });
-})
+})*/
 
 let progressList = document.querySelectorAll(".progress");
 let myJobs = document.querySelectorAll(".myJob");
@@ -475,7 +477,7 @@ requestBtn.addEventListener("click", (event) => {
 });
 
 //수정
-let modifyBtn = document.querySelector("#modify");
+/*let modifyBtn = document.querySelector("#modify");
 let confirmBtn = document.querySelector("#confirm");
 modifyBtn.addEventListener("click", () => {
     progressList.forEach(progress => {
@@ -509,7 +511,7 @@ confirmBtn.addEventListener("click", () => {
             console.log(xhr.status);
         }
     });
-})
+})*/
 
 //to do
 let progresses = document.querySelectorAll(".dutyProgrs");
@@ -539,3 +541,5 @@ dutykinds.forEach(kind => {
         kind.classList.add("badge-etc-meeting");
     }
 });
+
+/*  마우스 드래그 스크롤 이벤트 */

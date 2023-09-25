@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/job/job.css">
 <style>
     .border {
@@ -214,45 +216,44 @@
             </div>
             <div class="job-inner-bt">
                 <div id="todoBoard">
-                    <div class="todoBoardListWrapper">
-                            <c:forEach var="dayInfo" items="${dayOfWeek}" varStatus="stat">
-                        <div class="todoBoardList card card-df">
-                            <div class="list-header">
-                                <div class="list-header-name">
-                                    <p class="day" data-date="${dayInfo.date}">${dayInfo.day}요일</p>
+                    <div class="todoBoardListWrapper swiper-wrapper">
+                        <c:forEach var="dayInfo" items="${dayOfWeek}" varStatus="stat">
+                            <div class="todoBoardList card card-df swiper-slide">
+                                <div class="list-header">
+                                    <div class="list-header-name">
+                                        <p class="day" data-date="${dayInfo.date}">${dayInfo.day}요일</p>
+                                    </div>
+                                    <div class="list-header-add">
+                                        <button class="addJob btn">+</button>
+                                    </div>
                                 </div>
-                                <div class="list-header-add">
-                                    <button class="addJob btn">+</button>
-                                </div>
-                            </div>
-                            <div class="list-content">
-                                <c:choose>
-                                    <c:when test="${not empty jobListByDate[stat.index]}">
-                                        <c:forEach var="jobVO" items="${jobListByDate[stat.index]}">
-                                        <button type="button" class="todoCard myJob btn" style="text-align: left"
-                                                data-seq="${jobVO.jobNo}">
-                                            <div class="todoCard-title">
-                                                <span class="todoName">${jobVO.jobSj}</span>
-                                            </div>
-                                            <div class="todoCard-info">
-                                                <div class="badge-wrap">
-                                                    <span class="dutyProgrs badge">${jobVO.jobProgressVOList[0].commonCodeDutyProgrs}</span>
-                                                    <span class="dutykind badge">${jobVO.commonCodeDutyKind}</span>
+                                <div class="list-content">
+                                    <c:choose>
+                                        <c:when test="${not empty jobListByDate[stat.index]}">
+                                            <c:forEach var="jobVO" items="${jobListByDate[stat.index]}">
+                                            <button type="button" class="todoCard myJob btn" style="text-align: left"
+                                                    data-seq="${jobVO.jobNo}">
+                                                <div class="todoCard-title">
+                                                    <span class="todoName">${jobVO.jobSj}</span>
                                                 </div>
-                                                <span class="toDoClosDate">${jobVO.jobClosDate}까지</span>
-                                            </div>
-                                        </button>
-                                        </c:forEach>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <span class="no-list">등록된 업무가 없습니다.</span>
-                                    </c:otherwise>
-                                </c:choose>
+                                                <div class="todoCard-info">
+                                                    <div class="badge-wrap">
+                                                        <span class="dutyProgrs badge">${jobVO.jobProgressVOList[0].commonCodeDutyProgrs}</span>
+                                                        <span class="dutykind badge">${jobVO.commonCodeDutyKind}</span>
+                                                    </div>
+                                                    <span class="toDoClosDate">${jobVO.jobClosDate}까지</span>
+                                                </div>
+                                            </button>
+                                            </c:forEach>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="no-list">등록된 업무가 없습니다.</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                             </div>
-                        </div>
-                    </c:forEach>
-
-                </div>
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
         </div>
@@ -679,4 +680,11 @@
     <sec:authentication property="principal" var="CustomUser" />
     let emplNm = `${CustomUser.employeeVO.emplNm}`;
     </sec:authorize>
+
+    var swiper = new Swiper("#todoBoard", {
+        slidesPerView: 5,
+        centeredSlides: true,
+        spaceBetween: 24,
+        grabCursor: true,
+    });
 </script>
