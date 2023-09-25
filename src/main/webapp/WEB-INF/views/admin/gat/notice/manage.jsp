@@ -6,18 +6,19 @@
 
 <div class="content-container">
     <h1 class="noticeHeader tab-header font-md font-36">공지사항 관리</h1>
-	    <div class="noticeDiv">
-		    <input type="text" class="input-free-white" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
-		    <button class="btn-free-blue font-18"  id="insertNoti">
-                공지 등록
-                <i class="icon i-add-white"></i>
-            </button>
+	    <div class="searchDiv">
+	    	<div class="serviceWrap">
+		    	<i class="icon i-search"></i>
+			    <input type="text" class="input-free-white" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
+		    </div>
+		    <button class="btn-free-blue font-18"  id="insertNoti">공지 등록<i class="icon i-add-white"></i></button>
 	    </div>
-    <div class="cardWrap">
-        <div class="card">
-            <div id="myGrid" class="ag-theme-alpine"></div>
-        </div>
-    </div>
+    
+    	<div class="cardWrap">
+	        <div class="card">
+	            <div id="myGrid" class="ag-theme-alpine"></div>
+	        </div>
+    	</div>
 </div>
 <%--<table border="1">
     <tr>

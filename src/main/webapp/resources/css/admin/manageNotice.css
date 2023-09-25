@@ -2,15 +2,16 @@
     margin-bottom: var(--vh-56);
 }
 
-.noticeDiv {
+.searchDiv {
     display: flex; 
     justify-content: space-between; 
-    margin-bottom: var(--vh-16);
 }
 
 #quickFilter {
     width: calc((400 / var(--vw)) * 100vw); 
     height: calc((60 / var(--vh)) * 100vh);
+    border: none;
+    outline: none;
 }
 
 #insertNoti {
@@ -28,6 +29,16 @@
     font-size: var(--font-size-14);
     margin: 0 auto;
     margin-top: 8px;
+}
+
+.serviceWrap {
+    margin-bottom: var(--vh-16);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--size-32);
+    box-shadow: var(--clay-card);
+    outline-color: var(--color-main);
+    padding-left: 10px;
 }
 
 .icon {

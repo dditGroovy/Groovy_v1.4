@@ -2,16 +2,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link rel="stylesheet" href="/resources/css/admin/adminSanction.css">
-
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <div class="content-container">
-
 	<h1 class="sanctionHeader tab-header font-md font-36">수신 문서함</h1>
-
-    <div id="search" class="serviceWrap">
-    	<i class="icon i-search"></i>
-        <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
+	
+	<div class="searchDiv">
+	    <div class="serviceWrap">
+	    	<i class="icon i-search"></i>
+	        <input type="text" class="input-free-white" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
+	    </div>
     </div>
 
     <div class="cardWrap">
