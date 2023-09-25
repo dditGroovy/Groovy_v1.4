@@ -511,3 +511,31 @@ confirmBtn.addEventListener("click", () => {
     });
 })
 
+//to do
+let progresses = document.querySelectorAll(".dutyProgrs");
+progresses.forEach(progress => {
+    let progrs = progress.innerText;
+    if (progrs == "업무 전") {
+        progress.classList.add("before-progress");
+    } else if (progrs == "업무 중") {
+        progress.classList.add("doing-progress");
+    } else if (progrs == "업무 완") {
+        progress.classList.add("done-progress");
+    }
+});
+
+let dutykinds = document.querySelectorAll(".dutykind");
+dutykinds.forEach(kind => {
+    let duty = kind.innerText;
+    if (duty == "회의") {
+        kind.classList.add("badge-duty-meeting");
+    } else if (duty == "개인") {
+        kind.classList.add("badge-personal-meeting");
+    } else if (duty == "팀") {
+        kind.classList.add("badge-team-meeting");
+    } else if (duty == "교육") {
+        kind.classList.add("badge-edu-meeting");
+    } else if (duty == "기타") {
+        kind.classList.add("badge-etc-meeting");
+    }
+});
