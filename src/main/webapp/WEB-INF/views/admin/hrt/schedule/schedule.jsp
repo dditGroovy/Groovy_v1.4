@@ -159,16 +159,12 @@
 							method: "GET",
 							dataType: "json",
 							success: function (response) {
-
 								let schdulBeginDate = new Date(response.schdulBeginDate);
-								let schdulClosDate = new Date(response.schdulClosDate);
+							    let schdulClosDate = new Date(response.schdulClosDate);
 
-								schdulBeginDate.setDate(schdulBeginDate.getDate() + 1);
-								schdulClosDate.setDate(schdulClosDate.getDate() + 1);
-
-								$("#eventTitle").val(response.schdulNm);
-								$("#eventStart").val(schdulBeginDate.toISOString().slice(0, 10));
-								$("#eventEnd").val(schdulClosDate.toISOString().slice(0, 10));
+							    $("#eventTitle").val(response.schdulNm);
+							    $("#eventStart").val(schdulBeginDate.toISOString().slice(0, 10));
+							    $("#eventEnd").val(schdulClosDate.toISOString().slice(0, 10));
 
 								$("#saveEvent").on("click", function () {
 
