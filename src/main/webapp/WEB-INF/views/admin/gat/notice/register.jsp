@@ -47,24 +47,18 @@
 </div>
 <script>
 	let editor = CKEDITOR.replace("noti-content");
-
     let maxNum;
 
     $("#submitBtn").on("click", function () {
-    	let editor = CKEDITOR.instances["noti-content"];
-        let content = editor.getData();
-    	
         let form = $('#uploadForm')[0];
         let formData = new FormData(form);
-        formData.append("notiContent", content);
-        
-        console.log(content);
+        formData.append("notiContent", editor.getData());
 
         $.ajax({
             url: "/notice/input",
             type: 'POST',
             data: formData,
-            dataType: 'text',
+            // dataType: 'text',
             contentType: false,
             processData: false,
             success: function (notiEtprCode) {

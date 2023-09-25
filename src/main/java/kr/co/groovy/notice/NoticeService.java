@@ -31,6 +31,7 @@ public class NoticeService {
 
         String notiEtprCode = "NOTI-" + notiSeq + "-" + formattedDate;
         vo.setNotiEtprCode(notiEtprCode);
+        vo.setNotiContent(vo.getNotiContent().substring(1));
         mapper.inputNotice(vo);
 
         try {

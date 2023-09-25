@@ -199,8 +199,21 @@ public class EmployeeService {
     }
 
     public void modifyEmp(EmployeeVO vo) {
-        vo.setEmplPassword(encoder.encode(vo.getEmplPassword()));
+        if (vo.getEmplPassword() != null) {
+            vo.setEmplPassword(encoder.encode(vo.getEmplPassword()));
+        }
         mapper.modifyEmp(vo);
+    }
+
+    public void modifyInfo(EmployeeVO vo) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUser customUser = (CustomUser) authentication.getPrincipal();
+        EmployeeVO employeeVO = customUser.getEmployeeVO();
+        employeeVO.setEmplTelno(vo.getEmplTelno());
+        employeeVO.setEmplZip(vo.getEmplZip());
+        employeeVO.setEmplAdres(vo.getEmplAdres());
+        employeeVO.setEmplDetailAdres(vo.getEmplDetailAdres());
+        mapper.modifyInfo(vo);
     }
 
     public void modifyNoticeAt(NotificationVO vo, String emplId) {
@@ -236,7 +249,7 @@ public class EmployeeService {
 
     public void sendMessage(String emplTelno, String password) {
         String hostNameUrl = "https://sens.apigw.ntruss.com";
-        String requestUrl= "/sms/v2/services/";
+        String requestUrl = "/sms/v2/services/";
         String requestUrlType = "/messages";
         String accessKey = "fcSixF8BWBoQBG4CFu2e";
         String secretKey = "A130dEIHZXHnlS0xGZrdhyX9ZGxmy17gAfpzvnM4";

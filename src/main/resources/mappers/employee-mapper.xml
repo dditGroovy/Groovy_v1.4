@@ -274,6 +274,17 @@
             COMMON_CODE_HFFC_STTUS  = #{commonCodeHffcSttus}
         WHERE EMPL_ID = #{emplId}
     </update>
+
+    <update id="modifyInfo" parameterType="employeeVO">
+        UPDATE EMPL
+        SET EMPL_TELNO        = #{emplTelno},
+            EMPL_ZIP          = #{emplZip},
+            EMPL_ADRES        = #{emplAdres},
+            EMPL_DETAIL_ADRES = #{emplDetailAdres}
+            WHERE EMPL_ID = #{emplId}
+    </update>
+
+
     <!--  관리자 사원 관리 - 사원 접속 로그 확인  -->
     <select id="loadConnectionLog" parameterType="String" resultType="connectionLogVO">
         SELECT C.EMPL_ID,

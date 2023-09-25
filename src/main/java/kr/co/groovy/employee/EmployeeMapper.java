@@ -40,6 +40,7 @@ public interface EmployeeMapper {
     NotificationVO getNoticeAt(String emplId);
 
     void modifyEmp(EmployeeVO vo);
+    void modifyInfo(EmployeeVO vo);
 
     void modifyNoticeAt(Map<String, Object> map);
 
