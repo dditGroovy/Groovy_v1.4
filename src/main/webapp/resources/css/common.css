@@ -260,6 +260,9 @@ i.icon {
     height: var(--vh-64);
     background: var(--color-bg-sky);
     padding-left: var(--vw-24);
+    outline: var(--color-main);
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--size-32);
 }
 /*input[type="text"], input[type="submit"], input[type="password"] {
     width: calc((516 / var(--vw)) * 100vw);
@@ -402,8 +405,25 @@ i.icon {
     border: none;
     padding: 8px;
 }
-
-
+.modal-input {
+    width: 100%;
+    padding: 0 var(--vw-24);
+    color: var(--color-font-md);
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+.modal-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+}
+.modal-footer .btn-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--vw-24);
+}
 /* total Box*/
 .status-wrap {
     display: flex;

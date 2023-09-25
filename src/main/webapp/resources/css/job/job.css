@@ -157,3 +157,108 @@ section .content-wrap {
 .request-job-title {
     width: calc((258/var(--vw))*100vw);
 }
+
+
+/*  모달  */
+.i-3d.icon {
+    width: var(--vw-32);
+    height: var(--vw-32);
+    margin-right: 8px;
+}
+.form-data-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+}
+.input-date {
+    display: flex;
+    align-items: center;
+}
+.input-date > input {
+    flex: 1;
+}
+.input-date, .date {
+    display: flex;
+    gap: 12px;
+}
+
+.date > div {
+    flex: 1;
+}
+.receive-org-wrap {
+    display: flex;
+    gap: var(--vw-24);
+    align-items: center;
+}
+#orgBtn {
+    padding: var(--vh-12) var(--vw-24);
+}
+#receive {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/*  todo    */
+/*.job-inner-bt {
+    position: absolute;
+    top: calc((516/var(--vh))*100vh);
+    width: 200%;
+}*/
+.todoBoardListWrapper {
+    display: grid;
+    grid-template-columns: repeat(5, calc((304/var(--vw))*100vw));
+    gap: var(--vw-32);
+}
+.todoBoardList {
+    background: var(--color-white);
+    overflow: hidden;
+}
+.list-header {
+    padding: var(--vh-24) var(--vw-32);
+    background: var(--color-main);
+    box-shadow: var(--clay-btn);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.day {
+    font-size: var(--font-size-18);
+    font-family: var(--font-b);
+    color: white;
+}
+.addJob {
+    font-size: var(--font-size-24);
+    color: white;
+    font-family: var(--font-b);
+}
+.list-content {
+    border: 1px solid red;
+    min-height: calc((120/var(--vh))*100vh);
+}
+.todoBoardList .list-content .no-list {
+    height: auto;
+    margin-top: 15%;
+}
+.todoCard {
+    width: 100%;
+    padding: var(--vh-16) var(--vw-32);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.todoCard-info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.todoCard-title .todoName{
+    font-size: 14px;
+    color: var(--color-font-md);
+}
+.toDoClosDate {
+    font-size: 11px;
+    color: var(--color-font-md);
+}

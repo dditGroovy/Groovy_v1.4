@@ -24,7 +24,7 @@ orgBtn.addEventListener("click", () => {
                             emplId,
                             emplNm
                         }
-                        str += `<span data-id="${empl.emplId}"> ${empl.emplNm} <button type="button" class="close-empl">X</button> </span>`;
+                        str += `<span data-id="${empl.emplId}"> ${empl.emplNm} <button type="button" class="close-empl btn">X</button> </span>`;
                     }
                 });
                 receive.innerHTML = str;

@@ -1,16 +1,16 @@
-// 모달 열기 함수
-function openModal(modalId) {
-    document.querySelector("#modal").style.display = "flex";
-    document.querySelector("#modal").style.marginLeft = "500px";
-    document.querySelector(modalId).classList.add("on");
-}
+// // 모달 열기 함수
+// function openModal(modalId) {
+//     document.querySelector("#modal").style.display = "flex";
+//     document.querySelector("#modal").style.marginLeft = "500px";
+//     document.querySelector(modalId).classList.add("on");
+// }
 
-// 모달 닫기 함수
-function closeModal() {
-    const modalCommon = document.querySelectorAll(".modal-common");
-    modalCommon.forEach(item => item.classList.remove("on"));
-    document.querySelector("#modal").style.display = "none";
-}
+// // 모달 닫기 함수
+// function closeModal() {
+//     const modalCommon = document.querySelectorAll(".modal-common");
+//     modalCommon.forEach(item => item.classList.remove("on"));
+//     document.querySelector("#modal").style.display = "none";
+// }
 
 let jobProgressVO;
 
@@ -27,7 +27,7 @@ document.querySelector("#receive-job").addEventListener("click", (event) => {
 
     if (jobNo !== null) {
         event.preventDefault();
-        openModal("#modal-receive-job");
+        /*openModal("#modal-receive-job");*/
         let checkboxes = document.querySelectorAll(".receive-kind");
 
         checkboxes.forEach(checkbox => {
@@ -323,13 +323,13 @@ myJobs.forEach(myJob => {
     });
 });
 
-const close = document.querySelectorAll(".close");
+/*const close = document.querySelectorAll(".close");
 
 close.forEach(item => {
     item.addEventListener("click", () => {
         closeModal();
     });
-});
+});*/
 
 //날짜 유효성 검사
 function validateDate() {

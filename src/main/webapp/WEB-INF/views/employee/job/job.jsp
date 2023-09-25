@@ -32,11 +32,6 @@
         flex: 3;
     }
 
-    .todoBoardListWrapper {
-        display: flex;
-        gap: 24px;
-    }
-
     .todoCard {
         margin: 4px 0;
     }
@@ -47,7 +42,7 @@
         align-items: center;
     }
 
-    #modal {
+    /*#modal {
         width: 30%;
         display: flex;
         flex-direction: column;
@@ -68,11 +63,8 @@
     .modal-body {
         display: flex;
         width: 100%;
-    }
+    }*/
 
-    .form-data-list {
-        display: flex;
-        flex-direction: column;
     }
 
     .modal-body > ul {
@@ -86,20 +78,11 @@
         width: 100%;
     }
 
-    .input-date, .date {
-        display: flex;
-        gap: 12px;
-    }
 
-    .date > div {
-        flex: 1;
-    }
 
-    .input-date > input {
-        flex: 1;
-    }
 
-    .modal-footer {
+
+    /*.modal-footer {
         display: flex;
         justify-content: center;
     }
@@ -115,7 +98,7 @@
 
     .modal-common.on, .modal-option.on {
         display: block;
-    }
+    }*/
 
     .state-list, .tab-list {
         list-style: none;
@@ -127,11 +110,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-    }
-
-    .data-box {
-        border: 1px solid black;
-        padding: 12px;
     }
 
     .대기 {
@@ -176,7 +154,7 @@
                                 <c:when test="${not empty receiveJobList}">
                                     <c:forEach var="receiveJobVO" items="${receiveJobList}">
                                         <li class="receive-list-item list-item">
-                                            <button class="receiveJob btn" data-seq="${receiveJobVO.jobNo}">
+                                            <button class="receiveJob btn btn-modal" data-seq="${receiveJobVO.jobNo}" data-name="receiveJobDetail">
                                                 <div class="empl-info">
                                                     <img src="/uploads/profile/${receiveJobVO.jobRequstEmplProfl}" alt="profile" class="empl-profile">
                                                     <span class="empl-name">${receiveJobVO.jobRequstEmplNm}</span>
@@ -210,7 +188,7 @@
                                 </h2>
                                 <a href="/job/request" class="more">더보기</a>
                             </div>
-                            <button class="requestJob btn btn-flat"><i class="icon i-send-blue"></i>업무 요청하기</button>
+                            <button class="requestJob btn btn-flat btn-modal" data-name="requestJobDetail"><i class="icon i-send-blue"></i>업무 요청하기</button>
                         </div>
                         <div class="content-body">
                             <ul class="request-list job-list">
@@ -234,80 +212,88 @@
                     </div>
                 </section>
             </div>
-            <div id="todoBoard">
-                <div class="todoBoardListWrapper">
-                    <c:forEach var="dayInfo" items="${dayOfWeek}" varStatus="stat">
-                        <div class="todoBoardList">
+            <div class="job-inner-bt">
+                <div id="todoBoard">
+                    <div class="todoBoardListWrapper">
+                            <c:forEach var="dayInfo" items="${dayOfWeek}" varStatus="stat">
+                        <div class="todoBoardList card card-df">
                             <div class="list-header">
                                 <div class="list-header-name">
-                                    <p class="day" data-date="${dayInfo.date}">${dayInfo.day}</p>
+                                    <p class="day" data-date="${dayInfo.date}">${dayInfo.day}요일</p>
                                 </div>
                                 <div class="list-header-add">
-                                    <button class="addJob">+</button>
+                                    <button class="addJob btn">+</button>
                                 </div>
                             </div>
-                            <br/>
                             <div class="list-content">
-                                <c:forEach var="jobVO" items="${jobListByDate[stat.index]}">
-                                    <button type="button" class="todoCard myJob" style="text-align: left"
-                                            data-seq="${jobVO.jobNo}">
-                                        <div class="todoCard-title">
-                                            <span class="todoName">${jobVO.jobSj}</span>
-                                        </div>
-                                        <div class="todoCard-info">
-                                            <span class="dutyProgrs">${jobVO.jobProgressVOList[0].commonCodeDutyProgrs}</span>
-                                            <span class="dutykind">${jobVO.commonCodeDutyKind}</span>
-                                            <span class="toDoClosDate">${jobVO.jobClosDate}까지</span>
-                                        </div>
-                                    </button>
-                                    <br>
-                                </c:forEach>
+                                <c:choose>
+                                    <c:when test="${not empty jobListByDate[stat.index]}">
+                                        <c:forEach var="jobVO" items="${jobListByDate[stat.index]}">
+                                        <button type="button" class="todoCard myJob btn" style="text-align: left"
+                                                data-seq="${jobVO.jobNo}">
+                                            <div class="todoCard-title">
+                                                <span class="todoName">${jobVO.jobSj}</span>
+                                            </div>
+                                            <div class="todoCard-info">
+                                                <div class="badge-wrap">
+                                                    <span class="dutyProgrs badge">${jobVO.jobProgressVOList[0].commonCodeDutyProgrs}</span>
+                                                    <span class="dutykind badge">${jobVO.commonCodeDutyKind}</span>
+                                                </div>
+                                                <span class="toDoClosDate">${jobVO.jobClosDate}까지</span>
+                                            </div>
+                                        </button>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="no-list">등록된 업무가 없습니다.</span>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </c:forEach>
+
+                </div>
                 </div>
             </div>
         </div>
-
-
-
-
-
     </main>
-    <div id="modal">
-        <div class="modal-container">
-            <div id="modal-receive-job" class="modal-common">
-                <div class="modal-header">
-                    <h4><i class="icon icon-idea"></i>들어온 업무 요청</h4>
-                    <button class="close">&times;</button>
+    <div id="modal" class="modal-dim">
+        <div class="dim-bg"></div>
+        <div class="modal-layer card-df sm receiveJobDetail">
+                <div class="modal-top">
+                    <div class="modal-title"><i class="icon i-idea i-3d"></i>들어온 업무 요청</div>
+                    <button type="button" class="modal-close btn close">
+                        <i class="icon i-close">X</i>
+                    </button>
                 </div>
-                <div class="modal-body">
-                    <ul>
+                <div class="modal-container">
+                    <ul class="modal-list">
                         <li class="form-data-list">
-                            <h5>📚 업무 제목</h5>
-                            <div class="data-box">
+                            <h5 class="modal-title">📚 업무 제목</h5>
+                            <div class="data-box input-l modal-input">
                                 <p class="receive-sj"></p>
                             </div>
                         </li>
                         <li class="form-data-list">
-                            <h5>✅ 업무 내용</h5>
-                            <div class="data-box">
+                            <h5 class="modal-title">✅ 업무 내용</h5>
+                            <div class="data-box input-l modal-input">
                                 <p class="receive-cn"></p>
                             </div>
                         </li>
                         <li class="form-data-list">
-                            <h5>📅 업무 기간</h5>
-                            <div>
-                                <div class="data-box">
+                            <h5 class="modal-title">📅 업무 기간</h5>
+                            <div class="input-date">
+                                <div class="data-box input-l modal-input">
                                     <p class="receive-begin"></p>
                                 </div>
-                                <div class="data-box">
+                                ~
+                                <div class="data-box input-l modal-input">
                                     <p class="receive-close"></p>
                                 </div>
                             </div>
                         </li>
                         <li class="form-data-list">
-                            <h5 for="">💭 업무 분류</h5>
+                            <h5 class="modal-title">💭 업무 분류</h5>
                             <div class="input-data">
                                 <input type="radio" class="receive-kind" value="회의">
                                 <label>회의</label>
@@ -322,89 +308,96 @@
                             </div>
                         </li>
                         <li class="form-data-list">
-                            <h5 for="">💌 보낸 사람</h5>
-                            <div class="data-box">
+                            <h5 class="modal-title">💌 보낸 사람</h5>
+                            <div class="data-box input-l modal-input">
                                 <p class="receive-request"></p>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button id="reject">거절</button>
-                    <button id="agree">승인</button>
+                    <div class="btn-wrap">
+                        <button id="reject" class="btn btn-fill-wh-sm">거절</button>
+                        <button id="agree" class="btn btn-fill-bl-sm">승인</button>
+                    </div>
+                </div>
+        </div>
+        <div class="modal-layer card-df sm requestJobDetail">
+            <div class="modal-top">
+                <div class="modal-title"><i class="icon i-idea i-3d"></i>업무 요청</div>
+                <button type="button" class="modal-close btn close">
+                    <i class="icon i-close">X</i>
+                </button>
+            </div>
+            <div class="modal-container">
+                <form id="requestJob" method="post">
+                    <ul class="modal-list">
+                        <li class="form-data-list">
+                            <label for="jobSj" class="modal-title">📚 업무 제목</label>
+                            <input type="text" name="jobSj" id="jobSj" class="input-l modal-input" placeholder="업무 제목을 입력하세요.">
+                        </li>
+                        <li class="form-data-list">
+                            <label for="jobCn" class="modal-title">✅ 업무 내용</label>
+                            <input type="text" name="jobCn" id="jobCn" placeholder="업무 내용을 입력하세요." class="input-l modal-input">
+                        </li>
+                        <li class="form-data-list">
+                            <label class="modal-title">📅 업무 기간</label>
+                            <div class="input-date">
+                                <input type="date" name="jobBeginDate" id="jobBeginDate" onchange="validateDate()"
+                                       placeholder="시작 날짜" class="input-l modal-input">
+                                ~
+                                <input type="date" name="jobClosDate" id="jobClosDate" onchange="validateDate()"
+                                       placeholder="끝 날짜" class="input-l modal-input">
+                            </div>
+                        </li>
+                        <li class="form-data-list">
+                            <label class="modal-title">💭 업무 분류</label>
+                            <div class="input-data">
+                                <input type="radio" name="commonCodeDutyKind" id="meeting" value="DUTY010"/>
+                                <label for="meeting">회의</label>
+                                <input type="radio" name="commonCodeDutyKind" id="team" value="DUTY012"/>
+                                <label for="team">팀</label>
+                                <input type="radio" name="commonCodeDutyKind" id="personal" value="DUTY011"/>
+                                <label for="personal">개인</label>
+                                <input type="radio" name="commonCodeDutyKind" id="edu" value="DUTY013"/>
+                                <label for="edu">교육</label>
+                                <input type="radio" name="commonCodeDutyKind" id="etc" value="DUTY014"/>
+                                <label for="etc">기타</label>
+                            </div>
+                        </li>
+                        <li class="form-data-list">
+                            <label class="modal-title">🔥 업무 진행</label>
+                            <div class="input-data">
+                                <input type="radio" name="commonCodeDutyProgrs" id="DUTY030" value="DUTY030">
+                                <label for="DUTY030">업무 전</label>
+                                <input type="radio" name="commonCodeDutyProgrs" id="DUTY031" value="DUTY031">
+                                <label for="DUTY031">업무 중</label>
+                                <input type="radio" name="commonCodeDutyProgrs" id="DUTY032" value="DUTY032">
+                                <label for="DUTY032">업무 완료</label>
+                            </div>
+                        </li>
+                        <li class="form-data-list">
+                            <div class="receive-org-wrap">
+                                <label class="modal-title">💌 받는 사람</label>
+                                <button type="button" id="orgBtn" class="btn btn-flat">조직도</button>
+                            </div>
+                            <label for="receive" style="width: 100%">
+                                <div id="receive" class="input-l modal-input">
+                                </div>
+                                <div id="orgChart"></div>
+                            </label>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-wrap">
+                    <button class="close btn btn-fill-wh-sm">취소</button>
+                    <button type="submit" id="request"  class="close btn btn-fill-bl-sm">요청</button>
                 </div>
             </div>
-            <div id="modal-request-job" class="modal-common">
-                <div class="modal-header">
-                    <h4><i class="icon icon-idea"></i>업무 요청하기</h4>
-                    <button class="close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form id="requestJob" method="post">
-                        <ul>
-                            <li class="form-data-list">
-                                <label for="jobSj">📚 업무 제목</label>
-                                <input type="text" name="jobSj" id="jobSj" placeholder="업무 제목을 입력하세요.">
-                            </li>
-                            <li class="form-data-list">
-                                <label for="jobCn">✅ 업무 내용</label>
-                                <input type="text" name="jobCn" id="jobCn" placeholder="업무 내용을 입력하세요.">
-                            </li>
-                            <li class="form-data-list">
-                                <label>📅 업무 기간</label>
-                                <div class="input-date">
-                                    <input type="date" name="jobBeginDate" id="jobBeginDate" onchange="validateDate()"
-                                           placeholder="시작 날짜">
-                                    ~
-                                    <input type="date" name="jobClosDate" id="jobClosDate" onchange="validateDate()"
-                                           placeholder="끝 날짜">
-                                </div>
-                            </li>
-                            <li class="form-data-list">
-                                <label>💭 업무 분류</label>
-                                <div class="input-data">
-                                    <input type="radio" name="commonCodeDutyKind" id="meeting" value="DUTY010"/>
-                                    <label for="meeting">회의</label>
-                                    <input type="radio" name="commonCodeDutyKind" id="team" value="DUTY012"/>
-                                    <label for="team">팀</label>
-                                    <input type="radio" name="commonCodeDutyKind" id="personal" value="DUTY011"/>
-                                    <label for="personal">개인</label>
-                                    <input type="radio" name="commonCodeDutyKind" id="edu" value="DUTY013"/>
-                                    <label for="edu">교육</label>
-                                    <input type="radio" name="commonCodeDutyKind" id="etc" value="DUTY014"/>
-                                    <label for="etc">기타</label>
-                                </div>
-                            </li>
-                            <li class="form-data-list">
-                                <label>🔥 업무 진행</label>
-                                <div class="input-data">
-                                    <input type="radio" name="commonCodeDutyProgrs" id="DUTY030" value="DUTY030">
-                                    <label for="DUTY030">업무 전</label>
-                                    <input type="radio" name="commonCodeDutyProgrs" id="DUTY031" value="DUTY031">
-                                    <label for="DUTY031">업무 중</label>
-                                    <input type="radio" name="commonCodeDutyProgrs" id="DUTY032" value="DUTY032">
-                                    <label for="DUTY032">업무 완료</label>
-                                </div>
-                            </li>
-                            <li class="form-data-list">
-                                <label style="display: inline-block;">💌 받는 사람</label>
-                                <button type="button" id="orgBtn">조직도</button>
-                                <label for="receive" style="width: 100%">
-
-                                    <div id="receive" style="border: 1px solid #333; height: 50px; border-radius: 50px">
-                                    </div>
-                                    <div id="orgChart"></div>
-                                </label>
-                            </li>
-                        </ul>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="close">취소</button>
-                    <button type="submit" id="request">요청</button>
-                </div>
-            </div>
-            <div id="modal-requestDetail-job" class="modal-common">
+        </div>
+            <%--<div id="modal-requestDetail-job" class="modal-common">
                 <div class="modal-header">
                     <h4><i class="icon icon-idea"></i>업무 요청하기(상세)</h4>
                     <button class="close">&times;</button>
@@ -469,7 +462,6 @@
                     <button class="close">확인</button>
                 </div>
             </div>
-
             <div id="modal-newJob" class="modal-common">
                 <div class="modal-header">
                     <h4><i class="icon icon-idea"></i>업무 등록</h4>
@@ -675,12 +667,13 @@
                     <button type="button" id="modify">수정</button>
                     <button type="button" id="confirm" style="display: none">확인</button>
                 </div>
-            </div>
+            </div>--%>
         </div>
     </div>
 </div>
 <script src="/resources/js/orgChart.js"></script>
 <script src="/resources/js/job.js"></script>
+<script src="/resources/js/modal.js"></script>
 <script>
     <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser" />

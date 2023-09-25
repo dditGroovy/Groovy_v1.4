@@ -93,7 +93,7 @@
                     <div id="commuteTable"></div>
                 </div>
             </div>
-            <div class="modal-foote btn-wrapper">
+            <div class="modal-footer btn-wrapper">
                 <button type="button" class="btn btn-fill-wh-sm close">확인</button>
             </div>
         </div>
