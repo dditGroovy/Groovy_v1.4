@@ -17,7 +17,7 @@
         text-align: center;
     }
 </style>
-<a href="#" class="btn btn-free-blue" id="downBtn">문서 다운로드</a>
+<a href="#" class="btn btn-free-blue" id="downBtn" onclick="downloadAsPDF()">문서 다운로드</a>
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-wrapper">
@@ -45,7 +45,8 @@
                                     && (lineVO.commonCodeSanctProgrs == '대기')
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'Y')}">
-                            <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})">최종승인
+                            <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})"
+                                    class="btn btn-free-white rejectBtn">최종승인
                             </button>
                             <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
                                     class="btn btn-free-red rejectBtn" data-name="reject">반려
@@ -115,10 +116,10 @@
         <div class="content-body">
 
         </div>
-    </div>
-    <div id="formCard">
-        <div class="formContent">
-                ${sanction.elctrnSanctnDc}
+        <div id="formCard">
+            <div class="formContent">
+                    ${sanction.elctrnSanctnDc}
+            </div>
         </div>
         <div class="form-file">
             <div class="file-label form-label">
@@ -181,37 +182,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
+
+        // pdf 생성
         window.jsPDF = window.jspdf.jsPDF;
-        //pdf  다운로드
-        $("#downBtn").on("click", function () {
+        function downloadAsPDF() {
+            let element = document.querySelector(".content-wrapper");
 
-            let element = $(".content-wrapper");
-            html2canvas(element).then((canvas) => {
-                let imgData = canvas.toDataURL('image/png');
-                let imgWidth = 150;
-                let pageHeight = 300;
-                let imgHeight = parseInt(canvas.height * imgWidth / canvas.width)
+            let options = {
+                ignoreElements: (element) => {
+                    return element.classList.contains("btn"); // 버튼 제외
+                }
+            };
+
+            html2canvas(element, options).then((canvas) => {
+                let imgData = canvas.toDataURL("image/png");
+                let imgWidth = 210;
+                let pageHeight = 297;
+                let imgHeight = (canvas.height * imgWidth) / canvas.width;
                 let heightLeft = imgHeight;
-                let margin = 10;
+                let position = 0;
+                let pdf = new jsPDF("p", "mm", "a4");
 
-                let doc = new jsPDF('p', 'mm', 'a4');
-
-                let position = 30;
-
-                doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+                pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
                 heightLeft -= pageHeight;
+
                 while (heightLeft >= 0) {
                     position = heightLeft - imgHeight;
-                    doc.addPage();
-                    doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+                    pdf.addPage();
+                    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
                     heightLeft -= pageHeight;
                 }
 
-                let fileName = `\${sanction.elctrnSanctnEtprCode}.pdf`;
-                doc.save(fileName);
+                let fileName = '${sanction.elctrnSanctnEtprCode}' + '.pdf'
+                pdf.save(fileName);
             });
-        })
-
+        }
 
         let rejectReason;
         let rejectId;
@@ -325,91 +330,3 @@
         }
     </script>
 </sec:authorize>
-
-
-<%-- <div id="formCard">
-       <div class="formHeader">
-           <div class="btnWrap">
-               <div id="myLine">
-                   <hr>
-                   <p>기안</p>
-                   <p>${sanction.emplNm}</p>
-                   <p><img src="/uploads/sign/${sanction.uploadFileStreNm}"/></p>
-                   <p>${sanction.elctrnSanctnRecomDate}</p>
-                   <p>${sanction.commonCodeSanctProgrs}</p>
-                   <p>${sanction.commonCodeClsf}</p>
-                   <hr>
-               </div>
-               <div id="approvalLine">
-                   <p>결재선</p>
-
-                   <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
-                       <c:choose>
-                           <c:when test="${lineVO.commonCodeSanctProgrs == '반려'}">
-                               <p>반려</p>
-                           </c:when>
-                           <c:when test="${lineVO.commonCodeSanctProgrs == '승인' }">
-                               <p><img src="/uploads/sign/${lineVO.uploadFileStreNm}"/></p>
-                           </c:when>
-                           <c:otherwise>
-                               <p>${lineVO.emplNm}</p>
-                           </c:otherwise>
-                       </c:choose>
-                       <p>${lineVO.sanctnLineDate}</p>
-                       <p>${lineVO.commonCodeSanctProgrs}</p>
-                       <p>${lineVO.commonCodeClsf}</p>
-                       <hr>
-                   </c:forEach>
-
-                   <c:forEach var="refrnVO" items="${refrnList}" varStatus="stat">
-                       <p>참조</p>
-                       <p>${refrnVO.emplNm} ${refrnVO.commonCodeDept} ${refrnVO.commonCodeClsf}</p>
-                       <hr>
-                   </c:forEach>
-               </div>
-           </div>
-           <br/>
-           <div class="formTitle">
-               <p class="main-title"> ${sanction.elctrnSanctnSj}</p>
-           </div>
-       </div>
-       <div class="formContent">
-               ${sanction.elctrnSanctnDc}
-       </div>
-       <div class="formFile">
-           <c:if test="${file != null}">
-               <p><a href="/file/download/sanction?uploadFileSn=${file.uploadFileSn}">${file.uploadFileOrginlNm}</a>
-                   <fmt:formatNumber value="${file.uploadFileSize / 1024.0}"
-                                     type="number" minFractionDigits="1" maxFractionDigits="1"/> KB</p>
-           </c:if>
-       </div>
-       <div id="returnResn">
-           <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
-               <c:if test="${lineVO.sanctnLineReturnResn != null }">
-                   <p>반려사유</p>
-                   <p>${lineVO.emplNm}${lineVO.commonCodeClsf}</p>
-                   <p>${lineVO.sanctnLineReturnResn}</p>
-               </c:if>
-           </c:forEach>
-       </div>
-           &lt;%&ndash; 세션에 담긴 사번이 문서의 기안자 사번과 같고 결재 코드가 최초 상신 상태일 때&ndash;%&gt;
-       <c:if test="${CustomUser.employeeVO.emplId == sanction.elctrnSanctnDrftEmplId && sanction.commonCodeSanctProgrs == '상신' }">
-           <button type="button" onclick="collect()">회수</button>
-       </c:if>
-       <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
-           &lt;%&ndash; 세션에 담긴 사번이 문서의 결재자 사번과 같고 결재 상태가 대기이며 결재의 상태가 반려가 아닌 경우&ndash;%&gt;
-           <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
-                       && (lineVO.commonCodeSanctProgrs == '대기')
-                       && (sanction.commonCodeSanctProgrs != '반려')
-                       && (lineVO.elctrnSanctnFinalAt == 'N')}">
-               <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})">승인</button>
-               <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})">반려</button>
-           </c:if>
-           <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
-                       && (lineVO.commonCodeSanctProgrs == '대기')
-                       && (sanction.commonCodeSanctProgrs != '반려')
-                       && (lineVO.elctrnSanctnFinalAt == 'Y')}">
-               <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})">최종승인</button>
-               <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})">반려</button>
-           </c:if>
-       </c:forEach>--%>
