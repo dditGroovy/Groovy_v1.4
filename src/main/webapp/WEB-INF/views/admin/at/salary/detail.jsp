@@ -305,7 +305,6 @@
             }
 
             let fileName = `\${result.salaryDtsmtEtprCode}.pdf`;
-
             $.ajax({
                 url: "/salary/uploadFile",
                 type: 'post',
@@ -323,7 +322,7 @@
                     console.log("message: " + xhr.responseText);
                     console.log("error: " + xhr.error);
                 }
-            })
+            });
         });
     }
 
@@ -349,6 +348,11 @@
                         const selectedResult = monthlyData[i];
                         downloadButtonClickHandler(selectedResult);
                     }
+                },
+                error: function (xhr, status, error) {
+                    console.log("code: " + xhr.status);
+                    console.log("message: " + xhr.responseText);
+                    console.log("error: " + xhr.error);
                 }
             });
         });
@@ -358,4 +362,17 @@
         const selectedNodes = gridOptions.api.getSelectedNodes();
         return selectedNodes.map((node) => node.data);
     }
+
+    document.querySelector("#downloadDtsmt").addEventListener("click", function () {
+        let nowDate = new Date();
+        let year = nowDate.getFullYear().toString().substring(2);
+        let month = nowDate.getMonth() + 1;
+        month = month < 10 ? "0" + month : month;
+        let date = year + month
+
+        let selectedData = getSelectedRowData();
+        let emplIdArray = selectedData.map(item => item.emplId);
+        let emplIdJson = encodeURIComponent(JSON.stringify(emplIdArray));
+        location.href = `/file/download/salaryZip?date=\${date}&data=\${emplIdJson}`;
+    });
 </script>

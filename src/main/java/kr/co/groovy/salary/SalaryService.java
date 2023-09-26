@@ -26,11 +26,11 @@ public class SalaryService {
     final
     SalaryMapper mapper;
 
-    final String uploadHyejin;
+    final String uploadPath;
 
-    public SalaryService(SalaryMapper mapper, String uploadHyejin) {
+    public SalaryService(SalaryMapper mapper, String uploadPath) {
         this.mapper = mapper;
-        this.uploadHyejin = uploadHyejin;
+        this.uploadPath = uploadPath;
     }
 
     List<AnnualSalaryVO> loadSalary() {
@@ -230,7 +230,7 @@ public class SalaryService {
         String etprCode = map.get("etprCode");
 
         try {
-            String uploadPath = uploadHyejin + "/salary";
+            String uploadPath = this.uploadPath + "/salary";
             log.info("salary uploadPath: " + uploadPath);
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
@@ -261,7 +261,7 @@ public class SalaryService {
             if (mapper.existsUploadedFile(etprCode) == 0) {
                 Map<String, Object> inputMap = new HashMap<>();
                 inputMap.put("salaryDtsmtEtprcode", etprCode);
-                inputMap.put("originalFileName", "default"); // 저장할거면 블롭으로 바꿀지 상의
+                inputMap.put("originalFileName", "default");
                 inputMap.put("newFileName", etprCode + ".pdf");
                 inputMap.put("fileSize", 0);
 

@@ -11,6 +11,20 @@
         FROM UPLOAD_FILE
         WHERE UPLOAD_FILE_SN = #{uploadFileSn}
     </select>
+
+    <select id="downloadFileByDate" resultType="uploadFileVO" parameterType="Map">
+        SELECT UPLOAD_FILE_SN,
+               UPLOAD_FILE_ETPR_CODE,
+               UPLOAD_FILE_ORGINL_NM,
+               UPLOAD_FILE_STRE_NM,
+               UPLOAD_FILE_SIZE,
+               UPLOAD_FILE_RGSDE
+        FROM UPLOAD_FILE
+        WHERE UPLOAD_FILE_ETPR_CODE LIKE 'SD-AT%'
+          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{date} || '%'
+          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{emplId}
+    </select>
+
     <insert id="uploadFile" parameterType="uploadFileVO">
         INSERT INTO UPLOAD_FILE( UPLOAD_FILE_SN
                                , UPLOAD_FILE_ETPR_CODE
@@ -26,4 +40,17 @@
                 sysdate)
 
     </insert>
+
+    <select id="downloadFileByDateForZip" resultType="uploadFileVO" parameterType="Map">
+        SELECT UPLOAD_FILE_SN,
+               UPLOAD_FILE_ETPR_CODE,
+               UPLOAD_FILE_ORGINL_NM,
+               UPLOAD_FILE_STRE_NM,
+               UPLOAD_FILE_SIZE,
+               UPLOAD_FILE_RGSDE
+        FROM UPLOAD_FILE
+        WHERE UPLOAD_FILE_ETPR_CODE LIKE 'SD-AT%'
+          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{date} || '%'
+          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{emplId}
+    </select>
 </mapper>
