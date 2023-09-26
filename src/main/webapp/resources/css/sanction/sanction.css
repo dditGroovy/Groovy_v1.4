@@ -553,11 +553,6 @@ th {
     flex: 1;
 }
 
-.openSanction {
-    text-decoration: underline;
-    color: var(--color-main);
-}
-
 #inProgress {
     padding: var(--vh-24);
     height: calc((718 / var(--vh)) * 100vh);
