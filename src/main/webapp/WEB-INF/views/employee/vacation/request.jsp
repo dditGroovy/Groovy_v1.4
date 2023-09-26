@@ -214,10 +214,10 @@
         const startDateName = "yrycUseDtlsBeginDate";
         const endDateName = "yrycUseDtlsEndDate";
 
-        setDate(startDateName)
-        setDate(endDateName)
-        setMinDate(startDateName)
-        setMinDate(endDateName)
+        // setDate(startDateName)
+        // setDate(endDateName)
+        // setMinDate(startDateName)
+        // setMinDate(endDateName)
 
         const detailVacation = document.querySelector(".detailVacation");
         const detailLink = document.querySelectorAll(".detailLink");
@@ -235,6 +235,7 @@
         let param;
         let childWindow;
         let vacationKind;
+
         if (vacationKind === 'YRYC010') {
             param = 'SANCTN_FORMAT011'
         } else {
@@ -298,6 +299,7 @@
                 type: "GET",
                 url: `/vacation/data/\${num}`,
                 success: function (data) {
+                    alert("vacationKind", data.commonCodeYrycUseKind)
                     modalOpen();
                     detailVacation.classList.add("on");
                     let form = $("#vacationModifyForm");
