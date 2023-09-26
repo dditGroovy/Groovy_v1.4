@@ -103,7 +103,7 @@
                         </tr>
                     </table>
                 </div>
-                <c:if test="${refrnList}!=null">
+                <c:if test="${refrnList!=null}">
                     <div id="refer">
                         <table id="refer-line" class="line-table">
                             <tr id="referOtt" class="ott">
