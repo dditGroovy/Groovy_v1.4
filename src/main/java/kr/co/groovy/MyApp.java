@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
+
 @Slf4j
 @Controller
 @RequestMapping("/jenkins")
@@ -38,7 +40,7 @@ public class MyApp {
         s3Client.listBuckets().forEach(bucket -> {
             name[0] = bucket.getName();
         });
-        model.addAttribute("env", name);
+        model.addAttribute("env", Arrays.toString(name));
         return "aws";
     }
 }
