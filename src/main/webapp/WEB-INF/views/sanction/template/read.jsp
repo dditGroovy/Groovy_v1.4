@@ -158,7 +158,7 @@
 
     <br><br>
     <div class="btn-wrap close-btn-wrap">
-        <button type="button" onclick="closeWindow()" class="btn btn-fill-bl-sm">닫기</button>
+        <button type="button" id="closeBtn" onclick="closeWindow()" class="btn btn-free-white">닫기</button>
     </div>
     <!-- 모달창 -->
     <div id="modal" class="modal-dim">

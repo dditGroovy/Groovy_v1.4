@@ -459,12 +459,9 @@
                     data.referLine[index + 1] = {id, name};
                 })
             }
-            console.log(window)
             // 부모 창으로 데이터를 보냅니다.
-            //window.opener.postMessage(data, '*');
-            alert("요기4")
+            window.opener.postMessage(data, '*');
             window.close();
-            alert("요기5")
 
         })
         /*document.querySelector("#sideBar").style.display = "none";*/
