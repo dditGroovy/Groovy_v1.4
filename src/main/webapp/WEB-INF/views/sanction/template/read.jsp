@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sanction/sanction.css">
 <style>
     .container {
-        padding: var(--vh-24) var(--vw-24);
+        padding: 24px;
     }
 
     .file_box {

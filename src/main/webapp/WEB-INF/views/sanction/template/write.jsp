@@ -4,8 +4,9 @@
            uri="http://www.springframework.org/security/tags" %>
 <style>
     .container {
-        padding: var(--vh-24) var(--vw-24);
+        padding: 24px;
     }
+
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sanction/sanction.css">
 <sec:authorize access="isAuthenticated()">
