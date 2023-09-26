@@ -414,3 +414,63 @@ section .content-wrap {
     align-items: center;
     justify-content: space-between;
 }
+
+/*  업무 일지   */
+#goWrite {
+    align-self: flex-end;
+}
+#inProgress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+    padding: var(--vh-24);
+    height: calc((718 / var(--vh)) * 100vh);
+}
+#inProgress .form td {
+    padding: 0;
+}
+.approval-form tbody tr td:not(:nth-child(1)) {
+    flex: 2;
+}
+
+.approval-form tbody tr td:nth-child(1) {
+    flex: 1;
+}
+
+.approval-form thead tr th:not(:nth-child(1)) {
+    flex: 2;
+}
+
+.approval-form thead tr th:nth-child(1) {
+    flex: 1;
+}
+#detail {
+    padding: var(--vw-32);
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+    align-items: center;
+    justify-content: center;
+}
+#detail .form {
+    width: 100%;
+}
+#detail .form th {
+    text-align: right;
+    padding: var(--vh-12) var(--vw-24);
+}
+#detail .form td {
+    padding: var(--vh-12) var(--vw-24);
+}
+.jobDiarySbj {
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--vw-32);
+    outline-color: var(--color-main);
+}
+#detail .btn-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--vw-24);
+    margin-top: var(--vh-24);
+}

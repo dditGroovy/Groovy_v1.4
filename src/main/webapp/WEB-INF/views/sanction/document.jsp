@@ -54,7 +54,7 @@
                             code += "<tr style='height: 100%;'><td colspan='8'>기안 결재 문서가 없습니다</td></tr>";
                         } else {
                             for (let i = 0; i < res.length; i++) {
-                                code += `<tr><td><a href="/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
+                                code += `<tr><td><a href="/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="link"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
                                 code += `<td>\${res[i].commonCodeSanctProgrs}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnFormatCode}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnSj}</td>`;
