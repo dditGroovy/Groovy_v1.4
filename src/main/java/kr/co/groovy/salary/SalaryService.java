@@ -26,11 +26,11 @@ public class SalaryService {
     final
     SalaryMapper mapper;
 
-    final String uploadHyejin;
+    final String uploadPath;
 
-    public SalaryService(SalaryMapper mapper, String uploadHyejin) {
+    public SalaryService(SalaryMapper mapper, String uploadPath) {
         this.mapper = mapper;
-        this.uploadHyejin = uploadHyejin;
+        this.uploadPath = uploadPath;
     }
 
     List<AnnualSalaryVO> loadSalary() {
@@ -227,7 +227,7 @@ public class SalaryService {
         String etprCode = map.get("etprCode");
 
         try {
-            String uploadPath = this.uploadHyejin + "/salary";
+            String uploadPath = this.uploadPath + "/salary";
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 if (uploadDir.mkdirs()) {
