@@ -92,26 +92,30 @@
 </div>
 <script src="${pageContext.request.contextPath}/resources/js/mailAt.js"></script>
 <script>
+    let flag = true;
     function deleteMail() {
         checkboxes = document.querySelectorAll(".selectmail:checked");
         checkboxes.forEach(function (checkbox) {
             let tr = checkbox.closest("tr");
             let emailEtprCode = tr.getAttribute("data-id");
 
-            let isDelete = confirm("휴지통에서 메일을 삭제하면 복구할 수 없습니다. 정말로 삭제하시겠습니까?");
-            if (isDelete) {
-                $.ajax({
-                    url: `/email/\${emailEtprCode}`,
-                    type: "put",
-                    success: function (result) {
-                        tr.remove();
-                    },
-                    error: function (xhr, status, error) {
-                        console.log("code: " + xhr.status);
-                        console.log("message: " + xhr.responseText);
-                        console.log("error: " + xhr.error);
-                    }
-                });
+            if (flag) {
+                let isDelete = confirm("휴지통에서 메일을 삭제하면 복구할 수 없습니다. 정말로 삭제하시겠습니까?");
+                if (isDelete) {
+                    $.ajax({
+                        url: `/email/\${emailEtprCode}`,
+                        type: "put",
+                        success: function (result) {
+                            tr.remove();
+                        },
+                        error: function (xhr, status, error) {
+                            console.log("code: " + xhr.status);
+                            console.log("message: " + xhr.responseText);
+                            console.log("error: " + xhr.error);
+                        }
+                    });
+                }
+                flag = false;
             }
             checkbox.checked = false;
             allCheck.checked = false;

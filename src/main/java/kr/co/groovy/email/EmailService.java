@@ -342,10 +342,10 @@ public class EmailService {
             emailPassword = "zwhfanbijftbggwx";
             host = "pop.gmail.com";
         } else if (employeeVO.getEmplEmail().contains("daum.net")) {
-            emailPassword = "groovy402dditfinal";
+            emailPassword = "groovy40@dditfinal";
             host = "pop.daum.net";
         } else if (employeeVO.getEmplEmail().contains("naver.com")) {
-            emailPassword = "BowwowBowwow402";
+            emailPassword = "BowwowBowwow40@";
             host = "pop.naver.com";
         }
 
@@ -424,11 +424,11 @@ public class EmailService {
         String emplEmail = employeeVO.getEmplEmail();
         JavaMailSenderImpl mailSender = null;
         if (emplEmail.contains("naver.com")) {
-            mailSender = naverMailSender(emplEmail, "BowwowBowwow402");
+            mailSender = naverMailSender(emplEmail, "BowwowBowwow40@");
         } else if (emplEmail.contains("gmail.com")) {
             mailSender = googleMailSender(emplEmail, "zwhfanbijftbggwx");
         } else if (emplEmail.contains("daum.net")) {
-            mailSender = daumMailSender(emplEmail, "groovy402dditfinal");
+            mailSender = daumMailSender(emplEmail, "groovy40@dditfinal");
         }
 
         List<String> toList = new ArrayList<>();

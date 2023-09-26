@@ -65,6 +65,7 @@
     let tariffList;
     let id = document.querySelector("a").getAttribute("data-id");
     let yearSelect = document.querySelector("#yearSelect");
+    let flag = true;
 
     getAllYear();
 
@@ -314,9 +315,11 @@
                 }),
                 contentType: 'application/json',
                 success: function (result) {
-                    console.log(result);
                     if (result === "success") {
-                        alert("급여명세서 생성이 완료되었습니ddd다. 다운로드 및 일괄전송이 가능합니다.");
+                        if (flag) {
+                            alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
+                            flag = false;
+                        }
                     }
                 },
                 error: function (xhr, status, error) {
