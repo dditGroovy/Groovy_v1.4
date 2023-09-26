@@ -1,100 +1,119 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/orgChart/orgChart.css">
 <div class="content-container">
-    <h1>조직도</h1>
-    <div>
-        <h2>CEO</h2>
-        <div>
-            <i></i> <!-- 프로필 자리 -->
-            <div>
-                <h3>최서연</h3>
-                <p>대표이사</p>
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/common/orgChart" class="on">조직도</a></h1>
+    </header>
+    <main>
+        <div class="main-inner">
+            <div id="ceo" class="department-wrap">
+                <h2 class="department">CEO</h2>
+                <div class="department-list ceo-list">
+                    <img src="/resources/images/${dept010.proflPhotoFileStreNm}" class="empl-profile">
+                    <div>
+                        <h3 class="ceoName">최서연</h3>
+                        <p style="font-size: 14px;">대표이사</p>
+                    </div>
+                </div>
+            </div>
+            <div class="content-wrap">
+                <div class="department-wrap">
+                    <h2 class="department">인사팀</h2>
+                    <ol class="department-list">
+                        <c:forEach var="dept010" items="${DEPT010List}" varStatus="stat">
+                            <li>
+                                <div class="empl-info">
+                                    <img src="/resources/images/${dept010.proflPhotoFileStreNm}" class="empl-profile">
+                                    <div>
+                                        <h3 class="empl-name">${dept010.emplNm}</h3> <span class="empl-clsf">${dept010.commonCodeClsf}</span>
+                                    </div>
+                                </div>
+                                <div class="empl-service">
+                                    <a href="#${dept010.emplId}"><i class="icon i-chat"></i></a> <!-- 채팅 아이콘/각 태그에 링킹 -->
+                                    <a href="#${dept010.emplId}"><i class="icon i-mail"></i></a> <!-- 메일 아이콘/각 태그에 링킹 -->
+                                </div>
+                            </li>
+                        </c:forEach>
+                    </ol>
+                </div>
+                <div class="department-wrap">
+                    <h2 class="department">회계팀</h2>
+                    <ol class="department-list">
+                        <c:forEach var="dept011" items="${DEPT011List}" varStatus="stat">
+                            <li>
+                                <div class="empl-info">
+                                    <img src="/resources/images/${dept011.proflPhotoFileStreNm}" class="empl-profile">
+                                    <div>
+                                        <h3 class="empl-name">${dept011.emplNm}</h3> <span class="empl-clsf">${dept011.commonCodeClsf}</span>
+                                    </div>
+                                </div>
+                                <div class="empl-service">
+                                    <a href="#${dept011.emplId}"><i class="icon i-chat"></i></a>
+                                    <a href="#${dept011.emplId}"><i class="icon i-mail"></i></a>
+                                </div>
+                            </li>
+                        </c:forEach>
+                    </ol>
+                </div>
+                <div class="department-wrap">
+                    <h2 class="department">영업팀</h2>
+                    <ol class="department-list">
+                        <c:forEach var="dept012" items="${DEPT012List}" varStatus="stat">
+                            <li>
+                                <div class="empl-info">
+                                    <img src="/resources/images/${dept012.proflPhotoFileStreNm}" class="empl-profile">
+                                    <div>
+                                        <h3 class="empl-name">${dept012.emplNm}</h3> <span class="empl-clsf">${dept012.commonCodeClsf}</span>
+                                    </div>
+                                </div>
+                                <div class="empl-service">
+                                    <a href="#${dept012.emplId}"><i class="icon i-chat"></i></a>
+                                    <a href="#${dept012.emplId}"><i class="icon i-mail"></i></a>
+                                </div>
+                            </li>
+                        </c:forEach>
+                    </ol>
+                </div>
+                <div class="department-wrap">
+                    <h2 class="department">홍보팀</h2>
+                    <ol class="department-list">
+                        <c:forEach var="dept013" items="${DEPT013List}" varStatus="stat">
+                            <li>
+                                <div class="empl-info">
+                                    <img src="/resources/images/${dept013.proflPhotoFileStreNm}" class="empl-profile">
+                                    <div>
+                                        <h3 class="empl-name">${dept013.emplNm}</h3> <span class="empl-clsf">${dept013.commonCodeClsf}</span>
+                                    </div>
+                                </div>
+                                <div class="empl-service">
+                                    <a href="#${dept013.emplId}"><i class="icon i-chat"></i></a>
+                                    <a href="#${dept013.emplId}"><i class="icon i-mail"></i></a>
+                                </div>
+                            </li>
+                        </c:forEach>
+                    </ol>
+                </div>
+                <div class="department-wrap">
+                    <h2 class="department">총무팀</h2>
+                    <ol class="department-list">
+                        <c:forEach var="dept014" items="${DEPT014List}" varStatus="stat">
+                            <li>
+                                <div class="empl-info">
+                                    <img src="/resources/images/${dept014.proflPhotoFileStreNm}" class="empl-profile">
+                                    <div>
+                                        <h3 class="empl-name">${dept014.emplNm}</h3> <span class="empl-clsf">${dept014.commonCodeClsf}</span>
+                                    </div>
+                                </div>
+                                <div class="empl-service">
+                                    <a href="#${dept014.emplId}"><i class="icon i-chat"></i></a>
+                                    <a href="#${dept014.emplId}"><i class="icon i-mail"></i></a>
+                                </div>
+                            </li>
+                        </c:forEach>
+                    </ol>
+                </div>
             </div>
         </div>
-        <hr>
-
-        <div>
-            <h2>인사팀</h2>
-            <ol>
-                <c:forEach var="dept010" items="${DEPT010List}" varStatus="stat">
-                    <li>
-                        <img src="/resources/images/${dept010.proflPhotoFileStreNm}" width="50px;">
-                        <div>
-                            <h3>${dept010.emplNm}</h3> <span>${dept010.commonCodeClsf}</span>
-                        </div>
-                        <a href="#${dept010.emplId}">채팅<i></i></a> <!-- 채팅 아이콘/각 태그에 링킹 -->
-                        <a href="#${dept010.emplId}">메일<i></i></a> <!-- 메일 아이콘/각 태그에 링킹 -->
-                    </li>
-                </c:forEach>
-            </ol>
-        </div>
-        <hr>
-
-
-        <div>
-            <h2>회계팀</h2>
-            <ol>
-                <c:forEach var="dept011" items="${DEPT011List}" varStatus="stat">
-                    <li>
-                        <img src="/resources/images/${dept011.proflPhotoFileStreNm}" width="50px;">
-                        <div>
-                            <h3>${dept011.emplNm}</h3> <span>${dept011.commonCodeClsf}</span>
-                        </div>
-                        <a href="#${dept011.emplId}">채팅<i></i></a>
-                        <a href="#${dept011.emplId}">메일<i></i></a>
-                    </li>
-                </c:forEach>
-            </ol>
-        </div>
-        <hr>
-
-        <div>
-            <h2>영업팀</h2>
-            <ol>
-                <c:forEach var="dept012" items="${DEPT012List}" varStatus="stat">
-                    <li>
-                        <div>
-                            <h3>${dept012.emplNm}</h3> <span>${dept012.commonCodeClsf}</span>
-                        </div>
-                        <a href="#${dept012.emplId}">채팅<i></i></a>
-                        <a href="#${dept012.emplId}">메일<i></i></a>
-                    </li>
-                </c:forEach>
-            </ol>
-        </div>
-        <hr>
-
-        <div>
-            <h2>홍보팀</h2>
-            <ol>
-                <c:forEach var="dept013" items="${DEPT013List}" varStatus="stat">
-                    <li>
-                        <div>
-                            <h3>${dept013.emplNm}</h3> <span>${dept013.commonCodeClsf}</span>
-                        </div>
-                        <a href="#${dept013.emplId}">채팅<i></i></a>
-                        <a href="#${dept013.emplId}">메일<i></i></a>
-                    </li>
-                </c:forEach>
-            </ol>
-        </div>
-        <hr>
-
-        <div>
-            <h2>총무팀</h2>
-            <ol>
-                <c:forEach var="dept014" items="${DEPT014List}" varStatus="stat">
-                    <li>
-                        <div>
-                            <h3>${dept014.emplNm}</h3> <span>${dept014.commonCodeClsf}</span>
-                        </div>
-                        <a href="#${dept014.emplId}">채팅<i></i></a>
-                        <a href="#${dept014.emplId}">메일<i></i></a>
-                    </li>
-                </c:forEach>
-            </ol>
-        </div>
-
-
-    </div>
+    </main>
 </div>

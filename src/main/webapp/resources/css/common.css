@@ -57,10 +57,10 @@ body {
     height: calc((100 / var(--vw)) * 100vw);
 }
 /*  scroll  */
-tbody::-webkit-scrollbar,div::-webkit-scrollbar, ul::-webkit-scrollbar {
+tbody::-webkit-scrollbar,div::-webkit-scrollbar, ul::-webkit-scrollbar, ol::-webkit-scrollbar {
     width: 0 !important;
 }
-tbody::-webkit-scrollbar-thumb,div::-webkit-scrollbar-thumb, ul::-webkit-scrollbar-thumb {
+tbody::-webkit-scrollbar-thumb,div::-webkit-scrollbar-thumb, ul::-webkit-scrollbar-thumb, ol::-webkit-scrollbar-thumb {
     height: 20%;
     background: var(--color-main);
     border-radius: 10px;
