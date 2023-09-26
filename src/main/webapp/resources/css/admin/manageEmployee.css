@@ -167,7 +167,6 @@ input[type="date"] {
 }
 
 .anw {
-    max-height: 0;
     overflow: hidden;
     transition: max-height .2s ease-out;
 }
@@ -226,4 +225,8 @@ input[type="date"] {
 
 .i-search {
     margin-right: 8px;
+}
+
+.accordion-flex {
+    display: flex;
 }
