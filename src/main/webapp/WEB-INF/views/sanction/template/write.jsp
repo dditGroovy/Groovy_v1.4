@@ -59,7 +59,6 @@
         <div class="form-file">
             <div class="file-box">
                 <p class="file-name">이곳에 파일을 끌어놓으세요. <label for="sanctionFile" class="choose"> 직접 선택</label></p>
-
                 <input type="file" id="sanctionFile"/>
             </div>
         </div>
@@ -85,6 +84,8 @@
         const title = "${format.formatSj}";
         let content;
         let file = $('#sanctionFile')[0].files[0];
+        console.log(file)
+
         let num = opener.$("#sanctionNum").val();
         let approvalListData = [];
         let attachListData = [];
@@ -290,16 +291,23 @@
             });
         }
 
+
+        $("#sanctionFile").addEventListener("change", function() {
+            const selectedFile = this.files[0];
+            appendFile(selectedFile);
+        });
+
+
         // 결재 테이블 insert 후 첨부 파일 있다면 업로드 실행
         function appendFile(paramFile) {
             file = paramFile;
-            console.log(file)
         }
 
         function uploadFile() {
             let form = file;
             let formData = new FormData();
             formData.append('file', form);
+            console.log(file)
             $.ajax({
                 url: `/file/upload/sanction/\${etprCode}`,
                 type: "POST",
