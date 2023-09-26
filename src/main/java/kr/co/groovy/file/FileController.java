@@ -23,8 +23,8 @@ public class FileController {
     final
     FileService service;
     // TODO 경로 주입 바꾸기 (운영서버로)
-    public FileController(String uploadSeoju, FileService service) {
-        this.uploadPath = uploadSeoju;
+    public FileController(String uploadPath, FileService service) {
+        this.uploadPath = uploadPath;
         this.service = service;
     }
 

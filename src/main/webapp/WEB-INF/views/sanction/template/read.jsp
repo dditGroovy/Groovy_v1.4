@@ -23,8 +23,7 @@
         <div class="content-header">
             <div class="form-header">
                 <div class="btn-wrap">
-                    <a href="#" class="btn btn-free-white" id="downBtn" onclick="downloadAsPDF()"><i
-                            class="icon i-down"></i></a>
+                    <a href="#" class="btn" id="downBtn" onclick="downloadAsPDF()"><i class="icon i-down"></i></a>
                         <%--    세션에 담긴 사번이 문서의 기안자 사번과 같고 결재 코드가 최초 상신 상태일 때    --%>
                     <c:if test="${CustomUser.employeeVO.emplId == sanction.elctrnSanctnDrftEmplId && sanction.commonCodeSanctProgrs == '상신' }">
                         <button type="button" onclick="collect()" class="btn btn-free-white" id="collectBtn">회수</button>
@@ -36,10 +35,10 @@
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'N')}">
                             <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-white">승인
+                                    class="btn btn-free-white sanctionBtn">승인
                             </button>
                             <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-white rejectBtn" data-name="reject">반려
+                                    class="btn btn-free-white sanctionBtn" data-name="reject">반려
                             </button>
                         </c:if>
                         <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
@@ -47,10 +46,10 @@
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'Y')}">
                             <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-white rejectBtn">최종승인
+                                    class="btn btn-free-white sanctionBtn">최종승인
                             </button>
                             <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-white rejectBtn" data-name="reject">반려
+                                    class="btn btn-free-white sanctionBtn" data-name="reject">반려
                             </button>
                         </c:if>
                     </c:forEach>
@@ -103,7 +102,7 @@
                         </tr>
                     </table>
                 </div>
-                <c:if test="${refrnList}!=null">
+                <c:if test="${refrnList!=null}">
                     <div id="refer">
                         <table id="refer-line" class="line-table">
                             <tr id="referOtt" class="ott">
@@ -125,7 +124,7 @@
                     ${sanction.elctrnSanctnDc}
             </div>
         </div>
-        <c:if test="${file}!=null">
+        <c:if test="${file!=null}">
             <div class="form-file">
                 <div class="file-label form-label">
                     첨부 파일
@@ -158,7 +157,7 @@
 
     <br><br>
     <div class="btn-wrap close-btn-wrap">
-        <button type="button" onclick="closeWindow()" class="btn btn-fill-bl-sm">닫기</button>
+        <button type="button" id="closeBtn" onclick="closeWindow()" class="btn btn-free-white sanctionBtn">닫기</button>
     </div>
     <!-- 모달창 -->
     <div id="modal" class="modal-dim">

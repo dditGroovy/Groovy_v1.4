@@ -34,13 +34,14 @@
                                     <label>비밀번호</label><br/>
                                     <input type="password" name="emplPassword" placeholder="비밀번호 입력" required><br/>
                                 </div>
-                                <div class="accordion-row">
-                                    <label>이메일</label><br/>
-                                    <input type="email" name="emplEmail" id="emplEmail" placeholder="이메일 입력" required><br/>
-                                </div>
+
                                 <div class="accordion-row">
                                     <label>휴대폰 번호</label><br/>
                                     <input type="text" name="emplTelno" placeholder="휴대폰 번호 입력" required><br/>
+                                </div>
+                                <div class="accordion-row">
+                                    <label>생년월일</label><br/>
+                                    <input type="date" value="2000-01-01" name="emplBrthdy" required><br/>
                                 </div>
                                 <div class="accordion-row">
                                     <label class="checkBoxLabel">최종학력</label><br/>
@@ -54,10 +55,6 @@
                                         <input type="radio" name="commonCodeLastAcdmcr" id="empEdu4" value="LAST_ACDMCR013">
                                         <label for="empEdu3">박사</label><br/>
                                     </div>
-                                </div>
-                                <div class="accordion-row">
-                                    <label>생년월일</label><br/>
-                                    <input type="date" value="2000-01-01" name="emplBrthdy" required><br/>
                                 </div>
                             </div>
                             <div class="accordion-row">
@@ -119,10 +116,16 @@
                                 <label>입사일</label> <br/>
                                 <input type="date" value="" name="emplEncpn" id="joinDate" required><br/>
                             </div>
-                            <div class="accordion-row">
-                                <label>사원번호</label>
-                                <button id="generateId" type="button" class="btn btn-free-blue empBtn">사원 번호 생성</button>
-                                <input type="text" name="emplId" id="emplId" required readonly>
+                            <div class="accordion-flex">
+                                <div class="accordion-row">
+                                    <label>사원번호</label>
+                                    <button id="generateId" type="button" class="btn btn-free-blue empBtn">사원 번호 생성</button>
+                                    <input type="text" name="emplId" id="emplId" required readonly>
+                                </div>
+                                <div class="accordion-row">
+                                    <label>이메일</label><br/>
+                                    <input type="email" name="emplEmail" id="emplEmail" placeholder="이메일 입력" required><br/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -197,14 +200,21 @@
 </div>
 <script src="/resources/js/modal.js"></script>
 <script>
+    let ques = document.querySelectorAll(".que");
+    let anws = document.querySelectorAll(".anw");
+    function queZero() {
+       anws[0].style.maxHeight = anws[0].scrollHeight + "px";
+       anws[1].style.maxHeight = "0px";
+       anws[2].style.maxHeight = "0px";
+    }
+
+    document.querySelector("#addEmployee").addEventListener("click", () => {
+        queZero();
+    });
+
     function accordion(element) {
-        var before = document.querySelector(".accordion-active");
         var content = element.nextElementSibling;
 
-        if (before && before !== element) {
-            before.nextElementSibling.style.maxHeight = null;
-            before.classList.remove("accordion-active");
-        }
         element.classList.toggle("accordion-active");
 
         if (content.style.maxHeight !== "0px") {

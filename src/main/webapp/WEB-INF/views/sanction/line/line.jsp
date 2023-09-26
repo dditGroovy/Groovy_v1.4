@@ -367,7 +367,7 @@
                         newLi.appendChild(label);
                         if (lineList) lineList.appendChild(newLi);
                         checkBox.remove();
-                        return
+                        return;
                     });
 
 
@@ -452,19 +452,16 @@
 
             if (referLineItems.length != 0) {
                 data.referLine = {};
-                referLineItems.forEach((item, index) => {
-                    data.referLine = {};
+                for (let index = referLineItems.length - 1; index >= 0; index--) {
+                    const item = referLineItems[index];
                     const id = item.querySelector("input").value;
-                    const name = item.querySelector(".name").innerText;
-                    data.referLine[index + 1] = {id, name};
-                })
+                    const name = item.querySelector(".name").innerText.split(' ')[0];
+                    data.referLine[referLineItems.length - index + 1] = {id, name};
+                }
             }
-            console.log(window)
             // 부모 창으로 데이터를 보냅니다.
-            //window.opener.postMessage(data, '*');
-            alert("요기4")
+            window.opener.postMessage(data, '*');
             window.close();
-            alert("요기5")
 
         })
         /*document.querySelector("#sideBar").style.display = "none";*/

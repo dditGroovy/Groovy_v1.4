@@ -261,9 +261,9 @@
                             <div class="new-pass">
                                 <label for="emplPasswordCheck1">새로운 비밀번호 입력</label>
                                 <div>
-                                        <input type="password" name="newPassword" id="emplPasswordCheck1"
-                                               placeholder="새로운 비밀번호를 입력하세요."/>
-                                        <input type="password" name="reEmplPassword" placeholder="새로운 비밀번호를 입력하세요." />
+                                    <input type="password" name="newPassword" id="emplPasswordCheck1"
+                                           placeholder="새로운 비밀번호를 입력하세요."/>
+                                    <input type="password" name="reEmplPassword" placeholder="새로운 비밀번호를 입력하세요."/>
                                 </div>
                             </div>
                         </form>

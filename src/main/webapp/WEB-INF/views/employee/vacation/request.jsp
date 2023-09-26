@@ -214,10 +214,10 @@
         const startDateName = "yrycUseDtlsBeginDate";
         const endDateName = "yrycUseDtlsEndDate";
 
-        setDate(startDateName)
-        setDate(endDateName)
-        setMinDate(startDateName)
-        setMinDate(endDateName)
+        // setDate(startDateName)
+        // setDate(endDateName)
+        // setMinDate(startDateName)
+        // setMinDate(endDateName)
 
         const detailVacation = document.querySelector(".detailVacation");
         const detailLink = document.querySelectorAll(".detailLink");
@@ -235,11 +235,6 @@
         let param;
         let childWindow;
         let vacationKind;
-        if (vacationKind === 'YRYC010') {
-            param = 'SANCTN_FORMAT011'
-        } else {
-            param = 'SANCTN_FORMAT012'
-        }
 
         $("#startSanction").on("click", function () {
             $("#modifyVacation").prop("disabled", true)
@@ -248,6 +243,11 @@
         })
 
         function openChildWindow() {
+            if (vacationKind === 'YRYC010') {
+                param = 'SANCTN_FORMAT011'
+            } else {
+                param = 'SANCTN_FORMAT012'
+            }
             childWindow = window.open(`/sanction/format/DEPT010/\${param}`, '결재', getWindowSize());
         }
 
@@ -298,6 +298,7 @@
                 type: "GET",
                 url: `/vacation/data/\${num}`,
                 success: function (data) {
+                    // alert("vacationKind", data.commonCodeYrycUseKind)
                     modalOpen();
                     detailVacation.classList.add("on");
                     let form = $("#vacationModifyForm");
