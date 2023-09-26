@@ -122,7 +122,6 @@ document.querySelector(".new-request").addEventListener("click", (event) => {
     }
 });
 
-/*
 document.querySelector("#reject").addEventListener("click", () => {
     jobProgressVO["commonCodeDutySttus"] = "거절"
     rejectOrAgree(jobProgressVO);
@@ -142,7 +141,6 @@ document.querySelector("#agreeJob").addEventListener("click", () => {
     jobProgressVO["commonCodeDutySttus"] = "승인"
     rejectOrAgree(jobProgressVO);
 });
-*/
 
 
 

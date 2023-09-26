@@ -3,6 +3,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="/resources/ckeditor/ckeditor.js"></script>
 <div class="content-container">
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/job/main">할 일</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/job/jobDiary" class="on">업무 일지</a></h1>
+    </header>
     <button type="button" id="goWrite">업무 일지 작성</button>
     <c:choose>
         <c:when test="${empty list}">
