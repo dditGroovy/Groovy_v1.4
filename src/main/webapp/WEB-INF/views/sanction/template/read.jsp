@@ -244,6 +244,8 @@
                 type: 'PUT',
                 success: function (data) {
                     alert('승인 처리 성공')
+                    location.reload()
+
                 },
                 error: function (xhr) {
                     alert('승인 처리 실패')
@@ -261,6 +263,7 @@
                     alert('최종 승인 처리 성공')
                     if (afterPrcs != null) {
                         afterFinalApprove();
+                        location.reload()
                     }
                 },
                 error: function (xhr) {
@@ -312,7 +315,7 @@
                 contentType: "application/json",
                 success: function (data) {
                     alert('반려 처리 성공')
-                    close()
+                    location.reload()
                 },
                 error: function (xhr) {
                     alert('반려 처리 실패')
@@ -328,6 +331,8 @@
                 type: 'PUT',
                 success: function (data) {
                     alert('회수 처리 성공')
+                    location.reload()
+
                 },
                 error: function (xhr) {
                     alert('회수 처리 실패')

@@ -2,6 +2,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
+<style>
+    .container{
+        padding: 0px !important;
+    }
+</style>
 <link rel="stylesheet" href="/resources/css/sanction/sanction.css">
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
@@ -105,9 +110,8 @@
             </div>
             <div class="line-service">
                 <div class="line-btn-wrapper">
-                    <button type="button" class="btn btn-out-sm btn-modal" data-name="bookmarkName">개인 결재선으로 저장</button>
-                    <button type="button" class="btn btn-out-sm btn-modal" data-name="loadLine" onclick="loadLine()">결재선
-                        불러오기
+                    <button type="button" class="btn btn-out-sm btn-modal bookmark-btn" data-name="bookmarkName"><i class="icon i-save"></i> 결재선 저장</button>
+                    <button type="button" class="btn btn-out-sm btn-modal bookmark-btn" data-name="loadLine" onclick="loadLine()"><i class="icon i-bookmark"></i> 나의 결재선
                     </button>
                 </div>
             </div>
@@ -458,6 +462,8 @@
                     const name = item.querySelector(".name").innerText.split(' ')[0];
                     data.referLine[referLineItems.length - index + 1] = {id, name};
                 }
+
+
             }
             // 부모 창으로 데이터를 보냅니다.
             window.opener.postMessage(data, '*');

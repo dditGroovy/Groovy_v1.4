@@ -37,7 +37,7 @@ public class JobService {
         employeeVO = mapper.getInfoById(emplId);
         employeeVO.setEmplId(emplId);
         try {
-            if (employeeVO.getCommonCodeClsf().equals(ClassOfPosition.CLSF012.name())) {
+            if (employeeVO.getCommonCodeClsf().equals(ClassOfPosition.CLSF011.name())) {
                 list = mapper.getDiaryByDept(employeeVO.getCommonCodeDept());
             } else {
                 list = mapper.getDiaryByInfo(employeeVO);

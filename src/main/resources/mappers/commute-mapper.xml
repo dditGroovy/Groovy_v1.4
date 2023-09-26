@@ -58,7 +58,7 @@
         SELECT DISTINCT TO_CHAR(DCLZ_WORK_DE, 'YYYY') AS WORK_YEAR
         FROM DCLZ
         where DCLZ_EMPL_ID = #{dclzEmplId}
-        ORDER BY WORK_YEAR
+        ORDER BY WORK_YEAR DESC
     </select>
 
     <select id="getAllMonth" parameterType="String" resultType="String">
@@ -79,6 +79,7 @@
             TO_CHAR(DCLZ_WORK_DE, 'YYYY') = #{year}
           AND TO_CHAR(DCLZ_WORK_DE, 'MM') = #{month}
           AND DCLZ_EMPL_ID = #{dclzEmplId}
+        ORDER BY DCLZ_WORK_DE
     </select>
 
     <select id="getAttend" parameterType="String" resultType="commuteVO">

@@ -14,7 +14,7 @@
         <div class="content-header">
             <div class="form-header">
                 <div class="btn-wrap">
-                    <button id="getLine" class="btn btn-free-blue sanctionBtn">결재선</button>
+                    <button type="button" id="getLine" class="btn btn-free-blue sanctionBtn">결재선 지정</button>
                     <button type="button" id="sanctionSubmit" class="btn btn-free-white" disabled>결재 제출</button>
                 </div>
                 <br/>
@@ -58,8 +58,10 @@
         </div>
         <div class="form-file">
             <div class="file-box">
-                <p class="file-name">이곳에 파일을 끌어놓으세요. <label for="sanctionFile" class="choose"> 직접 선택</label></p>
+                <p class="file-name">이곳에 파일을 끌어놓으세요. <label for="selectFile" class="select-file"> 직접 선택</label></p>
                 <input type="file" id="sanctionFile"/>
+                <input type="file" id="selectFile" hidden="hidden"/>
+
             </div>
         </div>
     </div>
@@ -84,8 +86,6 @@
         const title = "${format.formatSj}";
         let content;
         let file = $('#sanctionFile')[0].files[0];
-        console.log(file)
-
         let num = opener.$("#sanctionNum").val();
         let approvalListData = [];
         let attachListData = [];
@@ -106,7 +106,7 @@
 
             /*  팝업  */
             const url = "/sanction/line";
-            const option = "width = 1024, height = 768, top = 100, left = 200, location = no";
+            const option = "width = 864, height = 720, top = 50, left = 300";
             let popupWindow;
             getLineBtn.addEventListener("click", () => {
                 popupWindow = window.open(url, 'line', option);
@@ -277,10 +277,8 @@
                 contentType: "application/json",
                 success: function (data) {
                     console.log("결재 업로드 성공");
-
                     if (file != null) {
                         uploadFile();
-
                     } else {
                         closeWindow()
                     }
@@ -291,12 +289,12 @@
             });
         }
 
-
-        $("#sanctionFile").addEventListener("change", function() {
+        $("#selectFile").on("change", function() {
             const selectedFile = this.files[0];
+            const fileNameInput = $(".file-name");
+            fileNameInput.innerHTML = selectedFile.name;
             appendFile(selectedFile);
         });
-
 
         // 결재 테이블 insert 후 첨부 파일 있다면 업로드 실행
         function appendFile(paramFile) {
@@ -308,7 +306,6 @@
             let form = file;
             let formData = new FormData();
             formData.append('file', form);
-            console.log(file)
             $.ajax({
                 url: `/file/upload/sanction/\${etprCode}`,
                 type: "POST",
