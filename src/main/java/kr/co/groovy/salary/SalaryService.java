@@ -26,11 +26,11 @@ public class SalaryService {
     final
     SalaryMapper mapper;
 
-    final String uploadPath;
+    final String uploadHyejin;
 
-    public SalaryService(SalaryMapper mapper, String uploadPath) {
+    public SalaryService(SalaryMapper mapper, String uploadHyejin) {
         this.mapper = mapper;
-        this.uploadPath = uploadPath;
+        this.uploadHyejin = uploadHyejin;
     }
 
     List<AnnualSalaryVO> loadSalary() {
@@ -215,11 +215,8 @@ public class SalaryService {
             if (mapper.existsInsertedSalary(map) == 0 && mapper.existsInsertedSalaryDtsmt(map) == 0) {
                 cnp.getPaystubVO().setSalaryDtsmtIssuDate(Date.from(instant));
                 cnp.getPaystubVO().setInsertAt("Y");
-                int inputSalary = mapper.inputSalary(cnp.getPaystubVO());
-                int inputSalaryDtsmt = mapper.inputSalaryDtsmt(cnp.getPaystubVO());
-                if (inputSalary != 0 && inputSalaryDtsmt != 0) {
-                    log.info("success");
-                }
+                mapper.inputSalary(cnp.getPaystubVO());
+                mapper.inputSalaryDtsmt(cnp.getPaystubVO());
             }
         }
         return cnpList;
@@ -230,8 +227,7 @@ public class SalaryService {
         String etprCode = map.get("etprCode");
 
         try {
-            String uploadPath = this.uploadPath + "/salary";
-            log.info("salary uploadPath: " + uploadPath);
+            String uploadPath = this.uploadHyejin + "/salary";
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 if (uploadDir.mkdirs()) {
@@ -242,7 +238,6 @@ public class SalaryService {
             }
 
             URI uri = new URI(datauri);
-            log.info(datauri);
             String path = null;
             if ("data".equals(uri.getScheme())) {
                 String dataPart = uri.getRawSchemeSpecificPart();
@@ -267,12 +262,11 @@ public class SalaryService {
 
                 mapper.inputSalaryDtsmtPdf(inputMap);
             }
-            log.info("급여명세서 저장 성공");
+            return "success";
         } catch (Exception e) {
-            log.info("급여명세서 저장 실패");
             e.printStackTrace();
+            return "fail";
         }
-        return "";
     }
 }
 

@@ -172,7 +172,10 @@ public class SalaryController {
     @PostMapping("/uploadFile")
     @ResponseBody
     public String inputSalaryDtsmtPdf(@RequestBody Map<String, String> map) {
-        service.inputSalaryDtsmtPdf(map);
-        return "";
+        String result = service.inputSalaryDtsmtPdf(map);
+        if (result.equals("success")) {
+            return "success";
+        }
+        return "fail";
     }
 }

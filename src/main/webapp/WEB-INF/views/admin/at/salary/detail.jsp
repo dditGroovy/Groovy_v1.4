@@ -313,9 +313,11 @@
                     datauri: doc.output('datauristring')
                 }),
                 contentType: 'application/json',
-                dataType: 'json',
                 success: function (result) {
-                    alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
+                    console.log(result);
+                    if (result === "success") {
+                        alert("급여명세서 생성이 완료되었습니ddd다. 다운로드 및 일괄전송이 가능합니다.");
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.log("code: " + xhr.status);
