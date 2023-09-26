@@ -17,8 +17,8 @@ public class MyApp {
     @GetMapping("/aws")
     public void getInfo (){
         // 환경 변수에서 AWS 액세스 키와 시크릿 키 읽어오기
-        String accessKey = System.getenv("AWS_ACCESS_KEY");
-        String secretKey = System.getenv("AWS_SECRET_KEY");
+        String accessKey = System.getenv("AWS_ACCESS_KEY_ID");
+        String secretKey = System.getenv("AWS_SECRET_ACCESS_KEY");
 
         // AWS 자격 증명 객체 생성
         BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
