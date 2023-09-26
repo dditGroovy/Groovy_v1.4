@@ -9,8 +9,7 @@
 		MEMO_SJ, 
 		MEMO_CN, 
 		MEMO_WRTNG_DATE, 
-		COMMON_CODE_FIXING_AT, 
-		COMMON_CODE_BKMK_AT 
+		COMMON_CODE_FIXING_AT
 	FROM
 		MEMO
 	WHERE
@@ -26,8 +25,7 @@
 		MEMO_SJ, 
 		MEMO_CN, 
 		MEMO_WRTNG_DATE, 
-		COMMON_CODE_FIXING_AT, 
-		COMMON_CODE_BKMK_AT 
+		COMMON_CODE_FIXING_AT
 	FROM 
 		MEMO
 	WHERE 
@@ -41,15 +39,13 @@
 			 MEMO_SJ, 
 			 MEMO_CN, 
 			 MEMO_WRTNG_DATE, 
-			 COMMON_CODE_FIXING_AT, 
-			 COMMON_CODE_BKMK_AT)
+			 COMMON_CODE_FIXING_AT)
 	VALUES(MEMO_SN.NEXTVAL, 
 		   #{memoEmplId}, 
 		   #{memoSj}, 
 		   #{memoCn}, 
 		   sysdate, 
-		   'MEMO011', 
-		   'MEMO021')
+		   'MEMO011')
 </insert>
 
 <update id="modifyMemo" parameterType="memoVO">
@@ -68,4 +64,31 @@
 	WHERE 
 		MEMO_SN = #{data}
 </delete>
+
+<!-- 메모 알림 업데이트 -->
+<update id="updateMemoAlarm" parameterType="int">
+	UPDATE MEMO
+	SET COMMON_CODE_FIXING_AT =
+	  CASE
+	    WHEN MEMO_SN = #{memoSn} THEN 'MEMO010'
+	    WHEN COMMON_CODE_FIXING_AT = 'MEMO010' THEN 'MEMO011'
+	    ELSE COMMON_CODE_FIXING_AT
+	  END
+	WHERE MEMO_SN = #{memoSn} OR COMMON_CODE_FIXING_AT = 'MEMO010'
+</update>
+
+<select id="getFixMemo" resultType="memoVO">
+	SELECT 
+		MEMO_SN, 
+		MEMO_EMPL_ID, 
+		MEMO_SJ, 
+		MEMO_CN, 
+		MEMO_WRTNG_DATE, 
+		COMMON_CODE_FIXING_AT
+	FROM
+		MEMO
+	WHERE
+        COMMON_CODE_FIXING_AT='MEMO010'
+</select>
+
 </mapper>

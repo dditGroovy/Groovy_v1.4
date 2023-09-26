@@ -16,5 +16,4 @@ public class MemoVO {
 	private String memoCn;
 	private Date memoWrtngDate;
 	private String commonCodeFixingAt;
-	private String commonCodeBkmkAt;
 }

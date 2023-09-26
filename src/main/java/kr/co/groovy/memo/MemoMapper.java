@@ -15,4 +15,8 @@ public interface MemoMapper {
 	public int modifyMemo(MemoVO memoVO);
 	
 	public int deleteMemo(int memoSn);
+	
+	public int updateMemoAlarm(int memoSn);
+	
+	public MemoVO getFixMemo();
 }

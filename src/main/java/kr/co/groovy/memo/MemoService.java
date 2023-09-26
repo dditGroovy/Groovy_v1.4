@@ -36,5 +36,13 @@ public class MemoService {
 	public int deleteMemo(int memoSn) {
 		return memoMapper.deleteMemo(memoSn);
 	}
+	
+	public int updateMemoAlarm(int memoSn) {
+		return memoMapper.updateMemoAlarm(memoSn);
+	}
+	
+	public MemoVO getFixMemo() {
+		return memoMapper.getFixMemo();
+	}
 
 }

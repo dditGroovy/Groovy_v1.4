@@ -27,7 +27,6 @@ public class MemoController {
 		this.memoService = memoService;
 	}
 	
-	
 	@GetMapping("/memoMain")
 	public String getMemo(Model model, Principal principal) {
 		String memoEmplId = principal.getName();
