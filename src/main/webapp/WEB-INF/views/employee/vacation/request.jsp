@@ -299,7 +299,7 @@
                 type: "GET",
                 url: `/vacation/data/\${num}`,
                 success: function (data) {
-                    alert("vacationKind", data.commonCodeYrycUseKind)
+                    // alert("vacationKind", data.commonCodeYrycUseKind)
                     modalOpen();
                     detailVacation.classList.add("on");
                     let form = $("#vacationModifyForm");
