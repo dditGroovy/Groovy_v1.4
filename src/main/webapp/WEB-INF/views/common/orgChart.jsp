@@ -24,7 +24,7 @@
                         <c:forEach var="dept010" items="${DEPT010List}" varStatus="stat">
                             <li>
                                 <div class="empl-info">
-                                    <img src="/resources/images/${dept010.proflPhotoFileStreNm}" class="empl-profile">
+                                    <img src="/uploads/profile/${dept010.proflPhotoFileStreNm}" class="empl-profile">
                                     <div>
                                         <h3 class="empl-name">${dept010.emplNm}</h3> <span class="empl-clsf">${dept010.commonCodeClsf}</span>
                                     </div>
@@ -43,7 +43,7 @@
                         <c:forEach var="dept011" items="${DEPT011List}" varStatus="stat">
                             <li>
                                 <div class="empl-info">
-                                    <img src="/resources/images/${dept011.proflPhotoFileStreNm}" class="empl-profile">
+                                    <img src="/uploads/profile/${dept011.proflPhotoFileStreNm}" class="empl-profile">
                                     <div>
                                         <h3 class="empl-name">${dept011.emplNm}</h3> <span class="empl-clsf">${dept011.commonCodeClsf}</span>
                                     </div>
@@ -62,7 +62,7 @@
                         <c:forEach var="dept012" items="${DEPT012List}" varStatus="stat">
                             <li>
                                 <div class="empl-info">
-                                    <img src="/resources/images/${dept012.proflPhotoFileStreNm}" class="empl-profile">
+                                    <img src="/uploads/profile/${dept012.proflPhotoFileStreNm}" class="empl-profile">
                                     <div>
                                         <h3 class="empl-name">${dept012.emplNm}</h3> <span class="empl-clsf">${dept012.commonCodeClsf}</span>
                                     </div>
@@ -81,7 +81,7 @@
                         <c:forEach var="dept013" items="${DEPT013List}" varStatus="stat">
                             <li>
                                 <div class="empl-info">
-                                    <img src="/resources/images/${dept013.proflPhotoFileStreNm}" class="empl-profile">
+                                    <img src="/uploads/profile/${dept013.proflPhotoFileStreNm}" class="empl-profile">
                                     <div>
                                         <h3 class="empl-name">${dept013.emplNm}</h3> <span class="empl-clsf">${dept013.commonCodeClsf}</span>
                                     </div>
@@ -100,7 +100,7 @@
                         <c:forEach var="dept014" items="${DEPT014List}" varStatus="stat">
                             <li>
                                 <div class="empl-info">
-                                    <img src="/resources/images/${dept014.proflPhotoFileStreNm}" class="empl-profile">
+                                    <img src="/uploads/profile/${dept014.proflPhotoFileStreNm}" class="empl-profile">
                                     <div>
                                         <h3 class="empl-name">${dept014.emplNm}</h3> <span class="empl-clsf">${dept014.commonCodeClsf}</span>
                                     </div>

@@ -1,59 +1,48 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<style>
-    .memo {
-        border: 1px solid red;
-        width: calc((315 / 1920) * 100vw);
-        height: calc((320 / 1080) * 100vh);
-    }
-
-    #inputMemo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    #memoLists {
-        display: flex;
-    }
-
-    .memoSn {
-        display: none;
-    }
-</style>
-</head>
-<body>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/memo/memo.css">
 <div class="content-container">
-    <h1>메모장</h1>
-    <h4>나만의 메모 공간 &#x1F4AD;</h4>
-    <div class="memoWrap">
-        <div id="inputMemo" class="memo">
-            <button id="inputMemoBtn">
-                메모 추가
-            </button>
-        </div>
-        <div id="memoLists">
-            <div id="appendMemo"></div>
-            <div id="memoList">
-                <c:forEach items="${memoList}" var="list">
-                    <div class="memo">
-                        <div class="memo-content">
-                            <p class="memoSn">${list.memoSn}</p>
-                            <p class="title">${list.memoSj}</p>
-                            <p class="content">${list.memoCn}</p>
-                            <p><fmt:formatDate value="${list.memoWrtngDate}" type="date" pattern="yyyy-MM-dd"/></p>
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/employee/commute" class="on">메모장</a></h1>
+        <h2 class="main-desc">나만의 메모 공간 &#x1F4AD;</h2>
+    </header>
+    <main>
+        <div class="main-inner">
+            <div class="memo-wrap">
+                <div id="memoLists">
+                    <div id="memoList">
+                        <div id="inputMemo" class="memo">
+                            <button id="inputMemoBtn" class="btn">
+                                <i class="icon i-add"></i>
+                            </button>
                         </div>
-                        <div class="bntWrap">
-                            <button class="modifyBtn">수정</button>
-                            <button class="delete">삭제</button>
-                            <button class="save" style="display: none">저장</button>
-                        </div>
+                        <div id="appendMemo" style="display: none"></div>
+                        <c:forEach items="${memoList}" var="list">
+                            <div class="memo list-memo">
+                                <div class="btn-wrap">
+                                    <button class="more btn"><i class="icon i-more"></i></button>
+                                    <ul class="more-list">
+                                        <li><button class="modifyBtn btn">수정</button></li>
+                                        <li><button class="delete btn">삭제</button></li>
+                                    </ul>
+                                </div>
+                                <div class="memo-content">
+                                    <p class="memoSn">${list.memoSn}</p>
+                                    <p class="title">${list.memoSj}</p>
+                                    <p class="content">${list.memoCn}</p>
+                                    <p><fmt:formatDate value="${list.memoWrtngDate}" type="date" pattern="yyyy-MM-dd"/></p>
+                                </div>
+                                <div class="save-btn-wrap" style="display: none">
+                                    <button class="save btn btn-free-blue">저장</button>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
-                </c:forEach>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 </div>
 <script>
     const inputMemoBtn = document.querySelector("#inputMemoBtn");
@@ -81,11 +70,15 @@
             const saveBtn = document.createElement("button");
 
             saveBtn.className = "savebtn";
+            saveBtn.classList.add("btn");
+            saveBtn.classList.add("btn-free-blue");
             saveBtn.innerText = "저장";
             saveBtn.addEventListener("click", validateForm);
             memoElem.appendChild(saveBtn);
 
+
             document.querySelector("#appendMemo").append(memoElem);
+            document.querySelector("#appendMemo").style.display = "block";
             flug = false;
         }
     })
@@ -108,6 +101,11 @@
 
     memoLists.addEventListener("click", (e) => {
         const target = e.target;
+        if(target.classList.contains("more")){
+            target.classList.add("on");
+        }else if(target.closest(".more")){
+            target.closest(".more").classList.add("on");
+        }
         if (target.classList.contains("savebtn")) {
             const memoElem = target.parentElement;
             const memoTitleInput = memoElem.querySelector('input[name="memoSj"]');
@@ -144,10 +142,11 @@
         if (target.classList.contains("modifyBtn")) {
             const memo = target.closest(".memo");
             const memoContent = memo.querySelector(".memo-content");
+            const more = memo.querySelector(".more");
             let title = memo.querySelector(".title");
             let content = memo.querySelector(".content");
             const memoSnElement = memo.querySelector(".memoSn");
-
+            more.classList.remove("on");
             const memoSn = memoSnElement.innerText;
             const memoSnInput = document.createElement("input");
             memoSnInput.type = "hidden";
@@ -171,9 +170,7 @@
             memoContent.append(memoTitle);
             memoContent.append(memoCnt);
 
-            memo.querySelector(".modifyBtn").style.display = "none";
-            memo.querySelector(".delete").style.display = "none";
-            memo.querySelector(".save").style.display = "block";
+            memo.querySelector(".save-btn-wrap").style.display = "flex";
 
             $.ajax({
                 url: `memoMain/\${memoSn}`,
@@ -248,9 +245,10 @@
 
         if (target.classList.contains("delete")) {
             const memo = target.closest(".memo");
+            const more = memo.querySelector(".more");
             const memoNumber = memo.querySelector(".memoSn");
             memoSn = memoNumber.innerText;
-
+            more.classList.remove("on");
             const deleteData = {
                 memoSn: memoSn
             }
