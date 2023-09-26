@@ -2,13 +2,15 @@ const closeBtn = document.querySelectorAll(".close");
 const modalOpenBtn = document.querySelectorAll(".btn-modal");
 const modalDm = document.querySelector(".modal-dim");
 const modalLayer = document.querySelectorAll(".modal-layer");
-function close(){
+
+function modalClose() {
     modalDm.style.display = "none";
-    modalLayer.forEach(item=>{
+    modalLayer.forEach(item => {
         item.classList.remove("on");
     })
 }
-function modalOpen(dataName){
+
+function modalOpen(dataName) {
     modalDm.style.display = "block";
 }
 
@@ -25,6 +27,6 @@ modalOpenBtn.forEach(item => {
     });
 });
 /*  모달 닫기   */
-closeBtn.forEach(item=>{
-    item.addEventListener("click",close);
+closeBtn.forEach(item => {
+    item.addEventListener("click", modalClose);
 })

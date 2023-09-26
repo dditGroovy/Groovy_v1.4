@@ -310,7 +310,7 @@
                     $("#modifyRes").val('현재 비밀번호를 확인해 주세요.')
                 } else {
                     alert('비밀번호 변경이 완료되었습니다.');
-                    close()
+                    modalClose()
                 }
             },
             error: function (xhr, textStatus, error) {

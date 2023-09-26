@@ -180,6 +180,7 @@
                         <th class="sticky-th">휴가 구분</th>
                         <th class="sticky-th">휴가 종류</th>
                         <th class="sticky-th">결재 상태</th>
+                        <th class="sticky-th">상세 내용</th>
                         </tr></thead><tbody>`;
                     if (data.length === 0) {
                         code += `<tr>
@@ -189,12 +190,13 @@
                         $.each(data, function (index, recodeVO) {
                             console.log(recodeVO)
                             code += `<tr>
-                        <td><a href="#" data-name="detailVacation" data-seq="\${recodeVO.yrycUseDtlsSn}"
-                               class="detailLink">\${index + 1}</a></td>
+                        <td>\${index + 1}</a></td>
                         <td>\${recodeVO.yrycUseDtlsBeginDate} - \${recodeVO.yrycUseDtlsEndDate}</td>
                         <td>\${recodeVO.commonCodeYrycUseKind}</td>
                         <td>\${recodeVO.commonCodeYrycUseSe}</td>
                         <td><span class="state">\${recodeVO.commonCodeYrycState}</span></td>
+                        <td><a href="#" data-name="detailVacation" data-seq="\${recodeVO.yrycUseDtlsSn}"
+                               class="detailLink">자세히<a></td>
                     </tr>`;
 
                         });
@@ -281,7 +283,7 @@
                 data: formData,
                 success: function (res) {
                     alert("ajax 성공");
-                    close()
+                    modalClose()
                     resetModal();
                     loadRecord()
                 },
