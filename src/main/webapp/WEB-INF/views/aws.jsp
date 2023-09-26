@@ -12,5 +12,6 @@
 </head>
 <body>
 ${key}
+${env}
 </body>
 </html>

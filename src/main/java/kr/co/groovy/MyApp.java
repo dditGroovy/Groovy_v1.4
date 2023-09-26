@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Map;
+
 @Slf4j
 @Controller
 @RequestMapping("/jenkins")
@@ -19,8 +21,9 @@ public class MyApp {
 
     @GetMapping("/aws")
     public String getInfo(Model model) {
-//        // 환경 변수에서 AWS 액세스 키와 시크릿 키 읽어오기
-//        String accessKey = env.getProperty("AWS_ACCESS_KEY_ID");
+        // 환경 변수에서 AWS 액세스 키와 시크릿 키 읽어오기
+        String accessKey = env.getProperty("AWS_ACCESS_KEY_ID");
+        Map<String, String> envVariables = System.getenv();
 //        String secretKey = env.getProperty("AWS_SECRET_ACCESS_KEY");
 ////
 ////        // AWS 자격 증명 객체 생성
@@ -40,7 +43,8 @@ public class MyApp {
 //        s3Client.listBuckets().forEach(bucket -> {
 //            name[0] = bucket.getName();
 //        });o
-//        model.addAttribute("key", name[0]);
+        model.addAttribute("key", accessKey);
+        model.addAttribute("env", envVariables);
         return "aws";
     }
 }
