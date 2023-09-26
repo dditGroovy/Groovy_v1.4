@@ -245,15 +245,14 @@ section .content-wrap {
     box-shadow: var(--clay-card);
 }
 .todoBoardList .list-content .no-list {
-    height: auto;
-    transform: translateY(25%);
+    height: calc((96/var(--vh))*100vh);
 }
 .todoCard {
     width: 100%;
     padding: var(--vh-24) var(--vw-32);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 .todoCard-info {
     width: 100%;
@@ -275,8 +274,14 @@ section .content-wrap {
     font-size: 11px;
     color: white;
 }
+.doing-progress {
+    background: var(--color-main);
+}
 .before-progress {
-    background: var(--color-error);
+    background: var(--color-font-row);
+}
+.done-progress {
+    background: var(--color-success);
 }
 .dutykind {
     width: var(--vw-48);
@@ -304,4 +309,108 @@ section .content-wrap {
 .badge-etc-meeting {
     color: #ff23d3;
     border-color: #ff23d3;
+}
+#receiveBox {
+    gap: 12px;
+}
+.state-list {
+    display: flex;
+    gap: 24px;
+}
+.state-list-item {
+    position: relative;
+}
+.state-list-item::after {
+    content: "";
+    position: absolute;
+    left: -70%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+}
+.state-list-wait::after {
+    background: var(--color-font-row);
+}
+.state-list-reject::after {
+    background: var(--color-error);
+}
+.state-list-agree::after {
+    background: var(--color-main);
+}
+.대기 {
+    border-radius: 8px;
+    background: var(--color-font-row);
+    padding: 10px;
+
+}
+
+.승인 {
+    border-radius: 8px;
+    background: var(--color-main);
+    padding: 10px;
+    color: white;
+}
+
+.거절 {
+    border-radius: 8px;
+    background: var(--color-error);
+    padding: 10px;
+    color: white;
+}
+.승인 > span {
+    color: white;
+}
+.거절 > span {
+    color: white;
+}
+.newJob .modal-footer .tab-new-job, .newJob .modal-footer .tab-new-request {
+    display: none;
+}
+.newJob .modal-footer .tab-new-job.on, .newJob .modal-footer .tab-new-request.on {
+    display: block;
+}
+/*  모달  */
+.newJob .tab-wrap {
+    width: calc((700/var(--vw))*100vw);
+    height: var(--vh-48);
+}
+.newJob .modal-option{
+    display: none;
+}
+.newJob .modal-option.on {
+    display: block;
+}
+.newJob .glider {
+    top: calc((4/var(--vh))*100vh);
+    width: calc((320/var(--vw))*100vw);
+    height: var(--vh-40);
+}
+.tab-wrap  #tabs input[name=tabs]#tab-new-job:checked ~ .glider {
+    transform: translateX(0);
+}
+.tab-wrap  #tabs input[name=tabs]#tab-new-request:checked ~ .glider {
+    transform: translateX(100%);
+}
+
+.request-list-wrap {
+    background: var(--color-bg-sky);
+    border-radius: 8px;
+    margin-top: -24px;
+    height: calc((168/var(--vh))*100vh);
+    overflow-y: auto;
+    margin-bottom: var(--vh-24);
+}
+.receiveJob {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: var(--vh-12) var(--vw-32);
+    gap: var(--vw-48);
+}
+.new-request .request-job-detail {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

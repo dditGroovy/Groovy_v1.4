@@ -1,16 +1,3 @@
-// // 모달 열기 함수
-// function openModal(modalId) {
-//     document.querySelector("#modal").style.display = "flex";
-//     document.querySelector("#modal").style.marginLeft = "500px";
-//     document.querySelector(modalId).classList.add("on");
-// }
-
-// // 모달 닫기 함수
-// function closeModal() {
-//     const modalCommon = document.querySelectorAll(".modal-common");
-//     modalCommon.forEach(item => item.classList.remove("on"));
-//     document.querySelector("#modal").style.display = "none";
-// }
 
 let jobProgressVO;
 
@@ -89,7 +76,7 @@ jobAgrees.forEach(jobAgree => {
 
 
 //요청 받은 업무 목록
-/*document.querySelector(".new-request").addEventListener("click", (event) => {
+document.querySelector(".new-request").addEventListener("click", (event) => {
     const target = event.target;
     let jobNo = null;
 
@@ -133,7 +120,7 @@ jobAgrees.forEach(jobAgree => {
             }
         });
     }
-});*/
+});
 
 /*
 document.querySelector("#reject").addEventListener("click", () => {
@@ -181,68 +168,74 @@ document.querySelector(".requestJob").addEventListener("click", () => {
 
 //업무 요청하기(상세)
 document.getElementById("request-job").addEventListener("click", (event) => {
-    openModal("#modal-requestDetail-job");
-
+    /*openModal("#modal-requestDetail-job");*/
+    let jobNo;
     if (event.target.classList.contains("requestJobDetail")) {
         let checkboxes = document.querySelectorAll(".data-kind");
         checkboxes.forEach(checkbox => {
             checkbox.checked = false;
         });
-
-        let jobNo = event.target.getAttribute("data-seq");
-        $.ajax({
-            type: 'get',
-            url: '/job/getJobByNo?jobNo=' + jobNo,
-            success: function (rslt) {
-                document.querySelector(".data-sj").innerText = rslt.jobSj;
-                document.querySelector(".data-cn").innerText = rslt.jobCn;
-                document.querySelector(".data-begin").innerText = rslt.jobBeginDate;
-                document.querySelector(".data-close").innerText = rslt.jobClosDate;
-                let kind = rslt.commonCodeDutyKind;
-                let checkboxes = document.querySelectorAll(".data-kind");
-
-                checkboxes.forEach(checkbox => {
-                    if (checkbox.value === kind) {
-                        checkbox.checked = true;
-                    }
-                });
-                let jobProgressVOList = rslt.jobProgressVOList;
-                let code = ``;
-                jobProgressVOList.forEach((jobProgressVO) => {
-                    code += `<span class="${jobProgressVO.commonCodeDutySttus}">
-                                    <span>${jobProgressVO.jobRecptnEmplNm}</span>
-                                    ${jobProgressVO.commonCodeDutySttus === '승인' ? `<span> | ${jobProgressVO.commonCodeDutyProgrs}</span>` : ''}
-                             </span>`;
-                });
-                document.querySelector("#receiveBox").innerHTML = code;
-            },
-            error: function (xhr) {
-                console.log(xhr.status);
-            }
-        });
+        jobNo = event.target.getAttribute("data-seq");
+    }else if (event.target.closest(".requestJobDetail")) {
+        jobNo = event.target.closest(".requestJobDetail").getAttribute("data-seq");
     }
+    $.ajax({
+        type: 'get',
+        url: '/job/getJobByNo?jobNo=' + jobNo,
+        success: function (rslt) {
+            document.querySelector(".data-sj").innerText = rslt.jobSj;
+            document.querySelector(".data-cn").innerText = rslt.jobCn;
+            document.querySelector(".data-begin").innerText = rslt.jobBeginDate;
+            document.querySelector(".data-close").innerText = rslt.jobClosDate;
+            let kind = rslt.commonCodeDutyKind;
+            let checkboxes = document.querySelectorAll(".data-kind");
+            console.log(rslt);
+            checkboxes.forEach(checkbox => {
+                if (checkbox.value === kind) {
+                    checkbox.checked = true;
+                }
+            });
+            let jobProgressVOList = rslt.jobProgressVOList;
+            let code = ``;
+            jobProgressVOList.forEach((jobProgressVO) => {
+                code += `<span class="${jobProgressVO.commonCodeDutySttus}">
+                                <span>${jobProgressVO.jobRecptnEmplNm}</span>
+                                ${jobProgressVO.commonCodeDutySttus === '승인' ? `<span> | ${jobProgressVO.commonCodeDutyProgrs}</span>` : ''}
+                         </span>`;
+            });
+            document.querySelector("#receiveBox").innerHTML = code;
+        },
+        error: function (xhr) {
+            console.log(xhr.status);
+        }
+    });
+
 });
 let addJobs = document.querySelectorAll(".addJob");
 addJobs.forEach(addJob => {
     addJob.addEventListener("click", () => {
-        openModal("#modal-newJob");
         //신규 등록
         document.querySelector("#tab-new-request").addEventListener("click", () => {
             document.querySelector(".new-job").classList.remove("on");
-            openModal(".new-request");
+            document.querySelector(".new-request").classList.add("on");
+            document.querySelector(".modal-footer .tab-new-job").classList.remove("on");
+            document.querySelector(".modal-footer .tab-new-request").classList.add("on");
         });
         //요청 받은 업무 목록
         document.querySelector("#tab-new-job").addEventListener("click", () => {
             document.querySelector(".new-request").classList.remove("on");
-            openModal(".new-job");
+            document.querySelector(".new-job").classList.add("on");
+            document.querySelector(".modal-footer .tab-new-job").classList.add("on");
+            document.querySelector(".modal-footer .tab-new-request").classList.remove("on");
+
         });
     });
 });
 
 //신규 등록
-/*document.querySelector(".new-job .regist").addEventListener("click", () => {
+document.querySelector("#regist").addEventListener("click", () => {
     let formData = new FormData(document.querySelector("#registNewJob"));
-    let requiredList = ["jobSj", "jobCn", "jobBeginDate", "jobClosDate"];
+    let requiredList = ["sj", "cn", "date-begin", "date-close"];
     let validation = true;
 
     requiredList.forEach((required) => {
@@ -270,7 +263,7 @@ addJobs.forEach(addJob => {
             console.log(xhr.status);
         }
     });
-})*/
+})
 
 let progressList = document.querySelectorAll(".progress");
 let myJobs = document.querySelectorAll(".myJob");
@@ -291,7 +284,7 @@ myJobs.forEach(myJob => {
         } else if (target.closest(".todoCard")) {
             jobNo = target.closest(".todoCard").getAttribute("data-seq");
         }
-
+        document.querySelector("#modify").style.display = "block";
         if (jobNo !== null) {
             $.ajax({
                 type: 'get',
@@ -315,7 +308,7 @@ myJobs.forEach(myJob => {
                         }
                     });
                     document.querySelector("#confirm").setAttribute("data-seq", jobNo);
-                    openModal("#modal-job-detail");
+                   /* openModal("#modal-job-detail");*/
                 },
                 error: function (xhr) {
                     console.log(xhr.status);
@@ -324,14 +317,6 @@ myJobs.forEach(myJob => {
         }
     });
 });
-
-/*const close = document.querySelectorAll(".close");
-
-close.forEach(item => {
-    item.addEventListener("click", () => {
-        closeModal();
-    });
-});*/
 
 //날짜 유효성 검사
 function validateDate() {
@@ -477,13 +462,14 @@ requestBtn.addEventListener("click", (event) => {
 });
 
 //수정
-/*let modifyBtn = document.querySelector("#modify");
+let modifyBtn = document.querySelector("#modify");
 let confirmBtn = document.querySelector("#confirm");
-modifyBtn.addEventListener("click", () => {
+modifyBtn.addEventListener("click", function(){
     progressList.forEach(progress => {
         progress.disabled = false;
     });
     confirmBtn.style.display = "block";
+    this.style.display = "none";
 });
 
 confirmBtn.addEventListener("click", () => {
@@ -511,7 +497,7 @@ confirmBtn.addEventListener("click", () => {
             console.log(xhr.status);
         }
     });
-})*/
+})
 
 //to do
 let progresses = document.querySelectorAll(".dutyProgrs");
@@ -542,4 +528,3 @@ dutykinds.forEach(kind => {
     }
 });
 
-/*  마우스 드래그 스크롤 이벤트 */
