@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/jenkins")
 public class MyApp {
     @GetMapping("/aws")
-    public void getInfo (){
+    public String getInfo (Model model){
         // 환경 변수에서 AWS 액세스 키와 시크릿 키 읽어오기
         String accessKey = System.getenv("AWS_ACCESS_KEY_ID");
 //        String secretKey = System.getenv("AWS_SECRET_ACCESS_KEY");
@@ -36,5 +37,7 @@ public class MyApp {
 //        s3Client.listBuckets().forEach(bucket -> {
 //            System.out.println("Bucket Name: " + bucket.getName());
 //        });
+        model.addAttribute("model", accessKey);
+        return "aws";
     }
 }
