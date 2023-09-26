@@ -4,7 +4,7 @@
            uri="http://www.springframework.org/security/tags" %>
 <style>
     .container {
-        width: auto;
+        padding: var(--vh-24) var(--vw-24);
     }
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sanction/sanction.css">
@@ -14,7 +14,7 @@
         <div class="content-header">
             <div class="form-header">
                 <div class="btn-wrap">
-                    <button id="getLine" class="btn btn-free-blue">결재선</button>
+                    <button id="getLine" class="btn btn-free-blue sanctionBtn">결재선</button>
                     <button type="button" id="sanctionSubmit" class="btn btn-free-white" disabled>결재 제출</button>
                 </div>
                 <br/>
@@ -58,7 +58,8 @@
         </div>
         <div class="form-file">
             <div class="file-box">
-                <p class="file-name">이곳에 파일을 끌어놓으세요.</p>
+                <p class="file-name">이곳에 파일을 끌어놓으세요. <label for="sanctionFile" class="choose"> 직접 선택</label></p>
+
                 <input type="file" id="sanctionFile"/>
             </div>
         </div>
