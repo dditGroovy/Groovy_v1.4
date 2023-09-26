@@ -7,6 +7,8 @@
         <h1><a href="${pageContext.request.contextPath}/job/main">할 일</a></h1>
         <h1><a href="${pageContext.request.contextPath}/job/jobDiary" class="on">업무 일지</a></h1>
     </header>
+    <main>
+        <div class="main-inner">
     <button type="button" id="goWrite">업무 일지 작성</button>
     <c:choose>
         <c:when test="${empty list}">
@@ -35,6 +37,8 @@
             </table>
         </c:otherwise>
     </c:choose>
+        </div>
+    </main>
 </div>
 <script>
     let goWrite = document.querySelector("#goWrite");

@@ -197,7 +197,7 @@
                             <div class="todoBoardList card card-df swiper-slide">
                                 <div class="list-header">
                                     <div class="list-header-name">
-                                        <p class="day" data-date="${dayInfo.date}">${dayInfo.day}요일</p>
+                                        <p class="day" data-date="${dayInfo.date}">${dayInfo.day}</p>
                                     </div>
                                     <div class="list-header-add">
                                         <button class="addJob btn btn-modal" data-name="newJob">+</button>

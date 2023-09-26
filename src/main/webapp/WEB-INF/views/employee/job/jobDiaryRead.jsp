@@ -1,6 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <script src="/resources/ckeditor/ckeditor.js"></script>
+
+<style>
+    .cke_top, .cke_1_bottom {
+        display: none !important;
+    }
+</style>
 <div class="content-container">
     <div id="detail">
         <h2>업무 일지 (상세)</h2>
@@ -29,6 +35,7 @@
 <script>
     CKEDITOR.replace('editor');
     $("#editor").attr("readOnly", true);
+
     window.onload = function () {
         document.querySelector("#cke_1_top").style.display = "none";
         document.querySelector("#cke_1_bottom").style.display = "none";
