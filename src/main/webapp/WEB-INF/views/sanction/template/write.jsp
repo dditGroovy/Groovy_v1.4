@@ -301,6 +301,7 @@
         // 결재 테이블 insert 후 첨부 파일 있다면 업로드 실행
         function appendFile(paramFile) {
             file = paramFile;
+            console.log(file)
         }
 
         function uploadFile() {

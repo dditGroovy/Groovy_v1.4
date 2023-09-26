@@ -236,12 +236,6 @@
         let childWindow;
         let vacationKind;
 
-        if (vacationKind === 'YRYC010') {
-            param = 'SANCTN_FORMAT011'
-        } else {
-            param = 'SANCTN_FORMAT012'
-        }
-
         $("#startSanction").on("click", function () {
             $("#modifyVacation").prop("disabled", true)
             openChildWindow()
@@ -249,6 +243,11 @@
         })
 
         function openChildWindow() {
+            if (vacationKind === 'YRYC010') {
+                param = 'SANCTN_FORMAT011'
+            } else {
+                param = 'SANCTN_FORMAT012'
+            }
             childWindow = window.open(`/sanction/format/DEPT010/\${param}`, '결재', getWindowSize());
         }
 
