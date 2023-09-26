@@ -175,7 +175,7 @@
                     document.querySelector("#countBox").innerText = count;
                     let code = `<table border="1" class='requestTable'>
                         <thead><tr>
-                        <th class="sticky-th">신청 번호</th>
+                        <th class="sticky-th">번호</th>
                         <th class="sticky-th">휴가 기간</th>
                         <th class="sticky-th">휴가 구분</th>
                         <th class="sticky-th">휴가 종류</th>
@@ -188,15 +188,14 @@
                         </tr>`
                     } else {
                         $.each(data, function (index, recodeVO) {
-                            console.log(recodeVO)
                             code += `<tr>
                         <td>\${index + 1}</a></td>
                         <td>\${recodeVO.yrycUseDtlsBeginDate} - \${recodeVO.yrycUseDtlsEndDate}</td>
                         <td>\${recodeVO.commonCodeYrycUseKind}</td>
                         <td>\${recodeVO.commonCodeYrycUseSe}</td>
-                        <td><span class="state">\${recodeVO.commonCodeYrycState}</span></td>
-                        <td><a href="#" data-name="detailVacation" data-seq="\${recodeVO.yrycUseDtlsSn}"
-                               class="detailLink">자세히<a></td>
+                        <td>\${recodeVO.commonCodeYrycState}</td>
+                        <td><span class="state"><a href="#" data-name="detailVacation" data-seq="\${recodeVO.yrycUseDtlsSn}"
+                               class="detailLink">자세히<a></span></td>
                     </tr>`;
 
                         });

@@ -14,3 +14,4 @@ function getWindowSize() {
 function refreshParent() {
     location.reload();
 }
+

@@ -164,7 +164,7 @@
                COMMON_CODE_YRYC_STATE
         FROM CPR_CARD_RESVE
         WHERE CPR_CARD_RESVE_EMPL_ID = #{emplId}
-        ORDER BY CPR_CARD_RESVE_SN ASC
+        ORDER BY CPR_CARD_RESVE_SN DESC
         ]]>
     </select>
     <update id="modifyStatus" parameterType="map">

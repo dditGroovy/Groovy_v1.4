@@ -10,11 +10,13 @@
             <div id="ceo" class="department-wrap">
                 <h2 class="department">CEO</h2>
                 <div class="department-list ceo-list">
-                    <img src="/resources/images/${dept010.proflPhotoFileStreNm}" class="empl-profile">
-                    <div>
-                        <h3 class="ceoName">최서연</h3>
-                        <p style="font-size: 14px;">대표이사</p>
-                    </div>
+                    <c:forEach var="dept015" items="${DEPT015List}" varStatus="stat">
+                        <img src="/resources/images/${dept015.proflPhotoFileStreNm}" class="empl-profile">
+                        <div>
+                            <h3 class="ceoName">${dept015.emplNm}</h3>
+                            <p style="font-size: 14px;">대표이사</p>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
             <div class="content-wrap">
@@ -26,12 +28,15 @@
                                 <div class="empl-info">
                                     <img src="/uploads/profile/${dept010.proflPhotoFileStreNm}" class="empl-profile">
                                     <div>
-                                        <h3 class="empl-name">${dept010.emplNm}</h3> <span class="empl-clsf">${dept010.commonCodeClsf}</span>
+                                        <h3 class="empl-name">${dept010.emplNm}</h3> <span
+                                            class="empl-clsf">${dept010.commonCodeClsf}</span>
                                     </div>
                                 </div>
                                 <div class="empl-service">
-                                    <a href="#${dept010.emplId}"><i class="icon i-chat"></i></a> <!-- 채팅 아이콘/각 태그에 링킹 -->
-                                    <a href="#${dept010.emplId}"><i class="icon i-mail"></i></a> <!-- 메일 아이콘/각 태그에 링킹 -->
+                                    <a href="#${dept010.emplId}"><i class="icon i-chat"></i></a>
+                                    <!-- 채팅 아이콘/각 태그에 링킹 -->
+                                    <a href="#${dept010.emplId}"><i class="icon i-mail"></i></a>
+                                    <!-- 메일 아이콘/각 태그에 링킹 -->
                                 </div>
                             </li>
                         </c:forEach>
@@ -45,7 +50,8 @@
                                 <div class="empl-info">
                                     <img src="/uploads/profile/${dept011.proflPhotoFileStreNm}" class="empl-profile">
                                     <div>
-                                        <h3 class="empl-name">${dept011.emplNm}</h3> <span class="empl-clsf">${dept011.commonCodeClsf}</span>
+                                        <h3 class="empl-name">${dept011.emplNm}</h3> <span
+                                            class="empl-clsf">${dept011.commonCodeClsf}</span>
                                     </div>
                                 </div>
                                 <div class="empl-service">
@@ -64,7 +70,8 @@
                                 <div class="empl-info">
                                     <img src="/uploads/profile/${dept012.proflPhotoFileStreNm}" class="empl-profile">
                                     <div>
-                                        <h3 class="empl-name">${dept012.emplNm}</h3> <span class="empl-clsf">${dept012.commonCodeClsf}</span>
+                                        <h3 class="empl-name">${dept012.emplNm}</h3> <span
+                                            class="empl-clsf">${dept012.commonCodeClsf}</span>
                                     </div>
                                 </div>
                                 <div class="empl-service">
@@ -83,7 +90,8 @@
                                 <div class="empl-info">
                                     <img src="/uploads/profile/${dept013.proflPhotoFileStreNm}" class="empl-profile">
                                     <div>
-                                        <h3 class="empl-name">${dept013.emplNm}</h3> <span class="empl-clsf">${dept013.commonCodeClsf}</span>
+                                        <h3 class="empl-name">${dept013.emplNm}</h3> <span
+                                            class="empl-clsf">${dept013.commonCodeClsf}</span>
                                     </div>
                                 </div>
                                 <div class="empl-service">
@@ -102,7 +110,8 @@
                                 <div class="empl-info">
                                     <img src="/uploads/profile/${dept014.proflPhotoFileStreNm}" class="empl-profile">
                                     <div>
-                                        <h3 class="empl-name">${dept014.emplNm}</h3> <span class="empl-clsf">${dept014.commonCodeClsf}</span>
+                                        <h3 class="empl-name">${dept014.emplNm}</h3> <span
+                                            class="empl-clsf">${dept014.commonCodeClsf}</span>
                                     </div>
                                 </div>
                                 <div class="empl-service">

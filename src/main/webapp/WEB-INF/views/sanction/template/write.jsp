@@ -66,46 +66,39 @@
             </div>
         </div>
     </div>
-
+    <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
     <script>
-        let before = new Date();
-        let year = before.getFullYear();
-        let month = String(before.getMonth() + 1).padStart(2, '0');
-        let day = String(before.getDate()).padStart(2, '0');
 
         let approver = [];
-        let receiver = [];
         let referrer = [];
 
-        const dept = "${dept}" // 문서 구분용
-        console.log(dept)
+        const today = getCurrentDate()
 
+        const deptCode = "${dept}" // 문서 구분용
         const etprCode = "${etprCode}";
         const formatCode = "${format.commonCodeSanctnFormat}";
         const writer = "${CustomUser.employeeVO.emplId}"
-        const today = year + '-' + month + '-' + day;
         const title = "${format.formatSj}";
+        const num = opener.$("#sanctionNum").val();
         let content;
         let file = $('#sanctionFile')[0].files[0];
-        let num = opener.$("#sanctionNum").val();
-        let approvalListData = [];
-        let attachListData = [];
-        /*  팝업  */
-        const getLineBtn = document.querySelector("#getLine");
+
+        const getLineBtn = document.querySelector("#getLine"); // 팝업
 
         document.addEventListener("DOMContentLoaded", () => {
             $("#sanctionNo").html(etprCode);
             $("#writeDate").html(today);
             $("#writer").html("${CustomUser.employeeVO.emplNm}")
-            $("#requestDate").html(`\${year}년 \${month}월 \${day}일`);
+            $("#requestDate").html(today);
 
-            if (dept == 'DEPT011') {
+            // 부서 코드에 따른 데이터 불러오기
+            if (deptCode === 'DEPT011') {
                 loadCardData()
             } else {
                 loadVacationData()
             }
 
-            /*  팝업  */
+            /*  결재선 팝업  */
             const url = "/sanction/line";
             const option = "width = 864, height = 720, top = 50, left = 300";
             let popupWindow;
@@ -218,7 +211,7 @@
             })
         }
 
-
+        // 부모창(결재선)으로부터 받은 결재라인 배열 append
         function appendLine(app, ref) {
             approver = app;
             referrer = ref;
@@ -229,12 +222,12 @@
             }
         }
 
+        // 결재 제출
         $("#sanctionSubmit").on("click", function () {
             submitSanction()
         });
 
         function submitSanction() {
-            updateStatus()
             content = $(".formContent").html();
             const jsonData = {
                 approver: approver,
@@ -248,8 +241,8 @@
                 content: content,
                 vacationId: num,
             };
-
-            if (dept === 'DEPT010') {
+            // 부서 코드에 맞는 후처리 정보
+            if (deptCode === 'DEPT010') {
                 const param = {
                     vacationId: num
                 };
@@ -277,9 +270,9 @@
                 data: JSON.stringify(jsonData),
                 contentType: "application/json",
                 success: function (data) {
-                    console.log("결재 업로드 성공");
+                    updateStatus() // 결재 상태 업데이트
                     if (file != null) {
-                        uploadFile();
+                        uploadFile();  // 결재 상신 후 파일이 있다면
                     } else {
                         closeWindow()
                     }
@@ -290,19 +283,21 @@
             });
         }
 
-        $("#selectFile").on("change", function() {
+        // 파일 직접 선택
+        $("#selectFile").on("change", function () {
             const selectedFile = this.files[0];
             const fileNameInput = $(".file-name");
-            fileNameInput.innerHTML = selectedFile.name;
+            fileNameInput.text(selectedFile.name);
             appendFile(selectedFile);
         });
 
-        // 결재 테이블 insert 후 첨부 파일 있다면 업로드 실행
+        // 드래그 앤 드롭 및 직접 선택 파일 append 처리 함수
         function appendFile(paramFile) {
             file = paramFile;
             console.log(file)
         }
 
+        // 결재 insert 후 첨부 파일 있다면 업로드 실행
         function uploadFile() {
             let form = file;
             let formData = new FormData();
@@ -323,11 +318,10 @@
             });
         }
 
-
-        // 문서의 결재 상태 변경
+        // 문서의 결재 상태 변경 (진행)
         function updateStatus() {
             let className;
-            if (dept === 'DEPT011') {
+            if (deptCode === 'DEPT011') {
                 className = 'kr.co.groovy.card.CardService'
             } else {
                 className = 'kr.co.groovy.vacation.VacationService'
@@ -361,13 +355,7 @@
         }
 
 
-        /*
-
-
-        파일 드래그 앤 드롭
-
-
-         */
+        /* 파일 드래그 앤 드롭 */
         const fileBox = document.querySelector(".file-box");
         const fileBtn = fileBox.querySelector("#sanctionFile");
         let formData;
@@ -393,39 +381,36 @@
 
             const data = e.dataTransfer;
 
-            //유효성 Check
+            // 유효성 검사
             if (!isValid(data)) return;
 
             //파일 이름을 text로 표시
             const fileNameInput = document.querySelector(".file-name");
             let filename = e.dataTransfer.files[0].name;
             fileNameInput.innerHTML = filename;
-
             appendFile(data.files[0]);
 
 
         });
-        console.log(formData);
 
         /*  파일 유효성 검사   */
         function isValid(data) {
 
-            //파일인지 유효성 검사
+            // 파일인지 유효성 검사
             if (data.types.indexOf('Files') < 0)
                 return false;
 
-            //파일의 개수는 1개씩만 가능하도록 유효성 검사
+            // 파일의 개수 제한
             if (data.files.length > 1) {
                 alert('파일은 하나씩 전송이 가능합니다.');
                 return false;
             }
 
-            //파일의 사이즈는 50MB 미만
+            // 파일의 사이즈 제한
             if (data.files[0].size >= 1024 * 1024 * 50) {
                 alert('50MB 이상인 파일은 업로드할 수 없습니다.');
                 return false;
             }
-
             return true;
         }
 
