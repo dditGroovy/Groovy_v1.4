@@ -37,7 +37,7 @@ public class MyApp {
 //        s3Client.listBuckets().forEach(bucket -> {
 //            System.out.println("Bucket Name: " + bucket.getName());
 //        });
-        model.addAttribute("model", accessKey);
+        model.addAttribute("key", accessKey);
         return "aws";
     }
 }
