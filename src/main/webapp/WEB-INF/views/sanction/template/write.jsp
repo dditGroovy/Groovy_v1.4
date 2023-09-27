@@ -228,10 +228,10 @@
         });
 
         function submitSanction() {
+            updateStatus() // 결재 상태 업데이트
             content = $(".formContent").html();
             const jsonData = {
                 approver: approver,
-                receiver: receiver,
                 referrer: referrer,
                 etprCode: etprCode,
                 formatCode: formatCode,
@@ -270,7 +270,6 @@
                 data: JSON.stringify(jsonData),
                 contentType: "application/json",
                 success: function (data) {
-                    updateStatus() // 결재 상태 업데이트
                     if (file != null) {
                         uploadFile();  // 결재 상신 후 파일이 있다면
                     } else {

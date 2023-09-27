@@ -29,19 +29,6 @@
         WHERE ELCTRN_SANCTN_DRFT_EMPL_ID = #{elctrnSanctnDrftEmplId}
           AND COMMON_CODE_SANCT_PROGRS = #{commonCodeSanctProgrs}
     </select>
-    <select id="loadRequest" parameterType="String" resultType="sanctionVO">
-        /* 기안 문서함(상신) 불러오기 */
-        SELECT E.ELCTRN_SANCTN_ETPR_CODE,
-               E.ELCTRN_SANCTN_FORMAT_CODE,
-               E.ELCTRN_SANCTN_SJ,
-               E.ELCTRN_SANCTN_DC,
-               E.ELCTRN_SANCTN_DRFT_EMPL_ID,
-               E.ELCTRN_SANCTN_RECOM_DATE,
-               E.COMMON_CODE_SANCT_PROGRS
-        FROM ELCTRN_SANCTN E
-        WHERE ELCTRN_SANCTN_DRFT_EMPL_ID = #{elctrnSanctnDrftEmplId}
-        ORDER BY COMMON_CODE_SANCT_PROGRS, ELCTRN_SANCTN_RECOM_DATE ASC
-    </select>
     <update id="approve" parameterType="String">
         /* kr.co.groovy.sanction.SanctionMapper 결재 승인 - 다음 결재 순번자의 상태 변경 */
         {CALL DECLARE
@@ -215,6 +202,32 @@
           AND E.SIGN_ETPR_CODE = UPLOAD_FILE_ETPR_CODE
           AND ELCTRN_SANCTN_ETPR_CODE = #{elctrnSanctnEtprCode}
     </select>
+    <select id="loadSanctionFile" parameterType="String" resultType="uploadFileVO">
+        /* kr.co.groovy.sanction.SanctionMapper 결재 문서 불러오기 - 첨부 파일 */
+        SELECT U.UPLOAD_FILE_SN,
+               U.UPLOAD_FILE_ETPR_CODE,
+               U.UPLOAD_FILE_ORGINL_NM,
+               U.UPLOAD_FILE_STRE_NM,
+               U.UPLOAD_FILE_SIZE,
+               U.UPLOAD_FILE_RGSDE
+        FROM UPLOAD_FILE U,
+             ELCTRN_SANCTN E
+        WHERE U.UPLOAD_FILE_ETPR_CODE = ELCTRN_SANCTN_ETPR_CODE
+          AND E.ELCTRN_SANCTN_ETPR_CODE = #{elctrnSanctnEtprCode}
+    </select>
+    <select id="loadRequest" parameterType="String" resultType="sanctionVO">
+        /* kr.co.groovy.sanction.SanctionMapper 결재함 - 기안(상신)문서 불러오기 */
+        SELECT E.ELCTRN_SANCTN_ETPR_CODE,
+               E.ELCTRN_SANCTN_FORMAT_CODE,
+               E.ELCTRN_SANCTN_SJ,
+               E.ELCTRN_SANCTN_DC,
+               E.ELCTRN_SANCTN_DRFT_EMPL_ID,
+               E.ELCTRN_SANCTN_RECOM_DATE,
+               E.COMMON_CODE_SANCT_PROGRS
+        FROM ELCTRN_SANCTN E
+        WHERE ELCTRN_SANCTN_DRFT_EMPL_ID = #{elctrnSanctnDrftEmplId}
+        ORDER BY COMMON_CODE_SANCT_PROGRS, ELCTRN_SANCTN_RECOM_DATE ASC
+    </select>
     <select id="loadAwaiting" parameterType="String" resultType="sanctionLineVO">
         /* kr.co.groovy.sanction.SanctionMapper 결재함 - 결재(받은) 문서 불러오기 */
         SELECT E.ELCTRN_SANCTN_ETPR_CODE,
@@ -230,20 +243,7 @@
         WHERE E.ELCTRN_SANCTN_ETPR_CODE = L.ELCTRN_SANCTN_ETPR_CODE
           AND E.ELCTRN_SANCTN_DRFT_EMPL_ID = P.EMPL_ID
           AND L.ELCTRN_SANCTNEMPL_ID = #{emplId}
-        ORDER BY L.COMMON_CODE_SANCT_PROGRS, L.ELCTRN_SANCTN_ETPR_CODE ASC
-    </select>
-    <select id="loadSanctionFile" parameterType="String" resultType="uploadFileVO">
-        /* kr.co.groovy.sanction.SanctionMapper 결재 문서 불러오기 - 첨부 파일 */
-        SELECT U.UPLOAD_FILE_SN,
-               U.UPLOAD_FILE_ETPR_CODE,
-               U.UPLOAD_FILE_ORGINL_NM,
-               U.UPLOAD_FILE_STRE_NM,
-               U.UPLOAD_FILE_SIZE,
-               U.UPLOAD_FILE_RGSDE
-        FROM UPLOAD_FILE U,
-             ELCTRN_SANCTN E
-        WHERE U.UPLOAD_FILE_ETPR_CODE = ELCTRN_SANCTN_ETPR_CODE
-          AND E.ELCTRN_SANCTN_ETPR_CODE = #{elctrnSanctnEtprCode}
+        ORDER BY L.COMMON_CODE_SANCT_PROGRS, E.ELCTRN_SANCTN_RECOM_DATE ASC
     </select>
     <select id="loadAllLine" parameterType="String" resultType="employeeVO">
         /* kr.co.groovy.sanction.SanctionMapper 결재선 지정 - 접속 사원을 제외한 조직도 불러오기 */
@@ -321,5 +321,3 @@
         ORDER BY ELCTRN_SANCTN_FINAL_DATE DESC
     </select>
 </mapper>
-
-

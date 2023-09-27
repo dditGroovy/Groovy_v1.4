@@ -11,7 +11,7 @@
                 <h2 class="department">CEO</h2>
                 <div class="department-list ceo-list">
                     <c:forEach var="dept015" items="${DEPT015List}" varStatus="stat">
-                        <img src="/resources/images/${dept015.proflPhotoFileStreNm}" class="empl-profile">
+                        <img src="/uploads/profile/${dept015.proflPhotoFileStreNm}" class="empl-profile">
                         <div>
                             <h3 class="ceoName">${dept015.emplNm}</h3>
                             <p style="font-size: 14px;">대표이사</p>

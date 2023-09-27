@@ -175,12 +175,12 @@
                     document.querySelector("#countBox").innerText = count;
                     let code = `<table border="1" class='requestTable'>
                         <thead><tr>
-                        <th class="sticky-th">번호</th>
-                        <th class="sticky-th">휴가 기간</th>
-                        <th class="sticky-th">휴가 구분</th>
-                        <th class="sticky-th">휴가 종류</th>
-                        <th class="sticky-th">결재 상태</th>
-                        <th class="sticky-th">상세 내용</th>
+                        <th>번호</th>
+                        <th>휴가 기간</th>
+                        <th>휴가 구분</th>
+                        <th>휴가 종류</th>
+                        <th>결재 상태</th>
+                        <th>상세 내용</th>
                         </tr></thead><tbody>`;
                     if (data.length === 0) {
                         code += `<tr>

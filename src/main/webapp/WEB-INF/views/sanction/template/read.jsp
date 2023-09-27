@@ -24,12 +24,10 @@
             <div class="form-header">
                 <div class="btn-wrap">
                     <a href="#" class="btn" id="downBtn" onclick="downloadAsPDF()"><i class="icon i-down"></i></a>
-                        <%--    세션에 담긴 사번이 문서의 기안자 사번과 같고 결재 코드가 최초 상신 상태일 때    --%>
                     <c:if test="${CustomUser.employeeVO.emplId == sanction.elctrnSanctnDrftEmplId && sanction.commonCodeSanctProgrs == '상신' }">
                         <button type="button" onclick="collect()" class="btn btn-free-white" id="collectBtn">회수</button>
                     </c:if>
                     <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
-                        <%--&lt;%&ndash; 세션에 담긴 사번이 문서의 결재자 사번과 같고 결재 상태가 대기이며 결재의 상태가 반려가 아닌 경우&ndash;%&gt;--%>
                         <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
                                     && (lineVO.commonCodeSanctProgrs == '대기')
                                     && (sanction.commonCodeSanctProgrs != '반려')
@@ -54,8 +52,8 @@
                         </c:if>
                     </c:forEach>
                 </div>
-                <br/> <br/>
-
+                <br/>
+                <br/>
                 <div class="formTitle">
                     <p class="main-title"> ${sanction.elctrnSanctnSj}</p>
                 </div>
@@ -82,12 +80,12 @@
                             <c:forEach var="lineVO" items="${lineList}" varStatus="stat">
                                 <td>
                                     <div class="obtt-inner">
-                                        <p class="approval-person">
+                                        <p class="approval-person" id="${lineVO.elctrnSanctnemplId}">
                                             <c:choose>
                                                 <c:when test="${lineVO.commonCodeSanctProgrs == '반려'}">
                                                     <img src="${pageContext.request.contextPath}/resources/images/reject.png"/>
                                                 </c:when>
-                                                <c:when test="${lineVO.commonCodeSanctProgrs == '승인' }">
+                                                <c:when test="${lineVO.commonCodeSanctProgrs == '승인'}">
                                                     <img src="/uploads/sign/${lineVO.uploadFileStreNm}"/>
                                                 </c:when>
                                                 <c:otherwise>
@@ -183,6 +181,7 @@
     </div>
 
     <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -193,7 +192,6 @@
 
         function downloadAsPDF() {
             let element = document.querySelector(".content-wrapper");
-
             let options = {
                 ignoreElements: (element) => {
                     return element.classList.contains("btn"); // 버튼 제외
@@ -228,6 +226,10 @@
         let rejectId;
         let etprCode = '${sanction.elctrnSanctnEtprCode}';
         let afterPrcs = '${sanction.elctrnSanctnAfterPrcs}'
+        let emplId = '${CustomUser.employeeVO.emplId}';
+        let signUrl = '/uploads/sign/' + '${CustomUser.employeeVO.signPhotoFileStreNm}';
+        let signElement = document.getElementById(emplId);
+
         $(function () {
             $("#elctrnSanctnFinalDate").html('${sanction.elctrnSanctnFinalDate}');
         })
@@ -236,16 +238,18 @@
             window.close();
         }
 
+        $("#testBtn").on("click", function () {
+            appendReturnReason()
+        })
+
         /* 승인 처리 */
         function approve(id) {
-            console.log(id);
             $.ajax({
                 url: `/sanction/api/approval/\${id}/\${etprCode}`,
                 type: 'PUT',
                 success: function (data) {
-                    alert('승인 처리 성공')
-                    location.reload()
-
+                    appendSignImg()
+                    alert('승인 처리 되었습니다.')
                 },
                 error: function (xhr) {
                     alert('승인 처리 실패')
@@ -253,14 +257,39 @@
             });
         }
 
+        function appendSignImg() {
+            let imgElement = $('<img/>', {
+                src: signUrl
+            });
+            $(signElement).empty();
+            $(signElement).append(imgElement);
+            let dateElement = $(signElement).siblings('.approval-date');
+            dateElement.text(getCurrentDate());
+        }
+
+        function appendReturnReason() {
+            let returnResnDiv = $('<div>', {
+                class: 'form-label',
+                text: '반려 사유'
+            });
+
+            let returnResnText = $('<p>', {
+                class: 'file-content form-out-content',
+                text: rejectReason
+            });
+
+            // 생성한 요소들을 #returnResn 요소에 추가합니다.
+            $('#returnResn').append(returnResnDiv, returnResnText);
+        }
+
         /* 최종 승인 처리 */
         function finalApprove(id) {
-            console.log(id);
             $.ajax({
                 url: `/sanction/api/final/approval/\${id}/\${etprCode}`,
                 type: 'PUT',
                 success: function (data) {
-                    alert('최종 승인 처리 성공')
+                    appendSignImg()
+                    alert('최종 승인 처리 되었습니다.')
                     if (afterPrcs != null) {
                         afterFinalApprove();
                         location.reload()
@@ -301,9 +330,6 @@
 
         function submitReject() {
             rejectReason = $("#rejectReason").val()
-            console.log(rejectReason);
-            console.log(rejectId)
-            console.log(etprCode)
             $.ajax({
                 url: '/sanction/api/reject',
                 type: 'PUT',
@@ -314,8 +340,9 @@
                 }),
                 contentType: "application/json",
                 success: function (data) {
-                    alert('반려 처리 성공')
-                    location.reload()
+                    signUrl = '/resources/images/reject.png';
+                    appendSignImg()
+                    alert('반려 처리 되었습니다.')
                 },
                 error: function (xhr) {
                     alert('반려 처리 실패')
@@ -325,12 +352,11 @@
 
         /* 회수 처리 */
         function collect() {
-            console.log(etprCode);
             $.ajax({
                 url: `/sanction/api/collect/\${etprCode}`,
                 type: 'PUT',
                 success: function (data) {
-                    alert('회수 처리 성공')
+                    alert('회수 되었습니다.')
                     location.reload()
 
                 },

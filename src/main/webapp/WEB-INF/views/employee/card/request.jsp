@@ -165,6 +165,7 @@
                             <th>사용 목적</th>
                             <th>사용 예상 금액</th>
                             <th>결재 상태</th>
+                            <th>상세 내용</th>
                         </tr></thead><tbody>`;
                     if (data.length === 0) {
                         code += `<tr>
@@ -173,12 +174,13 @@
                     } else {
                         $.each(data, function (index, recodeVO) {
                             code += `<tr>
-                            <td><a href="#" data-name="detailCard" data-seq="\${recodeVO.cprCardResveSn}" class="detailLink">\${index + 1}</a></td>
+                            <td>\${index + 1}</td>
                             <td>\${recodeVO.cprCardResveBeginDate} - \${recodeVO.cprCardResveClosDate}</td>
                             <td>\${recodeVO.cprCardUseLoca}</td>
                             <td>\${recodeVO.cprCardUsePurps}</td>
                             <td>\${formatNumber(recodeVO.cprCardUseExpectAmount)}원</td>
-                            <td><span class="state">\${recodeVO.commonCodeYrycState === 'YRYC030' ? '미상신' : (recodeVO.commonCodeYrycState === 'YRYC031' ? '상신' : '승인')}</span></td>
+                            <td>\${recodeVO.commonCodeYrycState === 'YRYC030' ? '미상신' : (recodeVO.commonCodeYrycState === 'YRYC031' ? '상신' : '승인')}</td>
+                            <td><span class="state"><a href="#" data-name="detailCard" data-seq="\${recodeVO.cprCardResveSn}" class="detailLink">자세히</a></span></td>
                         </tr>`;
                         });
                     }
