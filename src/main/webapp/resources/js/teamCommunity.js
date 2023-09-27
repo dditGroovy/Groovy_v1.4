@@ -38,12 +38,17 @@
             success: function (data) {
                 let code = "";
                 data.forEach(item => {
-                    code += `<td>
-                <img src="/uploads/profile/${item.proflPhotoFileStreNm}" style="width: 50px; height: 50px;"/> <br />
-                ${item.answerWrtingEmplNm}<br />
-                ${item.answerCn}<br />
-                ${item.answerDate}
-                </td><br/>`
+                    code += `
+                <div class="answer-list-item">
+                    <img src="/uploads/profile/${item.proflPhotoFileStreNm}" class="answer-thum"/>
+                    <div class="answer-empl-info">
+                        <div class="info-top">
+                            <h5 class="answer-empl-name">${item.answerWrtingEmplNm}</h5>
+                            <p class="answer-date">${item.answerDate}</p>
+                        </div>
+                         <p class="empl-answerCn">${item.answerCn}</p>
+                    </div>
+                </div>`
                 })
                 item.querySelector(".answerBox").innerHTML = code;
 
@@ -250,6 +255,7 @@
 
             /*  댓글 불러오기 */
             if (target.classList.contains("loadAnswer")) {
+                !target.closest(".post-card").classList.contains(".post-card")?target.closest(".post-card").classList.add("on"):target.closest(".post-card").classList.remove("on")
                 loadAnswerFn(sntncEtprCode, item);
             }
         })
@@ -296,13 +302,9 @@
     teamEnter.addEventListener("click", function (e) {
         e.preventDefault();
         const target = e.target;
-        if (target.id == "addTeamNotice") {
-            document.querySelector("#modal-insert-notice").style.display = "block";
-            return false;
-        }
-        if(target.id == "addVote"){
-            document.querySelector("#modal-insert-vote").style.display = "block";
-            return false;
+        if(target.classList.contains("btn-modal")){
+            const dataName = target.getAttribute("data-name");
+            modalOpen(dataName);
         }
         if (target.classList.contains("notimodifyBtn")) {
             const card = target.closest(".card");
@@ -494,11 +496,11 @@
             type: "POST",
             success: function (data) {
                 const endBtn = "<button class='endBtn'>투표 종료</button>"
-                let code = '<button type="button" id="addVote">+ 투표 등록하기</button>' +
-                    '<div class="inner">';
+                let code = '<button type="button" id="addVote" class="btn btn-modal" data-name="insertVote">+ 투표 등록하기</button>' +
+                    '<div class="vote-wrap">';
                 data.forEach(item => {
-                    code += `<div class="inner">
-                                 <div class="card" id="${item.voteRegistNo}">
+                    code += `<div class="vote-list-wrap">
+                                 <div class="card card-df" id="${item.voteRegistNo}">
                                      <div class="card-header">
                                          <span class="badge ${item.voteRegistAt == 0 ? 'ongoing' : 'completed'}">
                                             ${item.voteRegistAt == 0 ? '진행 중' : '종료'}
@@ -576,17 +578,18 @@
                 newDiv.classList = "option";
 
                 const newInput = document.createElement("input");
-                const optionWrapper = target.closest(".option-wrapper");
-                const optionBody = optionWrapper.querySelector(".option-body");
+                const optionBody = document.querySelector(".option-body");
 
                 ++num;
                 newInput.type = "text";
                 newInput.id = "voteOptionContents" + num;
                 newInput.name = `voteOptionContents`;
+                newInput.classList.add("input-l");
+                newInput.classList.add("modal-input");
 
                 const newBtn = document.createElement("button");
                 newBtn.type= "button";
-                newBtn.classList = "optiondelete";
+                newBtn.classList = "optiondelete btn btn-free-white";
 
                 newBtn.innerText = "x";
                 newDiv.append(newInput);
@@ -663,6 +666,9 @@
             originName.innerHTML = "";
         }
     })
+
+    /*  서비스 눌렀을 때 */
+
 
 
     
