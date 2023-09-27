@@ -29,7 +29,14 @@
                                 </div>
                                 <div class="memo-content">
                                     <p class="memoSn">${list.memoSn}</p>
-                                    <p class="title">${list.memoSj}</p>
+                                <c:choose>
+                                    <c:when test="${not empty list.memoSj}">
+                                        <p class="title">${list.memoSj}</p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p class="title">제목없음</p>
+                                    </c:otherwise>
+                                </c:choose>
                                     <p class="content">${list.memoCn}</p>
                                     <p><fmt:formatDate value="${list.memoWrtngDate}" type="date" pattern="yyyy-MM-dd"/></p>
                                 </div>
@@ -105,6 +112,8 @@
             target.classList.add("on");
         }else if(target.closest(".more")){
             target.closest(".more").classList.add("on");
+        }else {
+            document.querySelector(".more").classList.remove("on");
         }
         if (target.classList.contains("savebtn")) {
             const memoElem = target.parentElement;
