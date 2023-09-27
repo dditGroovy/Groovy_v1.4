@@ -19,4 +19,6 @@ public interface MemoMapper {
 	public int updateMemoAlarm(int memoSn);
 	
 	public MemoVO getFixMemo();
+	
+	public int noFix(int memoSn);
 }
