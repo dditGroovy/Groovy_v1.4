@@ -91,4 +91,10 @@
         COMMON_CODE_FIXING_AT='MEMO010'
 </select>
 
+<update id="noFix" parameterType="int">
+	UPDATE MEMO 
+	SET COMMON_CODE_FIXING_AT = 'MEMO011' 
+	WHERE MEMO_SN = #{memoSn}
+</update>
+
 </mapper>

@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-    <div id="downloadDiv" style="position: absolute; top: -9999px; left: -9999px;"></div>
+    <div id="downloadDiv" style="position: absolute; top: -9999px; left: -9999px; width: 21cm; min-height: 29.7cm"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -285,49 +285,37 @@
         downloadDiv.innerHTML = format;
 
         html2canvas(downloadDiv).then((canvas) => {
-            let imgData = canvas.toDataURL('image/png');
-            let imgWidth = 150;
-            let pageHeight = 300;
-            let imgHeight = parseInt(canvas.height * imgWidth / canvas.width)
-            let heightLeft = imgHeight;
-            let margin = 10;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            let imgData = canvas.toDataURL("image/png");
+            let imgWidth = 210;
+            let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-            let doc = new jsPDF('p', 'mm', 'a4');
-
-            let position = 30;
-
-            doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-            while (heightLeft >= 0) {
-                position = heightLeft - imgHeight;
-                doc.addPage();
-                doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-            }
+            doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
 
             let fileName = `\${result.salaryDtsmtEtprCode}.pdf`;
-            $.ajax({
-                url: "/salary/uploadFile",
-                type: 'post',
-                data: JSON.stringify({
-                    etprCode: `\${result.salaryDtsmtEtprCode}`,
-                    datauri: doc.output('datauristring')
-                }),
-                contentType: 'application/json',
-                success: function (result) {
-                    if (result === "success") {
-                        if (flag) {
-                            alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
-                            flag = false;
-                        }
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("code: " + xhr.status);
-                    console.log("message: " + xhr.responseText);
-                    console.log("error: " + xhr.error);
-                }
-            });
+            doc.save(fileName);
+            // $.ajax({
+            //     url: "/salary/uploadFile",
+            //     type: 'post',
+            //     data: JSON.stringify({
+            //         etprCode: `\${result.salaryDtsmtEtprCode}`,
+            //         datauri: doc.output('datauristring')
+            //     }),
+            //     contentType: 'application/json',
+            //     success: function (result) {
+            //         if (result === "success") {
+            //             if (flag) {
+            //                 alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
+            //                 flag = false;
+            //             }
+            //         }
+            //     },
+            //     error: function (xhr, status, error) {
+            //         console.log("code: " + xhr.status);
+            //         console.log("message: " + xhr.responseText);
+            //         console.log("error: " + xhr.error);
+            //     }
+            // });
         });
     }
 

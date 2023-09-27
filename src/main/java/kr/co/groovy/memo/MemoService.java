@@ -22,7 +22,12 @@ public class MemoService {
 	}
 	
 	public MemoVO getOneMemo(int memoSn) {
-		return memoMapper.getOneMemo(memoSn);
+		MemoVO memoVO = memoMapper.getOneMemo(memoSn);
+		
+		if (memoVO.getMemoSj() == null) {
+			memoVO.setMemoSj("제목 없음");
+    	}
+		return memoVO;
 	}
 	
 	public int inputMemo(MemoVO memoVO) {
@@ -42,7 +47,23 @@ public class MemoService {
 	}
 	
 	public MemoVO getFixMemo() {
-		return memoMapper.getFixMemo();
-	}
+		MemoVO memoVO = memoMapper.getFixMemo();
+	    
+		if(memoVO == null) {
+		        memoVO = new MemoVO();
+		        memoVO.setMemoSj(null);
+		        memoVO.setMemoCn(null);
+		        memoVO.setMemoWrtngDate(null);
+		  } else if(memoVO.getMemoSj() == null) {
+		        memoVO.setMemoSj("제목 없음");
+		  }
 
+	    return memoVO;
+	}
+	
+	
+	public int noFix(int memoSn) {
+		return memoMapper.noFix(memoSn);
+	}
+	
 }
