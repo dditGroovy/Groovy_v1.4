@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">--%>
 <style>
     .recommend-icon-btn {
         width: calc((48 / 1920) * 100vw);
@@ -41,35 +40,87 @@
         display: block;
     }
 
-    .btn-wrap {
+/*    .btn-wrap {
         display: none;
     }
 
     .btn-wrap.on {
         display: block;
-    }
+    }*/
 </style>
+<link href="/resources/css/community/community.css" rel="stylesheet"/>
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
-        <h1>팀 커뮤니티</h1>
-        <h4>인사팀만을 위한 공간입니다.</h4>
-
+        <header id="tab-header">
+            <h1><a href="${pageContext.request.contextPath}/teamCommunity" class="on">팀 커뮤니티</a></h1>
+            <h2 class="main-desc"><strong class="font-sb">${CustomUser.employeeVO.deptNm}팀</strong>만을 위한 공간입니다&#x1F60A;</h2>
+        </header>
+        <main>
+            <div class="main-inner community-inner">
+                <section id="post">
+                    <div class="post-wrap">
+                        <div class="post-write-wrap">
+                            <div class="post-card card card-df">
+                                <div class="post-card-header">
+                                    <h3 class="card-title"><i class="icon i-idea i-3d"></i>포스트 등록</h3>
+                                </div>
+                                <form action="${pageContext.request.contextPath}/teamCommunity/inputPost" method="post"  enctype="multipart/form-data">
+                                    <div class="post-card-body">
+                                            <div class="content-wrap">
+                                               <textarea name="sntncCn" id="sntncCn" class="input-l"></textarea>
+                                            </div>
+                                    </div>
+                                    <div class="post-card-footer">
+                                        <div class="file-wrap">
+                                            <label for="postFile" class="btn btn-free-white file-btn">
+                                                <i class="icon i-file"></i>
+                                                파일 첨부
+                                            </label>
+                                            <input type="file" name="postFile" id="postFile" style="display: none">
+                                            <p id="originName"></p>
+                                        </div>
+                                        <div class="btn-wrap">
+                                            <button id="insertPostBtn" class="btn btn-free-blue">등록</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="post-list-wrap">
+                            <c:forEach var="sntncVO" items="${sntncList}">
+                            <div class="post-card card card-df post" data-idx="${sntncVO.sntncEtprCode}">
+                                <div class="post-card-header">
+                                    <div class="writer-info">
+                                        <img src="/uploads/profile/${sntncVO.proflPhotoFileStreNm}" class="thum"/>
+                                        <div class="writer-info-detail">
+                                            <h4 class="postWriterInfo" data-id="${sntncVO.sntncWrtingEmplId}">${sntncVO.sntncWrtingEmplNm}</h4>
+                                            <p>${sntncVO.sntncWrtingDate}</p>
+                                        </div>
+                                    </div>
+                                    <div class="more-wrap">
+                                        <c:if test="${CustomUser.employeeVO.emplId == sntncVO.sntncWrtingEmplId}">
+                                            <button class="more btn"><i class="icon i-more"></i></button>
+                                            <ul class="more-list">
+                                                <li><button type="button" class="modifyBtn">수정</button></li>
+                                                <li><button type="button" class="deleteBtn">삭제</button></li>
+                                            </ul>
+                                        </c:if>
+                                    </div>
+                                </div>
+                            </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </section>
+                <section id="service">
+                    <div class="post-wrap">
+                    </div>
+                </section>
+            </div>
+        </main>
         <h2>포스트 등록</h2>
-        <form action="${pageContext.request.contextPath}/teamCommunity/inputPost" method="post"
-              enctype="multipart/form-data">
-            <table border="1">
-                <tr>
-                    <th>글 내용</th>
-                    <td><textarea name="sntncCn" id="sntncCn" cols="50" rows="10"></textarea></td>
-                </tr>
-                <tr>
-                    <th>글 파일첨부</th>
-                    <td><input type="file" name="postFile" id="postFile"><br/></td>
-                </tr>
-            </table>
-            <button id="insertPostBtn">등록</button>
-        </form>
+
         <hr/>
         <br/>
         <h2>포스트 불러오기</h2>

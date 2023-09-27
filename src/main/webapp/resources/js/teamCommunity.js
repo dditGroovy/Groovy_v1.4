@@ -67,6 +67,14 @@
             let sntncVO = {
                 "sntncEtprCode": sntncEtprCode
             }
+            /*  수정 삭제 버튼 */
+            if(target.classList.contains("more")){
+                target.classList.add("on");
+            }else if(target.closest(".more")){
+                target.closest(".more").classList.add("on");
+            }else {
+                document.querySelector(".more").classList.remove("on");
+            }
             /*  좋아요 */
             if (target.classList.contains("unRecommendBtn")) {
                 const btn = item.querySelector(".unRecommendBtn");
@@ -534,10 +542,12 @@
                     const badge = item.querySelector(".badge");
                     const options = item.querySelectorAll(".option-btn");
 
-                    if (badge.classList.contains("completed")) {
-                        options.forEach(option => {
-                            option.disabled = true;
-                        })
+                    if(badge){
+                        if (badge.classList.contains("completed")) {
+                            options.forEach(option => {
+                                option.disabled = true;
+                            })
+                        }
                     }
                 });
 
@@ -642,6 +652,17 @@
     voteRegistStartDate.valueAsDate = new Date();
     const today = new Date().toISOString().split("T")[0];
     voteRegistEndDate.setAttribute("min",today);
+
+    /*  파일 이름   */
+    const postFile = document.querySelector("#postFile");
+    const originName = document.querySelector("#originName");
+    postFile.addEventListener("change",function(){
+        if(postFile.value.length){
+            originName.innerHTML = postFile.files[0].name;
+        }else{
+            originName.innerHTML = "";
+        }
+    })
 
 
     

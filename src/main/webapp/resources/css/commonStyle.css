@@ -271,6 +271,13 @@
 .i-save {content:url("/resources/images/icon/save-blue.svg");}
 .i-bookmark {content:url("/resources/images/icon/bookmark-blue.svg");}
 .i-more {content:url("/resources/images/icon/more.svg");}
+.i-file {content:url("/resources/images/icon/link.svg");}
+
+.i-3d.icon {
+    width: var(--vw-32);
+    height: var(--vw-32);
+    margin-right: 8px;
+}
 .nav-list a:hover .icon, .nav-list a.active .icon {
     filter: invert(94%) sepia(100%) saturate(0%) hue-rotate(236deg) brightness(106%) contrast(106%);
 }

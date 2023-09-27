@@ -160,11 +160,6 @@ section .content-wrap {
 
 
 /*  모달  */
-.i-3d.icon {
-    width: var(--vw-32);
-    height: var(--vw-32);
-    margin-right: 8px;
-}
 .form-data-list {
     display: flex;
     flex-direction: column;
