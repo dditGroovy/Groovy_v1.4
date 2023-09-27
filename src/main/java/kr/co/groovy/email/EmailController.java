@@ -95,7 +95,7 @@ public class EmailController {
 
     @PostMapping("/send")
     @ResponseBody
-    public String inputSentEmail(Principal principal, EmailVO emailVO, MultipartFile[] emailFiles) {
+    public String inputSentEmail(Principal principal, EmailVO emailVO, MultipartFile[] emailFiles, String password) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
         return emailService.sentMail(emailVO, emailFiles, employeeVO);
     }

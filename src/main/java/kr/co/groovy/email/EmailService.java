@@ -29,6 +29,7 @@ public class EmailService {
     private final EmailMapper emailMapper;
     private final EmployeeMapper employeeMapper;
     private final String uploadPath;
+    private String password;
 
     public void inputReceivedEmailsFrom(EmailVO emailVO) {
         emailMapper.inputReceivedEmailsFrom(emailVO);
@@ -222,6 +223,7 @@ public class EmailService {
 
     public List<EmailVO> inputReceivedEmails(Principal principal, EmailVO emailVO, String password) throws Exception {
         EmployeeVO employeeVO = employeeMapper.loadEmp(principal.getName());
+        this.password = password;
         URLName url = getUrlName(employeeVO, password);
 
         Session session = null;
@@ -332,19 +334,22 @@ public class EmailService {
         return setAllEmailList(employeeVO.getEmplEmail(), "N");
     }
 
-    private URLName getUrlName(EmployeeVO employeeVO, String emailPassword) {
+    private URLName getUrlName(EmployeeVO employeeVO, String password) {
         String host = null;
         int port = 995;
         String emailAddr = employeeVO.getEmplEmail();
         if (employeeVO.getEmplEmail().contains("gmail.com")) {
+            password = "zwhfanbijftbggwx";
             host = "pop.gmail.com";
         } else if (employeeVO.getEmplEmail().contains("daum.net")) {
+            password = this.password;
             host = "pop.daum.net";
         } else if (employeeVO.getEmplEmail().contains("naver.com")) {
+            password = this.password;
+            log.info(password);
             host = "pop.naver.com";
         }
-
-        return new URLName("pop3s", host, port, "INBOX", emailAddr, emailPassword);
+        return new URLName("pop3s", host, port, "INBOX", emailAddr, password);
     }
 
     public List<EmailVO> setAllEmailList(String emailAddr, String at) {
@@ -413,17 +418,15 @@ public class EmailService {
         return content;
     }
 
-//
-
     public String sentMail(EmailVO emailVO, MultipartFile[] emailFiles, EmployeeVO employeeVO) {
         String emplEmail = employeeVO.getEmplEmail();
         JavaMailSenderImpl mailSender = null;
         if (emplEmail.contains("naver.com")) {
-            mailSender = naverMailSender(emplEmail, "BowwowBowwow40@");
+            mailSender = naverMailSender(emplEmail, this.password);
         } else if (emplEmail.contains("gmail.com")) {
             mailSender = googleMailSender(emplEmail, "zwhfanbijftbggwx");
         } else if (emplEmail.contains("daum.net")) {
-            mailSender = daumMailSender(emplEmail, "groovy40@dditfinal");
+            mailSender = daumMailSender(emplEmail, this.password);
         }
 
         List<String> toList = new ArrayList<>();
