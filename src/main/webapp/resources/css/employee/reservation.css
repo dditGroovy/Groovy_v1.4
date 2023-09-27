@@ -1,0 +1,433 @@
+.container {
+    overflow: hidden;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.wrap ul {
+    display: flex;
+    gap: 10px
+}
+
+.header, .titleWrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/*table tr {*/
+/*    display: flex;*/
+/*}*/
+
+/*table tr td, table tr th {*/
+/*    flex: 1;*/
+/*}*/
+
+.content > ul {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.roomId {
+    margin-right: var(--vw-16);
+}
+
+.roomType {
+    margin-right: var(--vw-24);
+}
+
+.equip {
+    margin-right: 8px;
+}
+
+#fcltyResveSn, .fcltyResveSn {
+    display: none;
+}
+
+.roomInfoList, .fxrpsList {
+    display: inline-flex;
+    text-align: center;
+}
+
+.roomId, .roomType, .equip {
+    display: flex;
+    align-items: center;
+}
+
+.fxrps {
+    display: flex;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: var(--vw-64);
+    align-items: flex-end;
+    padding-bottom: var(--vh-24);
+    border-bottom: 1px solid var(--color-stroke);
+    margin-bottom: 12px;
+}
+
+.facility {
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+}
+
+.menu {
+    margin-right: var(--vw-64);
+    color: var(--color-font-md);
+}
+
+.menu.menu-active {
+    color: var(--color-font-high);
+}
+
+.current-resve {
+    display: inline-block;
+}
+
+#countValue {
+    color: var(--color-main);
+}
+
+.more {
+    color: var(--color-font-md);
+}
+
+.cancelRoom {
+    width: calc((80 / 1920) * 100vw);
+    height: calc((36 / 1080) * 100vh);
+    border-radius: 20px;
+    border: 1px solid var(--color-font-md);
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--color-font-md);
+    font-size: var(--font-size-14);
+    margin: 0 auto;
+}
+
+.ag-ltr .ag-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.facility-card {
+    padding: var(--vw-32);
+    margin: var(--vh-24) 0;
+
+}
+
+.manage-header {
+    margin-bottom: var(--vh-24);
+}
+
+.facility-left {
+    margin-right: var(--vw-24);
+}
+
+.count {
+    margin-left: 8px;
+    color: var(--color-main);
+}
+
+.icon-user {
+    width: calc((72 / 1920) * 100vw) !important;
+    height: calc((72 / 1920) * 100vw) !important;
+    background-image: url("/resources/images/Icon3d/User.png");
+    background-repeat: no-repeat;
+}
+
+.icon-heart {
+    width: calc((72 / 1920) * 100vw) !important;
+    height: calc((72 / 1920) * 100vw) !important;
+    background-image: url("/resources/images/Icon3d/Heart_rate.png");
+    background-repeat: no-repeat;
+}
+
+.icon-sofa {
+    width: calc((72 / 1920) * 100vw) !important;
+    height: calc((72 / 1920) * 100vw) !important;
+    background-image: url("/resources/images/Icon3d/Chair.png");
+    background-repeat: no-repeat;
+}
+
+.icon-car {
+    width: calc((72 / 1920) * 100vw) !important;
+    height: calc((72 / 1920) * 100vw) !important;
+    background-image: url("/resources/images/Icon3d/car.png");
+    background-repeat: no-repeat;
+    margin-left: var(--vw-18);
+}
+
+
+.fxrpsList {
+    padding: var(--vh-32) var(--vw-48);
+}
+
+
+/*--------------*/
+
+.reserve-wrap {
+    display: flex;
+    /*gap: var(--vw-32)*/
+}
+
+.left {
+    width: calc((1120 / var(--vw)) * 100vw);
+    height: calc((360 / 1080) * 100vh);
+    padding: var(--vh-16) var(--vw-16);
+}
+
+.right {
+    width: calc((640 / var(--vw)) * 100vw);
+    height: calc((848 / 1080) * 100vh);
+    padding: var(--vh-16) var(--vw-16);
+
+
+}
+
+#myReserveList {
+    margin: var(--vh-32) var(--vw-32);
+}
+
+.reserve-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-style: hidden;
+
+
+}
+
+.reserve-table th {
+    background: var(--color-bg-sky);
+    border-bottom: 1px solid var(--color-bg-darkGrey);
+    top: 0;
+    position: sticky;
+    color: var(--color-main);
+}
+
+.reserve-table td, .reserve-table th {
+    width: calc(100% / 8);
+    height: calc((40 / 1080) * 100vh);
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid rgba(224, 224, 224, 0.39);
+    font-size: var(--font-size-14);
+    font-family: var(--font-reg);
+}
+
+.reserve-table td {
+
+    color: var(--color-font-md);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-48);
+}
+
+
+
+
+
+
+
+
+.roomInfo {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: var(--vw-24);
+    grid-row-gap: var(--vw-24);
+}
+
+.roomInfo.rest {
+    grid-template-rows: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
+
+.rest-btn {
+    padding: var(--vh-32) var(--vw-32);
+    margin: 20px;
+    /*width: calc((142 / var(--vw)) * 100vw);*/
+    height: calc((320 / 1080) * 100vh);
+    border-radius: 100px;
+
+}
+
+
+
+
+.car-btn {
+    margin: 1%;
+    border-radius: 100px;
+}
+
+.reserve-btn {
+    padding: var(--vh-32) var(--vw-32);
+}
+
+.restType {
+    width: 100%;
+    margin: 0px;
+}
+
+.roomInfo h4, .roomInfo li, .roomInfo span {
+    color: var(--color-font-md);
+}
+
+
+.facility-no {
+    color: var(--color-main);
+    font-size: var(--font-size-24);
+    font-family: var(--font-md);
+    margin: var(--vh-8);
+}
+
+.people, .supplies, .carNum {
+    display: flex;
+    font-size: var(--font-size-11);
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+    justify-content: space-between;
+
+}
+
+.people {
+    gap: var(--vw-48);
+    margin: var(--vh-16) 0;
+}
+.carDetail {
+    gap: var(--vw-32);
+    margin: var(--vh-16) 0;
+
+}
+
+.supplies {
+    /*gap : var(--vw-12)*/
+}
+
+.table-title {
+    font-size: var(--font-size-18);
+    font-family: var(--font-md);
+    margin-bottom: 3%;
+    color: var(--color-font-md);
+
+}
+
+.cancelBtn {
+    width: calc((48 / var(--vw)) * 100vw);
+    height: calc((28 / 1080) * 100vh);
+}
+
+#reserveBox {
+    padding: var(--vh-48) var(--vw-48);
+    height: 95%;
+}
+
+#reserveBox.rest {
+    height: 60%;
+    margin-bottom: 40px;
+}
+
+#reserveBox p {
+    font-size: var(--font-size-14);
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+    margin: var(--vh-24);
+    border-bottom: var(--color-font-md);
+}
+
+.reserve-time {
+    align-items: center;
+    text-align: center;
+}
+
+.select-time {
+    width: 90%;
+    height: calc((48 / 1080) * 100vh);
+    padding: var(--vh-12) var(--vw-10);
+    font-size: var(--font-size-14);
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+    border: 1px solid #e5e7e8;
+    border-radius: var(--vw-18);
+    -o-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.request-box {
+    width: 90%;
+    height: calc((160 / 1080) * 100vh);
+    border: 1px solid #d1d6da;
+
+}
+
+.btn-wrap {
+    text-align: center;
+}
+
+.submit-btn {
+    width: 90%;
+    margin-top: var(--vw-40);
+}
+
+
+.carInfo {
+    display: flex;
+    align-items: center;
+}
+
+.car-div {
+    padding: var(--vh-24) var(--vw-24);
+}
+.carNum {
+    margin: 10px 0;
+}
+.carNum h3, .carNum p {
+    font-size: var(--font-size-18);
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+}
+.carDetail h4{
+    font-size: var(--font-size-14);
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+}
+.carDetail p {
+    font-size: var(--font-size-14);
+    font-family: var(--font-reg);
+    color: var(--color-font-md);
+}
+
+
+#today {
+    margin: var(--vh-24);
+    margin-bottom: var(--vh-40);
+    font-size: var(--font-size-18);
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+}
+
+.btn-on {
+    background-color: var(--color-main);
+    border: 1px solid var(--color-stroke);
+    box-shadow: var(--clay-btn);
+    outline-color: var(--color-main);
+    color: white;
+}
+
+.btn-on p, .btn-on span, .btn-on h3, .btn-on h4  {
+    color: white;
+}
