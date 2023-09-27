@@ -1,0 +1,133 @@
+@import "../commonStyle.css";
+
+/*  공통  */
+#tab-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+#tab-header strong.font-sb {
+    color: var(--color-main);
+}
+.main-inner {
+    flex-direction: row;
+    gap: var(--vw-24);
+    justify-content: flex-start;
+}
+.main-inner > section {
+    border: 1px solid red;
+}
+#post {
+    width: calc((800/var(--vw))*100vw);
+}
+#post .post-card {
+    padding: var(--vw-32);
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-32);
+}
+.card-title {
+    font-size: var(--font-size-18);
+    color: var(--color-font-md);
+    font-family: var(--font-md);
+}
+#sntncCn {
+    width: 100%;
+    height: calc((160/var(--vh))*100vh);
+    padding: var(--vh-12) var(--vw-24);
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+    font-size: 14px;
+}
+#post .post-wrap, #post .post-list-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vw-24);
+}
+#post .post-card form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-32);
+}
+.post-card-footer {
+    display: flex;
+    justify-content: space-between;
+}
+#insertPostBtn {
+    width: calc((160/var(--vw))*100vw);
+    padding: var(--vh-12) 0;
+    text-align: center;
+}
+.file-btn{
+    width: calc((120/var(--vw))*100vw);
+    height: var(--vh-48);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-main);
+    gap: 4px;
+    font-size: 14px;
+}
+.i-file {
+    filter : invert(54%) sepia(23%) saturate(2818%) hue-rotate(194deg) brightness(100%) contrast(91%);
+}
+.file-wrap {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.writer-info {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.thum {
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--size-50);
+    border: 1px solid var(--color-stroke);
+}
+.writer-info-detail h4.postWriterInfo {
+    font-size: 18px;
+    font-family: var(--font-b);
+    color: var(--color-font-md);
+    margin-bottom: 4px;
+}
+.writer-info-detail p {
+    font-size: 11px;
+    color: var(--color-font-md);
+}
+.post-card-header {
+    display: flex;
+    justify-content: space-between;
+}
+.post-card .more-wrap .more {
+    opacity: 0;
+}
+.post-card:hover .more-wrap .more {
+    opacity: 1;
+}
+.more-list {
+    position: absolute;
+    background: var(--color-white);
+    box-shadow: var(--clay-card);
+    border: 1px solid var(--color-stroke);
+    border-radius: 8px;
+    transform: scale(0);
+}
+.more-list li .btn {
+    width: 80px;
+    padding: var(--vh-12) var(--vw-24);
+    font-size: 14px;
+    font-family: var(--font-reg);
+
+}
+.more-list li .btn:hover {
+    background: var(--color-bg-grey);
+}
+.btn-wrap .more.on ~ .more-list {
+    transform: scale(100%);
+}
