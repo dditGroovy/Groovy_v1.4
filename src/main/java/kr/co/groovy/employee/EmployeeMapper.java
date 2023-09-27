@@ -3,6 +3,7 @@ package kr.co.groovy.employee;
 import kr.co.groovy.vo.ConnectionLogVO;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
+import kr.co.groovy.vo.PageVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,6 +23,8 @@ public interface EmployeeMapper {
     void inputEmp(EmployeeVO vo);
 
     List<EmployeeVO> loadEmpList();
+
+    int countFindEmp(String depCode, String emplNm);
 
     List<EmployeeVO> findEmp(@Param("depCode") String depCode, @Param("emplNm") String emplNm, @Param("sortBy") String sortBy);
 
@@ -50,5 +53,7 @@ public interface EmployeeMapper {
     String findTelNoByEmplId(String emplId);
 
     List<String> loadEmplByDept(String commonCodeDept);
+
+    List<EmployeeVO> pageEmpList(PageVO pageVO);
 }
 

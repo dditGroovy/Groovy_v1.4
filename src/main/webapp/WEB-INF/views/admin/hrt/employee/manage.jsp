@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="/resources/css/admin/manageEmployee.css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!-- 사원 추가 모달 -->
@@ -196,10 +197,11 @@
 
     <!-- 사원 목록 -->
     <div id="empList"></div>
-
+    <div id="pagination"></div>
 </div>
 <script src="/resources/js/modal.js"></script>
 <script>
+    let page = `${pageVO.page}`;
     let ques = document.querySelectorAll(".que");
     let anws = document.querySelectorAll(".anw");
     function queZero() {
@@ -259,38 +261,69 @@
                 data: {
                     depCode: depCodeValue,
                     emplNm: emplNameValue,
-                    sortBy: sortByValue
+                    sortBy: sortByValue,
+                    page: page
                 },
                 contentType: "application/json;charset=utf-8",
                 success: function (res) {
                     console.log(res);
                     count = res.length;
-                    document.querySelector("#countBox").innerText = count;
-                    console.log("findEmp success");
-                    let code = "<table border=1 class='employeeTable'>";
-                    code += `<thead><th>사번</th><th>이름</th><th>팀</th><th>직급</th><th>입사일</th><th>생년월일</th><th>전자서명</th><th>재직상태</th></tr></thead><tbody>`;
-                    if (res.length === 0) {
-                        code += "<td colspan='8'>검색 결과가 없습니다</td>";
-                    } else {
-                        for (let i = 0; i < res.length; i++) {
-                            code += `<td>\${res[i].emplId}</td>`;
-                            code += `<td>\${res[i].emplNm}</td>`;
-                            code += `<td>\${res[i].commonCodeDept}</td>`;
-                            code += `<td>\${res[i].commonCodeClsf}</td>`;
-                            code += `<td>\${res[i].emplEncpn}</td>`;
-                            code += `<td>\${res[i].emplBrthdy}</td>`;
-                            if (res[i].signPhotoFileStreNm == 'groovy_noSign.png') {
-                                code += `<td><button type="button" class="signBtn btn font-14" data-id="\${res[i].emplId}">서명 등록 요청</button></td>`;
-                            } else {
-                                code += `<td>등록완료</td>`;
-                            }
-                            code += `<td>\${(res[i].commonCodeHffcSttus == 'HFFC010') ? "재직" : (res[i].commonCodeHffcSttus == 'HFFC011') ? "휴직" : "퇴직"}</td>`;
-                            code += "</tr>";
-                        }
-                    }
-                    code += "</tbody></table>";
-
-                    $("#empList").html(code);
+                    // document.querySelector("#countBox").innerText = count;
+                    // console.log("findEmp success");
+                    // let code = "<table border=1 class='employeeTable'>";
+                    // code += `<thead><th>사번</th><th>이름</th><th>팀</th><th>직급</th><th>입사일</th><th>생년월일</th><th>전자서명</th><th>재직상태</th></tr></thead><tbody>`;
+                    // if (res.length === 0) {
+                    //     code += "<td colspan='8'>검색 결과가 없습니다</td>";
+                    // } else {
+                    //     for (let i = 0; i < res.length; i++) {
+                    //         code += `<td>\${res[i].emplId}</td>`;
+                    //         code += `<td>\${res[i].emplNm}</td>`;
+                    //         code += `<td>\${res[i].commonCodeDept}</td>`;
+                    //         code += `<td>\${res[i].commonCodeClsf}</td>`;
+                    //         code += `<td>\${res[i].emplEncpn}</td>`;
+                    //         code += `<td>\${res[i].emplBrthdy}</td>`;
+                    //         if (res[i].signPhotoFileStreNm == 'groovy_noSign.png') {
+                    //             code += `<td><button type="button" class="signBtn btn font-14" data-id="\${res[i].emplId}">서명 등록 요청</button></td>`;
+                    //         } else {
+                    //             code += `<td>등록완료</td>`;
+                    //         }
+                    //         code += `<td>\${(res[i].commonCodeHffcSttus == 'HFFC010') ? "재직" : (res[i].commonCodeHffcSttus == 'HFFC011') ? "휴직" : "퇴직"}</td>`;
+                    //         code += "</tr>";
+                    //     }
+                    //
+                    //     let pager = res.pageVO;
+                    //     console.log("pagerLength", pager.length)
+                    //     pCode += `
+                    //                 <div class="pagination-wrapper">
+                    //                       <ul class="pagination">
+                    //                          <li class="page-item \${pager.pre==false?'disabled':''}" id="pre">
+                    //                            <a class="page-link" href="./manageEmp?page=\${pager.page-1}" aria-label="Previous">
+                    //                              <span aria-hidden="true" class="color-font-high">Prev</span>
+                    //                            </a>
+                    //                          </li>
+                    //             `;
+                    //     for (let i = pager.startNum; i <= pager.lastNum ; i++) {
+                    //         pCode += `
+                    //                     <li class="page-item \${pager.page==i? 'active':''}">
+                    //                         <a class="page-link page-num" href="./manageEmp?page=\${i}">\${i}</a>
+                    //                      </li>
+                    //                   `;
+                    //     }
+                    //     pCode += `
+                    //                  <li class="\${pager.next?'':'disabled'}" id="next">
+                    //                      <a href="./manageEmp?page=\${pager.page+1}" aria-label="Next">
+                    //                         <span class="color-font-high">Next</span>
+                    //                       </a>
+                    //                   </li>
+                    //                </ul>
+                    //             </nav>
+                    //         </div>
+                    //             `;
+                    // }
+                    // code += "</tbody></table>";
+                    //
+                    // $("#empList").html(code);
+                    // $("#pagination").html(pCode);
                 },
                 error: function (xhr, status, error) {
                     console.log("code: " + xhr.status);
@@ -333,35 +366,68 @@
         function getEmpList() {
             $.ajax({
                 type: "get",
-                url: "/employee/loadEmpList",
+                url: `/employee/loadEmpList?page=\${page}`,
                 dataType: "json",
                 success: function (res) {
-                    count = res.length;
+                    console.log(res);
+                    count = res.empList.length;
                     document.querySelector("#countBox").innerText = count;
+                    let empList = res.empList;
+                    console.log(empList.length)
                     console.log("loadEmp success");
                     let code = "<table border=1 class='employeeTable'>";
+                    let pCode = ``;
                     code += `<thead><tr><th>사번</th><th>이름</th><th>팀</th><th>직급</th><th>입사일</th><th>생년월일</th><th>전자서명</th><th>재직상태</th></tr></thead><tbody>`;
-                    if (res.length === 0) {
+                    if (empList.length === 0) {
                         code += "<td colspan='8'>결과가 없습니다</td>";
                     } else {
-                        for (let i = 0; i < res.length; i++) {
-                            code += `<td><a href="/employee/loadEmp/\${res[i].emplId}">\${res[i].emplId}</a></td>`;
-                            code += `<td>\${res[i].emplNm}</td>`;
-                            code += `<td>\${res[i].commonCodeDept}</td>`;
-                            code += `<td>\${res[i].commonCodeClsf}</td>`;
-                            code += `<td>\${res[i].emplEncpn}</td>`;
-                            code += `<td>\${res[i].emplBrthdy}</td>`;
-                            if (res[i].signPhotoFileStreNm == 'groovy_noSign.png') {
-                                code += `<td><button type="button" class="signBtn btn font-14" data-id="\${res[i].emplId}">서명 등록 요청</button></td>`;
+                        for (let i = 0; i < empList.length - 1; i++) {
+                            code += `<td><a href="/employee/loadEmp/\${empList[i].emplId}">\${empList[i].emplId}</a></td>`;
+                            code += `<td>\${empList[i].emplNm}</td>`;
+                            code += `<td>\${empList[i].commonCodeDept}</td>`;
+                            code += `<td>\${empList[i].commonCodeClsf}</td>`;
+                            code += `<td>\${empList[i].emplEncpn}</td>`;
+                            code += `<td>\${empList[i].emplBrthdy}</td>`;
+                            if (empList[i].signPhotoFileStreNm == 'groovy_noSign.png') {
+                                code += `<td><button type="button" class="signBtn btn font-14" data-id="\${empList[i].emplId}">서명 등록 요청</button></td>`;
                             } else {
                                 code += `<td>등록완료</td>`;
                             }
-                            code += `<td>\${(res[i].commonCodeHffcSttus == 'HFFC010') ? "재직" : (res[i].commonCodeHffcSttus == 'HFFC011') ? "휴직" : "퇴직"}</td>`;
+                            code += `<td>\${empList[i].commonCodeHffcSttus === 'HFFC010' ? "재직" : empList[i].commonCodeHffcSttus === 'HFFC011' ? "휴직" : "퇴직"}</td>`;
                             code += "</tr>";
                         }
+                        code += "</tbody></table>";
+
+                        let pager = res.pageVO;
+                        pCode += `
+                                    <div class="pagination-wrapper">
+                                          <ul class="pagination">
+                                             <li class="page-item \${pager.pre==false?'disabled':''}" id="pre">
+                                               <a class="page-link" href="./manageEmp?page=\${pager.page-1}" aria-label="Previous">
+                                                 <span aria-hidden="true" class="color-font-high">Prev</span>
+                                               </a>
+                                             </li>
+                                `;
+                        for (let i = pager.startNum; i <= pager.lastNum ; i++) {
+                            pCode += `
+                                        <li class="page-item \${pager.page==i? 'active':''}">
+                                            <a class="page-link page-num" href="./manageEmp?page=\${i}">\${i}</a>
+                                         </li>
+                                      `;
+                        }
+                        pCode += `
+                                     <li class="\${pager.next?'':'disabled'}" id="next">
+                                         <a href="./manageEmp?page=\${pager.page+1}" aria-label="Next">
+                                            <span class="color-font-high">Next</span>
+                                          </a>
+                                      </li>
+                                   </ul>
+                                </nav>
+                            </div>
+                                `;
                     }
-                    code += "</tbody></table>";
                     $("#empList").html(code);
+                    $("#pagination").html(pCode);
                 },
                 error: function (xhr, status, error) {
                     console.log("code: " + xhr.status);

@@ -4,6 +4,7 @@ import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.vo.ConnectionLogVO;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
+import kr.co.groovy.vo.PageVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RequestMapping("/employee")
@@ -115,9 +118,9 @@ public class EmployeeController {
     }
 
     /* 관리자 - 사원 관리 */
-
     @GetMapping("/manageEmp")
-    public String manageEmp() {
+    public String manageEmp(PageVO pageVO, Model model) {
+        model.addAttribute("page", pageVO.getPage());
         return "admin/hrt/employee/manage";
     }
 
@@ -136,14 +139,23 @@ public class EmployeeController {
 
     @ResponseBody
     @GetMapping("/loadEmpList")
-    public List<EmployeeVO> loadEmpList() {
-        return service.loadEmpList();
+    public Map<String, Object> loadEmpList(PageVO pageVO) {
+        Map map = new HashMap();
+        List<EmployeeVO> empList = service.pageEmpList(pageVO);
+        map.put("pageVO", pageVO);
+        map.put("empList", empList);
+        return map;
     }
 
     @ResponseBody
     @GetMapping("/findEmp")
-    public List<EmployeeVO> findEmp(String depCode, String emplNm, String sortBy) {
-        return service.findEmp(depCode, emplNm, sortBy);
+    public void findEmp(String depCode, String emplNm, String sortBy, long page) {
+        System.out.println("controller depCode = " + depCode);
+        System.out.println("controller emplNm = " + emplNm);
+        System.out.println("controller sortBy = " + sortBy);
+        System.out.println("controller pageVO = " + page);
+        Map<String, Object> map = service.findEmp(depCode, emplNm, sortBy, page);
+        System.out.println("map = " + map);
     }
 
     @GetMapping("/loadEmp/{emplId}")
@@ -164,6 +176,7 @@ public class EmployeeController {
     public void modifyInfo(EmployeeVO vo) {
         service.modifyInfo(vo);
     }
+
     // 연결 로그 로드
     @GetMapping("/loadLog")
     ModelAndView loadConnectionLog(ModelAndView mav, String today) {

@@ -6,6 +6,7 @@ import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.vo.ConnectionLogVO;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
+import kr.co.groovy.vo.PageVO;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -99,13 +100,42 @@ public class EmployeeService {
         return list;
     }
 
-    public List<EmployeeVO> findEmp(String depCode, String emplNm, String sortBy) {
-        List<EmployeeVO> list = mapper.findEmp(depCode, emplNm, sortBy);
+    public List<EmployeeVO> pageEmpList(PageVO pageVO) {
+        long totalCount = mapper.countEmp();
+        pageVO.setRow();
+        pageVO.setNum(totalCount);
+        List<EmployeeVO> list = mapper.pageEmpList(pageVO);
         for (EmployeeVO vo : list) {
             vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());
             vo.setCommonCodeClsf(ClassOfPosition.valueOf(vo.getCommonCodeClsf()).label());
         }
         return list;
+    }
+
+    public Map<String, Object> findEmp(String depCode, String emplNm, String sortBy, long page) {
+        System.out.println("depCode = " + depCode);
+        System.out.println("emplNm = " + emplNm);
+        System.out.println("sortBy = " + sortBy);
+        System.out.println("page = " + page);
+
+        PageVO pageVO = new PageVO();
+
+        List<EmployeeVO> list = mapper.findEmp(depCode, emplNm, sortBy);
+        System.out.println("list = " + list);
+        long totalCount = list.size();
+        System.out.println("totalCount = " + totalCount);
+        pageVO.setPage(page);
+        pageVO.setRow();
+        pageVO.setNum(totalCount);
+        System.out.println("service pageVO = " + pageVO);
+        for (EmployeeVO vo : list) {
+            vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());
+            vo.setCommonCodeClsf(ClassOfPosition.valueOf(vo.getCommonCodeClsf()).label());
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", list);
+        map.put("pager", pageVO);
+        return map;
     }
 
     public List<EmployeeVO> loadBirthday() {
