@@ -20,13 +20,13 @@ import java.util.zip.ZipOutputStream;
 public class FileController {
 
     final
-    String uploadPath;
+    String uploadHyejin;
     final
     FileService service;
 
     // TODO 경로 주입 바꾸기 (운영서버로)
-    public FileController(String uploadPath, FileService service) {
-        this.uploadPath = uploadPath;
+    public FileController(String uploadHyejin, FileService service) {
+        this.uploadHyejin = uploadHyejin;
         this.service = service;
     }
 
@@ -37,7 +37,7 @@ public class FileController {
         try {
             UploadFileVO vo = service.downloadFile(uploadFileSn);
             String originalName = new String(vo.getUploadFileOrginlNm().getBytes("utf-8"), "iso-8859-1");
-            String filePath = uploadPath + "/" + dir;
+            String filePath = uploadHyejin + "/" + dir;
             String fileName = vo.getUploadFileStreNm();
 
             File file = new File(filePath, fileName);
@@ -75,7 +75,7 @@ public class FileController {
             UploadFileVO vo = service.downloadFileByDate(map);
             log.info(String.valueOf(vo));
             String originalName = new String(vo.getUploadFileStreNm().getBytes("utf-8"), "iso-8859-1");
-            String filePath = uploadPath + "/salary";
+            String filePath = uploadHyejin + "/salary";
             String fileName = vo.getUploadFileStreNm();
 
             File dtsmtFile = new File(filePath, fileName);
@@ -120,7 +120,7 @@ public class FileController {
             if (vo != null) {
                 String originalName = new String(vo.getUploadFileOrginlNm().getBytes("utf-8"), "iso-8859-1");
                 String fileName = vo.getUploadFileStreNm();
-                filePath = uploadPath + "/salary";
+                filePath = uploadHyejin + "/salary";
 
                 File file = new File(filePath, fileName);
                 if (!file.isFile()) {
@@ -178,7 +178,7 @@ public class FileController {
     public void fileUpload(@PathVariable("dir") String dir, @PathVariable("etprCode") String
             etprCode, MultipartFile file) throws Exception {
         try {
-            String path = uploadPath + "/" + dir;
+            String path = uploadHyejin + "/" + dir;
 //            File uploadPath = new File(uploadPath ,FileUploadUtils.getFolder());
             File uploadDir = new File(path);
             if (!uploadDir.exists()) {

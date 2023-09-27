@@ -220,9 +220,9 @@ public class EmailService {
         return mailSender;
     }
 
-    public List<EmailVO> inputReceivedEmails(Principal principal, EmailVO emailVO) throws Exception {
+    public List<EmailVO> inputReceivedEmails(Principal principal, EmailVO emailVO, String password) throws Exception {
         EmployeeVO employeeVO = employeeMapper.loadEmp(principal.getName());
-        URLName url = getUrlName(employeeVO);
+        URLName url = getUrlName(employeeVO, password);
 
         Session session = null;
         Properties properties = null;
@@ -332,19 +332,15 @@ public class EmailService {
         return setAllEmailList(employeeVO.getEmplEmail(), "N");
     }
 
-    private URLName getUrlName(EmployeeVO employeeVO) {
+    private URLName getUrlName(EmployeeVO employeeVO, String emailPassword) {
         String host = null;
         int port = 995;
-        String emailPassword = null;
         String emailAddr = employeeVO.getEmplEmail();
         if (employeeVO.getEmplEmail().contains("gmail.com")) {
-            emailPassword = "zwhfanbijftbggwx";
             host = "pop.gmail.com";
         } else if (employeeVO.getEmplEmail().contains("daum.net")) {
-            emailPassword = "groovy40@dditfinal";
             host = "pop.daum.net";
         } else if (employeeVO.getEmplEmail().contains("naver.com")) {
-            emailPassword = "BowwowBowwow40@";
             host = "pop.naver.com";
         }
 
@@ -536,7 +532,4 @@ public class EmailService {
             return "fail";
         }
     }
-
-
-
 }

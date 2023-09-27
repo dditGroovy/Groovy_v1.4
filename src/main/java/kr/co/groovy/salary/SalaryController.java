@@ -1,9 +1,7 @@
 package kr.co.groovy.salary;
 
-import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.vo.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,14 +96,6 @@ public class SalaryController {
     public String goDstmtForm() {
         return "admin/at/salary/specification";
     }
-
-//    TODO 비밀번호 합치기 작업함 > 지우기
-//    @GetMapping("/paystub/checkPassword")
-//    public String checkPassword() {
-//        return "employee/checkPassword";
-//    }
-//
-
 
     @GetMapping("/paystub/{year}")
     @ResponseBody

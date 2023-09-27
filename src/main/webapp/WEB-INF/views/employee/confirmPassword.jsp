@@ -44,8 +44,10 @@
             </p>
         </div>
         <div>
-            <input type="password" id="password" placeholder="PASSWORD" class="userPw btn-free-white input-l"/>
-            <button class="btn-free-blue checkBtn btn">확인</button>
+            <form action="${pageContext.request.contextPath}/email/all" method="post" id="emailForm">
+                <input type="password" id="password" name="password" placeholder="PASSWORD" class="userPw btn-free-white input-l"/>
+                <button class="btn-free-blue checkBtn btn">확인</button>
+            </form>
         </div>
     </main>
 </div>
@@ -68,7 +70,11 @@
             contentType: "application/json",
             success: function (result) {
                 if (result === 'correct') {
-                    window.location.href = url;
+                    if (page !== "email") {
+                        window.location.href = url;
+                    } else {
+                        document.querySelector("#emailForm").submit();
+                    }
                 } else {
                     alert("비밀번호가 일치하지 않습니다.");
                     $("#password").val("")
@@ -79,4 +85,5 @@
             }
         });
     });
+
 </script>

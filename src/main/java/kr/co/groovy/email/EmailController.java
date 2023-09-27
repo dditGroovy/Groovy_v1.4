@@ -23,9 +23,9 @@ public class EmailController {
     private final EmailService emailService;
     private final EmployeeService employeeService;
 
-    @GetMapping("/all")
-    public String getAllMails(Principal principal, EmailVO emailVO, Model model) throws Exception {
-        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO);
+    @PostMapping("/all")
+    public String getAllMailsGet(Principal principal, EmailVO emailVO, Model model, @RequestParam String password) throws Exception {
+        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, password);
         model.addAttribute("list", list);
         return "email/allList";
     }
