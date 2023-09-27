@@ -380,4 +380,37 @@
         let emplIdJson = encodeURIComponent(JSON.stringify(emplIdArray));
         location.href = `/file/download/salaryZip?date=\${date}&data=\${emplIdJson}`;
     });
+
+    document.querySelector("#mailDtsmt").addEventListener("click", function () {
+        let selectedData = getSelectedRowData();
+        let emplIdArray = selectedData.map(item => item.emplId);
+        let emplIdJson = encodeURIComponent(JSON.stringify(emplIdArray));
+
+        let nowDate = new Date();
+        let year = nowDate.getFullYear().toString().substring(2);
+        let month = nowDate.getMonth() + 1;
+        month = month < 10 ? "0" + month : month;
+        let date = year + month
+
+        $.ajax({
+            url: "/salary/email",
+            data: {
+                data: emplIdJson,
+                date: date
+            },
+            type: 'post',
+            success: function (result) {
+                if (result === "success") {
+                    alert("메일 전송을 완료했습니다.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + xhr.error);
+            }
+        });
+
+    })
+
 </script>

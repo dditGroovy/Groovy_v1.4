@@ -1,19 +1,33 @@
 package kr.co.groovy.salary;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.groovy.email.EmailService;
+import kr.co.groovy.employee.EmployeeMapper;
 import kr.co.groovy.enums.ClassOfPosition;
 import kr.co.groovy.enums.Department;
 import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.vo.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.io.IOUtils;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.security.Principal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -23,18 +37,22 @@ import java.util.*;
 @Service
 @EnableScheduling
 public class SalaryService {
+    final String uploadPath;
     final
-    SalaryMapper mapper;
+    SalaryMapper salaryMapper;
+    final EmployeeMapper employeeMapper;
+    final EmailService emailService;
 
-    final String uploadHyejin;
 
-    public SalaryService(SalaryMapper mapper, String uploadHyejin) {
-        this.mapper = mapper;
-        this.uploadHyejin = uploadHyejin;
+    public SalaryService(SalaryMapper salaryMapper, String uploadPath, EmployeeMapper employeeMapper, EmailService emailService) {
+        this.salaryMapper = salaryMapper;
+        this.uploadPath = uploadPath;
+        this.employeeMapper = employeeMapper;
+        this.emailService = emailService;
     }
 
     List<AnnualSalaryVO> loadSalary() {
-        List<AnnualSalaryVO> list = mapper.loadSalary();
+        List<AnnualSalaryVO> list = salaryMapper.loadSalary();
         for (AnnualSalaryVO vo : list) {
             vo.setCommonCodeDeptCrsf(Department.valueOf(vo.getCommonCodeDeptCrsf()).label());
         }
@@ -42,7 +60,7 @@ public class SalaryService {
     }
 
     List<AnnualSalaryVO> loadBonus() {
-        List<AnnualSalaryVO> list = mapper.loadBonus();
+        List<AnnualSalaryVO> list = salaryMapper.loadBonus();
         for (AnnualSalaryVO vo : list) {
             vo.setCommonCodeDeptCrsf(ClassOfPosition.valueOf(vo.getCommonCodeDeptCrsf()).label());
         }
@@ -50,7 +68,7 @@ public class SalaryService {
     }
 
     List<TariffVO> loadTariff(String year) {
-        List<TariffVO> tariffVOList = mapper.loadTariff(year);
+        List<TariffVO> tariffVOList = salaryMapper.loadTariff(year);
         tariffVOList.sort(new Comparator<TariffVO>() {
             @Override
             public int compare(TariffVO o1, TariffVO o2) {
@@ -61,7 +79,7 @@ public class SalaryService {
     }
 
     List<EmployeeVO> loadEmpList() {
-        List<EmployeeVO> list = mapper.loadEmpList();
+        List<EmployeeVO> list = salaryMapper.loadEmpList();
         for (EmployeeVO vo : list) {
             vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());
             vo.setCommonCodeClsf(ClassOfPosition.valueOf(vo.getCommonCodeClsf()).label());
@@ -70,32 +88,32 @@ public class SalaryService {
     }
 
     List<PaystubVO> loadPaymentList(String emplId, String year) {
-        return mapper.loadPaymentList(emplId, year);
+        return salaryMapper.loadPaymentList(emplId, year);
     }
 
     PaystubVO loadRecentPaystub(String emplId) {
-        return mapper.loadRecentPaystub(emplId);
+        return salaryMapper.loadRecentPaystub(emplId);
     }
 
     List<Integer> loadYearsForSortPaystub(String emplId) {
-        return mapper.loadYearsForSortPaystub(emplId);
+        return salaryMapper.loadYearsForSortPaystub(emplId);
     }
 
     List<PaystubVO> loadPaystubList(String emplId, String year) {
-        return mapper.loadPaystubList(emplId, year);
+        return salaryMapper.loadPaystubList(emplId, year);
     }
 
     public void modifyIncmtax(String code, double value) {
-        mapper.modifyIncmtax(code, value);
+        salaryMapper.modifyIncmtax(code, value);
     }
 
     public void modifySalary(String code, int value) {
-        mapper.modifySalary(code, value);
+        salaryMapper.modifySalary(code, value);
     }
 
     public PaystubVO loadPaystubDetail(String emplId, String paymentDate) {
         log.info(paymentDate);
-        return mapper.loadPaystubDetail(emplId, paymentDate);
+        return salaryMapper.loadPaystubDetail(emplId, paymentDate);
     }
 
     public void saveCheckboxState(boolean isChecked) {
@@ -106,26 +124,26 @@ public class SalaryService {
     }
 
     public List<String> getExistsYears() {
-        return mapper.getExistsYears();
+        return salaryMapper.getExistsYears();
     }
 
     public List<String> getExistsMonthPerYears(String year) {
-        return mapper.getExistsMonthByYear(year);
+        return salaryMapper.getExistsMonthByYear(year);
     }
 
 
     public List<CommuteAndPaystub> getCommuteAndPaystubList(String year, String month) {
         String date = year + "-" + month;
         List<CommuteAndPaystub> cnpList = new ArrayList<>();
-        List<CommuteVO> commute = mapper.getCommuteByYearAndMonth(date);
-        List<CommuteVO> wtrmsAbsencEmplList = mapper.getCoWtrmsAbsenc(date);
-        List<PaystubVO> salaryBslry = mapper.getSalaryBslry(year);
-        List<TariffVO> tariffList = mapper.loadTariff(year);
+        List<CommuteVO> commute = salaryMapper.getCommuteByYearAndMonth(date);
+        List<CommuteVO> wtrmsAbsencEmplList = salaryMapper.getCoWtrmsAbsenc(date);
+        List<PaystubVO> salaryBslry = salaryMapper.getSalaryBslry(year);
+        List<TariffVO> tariffList = salaryMapper.loadTariff(year);
         for (CommuteVO commuteVO : commute) {
             for (PaystubVO paystubVO : salaryBslry) {
                 if (paystubVO.getSalaryEmplId().equals(commuteVO.getDclzEmplId())) {
                     commuteVO.setDclzEmplId(paystubVO.getSalaryEmplId()); // 아이디
-                    commuteVO.setDefaulWorkTime(String.valueOf(Integer.parseInt(mapper.getPrescribedWorkingHours(date)) / 60)); // 소정근로시간
+                    commuteVO.setDefaulWorkTime(String.valueOf(Integer.parseInt(salaryMapper.getPrescribedWorkingHours(date)) / 60)); // 소정근로시간
                     commuteVO.setRealWorkTime(String.valueOf(Integer.parseInt(commuteVO.getRealWorkTime()) / 60)); // 실제근무
                     commuteVO.setOverWorkTime(String.valueOf(Integer.parseInt(commuteVO.getOverWorkTime()) / 60)); // 초과근무
                     commuteVO.setTotalWorkTime(String.valueOf(Integer.parseInt(commuteVO.getRealWorkTime()) + Integer.parseInt(commuteVO.getOverWorkTime()))); // 총근로시간
@@ -169,21 +187,6 @@ public class SalaryService {
                     paystubVO.setSalaryDtsmtNetPay(paystubVO.getSalaryDtsmtPymntTotamt() - paystubVO.getSalaryDtsmtDdcTotamt());
                     CommuteAndPaystub cnp = new CommuteAndPaystub(commuteVO, paystubVO);
                     cnpList.add(cnp);
-//
-//                    Map<String, String> map = new HashMap<>();
-//                    LocalDate inputDate = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), 14);
-//                    Instant instant = inputDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-//
-//                    for (CommuteAndPaystub commuteAndPaystub : cnpList) {
-//                        map.put("salaryEmplId", commuteAndPaystub.getPaystubVO().getSalaryEmplId());
-//                        map.put("date", String.valueOf(inputDate));
-//                        if (mapper.existsInsertedSalary(map) == 0 && mapper.existsInsertedSalaryDtsmt(map) == 0) {
-//                            commuteAndPaystub.getPaystubVO().setSalaryDtsmtIssuDate(Date.from(instant));
-//                            commuteAndPaystub.getPaystubVO().setInsertAt("Y");
-//                            mapper.inputSalary(commuteAndPaystub.getPaystubVO());
-//                            mapper.inputSalaryDtsmt(commuteAndPaystub.getPaystubVO());
-//                        }
-//                    }
                 }
             }
         }
@@ -212,11 +215,11 @@ public class SalaryService {
         for (CommuteAndPaystub cnp : cnpList) {
             map.put("salaryEmplId", cnp.getPaystubVO().getSalaryEmplId());
             map.put("date", String.valueOf(inputDate));
-            if (mapper.existsInsertedSalary(map) == 0 && mapper.existsInsertedSalaryDtsmt(map) == 0) {
+            if (salaryMapper.existsInsertedSalary(map) == 0 && salaryMapper.existsInsertedSalaryDtsmt(map) == 0) {
                 cnp.getPaystubVO().setSalaryDtsmtIssuDate(Date.from(instant));
                 cnp.getPaystubVO().setInsertAt("Y");
-                mapper.inputSalary(cnp.getPaystubVO());
-                mapper.inputSalaryDtsmt(cnp.getPaystubVO());
+                salaryMapper.inputSalary(cnp.getPaystubVO());
+                salaryMapper.inputSalaryDtsmt(cnp.getPaystubVO());
             }
         }
         return cnpList;
@@ -227,7 +230,7 @@ public class SalaryService {
         String etprCode = map.get("etprCode");
 
         try {
-            String uploadPath = this.uploadHyejin + "/salary";
+            String uploadPath = this.uploadPath + "/salary";
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 if (uploadDir.mkdirs()) {
@@ -253,20 +256,61 @@ public class SalaryService {
                 File saveFile = new File(uploadPath, path);
             }
 
-            if (mapper.existsUploadedFile(etprCode) == 0) {
+            if (salaryMapper.existsUploadedFile(etprCode) == 0) {
                 Map<String, Object> inputMap = new HashMap<>();
                 inputMap.put("salaryDtsmtEtprcode", etprCode);
                 inputMap.put("originalFileName", "default");
                 inputMap.put("newFileName", etprCode + ".pdf");
                 inputMap.put("fileSize", 0);
 
-                mapper.inputSalaryDtsmtPdf(inputMap);
+                salaryMapper.inputSalaryDtsmtPdf(inputMap);
             }
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
             return "fail";
         }
+    }
+
+    public String sentEmails(Principal principal, String data, String date) throws IOException {
+        data = URLDecoder.decode(data, "UTF-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<String> emplIdArray = objectMapper.readValue(data, new TypeReference<List<String>>() {
+        });
+
+        EmployeeVO nowEmployee = employeeMapper.loadEmp(principal.getName());
+        EmailVO emailVO = new EmailVO();
+        Map<String, String> map = new HashMap<>();
+        String filePath = null;
+        String result = null;
+        map.put("date", date);
+        for (String emplId : emplIdArray) {
+            map.put("emplId", emplId);
+            UploadFileVO vo = salaryMapper.getDtsmtFileByDateAndEmplId(map);
+            if (vo != null) {
+                String originalName = new String(vo.getUploadFileStreNm().getBytes("utf-8"), "iso-8859-1");
+                String fileName = vo.getUploadFileStreNm();
+                filePath = uploadPath + "/salary";
+
+                File file = new File(filePath, fileName);
+                if (!file.isFile()) {
+                    log.info("파일 없음");
+                }
+
+                FileItem fileItem = new DiskFileItem("file", Files.probeContentType(file.toPath()), false, file.getName(), (int) file.length(), file.getParentFile());
+                IOUtils.copy(new FileInputStream(file), fileItem.getOutputStream());
+                MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+
+                EmployeeVO toEmployee = employeeMapper.loadEmp(emplId);
+                String toEmail = toEmployee.getEmplEmail();
+                emailVO.setEmailToAddr(toEmail);
+                emailVO.setEmailFromSj(date.substring(0, 2) + "년 " + date.substring(2) + "월 " + toEmployee.getEmplNm() + "님 급여명세서 보내드립니다.");
+                emailVO.setEmailFromSendDate(new Date());
+                emailVO.setEmailFromCn("");
+                result = emailService.sentMail(emailVO, new MultipartFile[]{multipartFile}, nowEmployee);
+            }
+        }
+        return result;
     }
 }
 

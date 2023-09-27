@@ -129,7 +129,6 @@ public class FileController {
                 fileList.add(file);
             }
         }
-        log.info(fileList.toString());
         File zipFile = new File(filePath, date.substring(0, 2) + "년 " + date.substring(2) + "월 급여명세서 목록.zip");
         byte[] buf = new byte[4096];
         try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(zipFile))) {

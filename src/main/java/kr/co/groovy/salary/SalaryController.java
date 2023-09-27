@@ -3,41 +3,38 @@ package kr.co.groovy.salary;
 import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.vo.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
 @RequestMapping("/salary")
 public class SalaryController {
     final
-    SalaryService service;
+    SalaryService salaryService;
     final
     PasswordEncoder encoder;
 
-    public SalaryController(SalaryService service, PasswordEncoder encoder) {
-        this.service = service;
+    public SalaryController(SalaryService salaryService, PasswordEncoder encoder) {
+        this.salaryService = salaryService;
         this.encoder = encoder;
     }
 
     // 인사팀의 사원 연봉, 수당 및 세율 관리
     @GetMapping("")
     public String loadSalary(Model model) {
-        List<AnnualSalaryVO> salaryList = service.loadSalary(); // 올해 기본급
-        List<AnnualSalaryVO> bonusList = service.loadBonus(); // 올해 직책수당
-        List<TariffVO> tariffVOList = service.loadTariff(""); // 올해 세율
+        List<AnnualSalaryVO> salaryList = salaryService.loadSalary(); // 올해 기본급
+        List<AnnualSalaryVO> bonusList = salaryService.loadBonus(); // 올해 직책수당
+        List<TariffVO> tariffVOList = salaryService.loadTariff(""); // 올해 세율
         model.addAttribute("salary", salaryList);
         model.addAttribute("bonus", bonusList);
         model.addAttribute("tariffList", tariffVOList);
@@ -48,20 +45,20 @@ public class SalaryController {
     @PostMapping("/modify/taxes")
     @ResponseBody
     public void modifyIncmtax(String code, double value) {
-        service.modifyIncmtax(code, value);
+        salaryService.modifyIncmtax(code, value);
     }
 
     @PostMapping("/modify/salary")
     @ResponseBody
     public void modifySalary(String code, int value) {
-        service.modifySalary(code, value);
+        salaryService.modifySalary(code, value);
     }
 
 
     // 회계팀의 급여 상세
     @GetMapping("/list")
     public String loadEmpList(Model model) {
-        List<EmployeeVO> list = service.loadEmpList();
+        List<EmployeeVO> list = salaryService.loadEmpList();
         list.sort(new Comparator<EmployeeVO>() {
             @Override
             public int compare(EmployeeVO o1, EmployeeVO o2) {
@@ -77,21 +74,21 @@ public class SalaryController {
     @GetMapping("/taxes/{year}")
     @ResponseBody
     public List<TariffVO> loadTaxes(@PathVariable String year) {
-        return service.loadTariff(year);
+        return salaryService.loadTariff(year);
     }
 
     @GetMapping("/payment/list/{emplId}/{year}")
     @ResponseBody
     public List<PaystubVO> loadPaymentList(@PathVariable String emplId, @PathVariable String year) {
-        List<PaystubVO> paystubVOS = service.loadPaymentList(emplId, year);
+        List<PaystubVO> paystubVOS = salaryService.loadPaymentList(emplId, year);
         return paystubVOS;
     }
 
     @GetMapping("/paystub")
     public String loadPaystub(Principal principal, Model model) {
         String emplId = principal.getName();
-        PaystubVO recentPaystub = service.loadRecentPaystub(emplId);
-        List<Integer> years = service.loadYearsForSortPaystub(emplId);
+        PaystubVO recentPaystub = salaryService.loadRecentPaystub(emplId);
+        List<Integer> years = salaryService.loadYearsForSortPaystub(emplId);
         model.addAttribute("paystub", recentPaystub);
         model.addAttribute("years", years);
         return "employee/mySalary";
@@ -123,14 +120,14 @@ public class SalaryController {
     @ResponseBody
     public List<PaystubVO> loadPaystubList(Principal principal, @PathVariable String year) {
         String emplId = principal.getName();
-        return service.loadPaystubList(emplId, year);
+        return salaryService.loadPaystubList(emplId, year);
     }
 
     @GetMapping("/paystub/detail/{paymentDate}")
     public String paystubDetail(Principal principal, @PathVariable String paymentDate, Model model) {
         String emplId = principal.getName();
-        PaystubVO paystubDetail = service.loadPaystubDetail(emplId, paymentDate);
-        List<Integer> years = service.loadYearsForSortPaystub(emplId);
+        PaystubVO paystubDetail = salaryService.loadPaystubDetail(emplId, paymentDate);
+        List<Integer> years = salaryService.loadYearsForSortPaystub(emplId);
         model.addAttribute("paystub", paystubDetail);
         model.addAttribute("years", years);
         return "employee/mySalary";
@@ -139,14 +136,14 @@ public class SalaryController {
     @PostMapping("/paystub/saveCheckboxState")
     @ResponseBody
     public void saveCheckboxState(@RequestParam("isChecked") boolean isChecked) {
-        service.saveCheckboxState(isChecked);
+        salaryService.saveCheckboxState(isChecked);
     }
 
 
     @GetMapping("/calculate")
     public String calculatePage(Model model) {
         LocalDate localDate = LocalDate.now();
-        List<CommuteAndPaystub> cnpList = service.getCommuteAndPaystubList(String.valueOf(localDate.getYear()), String.valueOf(localDate.getMonthValue() - 1));
+        List<CommuteAndPaystub> cnpList = salaryService.getCommuteAndPaystubList(String.valueOf(localDate.getYear()), String.valueOf(localDate.getMonthValue() - 1));
         model.addAttribute("cnpList", cnpList);
         return "admin/at/salary/salaryCalculate";
     }
@@ -154,28 +151,35 @@ public class SalaryController {
     @GetMapping("/selectedDate")
     @ResponseBody
     public List<CommuteAndPaystub> getCommuteAndPaystubByYearAndMonth(@RequestParam("year") String year, @RequestParam("month") String month) {
-        return service.getCommuteAndPaystubList(year, month);
+        return salaryService.getCommuteAndPaystubList(year, month);
     }
 
     @GetMapping("/years")
     @ResponseBody
     public List<String> getExistYears() {
-        return service.getExistsYears();
+        return salaryService.getExistsYears();
     }
 
     @GetMapping("/months")
     @ResponseBody
     public List<String> getExistsMonthPerYears(@RequestParam("year") String year) {
-        return service.getExistsMonthPerYears(year);
+        return salaryService.getExistsMonthPerYears(year);
     }
 
     @PostMapping("/uploadFile")
     @ResponseBody
     public String inputSalaryDtsmtPdf(@RequestBody Map<String, String> map) {
-        String result = service.inputSalaryDtsmtPdf(map);
+        String result = salaryService.inputSalaryDtsmtPdf(map);
         if (result.equals("success")) {
             return "success";
         }
         return "fail";
     }
+
+    @PostMapping("/email")
+    @ResponseBody
+    public String sentEmail(Principal principal, @RequestParam String data, @RequestParam String date) throws Exception {
+        return salaryService.sentEmails(principal, data, date);
+    }
+
 }

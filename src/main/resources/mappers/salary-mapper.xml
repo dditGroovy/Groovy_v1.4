@@ -287,10 +287,11 @@
           AND TO_DATE(TO_CHAR(SALARY_PYMNT_DATE, 'YYYY-MM'), 'YYYY-MM')
             = TO_DATE(TO_CHAR(TO_DATE(#{date}, 'YYYY-MM-DD'), 'YYYY-MM'), 'YYYY-MM')
     </select>
+
     <select id="existsUploadedFile" resultType="int" parameterType="String">
-        select count(UPLOAD_FILE_ETPR_CODE)
-        from UPLOAD_FILE
-        where UPLOAD_FILE_ETPR_CODE = #{salaryDtsmtEtprCode}
+        SELECT COUNT(UPLOAD_FILE_ETPR_CODE)
+        FROM UPLOAD_FILE
+        WHERE UPLOAD_FILE_ETPR_CODE = #{salaryDtsmtEtprCode}
     </select>
 
     <insert id="inputSalary" parameterType="paystubVO">
@@ -334,6 +335,7 @@
                 #{salaryDtsmtNetPay},
                 #{insertAt})
     </insert>
+
     <insert id="inputSalaryDtsmtPdf" parameterType="map">
         INSERT INTO UPLOAD_FILE(UPLOAD_FILE_SN,
                                 UPLOAD_FILE_ETPR_CODE,
@@ -349,7 +351,15 @@
                 sysdate)
     </insert>
 
-
-
-
+    <select id="getDtsmtFileByDateAndEmplId" parameterType="Map" resultType="uploadFileVO">
+        SELECT upload_file_sn
+             , upload_file_etpr_code
+             , upload_file_orginl_nm
+             , upload_file_stre_nm
+             , upload_file_size
+             , upload_file_rgsde
+        FROM UPLOAD_FILE
+        WHERE UPLOAD_FILE_ETPR_CODE LIKE '%' || #{date} || '%'
+          AND UPLOAD_FILE_ETPR_CODE LIKE '%' || #{emplId}
+    </select>
 </mapper>

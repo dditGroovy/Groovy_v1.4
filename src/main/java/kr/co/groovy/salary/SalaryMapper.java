@@ -47,10 +47,13 @@ public interface SalaryMapper {
     int inputSalaryDtsmt(PaystubVO vo);
 
     int existsInsertedSalary(Map<String, String> map);
+
     int existsInsertedSalaryDtsmt(Map<String, String> map);
 
     int existsUploadedFile(String salaryDtsmtEtprCode);
 
     int inputSalaryDtsmtPdf(Map<String, Object> map);
+
+    UploadFileVO getDtsmtFileByDateAndEmplId(Map<String, String> map);
 
 }

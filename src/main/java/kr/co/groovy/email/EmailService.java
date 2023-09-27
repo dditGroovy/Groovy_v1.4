@@ -168,7 +168,6 @@ public class EmailService {
         }
         map.put("emailEtprCode", emailEtprCode);
         int count = emailMapper.modifyEmailRedngAt(map);
-        log.info("업데이트 수: " + count);
         return map;
     }
 
@@ -432,15 +431,17 @@ public class EmailService {
         }
 
         List<String> toList = new ArrayList<>();
-        if (emailVO.getEmplIdToList() != null || emailVO.getEmailToAddrList() != null) {
-            List<String> emplIdToList = emailVO.getEmplIdToList();
-            for (String emplId : emplIdToList) {
-                EmployeeVO emailToEmpl = employeeMapper.loadEmp(emplId);
-                emplIdToList.clear();
-                emplIdToList.add(emailToEmpl.getEmplEmail());
+        if (emailVO.getEmailToAddr() == null) {
+            if (emailVO.getEmplIdToList() != null || emailVO.getEmailToAddrList() != null) {
+                List<String> emplIdToList = emailVO.getEmplIdToList();
+                for (String emplId : emplIdToList) {
+                    EmployeeVO emailToEmpl = employeeMapper.loadEmp(emplId);
+                    emplIdToList.clear();
+                    emplIdToList.add(emailToEmpl.getEmplEmail());
+                }
+                toList.addAll(emplIdToList);
+                toList.addAll(emailVO.getEmailToAddrList());
             }
-            toList.addAll(emplIdToList);
-            toList.addAll(emailVO.getEmailToAddrList());
         }
         String[] toArr = toList.toArray(new String[0]);
 
@@ -460,7 +461,9 @@ public class EmailService {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            if (!emailVO.getEmailToAddr().equals(employeeVO.getEmplEmail())) {
+            if (emailVO.getEmailToAddr() != null) {
+                helper.setTo(emailVO.getEmailToAddr());
+            } else if (!emailVO.getEmailToAddr().equals(employeeVO.getEmplEmail())) {
                 helper.setTo(toArr);
             } else {
                 helper.setTo(emailVO.getEmailToAddr());
@@ -472,34 +475,45 @@ public class EmailService {
                 emailFromSj = "(제목 없음)";
             }
             helper.setSubject(emailFromSj);
-            helper.setText(emailVO.getEmailFromCn().substring(1), true);
+
+            String emailFromCn = emailVO.getEmailFromCn();
+            if (emailFromCn.startsWith(",")) {
+                helper.setText(emailFromCn.substring(1), true);
+            } else {
+                helper.setText(emailFromCn);
+            }
+
             helper.setSentDate(new Date());
+
             for (MultipartFile emailFile : emailFiles) {
                 if (!emailFile.getOriginalFilename().isEmpty()) {
                     String fileName = StringUtils.cleanPath(emailFile.getOriginalFilename());
                     helper.addAttachment(MimeUtility.encodeText(fileName, "UTF-8", "B"), new ByteArrayResource(IOUtils.toByteArray(emailFile.getInputStream())));
                 }
             }
+
             EmailVO sendMail = new EmailVO();
             sendMail.setEmailSn(emailMapper.getMaxEmailSn() + 1);
             sendMail.setEmailFromAddr(emplEmail);
             sendMail.setEmailFromSendDate(helper.getMimeMessage().getSentDate());
             sendMail.setEmailFromSj(emailVO.getEmailFromSj());
-            sendMail.setEmailFromCn(emailVO.getEmailFromCn().substring(1));
+            sendMail.setEmailFromCn(emailFromCn);
             sendMail.setEmailFromTmprStreAt("N");
             sendMail.setEmailFromCnType(message.getContentType());
             sendMail.setEmailSn(emailVO.getEmailSn());
-            log.info("from count: " + emailMapper.inputReceivedEmailsFrom(sendMail));
 
-            List<String> emailToAddrList = emailVO.getEmailToAddrList();
-            try {
-                for (String to : emailToAddrList) {
-                    sendMail.setEmailToAddr(to);
-                    sendMail.setEmailToReceivedDate(new Date());
-                    log.info("to count: " + emailMapper.inputReceivedEmailsTo(sendMail));
+            if (emailVO.getEmailToAddr() == null) {
+                List<String> emailToAddrList = emailVO.getEmailToAddrList();
+                try {
+                    for (String to : emailToAddrList) {
+                        sendMail.setEmailToAddr(to);
+                        sendMail.setEmailToReceivedDate(new Date());
+                    }
+                } catch (NullPointerException e) {
+                    e.getMessage();
                 }
-            } catch (NullPointerException e) {
-                e.getMessage();
+            } else {
+                sendMail.setEmailToAddr(emailVO.getEmailToAddr());
             }
 
             List<String> emailCcAddrList = emailVO.getEmailCcAddrList();
@@ -507,7 +521,6 @@ public class EmailService {
                 for (String cc : emailCcAddrList) {
                     sendMail.setEmailCcAddr(cc);
                     sendMail.setEmailCcReceivedDate(new Date());
-                    log.info("cc count: " + emailMapper.inputReceivedEmailsCc(sendMail));
                 }
             } catch (NullPointerException e) {
                 e.getMessage();
@@ -517,12 +530,13 @@ public class EmailService {
             sendMail.setEmailRealDeleteAt("N");
             sendMail.setEmailRedngAt("N");
             sendMail.setEmailReceivedEmplId(employeeVO.getEmplId());
-            log.info("status count: " + emailMapper.inputReceivedStatus(sendMail));
             mailSender.send(message);
             return "success";
         } catch (MessagingException | IOException e) {
             return "fail";
         }
     }
+
+
 
 }
