@@ -99,22 +99,13 @@ public class SalaryController {
         return "admin/at/salary/specification";
     }
 
-    @GetMapping("/paystub/checkPassword")
-    public String checkPassword() {
-        return "employee/checkPassword";
-    }
+//    TODO 비밀번호 합치기 작업함 > 지우기
+//    @GetMapping("/paystub/checkPassword")
+//    public String checkPassword() {
+//        return "employee/checkPassword";
+//    }
+//
 
-    @PostMapping("/paystub/checkPassword")
-    @ResponseBody
-    public String checkPassword(Authentication auth, @RequestBody String password) {
-        CustomUser user = (CustomUser) auth.getPrincipal();
-        String emplPassword = user.getEmployeeVO().getEmplPassword();
-        if (encoder.matches(password, emplPassword)) {
-            return "success";
-        } else {
-            return "fail";
-        }
-    }
 
     @GetMapping("/paystub/{year}")
     @ResponseBody

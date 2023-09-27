@@ -18,8 +18,8 @@
                 <div class="user-service">
                     <ul class="font-11 font-reg">
                         <li><i class="icon i-mail"></i><span>메일</span><a
-                                href="${pageContext.request.contextPath}/email/all" id="linkMail"></a></li>
-                        <li><a href="${pageContext.request.contextPath}/employee/confirm" id="settingMyinfo">내 정보 관리</a>
+                                href="${pageContext.request.contextPath}/employee/confirm/email" id="linkMail"></a></li>
+                        <li><a href="${pageContext.request.contextPath}/employee/confirm/info" id="settingMyinfo">내 정보 관리</a>
                         </li>
                     </ul>
                 </div>

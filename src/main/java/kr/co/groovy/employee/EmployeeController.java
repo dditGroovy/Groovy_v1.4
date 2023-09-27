@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -204,8 +205,26 @@ public class EmployeeController {
 
     @GetMapping("/videoConferencing")
     public String videoConferencing() {
-        return "employee/videoConferencing";
+        return "videoConferencing";
     }
 
+    @GetMapping("/confirm/{page}")
+    public String getConfirmPassword(@PathVariable String page, Model model) {
+        model.addAttribute("page", page);
+        return "employee/confirmPassword";
+
+    }
+
+    @PostMapping("/confirm/{page}")
+    @ResponseBody
+    public String confirmPassword(Authentication auth, @RequestBody String password, @PathVariable String page) {
+        CustomUser user = (CustomUser) auth.getPrincipal();
+        String emplPassword = user.getEmployeeVO().getEmplPassword();
+        if (encoder.matches(password, emplPassword)) {
+            return "correct";
+        } else {
+            return "incorrect";
+        }
+    }
 }
 
