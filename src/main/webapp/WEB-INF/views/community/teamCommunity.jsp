@@ -102,10 +102,50 @@
                                         <c:if test="${CustomUser.employeeVO.emplId == sntncVO.sntncWrtingEmplId}">
                                             <button class="more btn"><i class="icon i-more"></i></button>
                                             <ul class="more-list">
-                                                <li><button type="button" class="modifyBtn">수정</button></li>
-                                                <li><button type="button" class="deleteBtn">삭제</button></li>
+                                                <li><button type="button" class="modifyBtn btn">수정</button></li>
+                                                <li><button type="button" class="deleteBtn btn">삭제</button></li>
                                             </ul>
                                         </c:if>
+                                    </div>
+                                </div>
+                                <div class="post-card-body">
+                                    <div class="content-wrap">
+                                        <p class="sntncCn input-l">
+                                          ${sntncVO.sntncCn}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="post-card-footer">
+                                    <div class="enter-wrap">
+                                        <div class="recommend-wrap">
+                                            <c:forEach var="recommendedChk" items="${recommendedEmpleChk}">
+                                                <c:if test="${recommendedChk.key == sntncVO.sntncEtprCode}">
+                                                    <c:choose>
+                                                        <c:when test="${recommendedChk.value == 0}">
+                                                            <button class="recommend-icon-btn unRecommendBtn enter-btn"
+                                                                    data-idx="${sntncVO.sntncEtprCode}"></button>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <button class="recommend-icon-btn recommendBtn enter-btn"
+                                                                    data-idx="${sntncVO.sntncEtprCode}"></button>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:if>
+                                            </c:forEach>
+                                            <c:forEach var="recommendCnt" items="${recommendPostCnt}">
+                                                <c:if test="${recommendCnt.key == sntncVO.sntncEtprCode}">
+                                                    <span class="recommendCnt enter-text">${recommendCnt.value} Likes</span>
+                                                </c:if>
+                                            </c:forEach>
+                                        </div>
+                                        <div class="answer-wrap">
+                                            <c:forEach var="answerPostCnt" items="${answerPostCnt}">
+                                                <c:if test="${answerPostCnt.key == sntncVO.sntncEtprCode}">
+                                                    <button class="loadAnswer enter-btn btn"></button>
+                                                    <span class="answerCnt enter-text">${answerPostCnt.value} Comments</span>
+                                                </c:if>
+                                            </c:forEach>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -205,7 +245,7 @@
                                  style="width: 50px; height: 50px;"/>
                             <textarea class="answerCn"></textarea>
                             <button class="inputAnswer">댓글 등록</button>
-                            <button class="loadAnswer">댓글 보기</button>
+
                         </td>
                         <td class="answerBox"></td>
                     </tr>

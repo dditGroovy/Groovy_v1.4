@@ -85,7 +85,7 @@
                     dataType: "text",
                     success: function (data) {
                         const like = item.querySelector(".recommendCnt");
-                        like.innerText = data;
+                        like.innerText = data + " Likes";
                         if (btn.classList.contains("unRecommendBtn")) {
                             btn.classList.remove("unRecommendBtn");
                             btn.classList.add("recommendBtn");
@@ -107,7 +107,7 @@
                     dataType: "text",
                     success: function (data) {
                         const like = item.querySelector(".recommendCnt");
-                        like.innerText = data;
+                        like.innerText = data + " Likes";
                         if (btn.classList.contains("recommendBtn")) {
                             btn.classList.remove("recommendBtn");
                             btn.classList.add("unRecommendBtn");
