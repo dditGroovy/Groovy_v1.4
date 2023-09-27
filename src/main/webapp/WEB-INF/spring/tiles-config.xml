@@ -32,5 +32,10 @@
     <definition name="*/*/*" extends="tiles-layout">
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp"/>
     </definition>
+    <definition name="clear" extends="/WEB-INF/views/employee/videoConferencing.jsp">
+        <put-attribute name="aside" value=""/>
+        <put-attribute name="floating" value=""/>
+        <put-attribute name="body" value=""/>
+    </definition>
 
 </tiles-definitions>

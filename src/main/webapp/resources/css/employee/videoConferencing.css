@@ -1,0 +1,32 @@
+#cameraBtn, #micBtn, #leaveBtn {
+    display: none;
+}
+
+.btn-control {
+    display: flex;
+}
+
+body {
+    background-color: var(--color-bg-sky);
+}
+
+img {
+    width: calc((380/var(--vw))*100vw);
+}
+
+.btn-join {
+    text-align: center;
+    margin: calc((320/var(--vh))*100vh)
+}
+
+#joinBtn {
+    transition: background-color 0.3s ease-in-out,
+                box-shadow 0.3s ease-in-out,
+                color 0.3s ease-in-out;
+}
+
+#joinBtn:hover {
+    background-color: white;
+    box-shadow: var(--clay-card);
+    color: var(--color-main);
+}

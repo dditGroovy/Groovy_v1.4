@@ -202,5 +202,10 @@ public class EmployeeController {
         return service.loadBirthday();
     }
 
+    @GetMapping("/videoConferencing")
+    public String videoConferencing() {
+        return "employee/videoConferencing";
+    }
+
 }
 
