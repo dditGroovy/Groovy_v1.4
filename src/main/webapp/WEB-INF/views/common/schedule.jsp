@@ -13,13 +13,18 @@
     .fc-event-time {
         display: none;
     }
+    .calendar-wrap {
+        padding: var(--vw-32);
+    }
 	#calendar{
-		margin-top: var(--vh-64);
+		margin-top: var(--vh-40);
 	}
 </style>
 
 <div class="content-container">
-    <div id="calendar"></div>
+    <div class="calendar-wrap card card-df">
+        <div id="calendar"></div>
+    </div>
 </div>
 <script>
 	$(document).ready(function () {
