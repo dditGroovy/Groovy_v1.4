@@ -272,6 +272,7 @@
 .i-bookmark {content:url("/resources/images/icon/bookmark-blue.svg");}
 .i-more {content:url("/resources/images/icon/more.svg");}
 .i-file {content:url("/resources/images/icon/link.svg");}
+.i-trash {content:url("/resources/images/icon/trash-gray.svg");}
 
 .i-3d.icon {
     width: var(--vw-32);

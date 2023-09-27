@@ -20,6 +20,9 @@
     <definition name="admin/*/*/*" extends="tiles-layout-manage">
         <put-attribute name="body" value="/WEB-INF/views/admin/{1}/{2}/{3}.jsp"/>
     </definition>
+    <definition name="employee/*" extends="tiles-layout-normal">
+        <put-attribute name="body" value="/WEB-INF/views/employee/videoConferencing.jsp"/>
+    </definition>
     <definition name="sanction/template/*" extends="tiles-layout-normal">
         <put-attribute name="body" value="/WEB-INF/views/sanction/template/{1}.jsp"/>
     </definition>
@@ -31,11 +34,6 @@
     </definition>
     <definition name="*/*/*" extends="tiles-layout">
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp"/>
-    </definition>
-    <definition name="clear" extends="/WEB-INF/views/employee/videoConferencing.jsp">
-        <put-attribute name="aside" value=""/>
-        <put-attribute name="floating" value=""/>
-        <put-attribute name="body" value=""/>
     </definition>
 
 </tiles-definitions>

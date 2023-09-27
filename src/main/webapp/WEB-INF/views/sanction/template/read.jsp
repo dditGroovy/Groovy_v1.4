@@ -292,7 +292,6 @@
                     alert('최종 승인 처리 되었습니다.')
                     if (afterPrcs != null) {
                         afterFinalApprove();
-                        location.reload()
                     }
                 },
                 error: function (xhr) {

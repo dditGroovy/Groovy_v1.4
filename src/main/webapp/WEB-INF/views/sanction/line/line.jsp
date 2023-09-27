@@ -3,7 +3,7 @@
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
 <style>
-    .container{
+    .container {
         padding: 0px !important;
     }
 </style>
@@ -19,7 +19,7 @@
             <div id="line">
                 <div class="inner">
                     <div id="ceo" class="org">
-                        <div class="ceo dept">
+                        <div class="ceo dept" data-dept="DEPT015">
                             <button class="department btn">
                                 <span>대표이사</span>
                                 <i class="icon i-arr-bt"></i>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div id="hrt" class="org">
-                        <div class="dept1 dept">
+                        <div class="dept1 dept" data-dept="DEPT010">
                             <button class="department btn">
                                 <span>인사팀</span>
                                 <i class="icon i-arr-bt"></i>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div id="at" class="org">
-                        <div class="dept2 dept">
+                        <div class="dept2 dept" data-dept="DEPT011">
                             <button class="department btn">
                                 <span>회계팀</span>
                                 <i class="icon i-arr-bt"></i>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <div id="st" class="org">
-                        <div class="dept3 dept">
+                        <div class="dept3 dept" data-dept="DEPT012">
                             <button class="department btn">
                                 <span>영업팀</span>
                                 <i class="icon i-arr-bt"></i>
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div id="prt" class="org">
-                        <div class="dept4 dept">
+                        <div class="dept4 dept" data-dept="DEPT013">
                             <button class="department btn">
                                 <span>홍보팀</span>
                                 <i class="icon i-arr-bt"></i>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                     <div id="gat" class="org">
-                        <div class="dept5 dept">
+                        <div class="dept5 dept" data-dept="DEPT014">
                             <button class="department btn">
                                 <span>총무팀</span>
                                 <i class="icon i-arr-bt"></i>
@@ -110,8 +110,11 @@
             </div>
             <div class="line-service">
                 <div class="line-btn-wrapper">
-                    <button type="button" class="btn btn-out-sm btn-modal bookmark-btn" data-name="bookmarkName"><i class="icon i-save"></i> 결재선 저장</button>
-                    <button type="button" class="btn btn-out-sm btn-modal bookmark-btn" data-name="loadLine" onclick="loadLine()"><i class="icon i-bookmark"></i> 나의 결재선
+                    <button type="button" class="btn btn-out-sm btn-modal bookmark-btn" data-name="bookmarkName"><i
+                            class="icon i-save"></i> 결재선 저장
+                    </button>
+                    <button type="button" class="btn btn-out-sm btn-modal bookmark-btn" data-name="loadLine"
+                            onclick="loadLine()"><i class="icon i-bookmark"></i> 나의 결재선
                     </button>
                 </div>
             </div>
@@ -171,6 +174,7 @@
         const popClose = document.querySelector(".popClose");
         const submitLineBtn = document.querySelector(".submitLine");
         const emplId = "${CustomUser.employeeVO.emplId}";
+        const emplDept = "${CustomUser.employeeVO.commonCodeDept}";
         let bookmarkName;
         let bookmarkLine = {};
         const accordians = document.querySelectorAll(".dept");
@@ -178,26 +182,41 @@
 
         loadOrgLine() // 로드 시 결재선 불러오기
 
-        document.addEventListener("DOMContentLoaded", () => {
+        window.onload = function() {
+            const accordians = document.querySelectorAll(".dept");
+
             accordians.forEach(item => {
                 const depth = item.querySelector(".depth");
                 const header = item.querySelector(".department");
 
                 header.addEventListener("click", e => {
                     e.preventDefault();
-                    if (item.classList.contains("active")) {
+                    accordians.forEach(item => {
+                        const depth = item.querySelector(".depth");
+                        const header = item.querySelector(".department");
+                        item.classList.remove("active")
+                    })
+                        if (item.classList.contains("active")) {
                         item.classList.remove("active");
-                        depth.style.maxHeight = 0;
                     } else {
                         item.classList.add("active");
-                        depth.style.maxHeight = depth.scrollHeight + "px";
                     }
                 });
             });
+
+            setTimeout(openLine, 0);
             popClose.addEventListener("click", () => {
                 window.close();
-            })
-        })
+            });
+        };
+
+        function openLine(){
+            const departmentElement = document.querySelector(`[data-dept="\${emplDept}"]`);
+            console.log(departmentElement)
+            if (departmentElement) {
+                departmentElement.classList.add('active');
+            }
+        }
 
         // 결재선 검색
         $("#searchLineBtn").on("click", function () {
@@ -208,7 +227,6 @@
         // 조직도 결재선 불러오기
         function loadOrgLine() {
             keyword = document.querySelector("#searchLine").value;
-            console.log(keyword);
             $.ajax({
                 url: `/sanction/api/line/\${emplId}?keyword=\${keyword}`,
                 method: 'GET',
@@ -362,7 +380,7 @@
                         const button = document.createElement("button");
                         button.classList = "deleteListBtn";
                         button.classList.add("btn");
-                        button.innerText = "X";
+                        button.innerHTML = "<i class='icon i-trash'></i>";
                         button.onclick = function () {
                             const target = this.closest("li");
                             target.remove();
@@ -419,7 +437,7 @@
                 const button = document.createElement("button");
                 button.classList = "deleteListBtn";
                 button.classList.add("btn");
-                button.innerText = "X";
+                button.innerHTML = "<i class='icon i-trash'></i>";
                 button.onclick = function () {
                     const target = this.closest("li");
                     target.remove();
