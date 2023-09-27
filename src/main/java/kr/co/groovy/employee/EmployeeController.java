@@ -239,15 +239,5 @@ public class EmployeeController {
             return "incorrect";
         }
     }
-    @PostMapping("/confirm/email")
-    public String confirmEmailPassword(Authentication auth, @RequestBody String password, @PathVariable String page) {
-        CustomUser user = (CustomUser) auth.getPrincipal();
-        String emplPassword = user.getEmployeeVO().getEmplPassword();
-        if (encoder.matches(password, emplPassword)) {
-            return "redirect://email/all";
-        } else {
-            return "incorrect";
-        }
-    }
 }
 
