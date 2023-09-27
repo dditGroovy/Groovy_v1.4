@@ -274,6 +274,7 @@
 .i-more {content:url("/resources/images/icon/more.svg");}
 .i-file {content:url("/resources/images/icon/link.svg");}
 .i-trash {content:url("/resources/images/icon/trash-gray.svg");}
+.i-close {content:url("/resources/images/icon/close.svg");}
 .i-3d.icon {
     width: var(--vw-32);
     height: var(--vw-32);

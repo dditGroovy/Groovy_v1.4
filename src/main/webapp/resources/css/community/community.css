@@ -16,9 +16,6 @@
     gap: var(--vw-24);
     justify-content: flex-start;
 }
-.main-inner > section {
-    border: 1px solid red;
-}
 #post {
     width: calc((800/var(--vw))*100vw);
 }
@@ -283,15 +280,22 @@
 .option {
     position: relative;
 }
+.option-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-12);
+}
 .optiondelete {
     position: absolute;
     right: var(--vw-12);
     top: 50%;
-    width: calc((32/var(--vw-32)));
-    height: calc((32/var(--vw-32)));
-    border-radius: var(--size-50);
-    background: var(--color-white);
-    box-shadow: var(--clay-card);
     transform: translateY(-50%);
-    border: 1px solid red;
+}
+
+/*  아코디언    */
+input[id*="accordian"] {
+    display: none;
+}
+.card-header {
+    display: flex;
 }
