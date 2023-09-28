@@ -37,16 +37,16 @@ import java.util.*;
 @Service
 @EnableScheduling
 public class SalaryService {
-    final String uploadHyejin;
+    final String uploadPath;
     final
     SalaryMapper salaryMapper;
     final EmployeeMapper employeeMapper;
     final EmailService emailService;
 
 
-    public SalaryService(SalaryMapper salaryMapper, String uploadHyejin, EmployeeMapper employeeMapper, EmailService emailService) {
+    public SalaryService(SalaryMapper salaryMapper, String uploadPath, EmployeeMapper employeeMapper, EmailService emailService) {
         this.salaryMapper = salaryMapper;
-        this.uploadHyejin = uploadHyejin;
+        this.uploadPath = uploadPath;
         this.employeeMapper = employeeMapper;
         this.emailService = emailService;
     }
@@ -230,7 +230,7 @@ public class SalaryService {
         String etprCode = map.get("etprCode");
 
         try {
-            String uploadPath = this.uploadHyejin + "/salary";
+            String uploadPath = this.uploadPath + "/salary";
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 if (uploadDir.mkdirs()) {
@@ -290,7 +290,7 @@ public class SalaryService {
             if (vo != null) {
                 String originalName = new String(vo.getUploadFileStreNm().getBytes("utf-8"), "iso-8859-1");
                 String fileName = vo.getUploadFileStreNm();
-                filePath = uploadHyejin + "/salary";
+                filePath = uploadPath + "/salary";
 
                 File file = new File(filePath, fileName);
                 if (!file.isFile()) {

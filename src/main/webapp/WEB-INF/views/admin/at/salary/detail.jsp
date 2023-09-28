@@ -285,37 +285,36 @@
         downloadDiv.innerHTML = format;
 
         html2canvas(downloadDiv).then((canvas) => {
-            const doc = new jsPDF('p', 'mm', 'a4');
+            const doc = new jsPDF('p', 'mm', 'a4', true, 20, 20);
             let imgData = canvas.toDataURL("image/png");
             let imgWidth = 210;
             let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-            doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+            doc.addImage(imgData, "PNG", 0, 10, imgWidth, imgHeight);
 
             let fileName = `\${result.salaryDtsmtEtprCode}.pdf`;
-            doc.save(fileName);
-            // $.ajax({
-            //     url: "/salary/uploadFile",
-            //     type: 'post',
-            //     data: JSON.stringify({
-            //         etprCode: `\${result.salaryDtsmtEtprCode}`,
-            //         datauri: doc.output('datauristring')
-            //     }),
-            //     contentType: 'application/json',
-            //     success: function (result) {
-            //         if (result === "success") {
-            //             if (flag) {
-            //                 alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
-            //                 flag = false;
-            //             }
-            //         }
-            //     },
-            //     error: function (xhr, status, error) {
-            //         console.log("code: " + xhr.status);
-            //         console.log("message: " + xhr.responseText);
-            //         console.log("error: " + xhr.error);
-            //     }
-            // });
+            $.ajax({
+                url: "/salary/uploadFile",
+                type: 'post',
+                data: JSON.stringify({
+                    etprCode: `\${result.salaryDtsmtEtprCode}`,
+                    datauri: doc.output('datauristring')
+                }),
+                contentType: 'application/json',
+                success: function (result) {
+                    if (result === "success") {
+                        if (flag) {
+                            alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
+                            flag = false;
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("code: " + xhr.status);
+                    console.log("message: " + xhr.responseText);
+                    console.log("error: " + xhr.error);
+                }
+            });
         });
     }
 

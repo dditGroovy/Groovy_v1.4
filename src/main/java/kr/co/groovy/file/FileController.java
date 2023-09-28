@@ -20,13 +20,13 @@ import java.util.zip.ZipOutputStream;
 public class FileController {
 
     final
-    String uploadHyejin;
+    String uploadPath;
     final
     FileService service;
 
     // TODO 경로 주입 바꾸기 (운영서버로)
-    public FileController(String uploadHyejin, FileService service) {
-        this.uploadHyejin = uploadHyejin;
+    public FileController(String uploadPath, FileService service) {
+        this.uploadPath = uploadPath;
         this.service = service;
     }
 
@@ -37,7 +37,7 @@ public class FileController {
         try {
             UploadFileVO vo = service.downloadFile(uploadFileSn);
             String originalName = new String(vo.getUploadFileOrginlNm().getBytes("utf-8"), "iso-8859-1");
-            String filePath = uploadHyejin + "/" + dir;
+            String filePath = uploadPath + "/" + dir;
             String fileName = vo.getUploadFileStreNm();
 
             File file = new File(filePath, fileName);
@@ -66,16 +66,17 @@ public class FileController {
     }
 
     @GetMapping("/download/salary")
-    public void fileDownloadByDate(@RequestParam String date, @RequestParam String emplId,
+    public void fileDownloadByDate(@RequestParam String date, @RequestParam String data,
                                    HttpServletResponse resp) throws Exception {
+        log.info(date);
+        log.info(data);
         Map<String, String> map = new HashMap<>();
         map.put("date", date);
-        map.put("emplId", emplId);
+        map.put("emplId", data);
         try {
             UploadFileVO vo = service.downloadFileByDate(map);
-            log.info(String.valueOf(vo));
             String originalName = new String(vo.getUploadFileStreNm().getBytes("utf-8"), "iso-8859-1");
-            String filePath = uploadHyejin + "/salary";
+            String filePath = uploadPath + "/salary";
             String fileName = vo.getUploadFileStreNm();
 
             File dtsmtFile = new File(filePath, fileName);
@@ -120,7 +121,7 @@ public class FileController {
             if (vo != null) {
                 String originalName = new String(vo.getUploadFileOrginlNm().getBytes("utf-8"), "iso-8859-1");
                 String fileName = vo.getUploadFileStreNm();
-                filePath = uploadHyejin + "/salary";
+                filePath = uploadPath + "/salary";
 
                 File file = new File(filePath, fileName);
                 if (!file.isFile()) {
@@ -178,7 +179,7 @@ public class FileController {
     public void fileUpload(@PathVariable("dir") String dir, @PathVariable("etprCode") String
             etprCode, MultipartFile file) throws Exception {
         try {
-            String path = uploadHyejin + "/" + dir;
+            String path = uploadPath + "/" + dir;
 //            File uploadPath = new File(uploadPath ,FileUploadUtils.getFolder());
             File uploadDir = new File(path);
             if (!uploadDir.exists()) {
