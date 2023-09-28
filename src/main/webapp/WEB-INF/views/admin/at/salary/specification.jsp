@@ -1,23 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<link rel="stylesheet" href="/resources/css/common.css">
-<link rel="stylesheet" href="/resources/css/commonStyle.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/commonStyle.css">
 
 <style>
     h1 {
         text-align: center;
+        font-size: 36px;
     }
 
     .dtsmtDate, .sign {
         text-align: right;
     }
 
-    table {
+    .notFake {
         width: 100%;
-        border-collapse: collapse;
-        border: 2px solid navy;
+        border-bottom: 1px solid black;
     }
 
-    #display {
+    .display {
         display: flex;
     }
 
@@ -26,30 +26,23 @@
         color: black;
     }
 
-    th, td {
-        height: 45px
+    .notFake th, .notFake td {
+        height: 50px;
+        border-top: 1px solid black;
+        border-left: 1px solid black;
     }
 
-    .leftTable {
-        border-left: none;
+    #faker th, #faker td {
+        border-left: 1px solid black;
     }
 
-    .borderCenter {
-        border-right: 2px solid navy;
-    }
-
-    .fitSize {
-        width: 150px;
+    #faker td, .notFake td {
+        width: 230px;
+        height: 50px;
     }
 
     .thanks {
         text-align: center;
-    }
-
-    .lastThing {
-        border-bottom: 2px solid white;
-        border-left: 2px solid white;
-        border-top: 2px solid navy;
     }
 
     .pMargin {
@@ -57,94 +50,120 @@
         margin-bottom: 20px;
     }
 
+    .rightTable {
+        border-right: 1px solid black;
+    }
+
+    pre {
+        width: 50%;
+    }
+
+    #faker {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid black;
+        border-right: 1px solid black;
+    }
 </style>
 <h1>\${result.month}월 그루비 급여명세서</h1>
 <p class="dtsmtDate pMargin">지급일: \${formattedDate}</p>
-<table border="1">
-    <tr>
-        <th class="fitSize">사번</th>
-        <td class="borderCenter">\${result.salaryEmplId}</td>
-        <th class="fitSize">성명</th>
-        <td>\${result.salaryEmplNm}</td>
-    </tr>
-    <tr>
-        <th class="fitSize">소속</th>
-        <td class="borderCenter">\${result.deptNm}팀</td>
-        <th class="fitSize">직급</th>
-        <td>\${result.clsfNm}</td>
-    </tr>
-</table>
+<div class="display">
+    <table class="notFake">
+        <tr>
+            <th>사번</th>
+            <td>\${result.salaryEmplId}</td>
+        </tr>
+        <tr>
+            <th>소속</th>
+            <td>\${result.deptNm}팀</td>
+        </tr>
+    </table>
+    <table class="notFake rightTable">
+        <tr>
+            <th>성명</th>
+            <td>\${result.salaryEmplNm}</td>
+        </tr>
+        <tr>
+            <th>직급</th>
+            <td>\${result.clsfNm}</td>
+        </tr>
+    </table>
+</div>
 <p class="pMargin">급여내역</p>
-<div id="display">
-    <table border="1" class="rightTable">
+<div class="display">
+    <table class="notFake">
         <tr>
             <th colspan="2">지급 내역</th>
         </tr>
         <tr>
-            <th class="fitSize">기본급</th>
+            <th>기본급</th>
             <td>\${formattedBslry}원</td>
         </tr>
         <tr>
-            <th class="fitSize">초과근무수당</th>
+            <th>초과근무수당</th>
             <td>\${formattedOvtimeAllwnc}원</td>
         </tr>
         <tr>
-            <th class="fitSize"></th>
+            <th></th>
             <td></td>
         </tr>
         <tr>
-            <th class="fitSize"></th>
+            <th></th>
             <td></td>
         </tr>
         <tr>
-            <th class="fitSize"></th>
+            <th></th>
             <td></td>
         </tr>
         <tr>
-            <th class="fitSize"></th>
+            <th></th>
             <td></td>
         </tr>
         <tr>
-            <th class="fitSize">총지급액</th>
+            <th>총지급액</th>
             <td>\${formattedPymntTotamt}원</td>
         </tr>
-        <tr class="lastThing">
-        </tr>
     </table>
-    <table border="1" class="leftTable">
+    <table class="notFake rightTable">
         <tr>
             <th colspan="2">공제 내역</th>
         </tr>
         <tr>
-            <th class="fitSize">국민연금</th>
+            <th>국민연금</th>
             <td>\${formattedSisNp}원</td>
         </tr>
         <tr>
-            <th class="fitSize">건강보험</th>
+            <th>건강보험</th>
             <td>\${formattedSisHi}원</td>
         </tr>
         <tr>
-            <th class="fitSize">고용보험</th>
+            <th>고용보험</th>
             <td>\${formattedSisEi}원</td>
         </tr>
         <tr>
-            <th class="fitSize">산재보험</th>
+            <th>산재보험</th>
             <td>\${formattedSisWci}원</td>
         </tr>
         <tr>
-            <th class="fitSize">소득세</th>
+            <th>소득세</th>
             <td>\${formattedIncmtax}원</td>
         </tr>
         <tr>
-            <th class="fitSize">지방소득세</th>
+            <th>지방소득세</th>
             <td>\${formattedLocalityIncmtax}원</td>
         </tr>
         <tr>
-            <th class="fitSize">총공제액</th>
+            <th>총공제액</th>
             <td>\${formattedDdcTotamt}원</td>
         </tr>
+    </table>
+
+</div>
+<div class="display">
+    <table class="notFake" style="visibility: hidden;"></table>
+    <table id="faker" class="rightTable">
         <tr>
-            <th class="fitSize">실수령액</th>
+            <th>실수령액</th>
             <td>\${formattedNetPay}원</td>
         </tr>
     </table>

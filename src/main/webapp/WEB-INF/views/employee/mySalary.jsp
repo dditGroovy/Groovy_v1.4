@@ -226,7 +226,6 @@
         let month = contentTitle.substring(contentTitle.indexOf("월") - 1, contentTitle.indexOf("월"));
         month = month < 10 ? "0" + month : month;
         let date = year + month;
-        console.log(date);
         location.href = `/file/download/salary?date=\${date}&data=\${data}`;
     });
 </script>

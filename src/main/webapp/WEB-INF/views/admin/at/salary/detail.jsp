@@ -22,9 +22,7 @@
 <div class="content-container">
     <div class="wrap">
     </div>
-    <br/>
-
-    <br/><br/>
+    <br/><br/><br/>
     <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
     <button id="makePdfDtsmt" title="올해 이번달의 명세서를 생성할 수 있습니다.">급여명세서 일괄생성</button>
     <button id="downloadDtsmt" title="올해 이번달의 명세서를 다운로드할 수 있습니다.">급여명세서 일괄저장</button>
@@ -54,7 +52,8 @@
             </div>
         </div>
     </div>
-    <div id="downloadDiv" style="position: absolute; top: -9999px; left: -9999px; width: 21cm; min-height: 29.7cm"></div>
+    <div id="downloadDiv"
+         style="position: absolute; top: -9999px; left: -9999px; width: 210mm; height: 297mm; padding: 10mm;"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -284,37 +283,38 @@
         let downloadDiv = document.querySelector("#downloadDiv");
         downloadDiv.innerHTML = format;
 
-        html2canvas(downloadDiv).then((canvas) => {
-            const doc = new jsPDF('p', 'mm', 'a4', true, 20, 20);
+        html2canvas(downloadDiv, {scale: 4}).then((canvas) => {
+            const doc = new jsPDF('p', 'mm', 'a4');
             let imgData = canvas.toDataURL("image/png");
             let imgWidth = 210;
             let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-            doc.addImage(imgData, "PNG", 0, 10, imgWidth, imgHeight);
+            doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
 
             let fileName = `\${result.salaryDtsmtEtprCode}.pdf`;
-            $.ajax({
-                url: "/salary/uploadFile",
-                type: 'post',
-                data: JSON.stringify({
-                    etprCode: `\${result.salaryDtsmtEtprCode}`,
-                    datauri: doc.output('datauristring')
-                }),
-                contentType: 'application/json',
-                success: function (result) {
-                    if (result === "success") {
-                        if (flag) {
-                            alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
-                            flag = false;
-                        }
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("code: " + xhr.status);
-                    console.log("message: " + xhr.responseText);
-                    console.log("error: " + xhr.error);
-                }
-            });
+            doc.save(fileName);
+            // $.ajax({
+            //     url: "/salary/uploadFile",
+            //     type: 'post',
+            //     data: JSON.stringify({
+            //         etprCode: `\${result.salaryDtsmtEtprCode}`,
+            //         datauri: doc.output('datauristring')
+            //     }),
+            //     contentType: 'application/json',
+            //     success: function (result) {
+            //         if (result === "success") {
+            //             if (flag) {
+            //                 alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
+            //                 flag = false;
+            //             }
+            //         }
+            //     },
+            //     error: function (xhr, status, error) {
+            //         console.log("code: " + xhr.status);
+            //         console.log("message: " + xhr.responseText);
+            //         console.log("error: " + xhr.error);
+            //     }
+            // });
         });
     }
 

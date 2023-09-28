@@ -68,8 +68,6 @@ public class FileController {
     @GetMapping("/download/salary")
     public void fileDownloadByDate(@RequestParam String date, @RequestParam String data,
                                    HttpServletResponse resp) throws Exception {
-        log.info(date);
-        log.info(data);
         Map<String, String> map = new HashMap<>();
         map.put("date", date);
         map.put("emplId", data);
