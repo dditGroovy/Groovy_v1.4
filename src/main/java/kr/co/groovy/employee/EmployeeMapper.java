@@ -6,6 +6,7 @@ import kr.co.groovy.vo.NotificationVO;
 import kr.co.groovy.vo.PageVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,9 @@ public interface EmployeeMapper {
 
     List<EmployeeVO> loadEmpList();
 
-    int countFindEmp(String depCode, String emplNm);
+    int countFindEmp(@Param("depCode") String depCode, @Param("emplNm") String emplNm);
 
-    List<EmployeeVO> findEmp(@Param("depCode") String depCode, @Param("emplNm") String emplNm, @Param("sortBy") String sortBy);
+    List<EmployeeVO> findEmp(@Param("depCode") String depCode, @Param("emplNm") String emplNm, @Param("sortBy") String sortBy, @Param("startRow") long startRow, @Param("lastRow") long lastRow);
 
     EmployeeVO findById(String id);
 

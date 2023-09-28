@@ -21,6 +21,9 @@ public class PageVO {
     private Long lastNum;	// pagination의 마지막 페이지번호
     private boolean pre;	// 이전페이지
     private boolean next;	// 다음페이지
+    private String depCode;
+    private String sortBy;
+    private String emplNm;
 
     public PageVO() {
         this.page=1L;
@@ -34,7 +37,7 @@ public class PageVO {
         //1		1			10
         //2		11			20
         //3		21			30
-        this.startRow =  (this.getPage()-1)*this.getPerPage() + 1;
+        this.startRow =  (this.getPage()-1)*this.getPerPage();
         this.lastRow = this.getPage()*this.getPerPage();
     }
 

@@ -120,7 +120,7 @@ public class EmployeeController {
     /* 관리자 - 사원 관리 */
     @GetMapping("/manageEmp")
     public String manageEmp(PageVO pageVO, Model model) {
-        model.addAttribute("page", pageVO.getPage());
+        model.addAttribute("pageVO", pageVO);
         return "admin/hrt/employee/manage";
     }
 
@@ -149,13 +149,9 @@ public class EmployeeController {
 
     @ResponseBody
     @GetMapping("/findEmp")
-    public void findEmp(String depCode, String emplNm, String sortBy, long page) {
-        System.out.println("controller depCode = " + depCode);
-        System.out.println("controller emplNm = " + emplNm);
-        System.out.println("controller sortBy = " + sortBy);
-        System.out.println("controller pageVO = " + page);
+    public Map<String, Object> findEmp(String depCode, String emplNm, String sortBy, long page) {
         Map<String, Object> map = service.findEmp(depCode, emplNm, sortBy, page);
-        System.out.println("map = " + map);
+        return map;
     }
 
     @GetMapping("/loadEmp/{emplId}")

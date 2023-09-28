@@ -210,7 +210,7 @@
                     FROM EMPL E,
                          UPLOAD_FILE U
                     WHERE E.SIGN_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE) N) A
-        WHERE R BETWEEN #{startRow} AND #{lastRow}
+        WHERE R BETWEEN #{startRow}+1 AND #{lastRow}
     </select>
 
     <!--  관리자 사원 관리 - 사원(개인) 정보 불러오기  -->
@@ -268,7 +268,7 @@
               WHERE COMMON_CODE_DEPT = #{depCode}
                 AND E.EMPL_NM LIKE '%' || #{emplNm} || '%'
               ORDER BY ${sortBy} ASC)
-        WHERE rn BETWEEN #{startRow} AND #{lastRow}
+        WHERE rn BETWEEN #{startRow}+1 AND #{lastRow}
     </select>
     <!--  사원 내 정보 관리 - 프로필 사진 변경  -->
     <update id="modifyProfile" parameterType="String">

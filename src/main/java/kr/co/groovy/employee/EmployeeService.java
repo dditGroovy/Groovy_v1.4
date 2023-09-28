@@ -113,29 +113,23 @@ public class EmployeeService {
     }
 
     public Map<String, Object> findEmp(String depCode, String emplNm, String sortBy, long page) {
-        System.out.println("depCode = " + depCode);
-        System.out.println("emplNm = " + emplNm);
-        System.out.println("sortBy = " + sortBy);
-        System.out.println("page = " + page);
-
         PageVO pageVO = new PageVO();
-
-        List<EmployeeVO> list = mapper.findEmp(depCode, emplNm, sortBy);
-        System.out.println("list = " + list);
-        long totalCount = list.size();
-        System.out.println("totalCount = " + totalCount);
+        int totalCount = mapper.countFindEmp(depCode, emplNm);
         pageVO.setPage(page);
         pageVO.setRow();
-        pageVO.setNum(totalCount);
-        System.out.println("service pageVO = " + pageVO);
+        pageVO.setNum((long) totalCount);
+        Long startRow = pageVO.getStartRow();
+        Long lastRow = pageVO.getLastRow();
+        List<EmployeeVO> list = mapper.findEmp(depCode, emplNm, sortBy, startRow, lastRow);
         for (EmployeeVO vo : list) {
             vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());
             vo.setCommonCodeClsf(ClassOfPosition.valueOf(vo.getCommonCodeClsf()).label());
         }
-        Map<String, Object> map = new HashMap<>();
-        map.put("list", list);
-        map.put("pager", pageVO);
-        return map;
+        Map<String, Object> returnMap = new HashMap<>();
+        returnMap.put("empList", list);
+        returnMap.put("pager", pageVO);
+
+        return returnMap;
     }
 
     public List<EmployeeVO> loadBirthday() {
