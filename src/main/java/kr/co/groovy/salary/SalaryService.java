@@ -22,7 +22,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.security.Principal;
@@ -227,48 +229,47 @@ public class SalaryService {
         String datauri = map.get("datauri");
         String etprCode = map.get("etprCode");
 
-//        try {
+        try {
         String uploadPath = this.uploadPath + "/salary";
         File uploadDir = new File(uploadPath);
         if (uploadDir.exists() == false) {
             if (uploadDir.mkdirs()) {
-                return "폴더 생성 성공";
+                log.info("폴더 생성 성공");
             } else {
-                return "폴더 생성 실패";
+                log.info("폴더 생성 실패");
             }
         }
-        return uploadPath + " " +  String.valueOf(uploadDir.exists());
+            URI uri = new URI(datauri);
+            String path = null;
+            File saveFile = null;
+            if ("data".equals(uri.getScheme())) {
+                String dataPart = uri.getRawSchemeSpecificPart();
+                String base64Data = dataPart.substring(dataPart.indexOf(',') + 1);
+                byte[] decodedData = Base64.getDecoder().decode(base64Data);
 
-//            URI uri = new URI(datauri);
-//            String path = null;
-//            if ("data".equals(uri.getScheme())) {
-//                String dataPart = uri.getRawSchemeSpecificPart();
-//                String base64Data = dataPart.substring(dataPart.indexOf(',') + 1);
-//                byte[] decodedData = Base64.getDecoder().decode(base64Data);
-//
-//                String fileName = etprCode + ".pdf";
-//                File saveFile = new File(uploadPath, fileName);
-//                FileOutputStream fos = new FileOutputStream(saveFile);
-//                fos.write(decodedData);
-//            } else {
-//                path = uri.getPath();
-//                File saveFile = new File(uploadPath, path);
-//            }
-//
-//            if (salaryMapper.existsUploadedFile(etprCode) == 0) {
-//                Map<String, Object> inputMap = new HashMap<>();
-//                inputMap.put("salaryDtsmtEtprcode", etprCode);
-//                inputMap.put("originalFileName", "default");
-//                inputMap.put("newFileName", etprCode + ".pdf");
-//                inputMap.put("fileSize", 0);
-//
-//                salaryMapper.inputSalaryDtsmtPdf(inputMap);
-//            }
-//            return "success";
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "fail";
-//        }
+                String fileName = etprCode + ".pdf";
+                saveFile = new File(uploadPath, fileName);
+                FileOutputStream fos = new FileOutputStream(saveFile);
+                fos.write(decodedData);
+            } else {
+                path = uri.getPath();
+                saveFile = new File(uploadPath, path);
+            }
+
+            if (salaryMapper.existsUploadedFile(etprCode) == 0) {
+                Map<String, Object> inputMap = new HashMap<>();
+                inputMap.put("salaryDtsmtEtprcode", etprCode);
+                inputMap.put("originalFileName", "default");
+                inputMap.put("newFileName", etprCode + ".pdf");
+                inputMap.put("fileSize", 0);
+
+                salaryMapper.inputSalaryDtsmtPdf(inputMap);
+            }
+            return saveFile.getName() + " success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
     public String sentEmails(Principal principal, String data, String date) throws IOException {

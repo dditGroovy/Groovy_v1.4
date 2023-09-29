@@ -151,9 +151,9 @@ public class SalaryController {
     @ResponseBody
     public String inputSalaryDtsmtPdf(@RequestBody Map<String, String> map) {
         String result = salaryService.inputSalaryDtsmtPdf(map);
-//        if (result.equals("success")) {
-//            return "success";
-//        }
+        if (result.equals("success")) {
+            return "success";
+        }
         return result;
     }
 

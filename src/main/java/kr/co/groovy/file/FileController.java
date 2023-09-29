@@ -119,7 +119,7 @@ public class FileController {
             if (vo != null) {
                 String originalName = new String(vo.getUploadFileOrginlNm().getBytes("utf-8"), "iso-8859-1");
                 String fileName = vo.getUploadFileStreNm();
-                filePath = uploadPath + "/salary";
+                filePath = this.uploadPath + "/salary";
 
                 File file = new File(filePath, fileName);
                 if (!file.isFile()) {

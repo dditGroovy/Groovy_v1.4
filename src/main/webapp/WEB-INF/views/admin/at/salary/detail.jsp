@@ -301,12 +301,12 @@
                 contentType: 'application/json',
                 success: function (result) {
                     console.log(result);
-                    // if (result === "success") {
-                    //     if (flag) {
-                    //         alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
-                    //         flag = false;
-                    //     }
-                    // }
+                    if (result === "success") {
+                        if (flag) {
+                            alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
+                            flag = false;
+                        }
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.log("code: " + xhr.status);
