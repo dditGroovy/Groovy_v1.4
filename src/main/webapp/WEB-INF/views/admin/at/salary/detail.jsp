@@ -265,25 +265,24 @@
         document.querySelector("#paymentDetail").innerHTML = content;
     }
 
-    function downloadButtonClickHandler(result) {
-        const formattedNetPay = formatNumber(result.salaryDtsmtNetPay);
-        const formattedPymntTotamt = formatNumber(result.salaryDtsmtPymntTotamt);
-        const formattedBslry = formatNumber(result.salaryBslry);
-        const formattedOvtimeAllwnc = formatNumber(result.salaryOvtimeAllwnc);
-        const formattedDdcTotamt = formatNumber(result.salaryDtsmtDdcTotamt);
-        const formattedSisNp = formatNumber(result.salaryDtsmtSisNp);
-        const formattedSisHi = formatNumber(result.salaryDtsmtSisHi);
-        const formattedSisEi = formatNumber(result.salaryDtsmtSisEi);
-        const formattedSisWci = formatNumber(result.salaryDtsmtSisWci);
-        const formattedIncmtax = formatNumber(result.salaryDtsmtIncmtax);
-        const formattedLocalityIncmtax = formatNumber(result.salaryDtsmtLocalityIncmtax);
-        const formattedDate = formatDate(result.salaryDtsmtIssuDate);
+    function downloadButtonClickHandler(r) {
+        const fNetPay = formatNumber(r.salaryDtsmtNetPay);
+        const fPymntTotamt = formatNumber(r.salaryDtsmtPymntTotamt);
+        const fBslry = formatNumber(r.salaryBslry);
+        const fOvtimeAllwnc = formatNumber(r.salaryOvtimeAllwnc);
+        const fDdcTotamt = formatNumber(r.salaryDtsmtDdcTotamt);
+        const fSisNp = formatNumber(r.salaryDtsmtSisNp);
+        const fSisHi = formatNumber(r.salaryDtsmtSisHi);
+        const fSisEi = formatNumber(r.salaryDtsmtSisEi);
+        const fSisWci = formatNumber(r.salaryDtsmtSisWci);
+        const fIncmtax = formatNumber(r.salaryDtsmtIncmtax);
+        const fLocalityIncmtax = formatNumber(r.salaryDtsmtLocalityIncmtax);
+        const fDate = formatDate(r.salaryDtsmtIssuDate);
 
         let format = `<jsp:include page="specification.jsp"/>`
         let downloadDiv = document.querySelector("#downloadDiv");
         downloadDiv.innerHTML = format;
-
-        html2canvas(downloadDiv, {scale: 4}).then((canvas) => {
+        html2canvas(downloadDiv, {scale: 2}).then((canvas) => {
             const doc = new jsPDF('p', 'mm', 'a4');
             let imgData = canvas.toDataURL("image/png");
             let imgWidth = 210;
@@ -291,13 +290,12 @@
 
             doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
 
-            let fileName = `\${result.salaryDtsmtEtprCode}.pdf`;
-            // doc.save(fileName);
+            let fileName = `\${r.salaryDtsmtEtprCode}.pdf`;
             $.ajax({
                 url: "/salary/uploadFile",
                 type: 'post',
                 data: JSON.stringify({
-                    etprCode: `\${result.salaryDtsmtEtprCode}`,
+                    etprCode: `\${r.salaryDtsmtEtprCode}`,
                     datauri: doc.output('datauristring')
                 }),
                 contentType: 'application/json',
@@ -336,8 +334,10 @@
                         let searchDate = new Date(item.salaryDtsmtIssuDate);
                         return searchDate.getFullYear() == nowYear && (searchDate.getMonth() + 1) == nowMonth;
                     });
+
                     for (let i = 0; i < monthlyData.length; i++) {
                         const selectedResult = monthlyData[i];
+                        console.log(selectedResult);
                         downloadButtonClickHandler(selectedResult);
                     }
                 },

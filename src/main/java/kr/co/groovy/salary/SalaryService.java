@@ -22,9 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.security.Principal;
@@ -231,40 +229,57 @@ public class SalaryService {
 
         try {
             String uploadPath = this.uploadPath + "/salary";
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                if (uploadDir.mkdirs()) {
-                    log.info("폴더 생성 성공");
+            File directory = new File(this.uploadPath);
+            if (directory.exists() && directory.isDirectory()) {
+                File[] filesAndDirs = directory.listFiles();
+
+                if (filesAndDirs != null) {
+                    for (File fileOrDir : filesAndDirs) {
+                        if (fileOrDir.isFile()) {
+                            System.out.println("파일: " + fileOrDir.getName());
+                        } else if (fileOrDir.isDirectory()) {
+                            System.out.println("디렉토리: " + fileOrDir.getName());
+                        }
+                    }
                 } else {
-                    log.info("폴더 생성 실패");
+                    System.err.println("디렉토리 내용을 읽을 수 없습니다.");
                 }
-            }
-
-            URI uri = new URI(datauri);
-            String path = null;
-            if ("data".equals(uri.getScheme())) {
-                String dataPart = uri.getRawSchemeSpecificPart();
-                String base64Data = dataPart.substring(dataPart.indexOf(',') + 1);
-                byte[] decodedData = Base64.getDecoder().decode(base64Data);
-
-                String fileName = etprCode + ".pdf";
-                File saveFile = new File(uploadPath, fileName);
-                FileOutputStream fos = new FileOutputStream(saveFile);
-                fos.write(decodedData);
             } else {
-                path = uri.getPath();
-                File saveFile = new File(uploadPath, path);
+                System.err.println("지정된 경로는 디렉토리가 아니거나 존재하지 않습니다.");
             }
+//            if (uploadDir.exists() == false) {
+//                if (uploadDir.mkdirs()) {
+//                    log.info("폴더 생성 성공");
+//                } else {
+//                    log.info("폴더 생성 실패");
+//                }
+//            }
 
-            if (salaryMapper.existsUploadedFile(etprCode) == 0) {
-                Map<String, Object> inputMap = new HashMap<>();
-                inputMap.put("salaryDtsmtEtprcode", etprCode);
-                inputMap.put("originalFileName", "default");
-                inputMap.put("newFileName", etprCode + ".pdf");
-                inputMap.put("fileSize", 0);
-
-                salaryMapper.inputSalaryDtsmtPdf(inputMap);
-            }
+//            URI uri = new URI(datauri);
+//            String path = null;
+//            if ("data".equals(uri.getScheme())) {
+//                String dataPart = uri.getRawSchemeSpecificPart();
+//                String base64Data = dataPart.substring(dataPart.indexOf(',') + 1);
+//                byte[] decodedData = Base64.getDecoder().decode(base64Data);
+//
+//                String fileName = etprCode + ".pdf";
+//                File saveFile = new File(uploadPath, fileName);
+//                FileOutputStream fos = new FileOutputStream(saveFile);
+//                fos.write(decodedData);
+//            } else {
+//                path = uri.getPath();
+//                File saveFile = new File(uploadPath, path);
+//            }
+//
+//            if (salaryMapper.existsUploadedFile(etprCode) == 0) {
+//                Map<String, Object> inputMap = new HashMap<>();
+//                inputMap.put("salaryDtsmtEtprcode", etprCode);
+//                inputMap.put("originalFileName", "default");
+//                inputMap.put("newFileName", etprCode + ".pdf");
+//                inputMap.put("fileSize", 0);
+//
+//                salaryMapper.inputSalaryDtsmtPdf(inputMap);
+//            }
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
