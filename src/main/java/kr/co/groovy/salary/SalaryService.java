@@ -228,15 +228,16 @@ public class SalaryService {
         String etprCode = map.get("etprCode");
 
 //        try {
-            String uploadPath = this.uploadPath + "/salary";
-            File uploadDir = new File(uploadPath);
-            if (uploadDir.exists() == false) {
-                if (uploadDir.mkdirs()) {
-                    return "폴더 생성 성공";
-                } else {
-                    return "폴더 생성 실패";
-                }
+        String uploadPath = this.uploadPath + "/salary";
+        File uploadDir = new File(uploadPath);
+        if (uploadDir.exists() == false) {
+            if (uploadDir.mkdirs()) {
+                return "폴더 생성 성공";
+            } else {
+                return "폴더 생성 실패";
             }
+        }
+        return uploadPath + " " +  String.valueOf(uploadDir.exists());
 
 //            URI uri = new URI(datauri);
 //            String path = null;
@@ -268,7 +269,6 @@ public class SalaryService {
 //            e.printStackTrace();
 //            return "fail";
 //        }
-            return "";
     }
 
     public String sentEmails(Principal principal, String data, String date) throws IOException {
