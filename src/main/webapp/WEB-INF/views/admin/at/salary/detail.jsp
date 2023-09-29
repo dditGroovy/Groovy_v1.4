@@ -152,7 +152,6 @@
                         listCode += "<tr>";
                         listCode += `<td>\${result[i].month}월</td>`;
                         listCode += `<td><button class="getDetail btn-modal" data-name="salaryCard">급여명세서 보기</button></td>`;
-                        listCode += `<td><button class="download">다운로드</button></td>`;
                         listCode += "</tr>";
                     }
                     listCode += `</table>`;
@@ -300,7 +299,6 @@
                 }),
                 contentType: 'application/json',
                 success: function (result) {
-                    console.log(result);
                     if (result === "success") {
                         if (flag) {
                             alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");

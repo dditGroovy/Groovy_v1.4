@@ -154,7 +154,7 @@ public class SalaryController {
         if (result.equals("success")) {
             return "success";
         }
-        return result;
+        return "fail";
     }
 
     @PostMapping("/email")

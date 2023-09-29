@@ -265,7 +265,7 @@ public class SalaryService {
 
                 salaryMapper.inputSalaryDtsmtPdf(inputMap);
             }
-            return saveFile.getName() + " success";
+            return "success";
         } catch (Exception e) {
             e.printStackTrace();
             return "fail";
