@@ -45,8 +45,9 @@
         </div>
         <div>
             <form action="${pageContext.request.contextPath}/email/all" method="post" id="emailForm">
-                <input type="password" id="password" name="password" placeholder="PASSWORD" class="userPw btn-free-white input-l"/>
-                <button class="btn-free-blue checkBtn btn">확인</button>
+                <input type="password" id="password" name="password" placeholder="PASSWORD"
+                       class="userPw btn-free-white input-l"/>
+                <button type="button" class="btn-free-blue checkBtn btn">확인</button>
             </form>
         </div>
     </main>

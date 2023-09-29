@@ -205,7 +205,7 @@
                              </tr>`;
                     }
                 } else {
-                    tableStr += '<tr><td colspan="54>예약 내역이 없습니다.</td></tr>'
+                    tableStr += '<tr><td colspan="5">예약 내역이 없습니다.</td></tr>'
                 }
 
                     tableStr += '</tbody></table>'
