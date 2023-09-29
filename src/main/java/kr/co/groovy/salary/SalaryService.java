@@ -227,33 +227,16 @@ public class SalaryService {
         String datauri = map.get("datauri");
         String etprCode = map.get("etprCode");
 
-        try {
+//        try {
             String uploadPath = this.uploadPath + "/salary";
-            File directory = new File(this.uploadPath);
-            if (directory.exists() && directory.isDirectory()) {
-                File[] filesAndDirs = directory.listFiles();
-
-                if (filesAndDirs != null) {
-                    for (File fileOrDir : filesAndDirs) {
-                        if (fileOrDir.isFile()) {
-                            System.out.println("파일: " + fileOrDir.getName());
-                        } else if (fileOrDir.isDirectory()) {
-                            System.out.println("디렉토리: " + fileOrDir.getName());
-                        }
-                    }
+            File uploadDir = new File(uploadPath);
+            if (uploadDir.exists() == false) {
+                if (uploadDir.mkdirs()) {
+                    return "폴더 생성 성공";
                 } else {
-                    System.err.println("디렉토리 내용을 읽을 수 없습니다.");
+                    return "폴더 생성 실패";
                 }
-            } else {
-                System.err.println("지정된 경로는 디렉토리가 아니거나 존재하지 않습니다.");
             }
-//            if (uploadDir.exists() == false) {
-//                if (uploadDir.mkdirs()) {
-//                    log.info("폴더 생성 성공");
-//                } else {
-//                    log.info("폴더 생성 실패");
-//                }
-//            }
 
 //            URI uri = new URI(datauri);
 //            String path = null;
@@ -280,11 +263,12 @@ public class SalaryService {
 //
 //                salaryMapper.inputSalaryDtsmtPdf(inputMap);
 //            }
-            return "success";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "fail";
-        }
+//            return "success";
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "fail";
+//        }
+            return "";
     }
 
     public String sentEmails(Principal principal, String data, String date) throws IOException {
