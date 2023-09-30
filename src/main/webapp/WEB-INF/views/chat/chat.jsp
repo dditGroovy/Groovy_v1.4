@@ -7,49 +7,48 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <style>
-    .rooms {
-        cursor: pointer;
-    }
-
     .myroom {
         overflow-y: auto;
         height: 300px;
     }
 
-    #inviteBtn, #inviteEmplBtn {
+/*    #inviteBtn, #inviteEmplBtn {
         display: none;
-    }
+    }*/
 
 </style>
+<link href="/resources/css/chat/chat.css" rel="stylesheet"/>
 <div class="content-container">
-    <h1>채팅방 개설</h1>
-    <div>
-        <ul id="employeeList">
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/chat" class="on">채팅</a></h1>
+    </header>
+    <main>
+        <div class="main-inner">
+            <div class="card card-df chat-card">
+                <ul id="employeeList" style="display: none">
 
-        </ul>
-        <button type="button" id="createRoomBtn" style="background-color: lightsteelblue">채팅방 생성</button>
-        <button type="button" id="inviteEmplBtn" style="background-color: darkseagreen">채팅방 초대</button>
-        <button type="button" id="cancelBtn">취소</button>
+                </ul>
+                <section id="chat-list">
+                    <div class="content-header">
+                        <h2 class="main-title">채팅함</h2>
+                        <button type="button" id="createRoomBtn" class="btn create-chat invite-chat">채팅방 생성</button>
+                    </div>
+                    <div class="content-body">
+                        <div id="chatRoomList">
+
+                        </div>
+                    </div>
+                </section>
+                <section id="chat-detail">
+                    <div id="chatRoom">
+
+                    </div>
+                </section>
+                <%--<button type="button" id="cancelBtn">취소</button>--%>
+            </div>
+
     </div>
-
-    <hr>
-
-    <h1>채팅방 목록</h1>
-    <div id="chatRoomList">
-
-    </div>
-
-    <hr>
-
-    <h1>채팅창</h1>
-    <div id="chatRoom">
-        <button type="button" id="inviteBtn">초대</button>
-        <div id="msgArea">
-
-        </div>
-        <input type="text" id="msg">
-        <button type="button" id="sendBtn">전송</button>
-    </div>
+</main>
 </div>
 <script>
 
@@ -127,8 +126,14 @@
             $("#inviteEmplBtn").hide();
             $("#createRoomBtn").show();
 
-            $("#msgArea").html('');
-            $("#msgArea").append(`<div class="myroom" id="room\${currentRoomNo}" style="border: 2px solid green"></div>`)
+            $("#chatRoom").append(`
+                <div id="msgArea">
+                            <div class="content-header">
+                                <h3 class="chat-user-info"></h3>
+                                <button type="button" id="inviteEmplBtn" class="btn invite-chat">채팅방 초대</button>
+                            </div>
+                <div class="myroom" id="room\${currentRoomNo}" style="border: 2px solid green"></div>
+            `)
 
             $.ajax({
                 url: `/chat/loadRoomMessages/\${currentRoomNo}`,
@@ -137,10 +142,17 @@
                 success: function (messages) {
                     $.each(messages, function (idx, obj) {
                         if (obj.chttMbrEmplId == emplId) {
-                            let code = `<div style="border: 1px solid blue" id="\${obj.chttNo}">
+                            let code = `
+                                        <div class="content-body">
+                                        <div style="border: 1px solid blue" id="\${obj.chttNo}">
                                             <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="30px;" />
                                             <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
-                                        </div>`;
+                                        </div></div>`;
+                            code += `<div class="content-footer btn-free-white">
+                                <input type="text" id="msg">
+                                <button type="button" id="sendBtn" class="btn">전송</button>
+                            </div>
+                        </div>`
                             $(`#room\${currentRoomNo}`).append(code);
                         } else {
                             let code = `<div style='border: 1px solid red' id='\${obj.chttNo}'>
@@ -149,7 +161,7 @@
                                         </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
                         }
-                        scrollToBottom();
+                       /* scrollToBottom();*/
                     });
                 },
                 error: function (request, status, error) {
@@ -284,6 +296,8 @@
 
             currentRoomNo = chttRoomNo;
             currentRoomNm = chttRoomNm;
+
+            $(".chat-user-info").text(chttRoomNm);
 
             enterRoom(currentRoomNo, currentRoomNm);
 
@@ -503,10 +517,12 @@
 
             code = "";
             $.each(chatRoomList, function (idx, obj) {
-                code += `<button class="rooms" id="chatRoom\${obj.chttRoomNo}">
-            <img src="/uploads/profile/\${obj.chttRoomThumbnail}" alt="\${obj.chttRoomThumbnail}" width="30px;" />
-            <p id="chttRoomNm">\${obj.chttRoomNm}</p>
-            <p id="latestChttCn">\${obj.latestChttCn}</p>
+                code += `<button class="rooms btn" id="chatRoom\${obj.chttRoomNo}">
+            <img src="/uploads/profile/\${obj.chttRoomThumbnail}" alt="\${obj.chttRoomThumbnail}" class="thum" />
+            <div class="user-info">
+                <p class="chttRoomNm">\${obj.chttRoomNm}</p>
+                <p class="latestChttCn">\${obj.latestChttCn}</p>
+            </div>
             <input id="chttRoomNo" type="hidden" value="\${obj.chttRoomNo}">
             <input id="chttRoomTy" type="hidden" value="\${obj.chttRoomTy}">
             </button>`;
