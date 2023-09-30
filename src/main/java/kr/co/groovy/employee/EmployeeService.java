@@ -6,6 +6,7 @@ import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.vo.ConnectionLogVO;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
+import kr.co.groovy.vo.PageVO;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -99,13 +100,36 @@ public class EmployeeService {
         return list;
     }
 
-    public List<EmployeeVO> findEmp(String depCode, String emplNm, String sortBy) {
-        List<EmployeeVO> list = mapper.findEmp(depCode, emplNm, sortBy);
+    public List<EmployeeVO> pageEmpList(PageVO pageVO) {
+        long totalCount = mapper.countEmp();
+        pageVO.setRow();
+        pageVO.setNum(totalCount);
+        List<EmployeeVO> list = mapper.pageEmpList(pageVO);
         for (EmployeeVO vo : list) {
             vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());
             vo.setCommonCodeClsf(ClassOfPosition.valueOf(vo.getCommonCodeClsf()).label());
         }
         return list;
+    }
+
+    public Map<String, Object> findEmp(String depCode, String emplNm, String sortBy, long page) {
+        PageVO pageVO = new PageVO();
+        int totalCount = mapper.countFindEmp(depCode, emplNm);
+        pageVO.setPage(page);
+        pageVO.setRow();
+        pageVO.setNum((long) totalCount);
+        Long startRow = pageVO.getStartRow();
+        Long lastRow = pageVO.getLastRow();
+        List<EmployeeVO> list = mapper.findEmp(depCode, emplNm, sortBy, startRow, lastRow);
+        for (EmployeeVO vo : list) {
+            vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());
+            vo.setCommonCodeClsf(ClassOfPosition.valueOf(vo.getCommonCodeClsf()).label());
+        }
+        Map<String, Object> returnMap = new HashMap<>();
+        returnMap.put("empList", list);
+        returnMap.put("pager", pageVO);
+
+        return returnMap;
     }
 
     public List<EmployeeVO> loadBirthday() {

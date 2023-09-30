@@ -184,6 +184,35 @@
              UPLOAD_FILE U
         WHERE E.SIGN_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE
     </select>
+
+    <select id="pageEmpList" parameterType="kr.co.groovy.vo.PageVO" resultType="employeeVO">
+        SELECT A.EMPL_ID,
+               A.EMPL_NM,
+               A.EMPL_TELNO,
+               A.EMPL_ENCPN,
+               A.EMPL_BRTHDY,
+               A.COMMON_CODE_DEPT,
+               A.COMMON_CODE_CLSF,
+               A.COMMON_CODE_HFFC_STTUS,
+               A.COMMON_CODE_LAST_ACDMCR,
+               A.SIGN_PHOTO_FILE_STRE_NM
+        FROM (SELECT ROWNUM R, N.*
+              FROM (SELECT E.EMPL_ID,
+                           E.EMPL_NM,
+                           E.EMPL_TELNO,
+                           E.EMPL_ENCPN,
+                           E.EMPL_BRTHDY,
+                           E.COMMON_CODE_DEPT,
+                           E.COMMON_CODE_CLSF,
+                           E.COMMON_CODE_HFFC_STTUS,
+                           E.COMMON_CODE_LAST_ACDMCR,
+                           U.UPLOAD_FILE_STRE_NM AS SIGN_PHOTO_FILE_STRE_NM
+                    FROM EMPL E,
+                         UPLOAD_FILE U
+                    WHERE E.SIGN_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE) N) A
+        WHERE R BETWEEN #{startRow}+1 AND #{lastRow}
+    </select>
+
     <!--  관리자 사원 관리 - 사원(개인) 정보 불러오기  -->
     <select id="loadEmp" parameterType="String" resultType="employeeVO">
         SELECT EMPL_ID,
@@ -193,7 +222,6 @@
                EMPL_EMAIL,
                EMPL_ZIP,
                EMPL_ADRES,
-               EMPL_DETAIL_ADRES,
                EMPL_ENCPN,
                EMPL_BRTHDY,
                COMMON_CODE_DEPT,
@@ -213,27 +241,34 @@
         WHERE TO_CHAR(EMPL_BRTHDY, 'MM') = TO_CHAR(SYSDATE, 'MM')
           AND E.PROFL_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE
     </select>
+
+    <select id="countFindEmp" resultType="int" parameterType="String">
+        SELECT count(*)
+        FROM EMPL
+        WHERE COMMON_CODE_DEPT = #{depCode}
+          AND EMPL_NM LIKE '%' || #{emplNm} || '%'
+    </select>
+
     <!--  관리자 사원 관리 - 검색  -->
-    <select id="findEmp" resultType="employeeVO">
-        SELECT E.EMPL_ID,
-               E.EMPL_NM,
-               E.EMPL_TELNO,
-               E.EMPL_ENCPN,
-               E.EMPL_BRTHDY,
-               E.COMMON_CODE_DEPT,
-               E.COMMON_CODE_CLSF,
-               E.COMMON_CODE_HFFC_STTUS,
-               E.COMMON_CODE_LAST_ACDMCR,
-               U.UPLOAD_FILE_STRE_NM AS SIGN_PHOTO_FILE_STRE_NM
-        FROM EMPL E,
-             UPLOAD_FILE U
-        WHERE 1 = 1
-          AND (
-                    COMMON_CODE_DEPT = #{depCode} AND
-                    E.EMPL_NM LIKE '%' || #{emplNm} || '%'
-            )
-          AND E.SIGN_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE
-        ORDER BY ${sortBy} ASC
+    <select id="findEmp" resultType="employeeVO" parameterType="map">
+        SELECT *
+        FROM (SELECT E.EMPL_ID,
+                     E.EMPL_NM,
+                     E.EMPL_TELNO,
+                     E.EMPL_ENCPN,
+                     E.EMPL_BRTHDY,
+                     E.COMMON_CODE_DEPT,
+                     E.COMMON_CODE_CLSF,
+                     E.COMMON_CODE_HFFC_STTUS,
+                     E.COMMON_CODE_LAST_ACDMCR,
+                     U.UPLOAD_FILE_STRE_NM AS SIGN_PHOTO_FILE_STRE_NM,
+                     ROWNUM                AS rn
+              FROM EMPL E
+                       INNER JOIN UPLOAD_FILE U ON E.SIGN_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE
+              WHERE COMMON_CODE_DEPT = #{depCode}
+                AND E.EMPL_NM LIKE '%' || #{emplNm} || '%'
+              ORDER BY ${sortBy} ASC)
+        WHERE rn BETWEEN #{startRow}+1 AND #{lastRow}
     </select>
     <!--  사원 내 정보 관리 - 프로필 사진 변경  -->
     <update id="modifyProfile" parameterType="String">

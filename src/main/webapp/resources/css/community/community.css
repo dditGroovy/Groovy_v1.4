@@ -16,9 +16,6 @@
     gap: var(--vw-24);
     justify-content: flex-start;
 }
-.main-inner > section {
-    border: 1px solid red;
-}
 #post {
     width: calc((800/var(--vw))*100vw);
 }
@@ -69,6 +66,11 @@
     color: var(--color-main);
     gap: 4px;
     font-size: 14px;
+}
+#postFile{
+    position: absolute;
+    width: 0;
+    left: -99999px;
 }
 .i-file {
     filter : invert(54%) sepia(23%) saturate(2818%) hue-rotate(194deg) brightness(100%) contrast(91%);
@@ -153,4 +155,147 @@
 .loadAnswer {
     background: url("/resources/images/icon/comment.svg") 100% center / cover;
     filter : invert(48%) sepia(22%) saturate(277%) hue-rotate(174deg) brightness(90%) contrast(89%);
+}
+.post-list-wrap .post-card-footer {
+    flex-direction: column;
+    gap: var(--vh-64);
+}
+.answer-detail-wrap .my-answer{
+    display: flex;
+    align-items: center;
+}
+.answerCn {
+    flex: 1;
+    border: 1px solid transparent;
+    padding: var(--vh-12) var(--vw-24);
+    outline: none;
+    font-family: var(--font-reg);
+}
+.inputAnswer {
+    padding: var(--vh-12);
+    border-radius: 4px;
+}
+.answer-detail-wrap {
+    display: none;
+}
+.answer-list {
+    background: var(--color-bg-sky);
+    padding: var(--vh-24) var(--vw-12);
+}
+.post-card.on .answer-detail-wrap {
+    display: block;
+}
+.answer-thum {
+    width: var(--vw-48);
+    height: var(--vw-48);
+    border-radius: var(--size-50);
+    border: 1px solid var(--color-stroke);
+}
+.answer-list-item{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.answer-empl-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.info-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.answer-empl-name {
+    font-size: 14px;
+    font-family: var(--font-md);
+}
+.answer-date {
+    font-size: 11px;
+    color: var(--color-font-md);
+}
+.empl-answerCn {
+    font-size: 14px;
+}
+.answerBox {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+}
+.post-card .file-wrap {
+    padding: var(--vh-12);
+}
+.fileBox {
+    padding: var(--vh-12) var(--vw-24);
+    color: var(--color-main);
+    font-family: var(--font-sb);
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: var(--vw-24);
+}
+.file-size {
+    font-size: 11px;
+    color: var(--color-font-md);
+}
+
+/* 공지 및 투표  */
+#service {
+    display: flex;
+    flex : 1;
+}
+#service .service-wrap {
+    width: 100%;
+    display: block;
+}
+.service-btn {
+    width: calc((108/var(--vw))*100vw);
+    height: calc((40/var(--vh))*100vh);
+    font-size: 11px;
+    font-family: var(--font-md);
+}
+.service-btn.on {
+    background: var(--color-main);
+    box-shadow: var(--clay-btn);
+    color: white;
+}
+.team-enter {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid red;
+}
+#addVote {
+    align-self: flex-end;
+}
+.option-header {
+    display: flex;
+    justify-content: space-between;
+}
+.modal-title {
+    font-size: var(--font-size-18);
+    color: var(--color-font-md)
+}
+.option {
+    position: relative;
+}
+.option-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-12);
+}
+.optiondelete {
+    position: absolute;
+    right: var(--vw-12);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/*  아코디언    */
+input[id*="accordian"] {
+    display: none;
+}
+.card-header {
+    display: flex;
 }

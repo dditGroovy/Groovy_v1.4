@@ -23,9 +23,9 @@ public class EmailController {
     private final EmailService emailService;
     private final EmployeeService employeeService;
 
-    @GetMapping("/all")
-    public String getAllMails(Principal principal, EmailVO emailVO, Model model) throws Exception {
-        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO);
+    @PostMapping("/all")
+    public String getAllMailsGet(Principal principal, EmailVO emailVO, Model model, @RequestParam String password) throws Exception {
+        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, password);
         model.addAttribute("list", list);
         return "email/allList";
     }
@@ -95,7 +95,7 @@ public class EmailController {
 
     @PostMapping("/send")
     @ResponseBody
-    public String inputSentEmail(Principal principal, EmailVO emailVO, MultipartFile[] emailFiles) {
+    public String inputSentEmail(Principal principal, EmailVO emailVO, MultipartFile[] emailFiles, String password) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
         return emailService.sentMail(emailVO, emailFiles, employeeVO);
     }

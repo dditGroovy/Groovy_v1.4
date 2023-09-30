@@ -230,30 +230,30 @@ public class SalaryService {
         String etprCode = map.get("etprCode");
 
         try {
-            String uploadPath = this.uploadPath + "/salary";
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                if (uploadDir.mkdirs()) {
-                    log.info("폴더 생성 성공");
-                } else {
-                    log.info("폴더 생성 실패");
-                }
+        String uploadPath = this.uploadPath + "/salary";
+        File uploadDir = new File(uploadPath);
+        if (uploadDir.exists() == false) {
+            if (uploadDir.mkdirs()) {
+                log.info("폴더 생성 성공");
+            } else {
+                log.info("폴더 생성 실패");
             }
-
+        }
             URI uri = new URI(datauri);
             String path = null;
+            File saveFile = null;
             if ("data".equals(uri.getScheme())) {
                 String dataPart = uri.getRawSchemeSpecificPart();
                 String base64Data = dataPart.substring(dataPart.indexOf(',') + 1);
                 byte[] decodedData = Base64.getDecoder().decode(base64Data);
 
                 String fileName = etprCode + ".pdf";
-                File saveFile = new File(uploadPath, fileName);
+                saveFile = new File(uploadPath, fileName);
                 FileOutputStream fos = new FileOutputStream(saveFile);
                 fos.write(decodedData);
             } else {
                 path = uri.getPath();
-                File saveFile = new File(uploadPath, path);
+                saveFile = new File(uploadPath, path);
             }
 
             if (salaryMapper.existsUploadedFile(etprCode) == 0) {

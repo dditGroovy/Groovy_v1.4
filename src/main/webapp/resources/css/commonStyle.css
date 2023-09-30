@@ -268,12 +268,13 @@
 .i-down {content:url("/resources/images/icon/down-arrow-blue.svg");}
 .i-send-blue {content:url("/resources/images/icon/send-blue.svg");}
 .i-idea {content:url("/resources/images/Icon3d/Light.png");}
+.i-boxAdd {content:url("/resources/images/Icon3d/boxAdd.png");}
 .i-save {content:url("/resources/images/icon/save-blue.svg");}
 .i-bookmark {content:url("/resources/images/icon/bookmark-blue.svg");}
 .i-more {content:url("/resources/images/icon/more.svg");}
 .i-file {content:url("/resources/images/icon/link.svg");}
 .i-trash {content:url("/resources/images/icon/trash-gray.svg");}
-
+.i-close {content:url("/resources/images/icon/close.svg");}
 .i-3d.icon {
     width: var(--vw-32);
     height: var(--vw-32);

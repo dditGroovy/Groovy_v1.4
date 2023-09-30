@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/salary/mySalary.css">
 <sec:authentication property="principal" var="CustomUser"/>
 <fmt:formatDate value="${paystub.salaryDtsmtIssuDate}" var="month" pattern="M"/>
+<fmt:formatDate value="${paystub.salaryDtsmtIssuDate}" var="year" pattern="Y"/>
 <fmt:formatNumber var="salaryDtsmtDdcTotamt" value="${paystub.salaryDtsmtDdcTotamt}" type="number"
                   maxFractionDigits="3"/>
 <fmt:formatNumber var="salaryDtsmtPymntTotamt" value="${paystub.salaryDtsmtPymntTotamt}" type="number"
@@ -25,7 +26,7 @@
 <div class="content-container">
     <header id="tab-header">
         <h1><a href="${pageContext.request.contextPath}/vacation">내 휴가</a></h1>
-        <h1><a href="${pageContext.request.contextPath}/salary/paystub/checkPassword" class="on">내 급여</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/employee/confirm/salary" class="on">내 급여</a></h1>
         <h1><a href="${pageContext.request.contextPath}/vacation/record">휴가 기록</a></h1>
     </header>
 
@@ -35,7 +36,7 @@
                 <div class="salary-wrap card card-df" id="paystub">
                     <div class="content-title-wrap">
                         <i class="icon i-budget"></i>
-                        <h2 class="content-title">${month}월 급여명세서</h2>
+                        <h2 class="content-title">${year}년 ${month}월 급여명세서</h2>
                     </div>
                     <div class="total-salary-wrap">
                         <h3>실 수령액</h3>
@@ -208,7 +209,7 @@
         $.ajax({
             url: "/salary/paystub/saveCheckboxState",
             type: "post",
-            data: { "isChecked" : isChecked },
+            data: {"isChecked": isChecked},
             success: function (result) {
             },
             error: function (xhr) {
@@ -217,32 +218,14 @@
         });
     });
 
-    let jsPDF = jspdf.jsPDF;
+    $("#downloadBtn").on("click", function () {
+        let data = ${CustomUser.employeeVO.emplId};
 
-    $("#downloadBtn").on("click", function() {
-        html2canvas($('#paystub')[0]).then(function(canvas) {
-            let imgData = canvas.toDataURL('image/png');
-            let imgWidth = 150;
-            let pageHeight = 300;
-            let imgHeight = parseInt(canvas.height * imgWidth / canvas.width);
-            let heightLeft = imgHeight;
-            let margin = 10;
-
-            let doc = new jsPDF('p', 'mm','a4');
-            let position = 30;
-
-            doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-
-            while (heightLeft >= 0) {
-                position = heightLeft - imgHeight;
-                doc.addPage();
-                doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-            }
-
-            let fileName = "${CustomUser.employeeVO.emplId}_${CustomUser.employeeVO.emplNm}_${month}월_급여명세서.pdf";
-            doc.save(fileName);
-        });
+        let contentTitle = document.querySelector(".content-title").textContent;
+        let year = contentTitle.substring(contentTitle.indexOf("년") - 2, contentTitle.indexOf("년"));
+        let month = contentTitle.substring(contentTitle.indexOf("월") - 1, contentTitle.indexOf("월"));
+        month = month < 10 ? "0" + month : month;
+        let date = year + month;
+        location.href = `/file/download/salary?date=\${date}&data=\${data}`;
     });
 </script>

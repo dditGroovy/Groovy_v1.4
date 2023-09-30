@@ -160,23 +160,6 @@ section .content-wrap {
 
 
 /*  모달  */
-.form-data-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    justify-content: center;
-}
-.input-date {
-    display: flex;
-    align-items: center;
-}
-.input-date > input {
-    flex: 1;
-}
-.input-date, .date {
-    display: flex;
-    gap: 12px;
-}
 
 .date > div {
     flex: 1;

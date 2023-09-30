@@ -66,14 +66,13 @@ public class FileController {
     }
 
     @GetMapping("/download/salary")
-    public void fileDownloadByDate(@RequestParam String date, @RequestParam String emplId,
+    public void fileDownloadByDate(@RequestParam String date, @RequestParam String data,
                                    HttpServletResponse resp) throws Exception {
         Map<String, String> map = new HashMap<>();
         map.put("date", date);
-        map.put("emplId", emplId);
+        map.put("emplId", data);
         try {
             UploadFileVO vo = service.downloadFileByDate(map);
-            log.info(String.valueOf(vo));
             String originalName = new String(vo.getUploadFileStreNm().getBytes("utf-8"), "iso-8859-1");
             String filePath = uploadPath + "/salary";
             String fileName = vo.getUploadFileStreNm();
@@ -120,7 +119,7 @@ public class FileController {
             if (vo != null) {
                 String originalName = new String(vo.getUploadFileOrginlNm().getBytes("utf-8"), "iso-8859-1");
                 String fileName = vo.getUploadFileStreNm();
-                filePath = uploadPath + "/salary";
+                filePath = this.uploadPath + "/salary";
 
                 File file = new File(filePath, fileName);
                 if (!file.isFile()) {

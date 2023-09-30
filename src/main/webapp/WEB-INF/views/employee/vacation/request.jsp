@@ -2,14 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<link rel="stylesheet" href="/resources/css/sanction/request.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sanction/request.css">
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
         <header id="tab-header">
             <h1><a href="${pageContext.request.contextPath}/vacation">내 휴가</a></h1>
-            <h1><a href="${pageContext.request.contextPath}/salary/paystub/checkPassword">내 급여</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/employee/confirm/salary">내 급여</a></h1>
             <h1><a href="${pageContext.request.contextPath}/vacation/request" class="on">휴가 기록</a></h1>
         </header>
         <div class="request-btn">

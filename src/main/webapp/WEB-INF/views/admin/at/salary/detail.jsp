@@ -22,9 +22,7 @@
 <div class="content-container">
     <div class="wrap">
     </div>
-    <br/>
-
-    <br/><br/>
+    <br/><br/><br/>
     <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
     <button id="makePdfDtsmt" title="올해 이번달의 명세서를 생성할 수 있습니다.">급여명세서 일괄생성</button>
     <button id="downloadDtsmt" title="올해 이번달의 명세서를 다운로드할 수 있습니다.">급여명세서 일괄저장</button>
@@ -54,7 +52,8 @@
             </div>
         </div>
     </div>
-    <div id="downloadDiv" style="position: absolute; top: -9999px; left: -9999px;"></div>
+    <div id="downloadDiv"
+         style="position: absolute; top: -9999px; left: -9999px; width: 210mm; height: 297mm; padding: 10mm;"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -153,7 +152,6 @@
                         listCode += "<tr>";
                         listCode += `<td>\${result[i].month}월</td>`;
                         listCode += `<td><button class="getDetail btn-modal" data-name="salaryCard">급여명세서 보기</button></td>`;
-                        listCode += `<td><button class="download">다운로드</button></td>`;
                         listCode += "</tr>";
                     }
                     listCode += `</table>`;
@@ -266,68 +264,55 @@
         document.querySelector("#paymentDetail").innerHTML = content;
     }
 
-    function downloadButtonClickHandler(result) {
-        const formattedNetPay = formatNumber(result.salaryDtsmtNetPay);
-        const formattedPymntTotamt = formatNumber(result.salaryDtsmtPymntTotamt);
-        const formattedBslry = formatNumber(result.salaryBslry);
-        const formattedOvtimeAllwnc = formatNumber(result.salaryOvtimeAllwnc);
-        const formattedDdcTotamt = formatNumber(result.salaryDtsmtDdcTotamt);
-        const formattedSisNp = formatNumber(result.salaryDtsmtSisNp);
-        const formattedSisHi = formatNumber(result.salaryDtsmtSisHi);
-        const formattedSisEi = formatNumber(result.salaryDtsmtSisEi);
-        const formattedSisWci = formatNumber(result.salaryDtsmtSisWci);
-        const formattedIncmtax = formatNumber(result.salaryDtsmtIncmtax);
-        const formattedLocalityIncmtax = formatNumber(result.salaryDtsmtLocalityIncmtax);
-        const formattedDate = formatDate(result.salaryDtsmtIssuDate);
+    function downloadButtonClickHandler(r) {
+        const fNetPay = formatNumber(r.salaryDtsmtNetPay);
+        const fPymntTotamt = formatNumber(r.salaryDtsmtPymntTotamt);
+        const fBslry = formatNumber(r.salaryBslry);
+        const fOvtimeAllwnc = formatNumber(r.salaryOvtimeAllwnc);
+        const fDdcTotamt = formatNumber(r.salaryDtsmtDdcTotamt);
+        const fSisNp = formatNumber(r.salaryDtsmtSisNp);
+        const fSisHi = formatNumber(r.salaryDtsmtSisHi);
+        const fSisEi = formatNumber(r.salaryDtsmtSisEi);
+        const fSisWci = formatNumber(r.salaryDtsmtSisWci);
+        const fIncmtax = formatNumber(r.salaryDtsmtIncmtax);
+        const fLocalityIncmtax = formatNumber(r.salaryDtsmtLocalityIncmtax);
+        const fDate = formatDate(r.salaryDtsmtIssuDate);
 
         let format = `<jsp:include page="specification.jsp"/>`
         let downloadDiv = document.querySelector("#downloadDiv");
         downloadDiv.innerHTML = format;
+        html2canvas(downloadDiv, {scale: 2}).then((canvas) => {
+            const doc = new jsPDF('p', 'mm', 'a4');
+            let imgData = canvas.toDataURL("image/png");
+            let imgWidth = 210;
+            let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        html2canvas(downloadDiv).then((canvas) => {
-            let imgData = canvas.toDataURL('image/png');
-            let imgWidth = 150;
-            let pageHeight = 300;
-            let imgHeight = parseInt(canvas.height * imgWidth / canvas.width)
-            let heightLeft = imgHeight;
-            let margin = 10;
+            doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
 
-            let doc = new jsPDF('p', 'mm', 'a4');
-
-            let position = 30;
-
-            doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-            while (heightLeft >= 0) {
-                position = heightLeft - imgHeight;
-                doc.addPage();
-                doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-            }
-
-            let fileName = `\${result.salaryDtsmtEtprCode}.pdf`;
-            $.ajax({
-                url: "/salary/uploadFile",
-                type: 'post',
-                data: JSON.stringify({
-                    etprCode: `\${result.salaryDtsmtEtprCode}`,
-                    datauri: doc.output('datauristring')
-                }),
-                contentType: 'application/json',
-                success: function (result) {
-                    if (result === "success") {
-                        if (flag) {
-                            alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
-                            flag = false;
-                        }
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("code: " + xhr.status);
-                    console.log("message: " + xhr.responseText);
-                    console.log("error: " + xhr.error);
-                }
-            });
+            let fileName = `\${r.salaryDtsmtEtprCode}.pdf`;
+            doc.save(fileName);
+            // $.ajax({
+            //     url: "/salary/uploadFile",
+            //     type: 'post',
+            //     data: JSON.stringify({
+            //         etprCode: `\${r.salaryDtsmtEtprCode}`,
+            //         datauri: doc.output('datauristring')
+            //     }),
+            //     contentType: 'application/json',
+            //     success: function (result) {
+            //         if (result === "success") {
+            //             if (flag) {
+            //                 alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
+            //                 flag = false;
+            //             }
+            //         }
+            //     },
+            //     error: function (xhr, status, error) {
+            //         console.log("code: " + xhr.status);
+            //         console.log("message: " + xhr.responseText);
+            //         console.log("error: " + xhr.error);
+            //     }
+            // });
         });
     }
 
@@ -349,8 +334,10 @@
                         let searchDate = new Date(item.salaryDtsmtIssuDate);
                         return searchDate.getFullYear() == nowYear && (searchDate.getMonth() + 1) == nowMonth;
                     });
+
                     for (let i = 0; i < monthlyData.length; i++) {
                         const selectedResult = monthlyData[i];
+                        console.log(selectedResult);
                         downloadButtonClickHandler(selectedResult);
                     }
                 },
