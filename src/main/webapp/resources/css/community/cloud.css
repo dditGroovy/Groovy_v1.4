@@ -1,3 +1,44 @@
+.cloud-wrapper {
+    display: flex;
+    gap: var(--vw-24);
+}
+
+.nav-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.path-nav {
+    display: flex;
+}
+
+.path-nav li:last-child a {
+    color: var(--color-font-high);
+
+}
+
+.path-icon {
+    width: var(--vw-24) !important;
+    height: var(--vw-24) !important;
+}
+
+.path-li-a {
+    display: flex;
+    align-items: center;
+}
+.header h1 {
+    margin-bottom: var(--vh-12);
+}
+
+.span-text {
+    color: var(--color-main);
+}
+
+.path-li {
+    display: flex;
+    align-items: center;
+}
+
 .button-wrapper {
     display: flex;
     justify-content: right;
@@ -5,9 +46,35 @@
     margin-bottom: var(--vh-32);
 }
 
+.file-wrapper, .cloud-preview {
+    /*border: 1px solid #333;*/
+}
+
 .file-wrapper {
     display: flex;
-    gap: var(--vw-32);
+    flex-wrap: wrap;
+    flex: 8;
+    gap: var(--vw-24);
+}
+
+.cloud-preview {
+    /*display: none;*/
+    flex: 2;
+    padding: var(--vw-40);
+    background: var(--color-white);
+    border-radius: var(--vw-24);
+}
+
+.content-preview {
+    width: 100%;
+    height: calc((230/1080) * 100vh);
+    overflow: hidden;
+    text-align: center;
+    line-height: calc((230/1080) * 100vh);
+}
+
+.content-preview img {
+    width: 100%;
 }
 
 .folder-box, .file-box {
@@ -17,13 +84,33 @@
     gap: 8px;
 }
 
+.folder-click {
+    position: relative;
+}
+
+.folder-delete-box {
+    position: absolute;
+    width: calc((80 / 1920) * 100vw);
+    height: var(--vh-40);
+    opacity: .8;
+    border-radius: 8px !important;
+    right: calc(((20 / 1080) * 100vh) * -1);
+    top: var(--vh-40);
+    transform: scale(0);
+    transition: all ease .3s;
+}
+
+.on {
+    transform: scale(100%);
+}
+
 .folder-img {
     background: url("/resources/images/cloud/folder.png") no-repeat;
 }
 
 .icon-img {
-    width: calc((100 / 1920) * 100vw);
-    height: calc((100 / 1920) * 100vw);
+    width: calc((80 / 1920) * 100vw);
+    height: calc((80 / 1920) * 100vw);
     display: block;
     background-size: contain !important;
     background-position: center !important;
@@ -49,3 +136,42 @@
 .cursor-box {
     cursor: pointer;
 }
+
+.title-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.close {
+    border: none;
+    background: none;
+}
+
+.content-preview {
+    margin: var(--vh-32) 0 var(--vw-24) 0;
+}
+
+.preview-title {
+    margin-bottom: var(--vw-12);
+}
+
+.info-box {
+    padding: var(--vh-16) 0;
+    border-bottom: 1px solid var(--color-stroke);
+}
+
+.border-none {
+    border: none;
+}
+.button-box {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-download, .btn-delete {
+    border: 1px solid var(--color-font-row);
+    border-radius: 50px;
+    width: 50%;
+    height: var(--vh-48);
+}
+

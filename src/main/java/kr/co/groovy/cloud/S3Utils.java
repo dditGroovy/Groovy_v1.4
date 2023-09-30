@@ -1,18 +1,28 @@
 package kr.co.groovy.cloud;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
+import kr.co.groovy.vo.CloudVO;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component
 public class S3Utils {
+    final CloudMapper mapper;
+
+    public S3Utils(CloudMapper mapper) {
+        this.mapper = mapper;
+    }
+
     public Map<String, Object> getS3Info() {
         DefaultAWSCredentialsProviderChain credentialsProvider = DefaultAWSCredentialsProviderChain.getInstance();
 
@@ -38,11 +48,11 @@ public class S3Utils {
     public Map<String, Object> getAllInfos(String folderName) {
         Map<String, Object> s3Info = getS3Info();
         Map<String, Object> objectMap = new HashMap<>();
+
         String bucketName = (String) s3Info.get("bucketName");
         AmazonS3 s3Client = (AmazonS3) s3Info.get("s3Client");
         List<S3ObjectSummary> fileList = new ArrayList<>();
-        List<String> folderList = new ArrayList<>();
-
+        List<Map<String, Object>> folderList = new ArrayList<>();
         try {
             ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
                     .withBucketName(bucketName)
@@ -53,20 +63,22 @@ public class S3Utils {
             ObjectListing objectListing = s3Client.listObjects(listObjectsRequest);
 
             for (String commonPrefixes : objectListing.getCommonPrefixes()) {
+                Map<String, Object> folderInfoMap = new HashMap<>();
+                folderInfoMap.put("path", commonPrefixes);
                 String[] folderParts = commonPrefixes.split("/");
                 if (folderParts.length >= 2) {
-                    String subfolderName = folderParts[1];
-                    folderList.add(subfolderName);
+                    String subfolderName = folderParts[folderParts.length - 1];
+                    folderInfoMap.put("subfolderName", subfolderName);
                 }
+                folderList.add(folderInfoMap);
             }
-
             objectMap.put("folderList", folderList);
 
             for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
                 if (!objectSummary.getKey().endsWith("/")) {
                     String[] fileParts = objectSummary.getKey().split("/");
                     objectSummary.setStorageClass(objectSummary.getKey());
-                    objectSummary.setKey(fileParts[1]);
+                    objectSummary.setKey(fileParts[fileParts.length-1]);
                     fileList.add(objectSummary);
                 }
             }
@@ -80,6 +92,64 @@ public class S3Utils {
         return objectMap;
     }
 
+    //폴더 삭제
+    public void deleteFolder(String path) {
+        Map<String, Object> s3Info = getS3Info();
+        String bucketName = (String) s3Info.get("bucketName");
+        AmazonS3 s3Client = (AmazonS3) s3Info.get("s3Client");
+
+        //내부 파일 삭제
+        try {
+            ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
+                    .withBucketName(bucketName)
+                    .withPrefix(path)
+                    .withDelimiter("/");
+
+            ObjectListing objectListing = s3Client.listObjects(listObjectsRequest);
+
+            System.out.println("Object List:");
+            for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
+                s3Client.deleteObject(bucketName, objectSummary.getKey());
+            }
+        } catch (AmazonS3Exception e) {
+            System.err.println(e.getErrorMessage());
+            System.exit(1);
+        }
+
+        s3Client.deleteObject(bucketName, path);
+    }
+
+    //파일 업로드
+    public void uploadFile(MultipartFile file, String path, String emplId) throws IOException {
+        Map<String, Object> s3Info = getS3Info();
+        String bucketName = (String) s3Info.get("bucketName");
+        AmazonS3 s3Client = (AmazonS3) s3Info.get("s3Client");
+        String fileName = file.getOriginalFilename();
+        CloudVO cloudVO = new CloudVO();
+        fileName = path + "/" + fileName;
+        cloudVO.setCloudObjectKey(fileName);
+        cloudVO.setCloudShareEmplId(emplId);
+        mapper.insertCloud(cloudVO);
+
+        System.out.println("fileName = " + fileName);
+
+        try {
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(file.getContentType());
+            System.out.println("file.getContentType() = " + file.getContentType());
+            PutObjectRequest request = new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata);
+            request.withCannedAcl(CannedAccessControlList.AuthenticatedRead); // 접근권한 체크
+            PutObjectResult result = s3Client.putObject(request);
+            System.out.println("result = " + result);
+        } catch (AmazonServiceException e) {
+            e.printStackTrace();
+        } catch (SdkClientException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //파일 정보
     public Map<String, Object> getFileInfo(String key) {
         Map<String, Object> s3Info = getS3Info();
@@ -90,12 +160,14 @@ public class S3Utils {
         ObjectMetadata metadata = s3Object.getObjectMetadata();
         Date lastModified = metadata.getLastModified();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         String lastDate = dateFormat.format(lastModified);
-
+        String emplNm = mapper.getEmplNm(key);
+        String[] parts = key.split("\\.");
+        String fileExtension = parts.length > 1 ? parts[parts.length - 1] : "";
         Map<String, Object> fileInfoMap = new HashMap<>();
-        fileInfoMap.put("type", metadata.getContentType());
+        fileInfoMap.put("type", getContentType(fileExtension));
         fileInfoMap.put("lastDate", lastDate);
+        fileInfoMap.put("emplNm", emplNm);
         fileInfoMap.put("size", metadata.getContentLength());
         return fileInfoMap;
     }
@@ -121,4 +193,27 @@ public class S3Utils {
 
         return extensionMap;
     }
+
+    //파일 유형
+    public String getContentType(String extension) {
+        Map<String, String> contentTypeMap = new HashMap<>();
+        contentTypeMap.put("jpeg", "image/jpeg");
+        contentTypeMap.put("jpg", "image/jpeg");
+        contentTypeMap.put("png", "image/png");
+        contentTypeMap.put("gif", "image/gif");
+        contentTypeMap.put("zip", "application/zip");
+        contentTypeMap.put("pptx", "application/pptx");
+        contentTypeMap.put("ppt", "application/pptx");
+        contentTypeMap.put("xls", "application/excel");
+        contentTypeMap.put("xlsx", "application/excel");
+        contentTypeMap.put("mp3", "audio/mpeg");
+        contentTypeMap.put("mp4", "video/mp4");
+        contentTypeMap.put("pdf", "application/pdf");
+        contentTypeMap.put("txt", "text/plain");
+        contentTypeMap.put("doc", "application/msword");
+        contentTypeMap.put("docx", "application/word");
+
+        return contentTypeMap.get(extension);
+    }
+
 }

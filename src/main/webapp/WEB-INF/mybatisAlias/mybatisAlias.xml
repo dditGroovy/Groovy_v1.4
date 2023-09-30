@@ -48,5 +48,6 @@
         <typeAlias type="kr.co.groovy.vo.VoteRegisterVO" alias="voteRegisterVO"/>
         <typeAlias type="kr.co.groovy.vo.SalaryVO" alias="salaryVO"/>
         <typeAlias type="kr.co.groovy.vo.PaystubVO" alias="paystubVO"/>
+        <typeAlias type="kr.co.groovy.vo.CloudVO" alias="cloudVO"/>
     </typeAliases>
 </configuration>
