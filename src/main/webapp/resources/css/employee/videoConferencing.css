@@ -1,9 +1,8 @@
-#cameraBtn, #micBtn, #leaveBtn {
-    display: none;
-}
-
 .btn-control {
-    display: flex;
+    display: none;
+    justify-content: center;
+    gap: var(--vw-24);
+    margin: var(--vh-48);
 }
 
 body {
@@ -16,7 +15,7 @@ img {
 
 .btn-join {
     text-align: center;
-    margin: calc((320/var(--vh))*100vh)
+    padding: calc((320/var(--vh))*100vh)
 }
 
 #joinBtn {
@@ -26,7 +25,45 @@ img {
 }
 
 #joinBtn:hover {
-    background-color: white;
+    background-color: var(--color-white);
     box-shadow: var(--clay-card);
     color: var(--color-main);
+}
+
+.video-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--vw-32);
+    margin: 0 var(--vw-40);
+}
+
+.video-container {
+    width: calc((500/1920)*100vw);
+    height: calc((350/1080)*100vh);
+    box-sizing: border-box;
+    background-color: #282828;
+}
+
+#cameraBtn {
+    background-image: url("/resources/images/icon/video.svg");
+}
+
+#micBtn {
+    background-image: url("/resources/images/icon/mic.svg");
+}
+
+#leaveBtn {
+    background-image: url("/resources/images/icon/leave.svg");
+}
+
+.btn-icon {
+    width: var(--vw-64);
+    height: var(--vh-64);
+    background-color: white;
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--vh-8);
+    background-repeat: no-repeat;
+    background-position: center;
 }
