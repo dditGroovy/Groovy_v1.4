@@ -247,7 +247,11 @@
 }
 #service .service-wrap {
     width: 100%;
-    display: block;
+    flex-direction: column;
+    margin: 0;
+    height: auto;
+    justify-content: unset;
+    align-items: unset;
 }
 .service-btn {
     width: calc((108/var(--vw))*100vw);
@@ -264,10 +268,10 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    border: 1px solid red;
 }
-#addVote {
+.addBtn {
     align-self: flex-end;
+    margin-bottom: 12px;
 }
 .option-header {
     display: flex;
@@ -293,9 +297,189 @@
 }
 
 /*  아코디언    */
-input[id*="accordian"] {
+input[id*="accordion"] {
     display: none;
+}
+input[id*="accordion"]:checked + label .btn-wrap i.i-arr-bt {
+    transform: rotate(180deg);
+}
+input[id*="accordion"]:checked ~ .accordion-body {
+    height: calc((240/var(--vh))*100vh);
+    overflow-y: auto;
+}
+input[id*="accordion"] + label .btn-wrap i.i-arr-bt {
+    transform: rotate(0deg);
+}
+.vote-list-wrap .card {
+    padding: var(--vw-32);
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-32);
 }
 .card-header {
     display: flex;
+    width: 100%;
+}
+.vote-list-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--color-font-row);
+    width: calc((88/var(--vw))*100vw);
+    height: var(--vh-40);
+    border-radius: var(--size-32);
+    font-size: 14px;
+}
+.ongoing {
+    border-color: var(--color-main);
+    color: var(--color-main);
+}
+.completed {
+    border-color: var(--color-font-row);
+    color: var(--color-font-row);
+}
+.vote-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+.vote-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.vote-info > div {
+    display: flex;
+    align-items: center;
+    gap: var(--vw-24);
+}
+.voteTitle {
+    font-size: 14px;
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+}
+.endBtn {
+    width: calc((88/var(--vw))*100vw);
+    height: var(--vh-40);
+    border-radius: var(--size-32);
+    font-size: 11px;
+    font-family: var(--font-reg);
+}
+.voteDate {
+    font-size: 11px;
+    color: var(--color-font-md);
+}
+.options {
+    width: calc((520/var(--vw))*100vw);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.option-btn  {
+    min-width: calc((80/var(--vw))*100vw);
+    padding: var(--vh-12) var(--vw-24);
+    font-family: var(--font-md);
+    font-size: 11px;
+}
+.option-btn.on {
+    background-color: var(--color-main);
+    color: white;
+    box-shadow: var(--clay-btn);
+    font-family: var(--font-sb);
+}
+.vote-result {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--vw-24);
+}
+.vote-option{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--vh-64);
+    padding: 0 var(--vw-24);
+    background: var(--color-bg-sky);
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--size-24);
+    font-size: 14px;
+    color: var(--color-font-md);
+    font-family: var(--font-md);
+}
+.option-total {
+    position: relative;
+    display: block;
+    font-size: 11px;
+}
+.option-total::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    width: 12px;
+    height: 12px;
+    background: url("/resources/images/icon/profile-2user.svg") 100% center / cover;
+}
+.vote-list-wrap .card.completed .vote-option {
+    background: var(--color-bg-grey);
+}
+#notisntncCn {
+    padding: var(--vh-12) var(--vw-24);
+    height: calc((160/var(--vh))*100vh);
+}
+
+/*아코디언창*/
+.accordion-header {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    padding: var(--vh-24) 0;
+}
+.notice-title-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.noti-title {
+    display: block;
+    font-size: 14px;
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+}
+.noti-date {
+    font-size: 11px;
+    color: var(--color-font-md);
+}
+.editBtn {
+    padding: var(--vh-12) var(--vw-12);
+    border-radius: 8px;
+    font-size: 11px;
+}
+i.accordion-arrow.icon {
+    width: 24px;
+    height: 24px;
+}
+.notice-list-wrap .btn-wrap {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+.notice-list-wrap .input-l {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.noti-content {
+    font-size: 14px;
+    color: var(--color-font-md);
+}
+.accordion-body {
+    height: 0;
+    overflow: hidden;
 }

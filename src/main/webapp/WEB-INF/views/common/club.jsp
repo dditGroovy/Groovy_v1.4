@@ -15,7 +15,7 @@
         <div class="card-wrap">
             <c:forEach var="clubVO" items="${clubList}" varStatus="status">
                 <div class="card card-df">
-                    <a href="#" class="card-link" data-target="${clubVO.clbEtprCode}">
+                    <a href="#" class="card-link btn-modal" data-target="${clubVO.clbEtprCode}" data-name="detailClub">
                         <div class="card-header">
                             <div class="card-thum"><img src="/resources/images/club/club-coffee.png"></div>
                         </div>
@@ -32,36 +32,8 @@
         </div>
     </main>
 </div>
-<div id="modal">
-    <div class="modal-container">
-        <%--            <div id="modal-proposal"></div>--%>
-        <div id="modal-clubDetail" class="modal-common on">
-            <div class="modal-header">
-                <h4 class="modal-title"></h4>
-                <button class="close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-thum">
 
-                </div>
-                <div class="modal-content">
-                    <span class="badge club-cate"></span>
-                    <h2 class="club-name"></h2>
-                    <p class="club-dc"></p>
-                    <p class="club-charId"></p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="chat">문의하기</button>
-                <button id="join">가입하기</button>
-                <button id="leave">탈퇴하기</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="modal-ㄷㅂ" class="modal-dim">
+<div id="modal" class="modal-dim">
     <div class="dim-bg"></div>
     <div class="modal-layer card-df sm requestClub">
         <div class="modal-top">
@@ -107,6 +79,30 @@
         <div class="modal-footer btn-wrapper">
             <button type="button" class="btn btn-fill-wh-sm close">취소</button>
             <button id="proposalBtn" class="btn btn-fill-bl-sm">제안하기</button>
+        </div>
+    </div>
+    <div class="modal-layer card-df sm detailClub">
+        <div class="modal-top">
+            <h3 class="modal-title">동호회 상세보기</h3>
+            <button type="button" class="modal-close btn js-modal-close">
+                <i class="icon i-close close">X</i>
+            </button>
+        </div>
+        <div class="modal-container">
+            <div class="modal-thum">
+
+            </div>
+            <div class="modal-content">
+                <span class="badge club-cate"></span>
+                <h2 class="club-name"></h2>
+                <p class="club-dc"></p>
+                <p class="club-charId"></p>
+            </div>
+        </div>
+        <div class="modal-footer btn-wrapper">
+            <button id="chat">문의하기</button>
+            <button id="join">가입하기</button>
+            <button id="leave">탈퇴하기</button>
         </div>
     </div>
 </div>
@@ -184,8 +180,6 @@
                     clubTitle.innerText = data[0].clbNm;
                     clubName.innerText = data[0].clbNm;
                     clubDc.innerText = data[0].clbDc;
-                    document.querySelector("#modal").style.display = "flex";
-                    document.querySelector("#modal-clubDetail").classList.add("on");
                     if (data[0].joinChk == 1) {
                         chatBtn.style.display = "none";
                         joinBtn.style.display = "none";

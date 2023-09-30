@@ -23,15 +23,7 @@
         display: flex;
     }
 
-    .option-btn.on {
-        background-color: var(--color-main);
-        color: white;
-    }
 
-    .option-body {
-        display: flex;
-        flex-direction: column;
-    }
 
     .endBtn {
         display: none;
@@ -153,7 +145,7 @@
                                             </c:forEach>
                                             <c:forEach var="recommendCnt" items="${recommendPostCnt}">
                                                 <c:if test="${recommendCnt.key == sntncVO.sntncEtprCode}">
-                                                    <span class="recommendCnt enter-text">${recommendCnt.value}                                                                                                                                                                                                                 </span>
+                                                    <span class="recommendCnt enter-text">${recommendCnt.value} Likes                                                                                                                                                                                                              </span>
                                                 </c:if>
                                             </c:forEach>
                                         </div>
@@ -189,19 +181,18 @@
                     <div class="service-wrap">
                        <div class="content-header">
                            <div class="btn-wrap">
-                               <button type="button" id="teamVote" class="on btn btn-free-white service-btn">진행중인 투표</button>
+                               <button type="button" id="teamVote" class="on btn btn-free-white service-btn">등록된 투표</button>
                                <button type="button" id="teamNotice" class="btn btn-free-white service-btn">팀 공지 보기</button>
                            </div>
-                           <div class="content-body">
-                               <div class="team-enter">
-                               </div>
+                       </div>
+                       <div class="content-body">
+                           <div class="team-enter">
                            </div>
                        </div>
                     </div>
                 </section>
             </div>
         </main>
-        <h2>팀 공지</h2>
     </div>
     <div id="modal" class="modal-dim">
         <div class="dim-bg"></div>
@@ -217,7 +208,7 @@
                     <ul class="modal-list">
                         <li class="form-data-list">
                             <label for="voteRegistTitle" class="modal-title">💭 투표 제목</label>
-                            <input type="text" name="voteRegistTitle" id="voteRegistTitle" class="modal-input input-l"> <br/>
+                            <input type="text" name="voteRegistTitle" id="voteRegistTitle" class="modal-input input-l">
                         </li>
                         <li class="form-data-list">
                             <div class="option-header">
@@ -230,10 +221,13 @@
                                 </div>
                             </div>
                         </li>
-                        <label>투표 기간</label> <br/>
-                        <input type="date" name="voteRegistStartDate" id="voteRegistStartDate" placeholder="시작날짜" readonly>
-                        <br/>
-                        <input type="date" name="voteRegistEndDate" id="voteRegistEndDate" placeholder="종료날짜">
+                        <li class="form-data-list">
+                            <label class="modal-title">📆 투표 기간</label>
+                            <div class="input-date">
+                                <input type="date" name="voteRegistStartDate" id="voteRegistStartDate" placeholder="시작날짜" readonly class="input-l modal-input">
+                                <input type="date" name="voteRegistEndDate" id="voteRegistEndDate" placeholder="종료날짜" class="input-l modal-input">
+                            </div>
+                        </li>
                     </ul>
                 </form>
             </div>
@@ -244,13 +238,32 @@
                 </div>
             </div>
         </div>
-        <div id="modal-insert-notice" >
-            <label for="notisntncSj">공지 제목</label> <br/>
-            <input type="text" name="notisntncSj" id="notisntncSj"> <br/>
-            <label for="notisntncCn">공지 내용</label><br/>
-            <textarea name="notisntncCn" id="notisntncCn" cols="30" rows="10"></textarea><br/>
-            <button type="button" id="insertNotice">등록</button>
-            <button type="button" id="modifyNotice" style="display: none;">수정</button>
+        <div class="modal-layer card-df sm insertNotice">
+            <div class="modal-top">
+                <div class="modal-title"><i class="icon i-boxAdd i-3d"></i>공지 등록하기</div>
+                <button type="button" class="modal-close btn close">
+                    <i class="icon i-close">X</i>
+                </button>
+            </div>
+            <div class="modal-container">
+                <ul class="modal-list">
+                    <li class="form-data-list">
+                        <label for="notisntncSj" class="modal-title">공지 제목</label>
+                        <input type="text" name="notisntncSj" id="notisntncSj" class="modal-input input-l">
+                    </li>
+                    <li class="form-data-list">
+                        <label for="notisntncCn" class="modal-title">공지 내용</label>
+                        <textarea name="notisntncCn" id="notisntncCn" class="modal-input input-l"></textarea>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-wrap">
+                    <button class="close btn btn-fill-wh-sm">취소</button>
+                    <button id="insertNotice" class="btn btn-fill-bl-sm">등록</button>
+                    <button id="modifyNotice" class="btn btn-fill-bl-sm" style="display:none;">수정</button>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

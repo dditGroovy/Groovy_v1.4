@@ -23,6 +23,7 @@
     let deleteOptionBtn = document.querySelectorAll(".deleteOption");
     let optionContainers = document.querySelectorAll(".option");
     const options = document.querySelector(".options");
+    const serviceBtn = document.querySelectorAll(".service-btn");
     let voteList = document.querySelectorAll(".voteList");
     let isLiked = true;
     let formData = undefined;
@@ -266,26 +267,33 @@
             url: "/teamCommunity/loadTeamNoti",
             type: "POST",
             success: function (data) {
-                let code = '<button type="button" id="addTeamNotice">팀 공지 추가하기</button>' +
-                    '<div class="inner">';
+                let code = '<button type="button" class="btn btn-modal addBtn" id="addTeamNotice" data-name="insertNotice">+ 공지 추가하기</button>' +
+                    '<div class="notice-wrap">' +
+                    '   <div class="notice-list-wrap">';
                 data.forEach(item => {
-                    code += `<div class="card" id="${item.sntncEtprCode}">`;
-                    if (emplId == item.sntncWrtingEmplId) {
-                        code +=
-                            `<button type="button" class="notimodifyBtn">수정</button>
-                                    <button type="button" class="notideleteBtn">삭제</button>`
-                    }
-                    code += `
-                                    <div class="accordion">
-                                    <div class="accordion-item">
-                                    <details>
-                                    <summary><span class="noti-title">${item.sntncSj}</span> ${item.sntncWrtingDate}
-                                    </summary>
-                                    <p class="noti-content">${item.sntncCn}</p>
-                                    </details>
-                                    </div>
-                                    </div>
-                                    </div>`
+                    code += `<div class="card card-df pd-32 accordion" id="${item.sntncEtprCode}">
+                                <input type="checkbox" id="accordion-${item.sntncEtprCode}"/>
+                                <label class="card-header" for="accordion-${item.sntncEtprCode}">
+                                     <div class="accordion-header">
+                                         <div class="notice-title-wrap">
+                                            <span class="noti-title">${item.sntncSj}</span>
+                                            <span class="noti-date">${item.sntncWrtingDate}</span>
+                                        </div>`;
+                                    if (emplId == item.sntncWrtingEmplId) {
+                                    code += `<div class="btn-wrap">
+                                                <div class="edit-btn-wrap"><button type="button" class="notimodifyBtn editBtn btn btn-free-white">수정</button>
+                                                <button type="button" class="notideleteBtn btn btn-free-white editBtn">삭제</button></div>
+                                                <i class="icon i-arr-bt accordion-arrow"></i>`
+                                                   
+                            }
+                        code += ` </div>
+                                    </div></label>
+                             <div class="accordion-body">
+                                         <p class="noti-content input-l">${item.sntncCn}</p>
+                             </div>
+                         </div>
+                     </div>
+                  </div>`
                 })
                 teamEnter.innerHTML = code;
             },
@@ -306,12 +314,22 @@
             const dataName = target.getAttribute("data-name");
             modalOpen(dataName);
         }
+        if(target.classList.contains("accordion-header")){
+            // 라벨 클릭 시 체크박스 체크/해제
+            const label = target.closest('.card-header');
+            label.addEventListener('click', function () {
+                const checkbox = this.previousElementSibling;
+                checkbox.checked = !checkbox.checked;
+            });
+
+        }
         if (target.classList.contains("notimodifyBtn")) {
+            console.log(target);
             const card = target.closest(".card");
             sntncEtprCode = target.closest(".card").id;
             modifyNotice.style.display = "block";
             insertNotice.style.display = "none";
-            document.querySelector("#modal-insert-notice").style.display = "block";
+            modalOpen("insertNotice");
             notisntncSj.value = card.querySelector(".noti-title").innerText;
             notisntncCn.value = card.querySelector(".noti-content").innerHTML;
         }
@@ -417,7 +435,7 @@
             success: function (data) {
                 notisntncSj.value = "";
                 notisntncCn.value = "";
-                document.querySelector("#modal-insert-notice").style.display = "none";
+                modalClose();
                 loadTeamNotiFnc();
 
                 $.get("/alarm/getMaxAlarm")
@@ -479,7 +497,7 @@
             success: function (data) {
                 notisntncSj.value = "";
                 notisntncCn.value = "";
-                document.querySelector("#modal-insert-notice").style.display = "none";
+                modalClose();
                 loadTeamNotiFnc();
             },
             error: function (request, status, error) {
@@ -495,46 +513,56 @@
             url: "/teamCommunity/loadAllRegistVote",
             type: "POST",
             success: function (data) {
-                const endBtn = "<button class='endBtn'>투표 종료</button>"
-                let code = '<button type="button" id="addVote" class="btn btn-modal" data-name="insertVote">+ 투표 등록하기</button>' +
-                    '<div class="vote-wrap">';
+
+                console.log(data);
+                let code = '<button type="button" id="addVote" class="btn btn-modal addBtn" data-name="insertVote">+ 투표 등록하기</button>' +
+                    '<div class="vote-wrap"><div class="vote-list-wrap">';
                 data.forEach(item => {
-                    code += `<div class="vote-list-wrap">
-                                 <div class="card card-df" id="${item.voteRegistNo}">
-                                     <div class="card-header">
-                                         <span class="badge ${item.voteRegistAt == 0 ? 'ongoing' : 'completed'}">
-                                            ${item.voteRegistAt == 0 ? '진행 중' : '종료'}
-                                        </span>
-                                         <h3 class="voteTitle">${item.voteRegistTitle}</h3>
-                                         <button class="endBtn ${item.voteRegistEmpId == emplId ? 'on' : ''}" ${item.voteRegistAt == 1 ? 'disabled' : ''}>투표 종료</button>
-                                            <p class="voteDate">
-                                             <span class="voteRegistStartDate">${item.voteRegistStartDate}</span>~
-                                             <span class="voteRegistEndDate">${item.voteRegistEndDate}</span>
-                                         </p>
-                                     </div>
-                                     <div class="card-body">
-                                         <div class="btnWrapper">
+                    code += `<div class="card card-df accordion ${item.voteRegistAt == 0 ? 'ongoing' : 'completed'}" id="${item.voteRegistNo}">
+                                     <input type="checkbox" id="accordion-${item.voteRegistNo}">
+                                     <label class="card-header" for="accordion-${item.voteRegistNo}">
+                                         <div class="vote-header">
+                                            <div class="vote-info">
+                                                <div class="header-left">
+                                                    <span class="badge ${item.voteRegistAt == 0 ? 'ongoing' : 'completed'}">
+                                                        ${item.voteRegistAt == 0 ? '진행 중' : '종료'}
+                                                    </span>
+                                                     <h3 class="voteTitle">${item.voteRegistTitle}</h3>
+                                                 </div>
+                                                 <div class="header-right">
+                                                     <p class="voteDate">
+                                                        <span class="voteRegistStartDate">${item.voteRegistStartDate}</span>~
+                                                        <span class="voteRegistEndDate">${item.voteRegistEndDate}</span>
+                                                    </p>
+                                                    <button class="endBtn btn btn-free-blue ${item.voteRegistEmpId == emplId ? 'on' : ''}" ${item.voteRegistAt == 1 ? 'disabled' : ''}>투표 종료</button>
+                                                </div>
+                                             </div>
+                                             <div class="vote-service">
+                                                 <div class="btnWrapper">
                                              <div class="options">`;
                     item.voteOptionList.forEach(item => {
                         code += `
                                                     <div>
-                                                        <button type="button" class="option-btn ${item.votedAt == 1 ? 'on' : ''}"  >${item.voteOptionContents}</button>
-                                                        <input type="checkbox" name="${item.voteOptionNo}" id="${item.voteOptionNo}" class="optionChkBox" style="display:none;">
+                                                        <button type="button" class="option-btn btn btn-free-white ${item.votedAt == 1 ? 'on' : ''}"  >${item.voteOptionContents}</button>
+                                                        <input type="checkbox" name="${item.voteOptionNo}" id="${item.voteOptionNo}" class="optionChkBox" style="display:none;" ${item.votedAt == 1 ? 'checked' : ''}>
                                                     </div>`
                     });
                     code +=`
                                              </div>
                                          </div>
+                                            </div>
+                                         </div>
+                                     </label>
+                                     <div class="card-body">
                                         <div class="vote-result">`;
                     item.voteOptionList.forEach(item => {
-                        code +=`<div class="vote-option">
+                                    code +=`<div class="vote-option">
                                             <span class="option-title">${item.voteOptionContents}</span>
                                             <span class="option-total" data-target="${item.voteOptionNo}">${item.voteTotalCnt}</span>
                                         </div>`;
                     })
-                    code +=`     </div>
+                    code +=`            </div>
                                      </div>
-                                 </div>
                              </div>`
                 })
                 teamEnter.innerHTML = code;
@@ -589,9 +617,9 @@
 
                 const newBtn = document.createElement("button");
                 newBtn.type= "button";
-                newBtn.classList = "optiondelete btn btn-free-white";
+                newBtn.classList = "optiondelete btn";
 
-                newBtn.innerText = "x";
+                newBtn.innerHTML = '<i class="icon i-close"></i>';
                 newDiv.append(newInput);
                 newDiv.append(newBtn);
                 optionBody.append(newDiv);
@@ -629,7 +657,7 @@
                     const inputs = inputVoteRegister.querySelectorAll("input");
                     inputs.forEach(item => {
                         item.value = "";
-                        document.querySelector("#modal-insert-vote").style.display = "none";
+                        modalClose();
                     })
                 },
                 error: function(xhr) {
@@ -668,7 +696,14 @@
     })
 
     /*  서비스 눌렀을 때 */
-
+    serviceBtn.forEach(item => {
+        item.addEventListener("click",()=>{
+            serviceBtn.forEach(btn => {
+                btn.classList.remove("on");
+            })
+            item.classList.add("on");
+        })
+    })
 
 
     
