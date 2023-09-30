@@ -25,13 +25,22 @@ th {
     color: #000;
 }
 
+td {
+    padding-left: 10px;
+}
+
 .n th, .n td {
     height: 50px;
     border: 1px solid #000;
 }
 
+.rT {
+    border-left: none;
+}
+
 .f th, .f td {
-    border-left: 1px solid #000;
+    border: 1px solid #000;
+    border-top: none;
 }
 
 .f td, .n td {
@@ -57,12 +66,10 @@ pre {
 
 .f {
     width: 100%;
-    border: none;
     border-bottom: 1px solid #000;
-    border-right: 1px solid #000;
 }</style>
 <h1>\${r.month}월 그루비 급여명세서</h1>
-<p class="d p">지급일: \${fDate}</p>
+<p class="p r" style="text-align: right;">지급일: \${fDate}</p>
 <div class="d">
     <table class="n">
         <tr>

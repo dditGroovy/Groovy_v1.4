@@ -290,28 +290,29 @@
             doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
 
             let fileName = `\${r.salaryDtsmtEtprCode}.pdf`;
-            $.ajax({
-                url: "/salary/uploadFile",
-                type: 'post',
-                data: JSON.stringify({
-                    etprCode: `\${r.salaryDtsmtEtprCode}`,
-                    datauri: doc.output('datauristring')
-                }),
-                contentType: 'application/json',
-                success: function (result) {
-                    if (result === "success") {
-                        if (flag) {
-                            alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
-                            flag = false;
-                        }
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("code: " + xhr.status);
-                    console.log("message: " + xhr.responseText);
-                    console.log("error: " + xhr.error);
-                }
-            });
+            doc.save(fileName);
+            // $.ajax({
+            //     url: "/salary/uploadFile",
+            //     type: 'post',
+            //     data: JSON.stringify({
+            //         etprCode: `\${r.salaryDtsmtEtprCode}`,
+            //         datauri: doc.output('datauristring')
+            //     }),
+            //     contentType: 'application/json',
+            //     success: function (result) {
+            //         if (result === "success") {
+            //             if (flag) {
+            //                 alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
+            //                 flag = false;
+            //             }
+            //         }
+            //     },
+            //     error: function (xhr, status, error) {
+            //         console.log("code: " + xhr.status);
+            //         console.log("message: " + xhr.responseText);
+            //         console.log("error: " + xhr.error);
+            //     }
+            // });
         });
     }
 
