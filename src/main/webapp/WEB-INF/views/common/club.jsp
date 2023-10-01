@@ -90,19 +90,19 @@
         </div>
         <div class="modal-container">
             <div class="modal-thum">
-
+                <img src="/resources/images/club/club-coffee.png">
             </div>
             <div class="modal-content">
-                <span class="badge club-cate"></span>
+                <span class="badge club-kind club-cate"></span>
                 <h2 class="club-name"></h2>
                 <p class="club-dc"></p>
                 <p class="club-charId"></p>
             </div>
         </div>
         <div class="modal-footer btn-wrapper">
-            <button id="chat">문의하기</button>
-            <button id="join">가입하기</button>
-            <button id="leave">탈퇴하기</button>
+            <button type="button" id="chat" class="btn btn-fill-wh-sm">문의하기</button>
+            <button type="button" id="join" class="btn btn-fill-bl-sm">가입하기</button>
+            <button type="button" id="leave" class="btn btn-fill-bl-sm">탈퇴하기</button>
         </div>
     </div>
 </div>
@@ -180,6 +180,7 @@
                     clubTitle.innerText = data[0].clbNm;
                     clubName.innerText = data[0].clbNm;
                     clubDc.innerText = data[0].clbDc;
+                    clubCate.innerText = data[0].clbKind;
                     if (data[0].joinChk == 1) {
                         chatBtn.style.display = "none";
                         joinBtn.style.display = "none";
