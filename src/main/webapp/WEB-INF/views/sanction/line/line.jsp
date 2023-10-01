@@ -186,14 +186,14 @@
             const accordians = document.querySelectorAll(".dept");
 
             accordians.forEach(item => {
-                const depth = item.querySelector(".depth");
-                const header = item.querySelector(".department");
+                let depth = item.querySelector(".depth");
+                let header = item.querySelector(".department");
 
                 header.addEventListener("click", e => {
                     e.preventDefault();
                     accordians.forEach(item => {
-                        const depth = item.querySelector(".depth");
-                        const header = item.querySelector(".department");
+                         depth = item.querySelector(".depth");
+                         header = item.querySelector(".department");
                         item.classList.remove("active")
                     })
                         if (item.classList.contains("active")) {
@@ -204,7 +204,7 @@
                 });
             });
 
-            setTimeout(openLine, 0);
+            openLine();
             popClose.addEventListener("click", () => {
                 window.close();
             });

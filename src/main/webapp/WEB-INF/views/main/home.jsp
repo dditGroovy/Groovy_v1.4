@@ -17,7 +17,6 @@
     }
 </style>
 
-<%--TODO 진행중인 결재 팝업으로 뜨게 매핑해야 됨~~~~~~~~~~~~~~~~~~~~--%>
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="content-container">
@@ -391,7 +390,11 @@
             url: `/common/\${today}`,
             type: 'GET',
             success: function (data) {
-                let dietRes = `
+                let dietRes
+                if (data.length === 0) {
+                    dietRes = '<li class="diet-item">식단 준비 중</li>'
+                } else {
+                    dietRes = `
                             <li class="diet-item">\${data.dietRice}</li>
                             <li class="diet-item">\${data.dietSoup}</li>
                             <li class="diet-item">\${data.dietDish1}</li>
@@ -399,6 +402,7 @@
                             <li class="diet-item">\${data.dietDish3}</li>
                             <li class="diet-item">\${data.dietDessert}</li>
                             `
+                }
                 $(".diet-list").html(dietRes);
 
             },

@@ -77,18 +77,20 @@
 
 .card-thum {
     text-align: center;
+
 }
 
 .card-thum img {
     width: 100%;
     padding: 20px;
+    border-radius:var(--size-32) ;
 }
 
 .club-kind {
-    padding: var(--vh-8) var(--vw-24);
+    padding: 4px var(--vw-18);
     border-width: 1px;
     border-style: solid;
-    font-size: 11px;
+    font-size: var(--font-size-11);
 }
 
 
@@ -106,7 +108,7 @@
 .club-dc {
     font-family: var(--font-reg);
     color: var(--color-font-md);
-    font-size: var(--font-size-11);
+    font-size: var(--font-size-14);
     margin-bottom: 20px;
 }
 
@@ -147,8 +149,16 @@
     font-size: var(--font-size-11);
     color: var(--color-font-md);
 }
+.modal-thum img {
+    width: 100%;
+    height: 176px;
+    margin-bottom: var(--vh-24);
+}
 
 
+.club-kind {
+    margin-top: 300px;
+}
     /*뱃찌ㅣㅣㅣㅣㅣㅣㅣㅣㅣ*/
 .badge-1 {
     color: #ff2323;
@@ -188,4 +198,8 @@
 .badge-8 {
     color: #ff7023;
     border-color: #ff7023;
+}
+.club-cate {
+    color: var(--color-main);
+    border-color: var(--color-main);
 }

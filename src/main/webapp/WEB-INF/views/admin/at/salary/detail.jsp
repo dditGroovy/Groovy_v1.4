@@ -1,51 +1,61 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<style>
-    ul {
-        list-style: none;
-        padding-left: 0;
-    }
-
-    .wrap ul {
-        display: flex;
-        gap: 10px
-    }
-
-    #myGrid {
-        width: 100%;
-        height: calc((360 / 1080) * 100vh);
-    }
-
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/manageSalaryDtsmt.css">
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <div class="content-container">
-    <div class="wrap">
-    </div>
-    <br/><br/><br/>
-    <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
-    <button id="makePdfDtsmt" title="올해 이번달의 명세서를 생성할 수 있습니다.">급여명세서 일괄생성</button>
-    <button id="downloadDtsmt" title="올해 이번달의 명세서를 다운로드할 수 있습니다.">급여명세서 일괄저장</button>
-    <button id="mailDtsmt" title="올해 이번달의 명세서를 메일로 전송할 수 있습니다.">급여명세서 일괄전송</button>
-    <div class="cardWrap">
-        <div class="card">
-            <div id="myGrid" class="ag-theme-alpine"></div>
+    <h1 class="dtsmtHeader tab-header font-md font-36">급여 상세</h1>
+    <div class="wrap-container">
+        <div class="wrap">
+            <div class="searchDiv">
+                <div class="serviceWrap">
+                    <i class="icon i-search"></i>
+                    <input type="text" class="input-free-white" oninput="onQuickFilterChanged()" id="quickFilter"
+                           placeholder="검색어를 입력하세요"/>
+                </div>
+                <div class="btn-wrapper">
+                    <button class="btn btn-free-white btn-sm color-font-md font-14 font-md btn-batch" id="makePdfDtsmt">
+                        <span>일괄생성</span>
+                    </button>
+                    <button class="btn btn-free-white btn-sm color-font-md font-14 font-md btn-batch"
+                            id="downloadDtsmt">
+                        <span>일괄저장</span> <i class="icon i-download-medium btn-icon"></i>
+                    </button>
+                    <button class="btn btn-free-white btn-sm font-14 font-md color-font-md btn-batch" id="mailDtsmt">
+                        <span>일괄전송</span> <i class="icon i-mail-medium btn-icon"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="cardWrap">
+                <div class="card">
+                    <div id="myGrid" class="ag-theme-alpine"></div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="serviceWrap">
-        <select name="sortOptions" id="yearSelect" class="stroke"></select> ❗️연도 선택 후 조회할 사원을 다시 선택해주세요
-        <div id="dtsmtDiv"><span>사원을 선택하세요</span></div>
+        <div class="showList">
+            <div class="selectDiv">
+                <div class="select-wrapper">
+                    <select name="sortOptions" id="yearSelect"
+                            class="stroke selectBox font-md font-14 color-font-md"></select>
+                </div>
+                <span class="font-14">❗️연도 선택 후 조회할 사원을 다시 선택해주세요</span>
+            </div>
+            <div id="dtsmtDiv" class="stroke color-font-md font-14 bg-wht border-radius-24"><p class="empty">사원을
+                선택하세요</p>
+            </div>
+        </div>
     </div>
     <div id="modal" class="modal-dim" style="display: none">
         <div class="dim-bg"></div>
-        <div class="modal-layer card-df sm salaryCard" style="display: block">
+        <div class="modal-layer card-df sm salaryCard"
+             style="display: block; width: calc(476 * (100vw / var(--vw)));">
             <div class="modal-top">
                 <div class="modal-title">
                     <div id="paymentTitle"></div>
                 </div>
             </div>
             <div class="modal-container">
-                <div id="paymentDetail"></div>
+                <div class="paymentDetail"></div>
                 <div class="modal-footer btn-wrapper">
                     <button type="reset" class="btn btn-fill-wh-sm close">닫기</button>
                 </div>
@@ -110,11 +120,12 @@
         {
             headerCheckboxSelection: true,
             checkboxSelection: true,
+            width: 50
         },
-        {field: "emplId", headerName: "사번"},
-        {field: "emplNm", headerName: "이름"},
-        {field: "commonCodeDept", headerName: "팀"},
-        {field: "commonCodeClsf", headerName: "직급"},
+        {field: "emplId", headerName: "사번", cellStyle: {textAlign: "center"}},
+        {field: "emplNm", headerName: "이름", cellStyle: {textAlign: "center"}},
+        {field: "commonCodeDept", headerName: "팀", cellStyle: {textAlign: "center"}},
+        {field: "commonCodeClsf", headerName: "직급", cellStyle: {textAlign: "center"}},
     ];
 
     const rowData = [];
@@ -131,27 +142,31 @@
         columnDefs: columnDefs,
         rowData: rowData,
         rowSelection: 'multiple',
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
         onRowClicked: function (event) {
             let emplId = event.data.emplId;
             let year = yearSelect.options[yearSelect.selectedIndex].value;
             let dtsmtDiv = document.querySelector("#dtsmtDiv");
             let childSpan = dtsmtDiv.querySelector("span");
-            if (childSpan) {
-                dtsmtDiv.removeChild(childSpan);
-            }
             $.ajax({
                 url: `/salary/payment/list/\${emplId}/\${year}`,
                 type: "get",
                 dataType: 'json',
                 success: function (result) {
-                    let listCode = "<table border=1 id='salaryDtsmtList'>";
+                    let listCode = "<table id='salaryDtsmtList'>";
                     if (result.length === 0) {
                         listCode += `<tr><td>상세 내역이 없습니다.</td></tr>`;
                     }
                     for (let i = 0; i < result.length; i++) {
+                        let year = new Date(result[i].salaryDtsmtIssuDate).getFullYear();
+                        let month = `\${result[i].month}`;
+                        let day = new Date(result[i].salaryDtsmtIssuDate).getDate();
                         listCode += "<tr>";
-                        listCode += `<td>\${result[i].month}월</td>`;
-                        listCode += `<td><button class="getDetail btn-modal" data-name="salaryCard">급여명세서 보기</button></td>`;
+                        listCode += `<td class="font-14 font-sb "><span class="color-font-md">\${month - 1}월</span></td>`;
+                        listCode += `<td class="font-14 color-font-md font-md">\${year}년 \${month - 0}월 \${day}일 지급</td>`;
+                        listCode += `<td align="right"><button class="getDetail btn-modal font-sb color-font-md font-14" data-name="salaryCard">급여명세서 보기</button></td>`;
                         listCode += "</tr>";
                     }
                     listCode += `</table>`;
@@ -211,57 +226,61 @@
         const formattedIncmtax = formatNumber(result.salaryDtsmtIncmtax);
         const formattedLocalityIncmtax = formatNumber(result.salaryDtsmtLocalityIncmtax);
 
-        let title = `<p>\${result.month}월 - \${result.salaryEmplNm}</p>`;
+        let title = `<p>\${result.month - 1}월 - \${result.salaryEmplNm}</p>`;
         document.querySelector("#paymentTitle").innerHTML = title;
         let content = `
-            <p>실 수령액</p>
-            <p>\${formattedNetPay}원</p>
-            <hr>
-            <p>급여 상세</p>
-            <table border="1">
-                <tr>
-                    <th>지급</th>
-                    <td>\${formattedPymntTotamt}원</td>
-                </tr>
-                <tr>
-                    <th>통상임금</th>
-                    <td>\${formattedBslry}원</td>
-                </tr>
-                <tr>
-                    <th>초과근무수당</th>
-                    <td>\${formattedOvtimeAllwnc}원</td>
-                </tr>
-                <tr>
-                    <th>공제</th>
-                    <td>\${formattedDdcTotamt}원</td>
-                </tr>
-                <tr>
-                    <th>국민연금</th>
-                    <td>\${formattedSisNp}원</td>
-                </tr>
-                <tr>
-                    <th>건강보험</th>
-                    <td>\${formattedSisHi}원</td>
-                </tr>
-                <tr>
-                    <th>고용보험</th>
-                    <td>\${formattedSisEi}원</td>
-                </tr>
-                <tr>
-                    <th>산재보험</th>
-                    <td>\${formattedSisWci}원</td>
-                </tr>
-                <tr>
-                    <th>소득세</th>
-                    <td>\${formattedIncmtax}원</td>
-                </tr>
-                <tr>
-                    <th>지방소득세</th>
-                    <td>\${formattedLocalityIncmtax}원</td>
-                </tr>
-            </table>
+            <div>
+                <p class="font-18 font-reg color-font-md" style="margin-top: var(--vh-8); margin-bottom: calc((4 / var(--vh)) * 100vh); ">실 수령액</p>
+                <p class="font-b font-24 strong">\${formattedNetPay}원</p>
+            </div>
+            <p class="font-sb font-24 color-font-high" style="text-align: center; margin-bottom: var(--vh-24">급여 상세</p>
+            <div class="tableDiv">
+                <table>
+                    <tr class="font-sb font-18 color-font-high">
+                        <th>지급</th>
+                        <td>\${formattedPymntTotamt}원</td>
+                    </tr>
+                    <tr>
+                        <th class="font-reg font-14 color-font-md">통상임금</th>
+                        <td class="font-reg font-14 color-font-md">\${formattedBslry}원</td>
+                    </tr>
+                    <tr>
+                        <th class="font-reg font-14 color-font-md">초과근무수당</th>
+                        <td class="font-reg font-14 color-font-md">\${formattedOvtimeAllwnc}원</td>
+                    </tr>
+                    <tr></tr>
+                    <tr class="font-sb font-18 color-font-high">
+                        <th>공제</th>
+                        <td>\${formattedDdcTotamt}원</td>
+                    </tr>
+                    <tr>
+                        <th>국민연금</th>
+                        <td>\${formattedSisNp}원</td>
+                    </tr>
+                    <tr>
+                        <th class="font-reg font-14 color-font-md">건강보험</th>
+                        <td class="font-reg font-14 color-font-md">\${formattedSisHi}원</td>
+                    </tr>
+                    <tr>
+                        <th class="font-reg font-14 color-font-md">고용보험</th>
+                        <td class="font-reg font-14 color-font-md">\${formattedSisEi}원</td>
+                    </tr>
+                    <tr>
+                        <th class="font-reg font-14 color-font-md">산재보험</th>
+                        <td class="font-reg font-14 color-font-md">\${formattedSisWci}원</td>
+                    </tr>
+                    <tr>
+                        <th class="font-reg font-14 color-font-md">소득세</th>
+                        <td class="font-reg font-14 color-font-md">\${formattedIncmtax}원</td>
+                    </tr>
+                    <tr>
+                        <th class="font-reg font-14 color-font-md">지방소득세</th>
+                        <td class="font-reg font-14 color-font-md">\${formattedLocalityIncmtax}원</td>
+                    </tr>
+                </table>
+            </div>
             `;
-        document.querySelector("#paymentDetail").innerHTML = content;
+        document.querySelector(".paymentDetail").innerHTML = content;
     }
 
     function downloadButtonClickHandler(r) {
@@ -290,29 +309,28 @@
             doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
 
             let fileName = `\${r.salaryDtsmtEtprCode}.pdf`;
-            doc.save(fileName);
-            // $.ajax({
-            //     url: "/salary/uploadFile",
-            //     type: 'post',
-            //     data: JSON.stringify({
-            //         etprCode: `\${r.salaryDtsmtEtprCode}`,
-            //         datauri: doc.output('datauristring')
-            //     }),
-            //     contentType: 'application/json',
-            //     success: function (result) {
-            //         if (result === "success") {
-            //             if (flag) {
-            //                 alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
-            //                 flag = false;
-            //             }
-            //         }
-            //     },
-            //     error: function (xhr, status, error) {
-            //         console.log("code: " + xhr.status);
-            //         console.log("message: " + xhr.responseText);
-            //         console.log("error: " + xhr.error);
-            //     }
-            // });
+            $.ajax({
+                url: "/salary/uploadFile",
+                type: 'post',
+                data: JSON.stringify({
+                    etprCode: `\${r.salaryDtsmtEtprCode}`,
+                    datauri: doc.output('datauristring')
+                }),
+                contentType: 'application/json',
+                success: function (result) {
+                    if (result === "success") {
+                        if (flag) {
+                            alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
+                            flag = false;
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("code: " + xhr.status);
+                    console.log("message: " + xhr.responseText);
+                    console.log("error: " + xhr.error);
+                }
+            });
         });
     }
 
