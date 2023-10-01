@@ -1,0 +1,45 @@
+@import "/resources/css/commonStyle.css";
+
+.alarmWrapper {
+    position: fixed;
+    right: 0;
+    top: 0;
+    background: white;
+    width: calc((344/var(--vw))*100vw);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+    padding: calc((96/var(--vh))*100vh) var(--vw-48) 0;
+}
+.alarmWrapper > section {
+    border: 1px solid red;
+}
+.alarmContainer {
+    height: calc((416/var(--vh))*100vh);
+    overflow-y: auto;
+}
+.title {
+    font-size: 14px;
+    color: var(--color-font-md);
+    font-family: var(--font-md);
+}
+.alarmBox {
+    width: 100%;
+    border: 1px solid lightgray;
+    border-radius: 12px;
+    position: relative;
+}
+
+.aTag {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.readBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
