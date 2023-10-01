@@ -6,34 +6,40 @@
 <div class="alarmWrapper">
 	<section class="alarmContainer">
 		<h2 class="title">알림</h2>
-		<header>
-			<a href="/employee/confirm/info" class="setting"><i class="ico i-setting"></i>알림 관리</a>
+		<header id="alarm-header">
+			<a href="/employee/confirm/info" class="setting"><i class="icon i-setting"></i>알림 관리</a>
+			<button id="allReadAlarm" class="btn">모두 읽기</button>
 		</header>
 		<div class="alarm-area"></div>
 	</section>
 	
 	<!-- 화면에 안 보여서 div에 margin을 줬어용 번거롭게 해서 미안합니당 지우고 써주셔용!!! -->
-	<section style="margin-left: 400px; border: 1px solid;">
+	<section class="memoContainer">
 		<!-- 리스트에서 고정할 메모 클릭하면 고정되어요~ -->
 		<div class="fixed-memo">
-			<p>고정할 메모 선택</p>
-				<table border="1">
-					<c:forEach items="${memoList}" var="memo">
-						<tr data-memo-sn="${memo.memoSn}">
+					<c:choose>
+						<c:when test="${not empty memoList}">
+							<c:forEach items="${memoList}" var="memo">
+						<div data-memo-sn="${memo.memoSn}">
 							<td class="memoCn">${memo.memoCn}</td>
-						</tr>
-					</c:forEach>
-				</table>
+						</div>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<div class="no-memo">
+								<button id="addMemo" class="btn"></button>
+							</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
 
 			<!-- 고정된 메모 클릭하면 고정 해제되고 메모 디테일 내용도 사라져요~ -->
-			<p>고정된 메모</p>
-				<table border="1" id="memoTitleData">
-					<tr data-fix-memo-sn="${fixMemo.memoSn}">
+				<div id="memoTitleData">
+					<div data-fix-memo-sn="${fixMemo.memoSn}">
 						<td class="fixMemoCn">${fixMemo.memoCn}</td>
-					</tr>
-				</table>
-		</div>
-		<div class="flip-memo" style="margin-left: 400px; border: 1px solid;">
+					</div>
+				</div>
+		<div class="flip-memo">
 			<p id="memoDetailDataTitle">${fixMemo.memoSj}</p>
 			<p id="memoDetailDataContent">${fixMemo.memoCn}</p>
 			<p id="memoDetailDataDate"><fmt:formatDate value="${fixMemo.memoWrtngDate}" type="date" pattern="yyyy-MM-dd"/></p>

@@ -51,7 +51,7 @@
                     <li class="nav-list"><a href="${pageContext.request.contextPath}/sanction/box"><i
                             class="icon i-sanction"></i>결재함</a></li>
                     <li class="nav-list"><a href="${pageContext.request.contextPath}/memo/memoMain"><i
-                            class="icon i-sanction"></i>메모</a></li>
+                            class="icon i-memo"></i>메모</a></li>
                 </ul>
             </div>
             <div class="team">
