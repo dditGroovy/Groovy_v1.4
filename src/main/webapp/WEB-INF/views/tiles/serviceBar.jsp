@@ -7,7 +7,7 @@
 	<section class="alarmContainer">
 		<h2 class="title">알림</h2>
 		<header>
-			<a href="/employee/confirm/info"><i class="ico i-"></i></a>
+			<a href="/employee/confirm/info" class="setting"><i class="ico i-setting"></i>알림 관리</a>
 		</header>
 		<div class="alarm-area"></div>
 	</section>
