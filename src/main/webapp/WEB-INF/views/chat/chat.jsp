@@ -7,10 +7,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <style>
-    .myroom {
-        overflow-y: auto;
-        height: 300px;
-    }
 
 /*    #inviteBtn, #inviteEmplBtn {
         display: none;
@@ -77,12 +73,13 @@
 
     connectToStomp().then(function () {
         $("#msg").on("keyup", function (event) {
+            console.log(msg.val())
             if (event.keyCode === 13) {
                 sendMessage();
             }
         });
 
-        $("#sendBtn").on("click", function () {
+        $(".content-footer").on("click",".btn", function () {
             sendMessage();
         });
 
@@ -110,7 +107,7 @@
                 data: JSON.stringify(chatVO),
                 contentType: "application/json;charset:utf-8",
                 success: function (result) {
-
+                    console.log(result);
                 },
                 error: function (request, status, error) {
                     alert("채팅 전송 실패")
@@ -125,14 +122,20 @@
             $("input[type='checkbox'][name='employees']").prop("disabled", false).prop("checked", false);
             $("#inviteEmplBtn").hide();
             $("#createRoomBtn").show();
-
+            $("#chatRoom").html("");
             $("#chatRoom").append(`
                 <div id="msgArea">
                             <div class="content-header">
-                                <h3 class="chat-user-info"></h3>
+                                <h3 class="chat-user-info">\${currentRoomNm}</h3>
                                 <button type="button" id="inviteEmplBtn" class="btn invite-chat">채팅방 초대</button>
                             </div>
-                <div class="myroom" id="room\${currentRoomNo}" style="border: 2px solid green"></div>
+                <div class="content-body">
+                <div class="myroom" id="room\${currentRoomNo}"></div>
+                </div>
+                <div class="content-footer btn-free-white">
+                                                <input type="text" id="msg">
+                                                <button type="button" id="sendBtn" class="btn">전송</button>
+                                            </div>
             `)
 
             $.ajax({
@@ -143,22 +146,19 @@
                     $.each(messages, function (idx, obj) {
                         if (obj.chttMbrEmplId == emplId) {
                             let code = `
-                                        <div class="content-body">
-                                        <div style="border: 1px solid blue" id="\${obj.chttNo}">
+
+                                        <div id="\${obj.chttNo}" class="me chat-user">
                                             <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="30px;" />
                                             <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
-                                        </div></div>`;
-                            code += `<div class="content-footer btn-free-white">
-                                <input type="text" id="msg">
-                                <button type="button" id="sendBtn" class="btn">전송</button>
-                            </div>
-                        </div>`
+                                        </div></div>
+                        </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
                         } else {
-                            let code = `<div style='border: 1px solid red' id='\${obj.chttNo}'>
+                            let code = `<div id="\${obj.chttNo}" class="other chat-user">
                                             <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="30px;" />
                                             <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
-                                        </div>`;
+                                        </div>
+                        </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
                         }
                        /* scrollToBottom();*/
@@ -290,15 +290,12 @@
         $("#chatRoomList").on("click", ".rooms", function () {
 
             let selectedRoom = $(this);
-            let chttRoomNo = selectedRoom.find("#chttRoomNo").val();
-            let chttRoomTy = selectedRoom.find("#chttRoomTy").val();
-            let chttRoomNm = selectedRoom.find("#chttRoomNm").text();
+            let chttRoomNo = selectedRoom.find(".chttRoomNo").val();
+            let chttRoomTy = selectedRoom.find(".chttRoomTy").val();
+            let chttRoomNm = selectedRoom.find(".chttRoomNm").text();
 
             currentRoomNo = chttRoomNo;
             currentRoomNm = chttRoomNm;
-
-            $(".chat-user-info").text(chttRoomNm);
-
             enterRoom(currentRoomNo, currentRoomNm);
 
             if (chttRoomTy == '1') {
@@ -523,8 +520,8 @@
                 <p class="chttRoomNm">\${obj.chttRoomNm}</p>
                 <p class="latestChttCn">\${obj.latestChttCn}</p>
             </div>
-            <input id="chttRoomNo" type="hidden" value="\${obj.chttRoomNo}">
-            <input id="chttRoomTy" type="hidden" value="\${obj.chttRoomTy}">
+            <input class="chttRoomNo" type="hidden" value="\${obj.chttRoomNo}">
+            <input class="chttRoomTy" type="hidden" value="\${obj.chttRoomTy}">
             </button>`;
             });
             $("#chatRoomList").html(code);
