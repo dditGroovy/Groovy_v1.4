@@ -85,6 +85,7 @@
                             ON S.SALARY_PYMNT_DATE = SD.SALARY_DTSMT_ISSU_DATE AND S.SALARY_EMPL_ID = SD.SALARY_EMPL_ID
         WHERE S.SALARY_EMPL_ID = #{emplId}
           AND TO_CHAR(SALARY_PYMNT_DATE, 'YYYY') = #{year}
+        ORDER BY SALARY_DTSMT_ISSU_DATE DESC
     </select>
 
     <select id="loadRecentPaystub" parameterType="String" resultType="paystubVO">

@@ -170,9 +170,9 @@
                 code = "";
                 $.each(result, function (idx, obj) {
                     let date = new Date(obj.salaryDtsmtIssuDate);
-                    let months = date.getMonth() + 1;
+                    let months = date.getMonth();
                     let formatedDate = date.getFullYear() + "년 " +
-                        (months < 10 ? "0" : "") + months + "월 " +
+                        (months < 10 ? "0" : "") + (months + 1) + "월 " +
                         (date.getDate() < 10 ? "0" : "") + date.getDate() + "일";
                     let paymentDate = date.getFullYear() + "-" +
                         (months < 10 ? "0" : "") + months + "-" +

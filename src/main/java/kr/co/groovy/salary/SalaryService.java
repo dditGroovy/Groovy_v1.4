@@ -133,6 +133,7 @@ public class SalaryService {
 
 
     public List<CommuteAndPaystub> getCommuteAndPaystubList(String year, String month) {
+        // 8월 선택하면 지급일자는 9월
         String date = year + "-" + month;
         List<CommuteAndPaystub> cnpList = new ArrayList<>();
         List<CommuteVO> commute = salaryMapper.getCommuteByYearAndMonth(date);
@@ -152,7 +153,7 @@ public class SalaryService {
                             paystubVO.setSalaryBslry(paystubVO.getSalaryBslry() - ((paystubVO.getSalaryBslry() / 30) * wtrmsAbsencEmpl.getCoWtrmsAbsenc()));
                         }
                     }
-                    paystubVO.setSalaryOvtimeAllwnc((double) paystubVO.getSalaryBslry() / 30 / 8 * 1.5 * Double.parseDouble(commuteVO.getOverWorkTime())); // 초과근무수당
+                    paystubVO.setSalaryOvtimeAllwnc((int) Math.round(paystubVO.getSalaryBslry() / 30 / 8 * 1.5 * Integer.parseInt(commuteVO.getOverWorkTime()))); // 초과근무수당
                     paystubVO.setSalaryDtsmtPymntTotamt((int) (paystubVO.getSalaryBslry() + paystubVO.getSalaryOvtimeAllwnc()));
                     for (TariffVO tariffVO : tariffList) {
                         switch (tariffVO.getTaratStdrCode()) {
@@ -187,6 +188,21 @@ public class SalaryService {
                     paystubVO.setSalaryDtsmtNetPay(paystubVO.getSalaryDtsmtPymntTotamt() - paystubVO.getSalaryDtsmtDdcTotamt());
                     CommuteAndPaystub cnp = new CommuteAndPaystub(commuteVO, paystubVO);
                     cnpList.add(cnp);
+
+                    Map<String, String> map = new HashMap<>();
+                    LocalDate inputDate = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month) + 1, 14);
+                    log.info(String.valueOf(inputDate));
+                    Instant instant = inputDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+                    for (CommuteAndPaystub commuteAndPaystub : cnpList) {
+                        map.put("salaryEmplId", commuteAndPaystub.getPaystubVO().getSalaryEmplId());
+                        map.put("date", String.valueOf(inputDate));
+                        if (salaryMapper.existsInsertedSalary(map) == 0 && salaryMapper.existsInsertedSalaryDtsmt(map) == 0) {
+                            commuteAndPaystub.getPaystubVO().setSalaryDtsmtIssuDate(Date.from(instant));
+                            commuteAndPaystub.getPaystubVO().setInsertAt("Y");
+                            salaryMapper.inputSalary(commuteAndPaystub.getPaystubVO());
+                            salaryMapper.inputSalaryDtsmt(commuteAndPaystub.getPaystubVO());
+                        }
+                    }
                 }
             }
         }
@@ -202,7 +218,7 @@ public class SalaryService {
         return cnpList;
     }
 
-    @Scheduled(cron = "0 0 14 * * ?") // 매달 14일에 인서트하는용일뿐. ..
+    @Scheduled(cron = "0 0 14 * * ?") // 매달 14일에 인서트
     public List<CommuteAndPaystub> schedulingSalaryExactCalculation() {
         LocalDate localDate = LocalDate.now();
         int year = localDate.getYear();
@@ -230,15 +246,15 @@ public class SalaryService {
         String etprCode = map.get("etprCode");
 
         try {
-        String uploadPath = this.uploadPath + "/salary";
-        File uploadDir = new File(uploadPath);
-        if (uploadDir.exists() == false) {
-            if (uploadDir.mkdirs()) {
-                log.info("폴더 생성 성공");
-            } else {
-                log.info("폴더 생성 실패");
+            String uploadPath = this.uploadPath + "/salary";
+            File uploadDir = new File(uploadPath);
+            if (uploadDir.exists() == false) {
+                if (uploadDir.mkdirs()) {
+                    log.info("폴더 생성 성공");
+                } else {
+                    log.info("폴더 생성 실패");
+                }
             }
-        }
             URI uri = new URI(datauri);
             String path = null;
             File saveFile = null;
