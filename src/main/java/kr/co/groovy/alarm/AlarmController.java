@@ -54,7 +54,7 @@ public class AlarmController {
     	model.addAttribute("memoList", list);
 		model.addAttribute("fixMemo", memoVO);
 
-		return "common/allAlarm";
+		return "tiles/serviceBar";
     }
 
     @GetMapping("/getAllAlarm")

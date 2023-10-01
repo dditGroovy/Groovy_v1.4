@@ -279,6 +279,7 @@
 .i-question{content:url("/resources/images/icon/question.svg");}
 .i-download-medium {content:url("/resources/images/icon/i-download-medium.svg");}
 .i-user {content: url("/resources/images/Icon3d/User.png")}
+.i-setting {content: url("/resources/images/icon/setting.svg")}
 .i-3d.icon {
     width: var(--vw-32);
     height: var(--vw-32);

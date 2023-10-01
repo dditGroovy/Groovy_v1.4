@@ -20,6 +20,7 @@
             <tiles:insertAttribute name="floating"/>
             <tiles:insertAttribute name="body"/>
         </div>
+        <tiles:insertAttribute name="serviceBar"/>
     </div>
     </body>
 </html>
