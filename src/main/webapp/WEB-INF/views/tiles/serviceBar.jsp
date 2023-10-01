@@ -12,7 +12,6 @@
 		</header>
 		<div class="alarm-area"></div>
 	</section>
-	
 	<!-- 화면에 안 보여서 div에 margin을 줬어용 번거롭게 해서 미안합니당 지우고 써주셔용!!! -->
 	<section class="memoContainer">
 		<!-- 리스트에서 고정할 메모 클릭하면 고정되어요~ -->
@@ -45,7 +44,9 @@
 			<p id="memoDetailDataDate"><fmt:formatDate value="${fixMemo.memoWrtngDate}" type="date" pattern="yyyy-MM-dd"/></p>
 		</div>
 	</section>
-  
+  	<div class="service-tab">
+
+	</div>
 
   
 </div>
@@ -189,4 +190,10 @@ $(document).ready(function() {
 		});
 	});
 })
+  const serviceTab = document.querySelector(".service-tab");
+  const alarmWrapper = document.querySelector(".alarmWrapper");
+
+  serviceTab.addEventListener("click", function() {
+	  alarmWrapper.classList.toggle("on");
+  });
 </script>

@@ -106,5 +106,7 @@
                 console.log("error: " + xhr.error);
             }
         })
+
     });
+
 </script>

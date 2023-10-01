@@ -1,7 +1,7 @@
 @import "/resources/css/commonStyle.css";
 .alarmWrapper {
     position: fixed;
-    right: 0;
+    right: calc(((344/var(--vw))*100vw)*-1);
     top: 0;
     background: white;
     width: calc((344/var(--vw))*100vw);
@@ -11,6 +11,19 @@
     gap: var(--vh-64);
     z-index: 999;
     padding: calc((96/var(--vh))*100vh) var(--vw-48) 0;
+}
+.alarmWrapper.on {
+    right: 0;
+}
+.alarmWrapper .service-tab  {
+    position: absolute;
+    width: 24px;
+    height: 48px;
+    left: -24px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background: url("/resources/images/serviceBar.svg") 100% center / cover;
 }
 .alarmWrapper > section {
     border: 1px solid red;
