@@ -277,6 +277,7 @@
 .i-trash {content:url("/resources/images/icon/trash-gray.svg");}
 .i-close {content:url("/resources/images/icon/close.svg");}
 .i-download-medium {content:url("/resources/images/icon/i-download-medium.svg");}
+.i-user {content: url("/resources/images/Icon3d/User.png")}
 .i-3d.icon {
     width: var(--vw-32);
     height: var(--vw-32);

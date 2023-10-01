@@ -120,7 +120,7 @@
     font-size: 18px;
     font-family: var(--font-md);
 }
-#inviteEmplBtn {
+#inviteBtn {
     background-color: var(--color-white);
 }
 #msgArea .content-footer {
@@ -160,9 +160,119 @@
 .myroom {
     background: var(--color-bg-sky);
     width: 100%;
-    height: 100%;
+    height: 99%;
+    overflow-y: auto;
     padding-top: var(--vh-64);
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
 }
 .chat-user {
-    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.chat-user.me {
+    flex-direction: row-reverse;
+}
+.chat-msg {
+    padding: var(--vh-24);
+    max-width: calc((360/var(--vw))*100vw);
+    word-break: break-all;
+    font-size: 14px;
+}
+
+/*  모달  */
+#employeeList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-16);
+    overflow-y: auto;
+}
+.department {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--color-font-row);
+    height: var(--vw-48);
+    border-radius: var(--vw-12);
+    overflow: hidden;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--color-font-md);
+}
+.department > a::after {
+    content: "";
+    right: var(--vw-24);
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    background: url("/resources/images/icon/i-arr-bt.svg");
+    filter: invert(97%) sepia(1%) saturate(3002%) hue-rotate(182deg) brightness(87%) contrast(89%);
+    transition: .35s;
+}
+.department.on {
+    justify-content: unset;
+    height: calc((224/var(--vh))*100vh);
+    transform: rotate(0deg);
+}
+.department.on > a::after {
+    transform: rotate(180deg);
+}
+.department a {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: var(--vh-12) var(--vw-24);
+    vertical-align: center;
+}
+.department.on > a {
+    border-bottom: 1px soild var(--color-font-row);
+}
+.department > ul {
+    display: none;
+    flex-direction: column;
+}
+.department.on > ul {
+    display: flex;
+    flex-direction: column;
+    height: calc((168/var(--vh))*100vh);
+    overflow-y: auto;
+}
+.department > ul li label {
+    height: var(--vh-56);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--vw-32);
+    cursor: pointer;
+    gap: var(--vw-24);
+}
+input[name=employees]{
+    display: none;
+}
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+}
+.emplBadge {
+    border: 1px solid var(--color-main);
+    padding: 4px var(--vw-12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--color-main);
+    font-size: 11px;
+}
+.emplBadge .i-close {
+    filter: invert(59%) sepia(95%) saturate(2842%) hue-rotate(195deg) brightness(100%) contrast(91%);
+}
+.close-empl {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.receive {
+    gap: 12px;
 }

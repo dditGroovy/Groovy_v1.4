@@ -5,14 +5,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-
-<style>
-
-/*    #inviteBtn, #inviteEmplBtn {
-        display: none;
-    }*/
-
-</style>
 <link href="/resources/css/chat/chat.css" rel="stylesheet"/>
 <div class="content-container">
     <header id="tab-header">
@@ -21,13 +13,10 @@
     <main>
         <div class="main-inner">
             <div class="card card-df chat-card">
-                <ul id="employeeList" style="display: none">
-
-                </ul>
                 <section id="chat-list">
                     <div class="content-header">
                         <h2 class="main-title">채팅함</h2>
-                        <button type="button" id="createRoomBtn" class="btn create-chat invite-chat">채팅방 생성</button>
+                        <button type="button" id="newBtn" class="btn create-chat btn-modal invite-chat" data-name="createRoom">채팅방 생성</button>
                     </div>
                     <div class="content-body">
                         <div id="chatRoomList">
@@ -44,8 +33,34 @@
             </div>
 
     </div>
-</main>
+    </main>
 </div>
+<div id="modal" class="modal-dim">
+    <div class="dim-bg"></div>
+    <div class="modal-layer card-df sm createRoom">
+        <div class="modal-top">
+            <h3 class="modal-title"><i class="icon i-user i-3d"></i>대화상대 선택</h3>
+            <button type="button" class="modal-close btn js-modal-close">
+                <i class="icon i-close close">X</i>
+            </button>
+        </div>
+        <div class="modal-container">
+            <ul id="employeeList">
+
+            </ul>
+            <div for="receive" style="width: 100%">
+                <div class="receive input-l modal-input">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer btn-wrapper">
+            <button class="btn btn-fill-wh-sm close">취소</button>
+            <button id="createRoomBtn" class="btn btn-fill-bl-sm">확인</button>
+            <button id="inviteEmplBtn" class="btn btn-fill-bl-sm" style="display:none;">확인</button>
+        </div>
+    </div>
+</div>
+<script src="/resources/js/modal.js"></script>
 <script>
 
     const emplId = ${CustomUser.employeeVO.emplId};
@@ -72,18 +87,19 @@
     }
 
     connectToStomp().then(function () {
-        $("#msg").on("keyup", function (event) {
-            console.log(msg.val())
+        $("#chatRoom").on("keyup", "#msg",function (event) {
+            console.log($("#msg").val())
             if (event.keyCode === 13) {
                 sendMessage();
             }
         });
 
-        $(".content-footer").on("click",".btn", function () {
+        $("#chatRoom").on("click",".btn", function () {
             sendMessage();
         });
 
         function sendMessage() {
+            const msg = $("#msg");
             let message = msg.val();
             let date = new Date();
 
@@ -107,7 +123,6 @@
                 data: JSON.stringify(chatVO),
                 contentType: "application/json;charset:utf-8",
                 success: function (result) {
-                    console.log(result);
                 },
                 error: function (request, status, error) {
                     alert("채팅 전송 실패")
@@ -127,7 +142,7 @@
                 <div id="msgArea">
                             <div class="content-header">
                                 <h3 class="chat-user-info">\${currentRoomNm}</h3>
-                                <button type="button" id="inviteEmplBtn" class="btn invite-chat">채팅방 초대</button>
+                                <button type="button" id="inviteBtn" class="btn invite-chat btn-modal" data-name="inviteEmpl">채팅방 초대</button>
                             </div>
                 <div class="content-body">
                 <div class="myroom" id="room\${currentRoomNo}"></div>
@@ -146,17 +161,16 @@
                     $.each(messages, function (idx, obj) {
                         if (obj.chttMbrEmplId == emplId) {
                             let code = `
-
                                         <div id="\${obj.chttNo}" class="me chat-user">
-                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="30px;" />
-                                            <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
-                                        </div></div>
+                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" class="thum" />
+                                            <p class="chat-msg card-df">\${obj.chttCn}</p>
+                                        </div>
                         </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
                         } else {
                             let code = `<div id="\${obj.chttNo}" class="other chat-user">
-                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" width="30px;" />
-                                            <p>\${obj.chttMbrEmplNm} : \${obj.chttCn}</p>
+                                            <img src="/uploads/profile/\${obj.proflPhotoFileStreNm}" class="thum" />
+                                            <p class="chat-msg card-df">\${obj.chttCn}</p>
                                         </div>
                         </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
@@ -185,17 +199,14 @@
             msg.val('');
 
         }
-
-        $("#inviteBtn").on("click", function () {
+        $("#newBtn").on("click",function(){
+            $("#createRoomBtn").show();
+            $("#inviteEmplBtn").hide();
+        });
+        $("#chatRoom").on("click", "#inviteBtn",function () {
+            modalOpen("createRoom");
             $("#createRoomBtn").hide();
             $("#inviteEmplBtn").show();
-
-            $('input[type="checkbox"][name="employees"]').each(function () {
-                let memId = $(this).val().split("/")[0];
-                if (chttRoomMem.includes(memId)) {
-                    $(this).prop('disabled', true);
-                }
-            });
         })
 
         $("#inviteEmplBtn").on("click", function () {
@@ -251,14 +262,12 @@
                                         data: alarmVO,
                                         success: function (rslt) {
                                             if (socket) {
-                                                loadRoomList();
-                                                alert("초대 성공");
                                                 //알람번호,카테고리,url,보낸사람이름,받는사람아이디리스트
                                                 let msg = `\${maxNum},chat,\${url},\${emplNm},\${selectedEmplIds}`;
                                                 socket.send(msg);
                                             }
                                             loadRoomList();
-                                            alert("채팅방 개설 성공");
+                                            alert("초대 성공");
                                         },
                                         error: function (xhr) {
                                             console.log(xhr.status);
@@ -298,12 +307,6 @@
             currentRoomNm = chttRoomNm;
             enterRoom(currentRoomNo, currentRoomNm);
 
-            if (chttRoomTy == '1') {
-                $("#inviteBtn").show();
-            } else {
-                $("#inviteBtn").hide();
-            }
-
         });
 
         function subscribeToChatRoom(chttRoomNo) {
@@ -319,17 +322,18 @@
                     let proflPhotoFileStreNm = content.proflPhotoFileStreNm;
 
                     if (chttMbrEmplId == emplId) {
-                        let code = `<div style="border: 1px solid blue">
-                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="30px;" />
-                                        <p>\${chttMbrEmplNm} : \${chttCn}</p>
-                                    </div>`;
+                        let code = `
+                            <div class="me chat-user">
+                                            <img src="/uploads/profile/\${proflPhotoFileStreNm}" class="thum" />
+                                            <p class="chat-msg card-df">\${chttCn}</p>
+                                        </div>`;
                         $(`#room\${chttRoomNo}`).append(code);
                         scrollToBottom();
                     } else {
-                        let code = `<div style="border: 1px solid red">
-                                        <img src="/uploads/profile/\${proflPhotoFileStreNm}" width="30px;" />
-                                        <p>\${chttMbrEmplNm} : \${chttCn}</p>
-                                    </div>`;
+                        let code = `<div class="other chat-user">
+                                            <img src="/uploads/profile/\${proflPhotoFileStreNm}" class="thum" />
+                                            <p class="chat-msg card-df">\${chttCn}</p>
+                                        </div>`;
                         $(`#room\${chttRoomNo}`).append(code);
                         scrollToBottom();
                     }
@@ -356,43 +360,45 @@
             let chatRoom = $("#chatRoomList" + chttRoomNo);
             chatRoom.find("#latestChttCn").text(latestChttCn);
         }
-
-        let groupedEmployees = {};
-        let deptNm
-        <c:forEach items="${emplListForChat}" var="employee">
-        deptNm = "${employee.deptNm}";
-        if (!groupedEmployees[deptNm]) {
-            groupedEmployees[deptNm] = [];
-        }
-        groupedEmployees[deptNm].push({
-            emplId: "${employee.emplId}",
-            emplNm: "${employee.emplNm}",
-            clsfNm: "${employee.clsfNm}"
-        });
-        </c:forEach>
-
-        let ul = $("#employeeList");
-        for (let deptNm in groupedEmployees) {
-            let li = $("<li>").text(deptNm);
-            ul.append(li);
-
-            let ulSub = $("<ul>");
-            groupedEmployees[deptNm].forEach(function (employee) {
-                let liSub = $("<li>");
-                let label = $("<label>");
-                let input = $("<input>").attr({
-                    type: "checkbox",
-                    name: "employees",
-                    value: employee.emplId + "/" + employee.emplNm
-                });
-                label.append(input);
-                label.append(document.createTextNode(employee.emplNm + " " + employee.clsfNm));
-                liSub.append(label);
-                ulSub.append(liSub);
+            let groupedEmployees = {};
+            let deptNm
+            <c:forEach items="${emplListForChat}" var="employee">
+            deptNm = "${employee.deptNm}";
+            if (!groupedEmployees[deptNm]) {
+                groupedEmployees[deptNm] = [];
+            }
+            groupedEmployees[deptNm].push({
+                emplId: "${employee.emplId}",
+                emplNm: "${employee.emplNm}",
+                clsfNm: "${employee.clsfNm}"
             });
-            li.append(ulSub);
-        }
+            </c:forEach>
 
+            let ul = $("#employeeList");
+            for (let deptNm in groupedEmployees) {
+                let li = $("<li class='department'>");
+                let a = $("<a href='#'>").text(deptNm);
+                li.append(a);
+                ul.append(li);
+
+                let ulSub = $("<ul>");
+                groupedEmployees[deptNm].forEach(function (employee) {
+                    let liSub = $("<li>");
+                    let label = $("<label>");
+                    let img = $("<img src='' class='thum'>")
+                    let input = $("<input>").attr({
+                        type: "checkbox",
+                        name: "employees",
+                        value: employee.emplId + "/" + employee.emplNm
+                    });
+                    label.append(input);
+                    label.append(img);
+                    label.append(document.createTextNode(employee.emplNm + " " + employee.clsfNm));
+                    liSub.append(label);
+                    ulSub.append(liSub);
+                });
+                li.append(ulSub);
+            }
         $("#createRoomBtn").click(function () {
             let roomMemList = [];
             let selectedEmplIds = [];
@@ -455,6 +461,7 @@
                                             }
                                             loadRoomList();
                                             alert("채팅방 개설 성공");
+                                            modalClose();
                                         },
                                         error: function (xhr) {
                                             console.log(xhr.status);
@@ -535,4 +542,50 @@
         });
 
     });
+
+    /*  조직도 */
+    const modal = $("#modal");
+    modal.on("click",".department > a",function(){
+        $(".department").removeClass("on");
+        $(this).parent(".department").toggleClass("on");
+    })
+    modal.on("click","label",function(){
+        const employees = $(this).find("input[type=checkbox]");
+        let str = ``;
+        if(employees.is(':checked')){
+            const val = employees.attr("value");
+            let parts = val.split("/");
+            const emplId = parts[0];
+            const emplNm = parts[1];
+
+            let empl = {
+                emplId,
+                emplNm
+            }
+            str += `<span class="badge emplBadge" data-id="\${empl.emplId}"> \${empl.emplNm} <button type="button" class="close-empl btn"><i class="icon i-close"></i></button> </span>`;
+            $(".receive").append(str);
+        }
+    })
+    modal.on("click",".close-empl",function(){
+        $(this).parent("span").remove();
+    })
+    $(".close").on("click",function(){
+        $(".department").removeClass("on");
+        $(".receive").html("");
+    })
+    /*const checkboxes = popup.document.querySelectorAll("input[name=orgCheckbox]");
+    let str = ``;
+    checkboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+            const label = checkbox.closest("label");
+            const emplId = checkbox.id;
+            const emplNm = label.querySelector("span").innerText;
+
+            let empl = {
+                emplId,
+                emplNm
+            }
+            str += `<span data-id="${empl.emplId}"> ${empl.emplNm} <button type="button" class="close-empl btn">X</button> </span>`;
+        }
+    });*/
 </script>
