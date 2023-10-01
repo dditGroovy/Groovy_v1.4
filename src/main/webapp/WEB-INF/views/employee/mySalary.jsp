@@ -170,12 +170,12 @@
                 code = "";
                 $.each(result, function (idx, obj) {
                     let date = new Date(obj.salaryDtsmtIssuDate);
-                    let months = date.getMonth();
+                    let months = date.getMonth(); // 기준 달보다 1 작음
                     let formatedDate = date.getFullYear() + "년 " +
-                        (months < 10 ? "0" : "") + (months + 1) + "월 " +
+                        (months < 9 ? "0" : "") + (months + 1) + "월 " +
                         (date.getDate() < 10 ? "0" : "") + date.getDate() + "일";
                     let paymentDate = date.getFullYear() + "-" +
-                        (months < 10 ? "0" : "") + months + "-" +
+                        (months < 9 ? "0" : "") + months + "-" +
                         (date.getDate() < 10 ? "0" : "") + date.getDate();
                     let netPay = obj.salaryDtsmtNetPay.toLocaleString();
                     code += `
