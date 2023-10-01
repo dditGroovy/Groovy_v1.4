@@ -19,6 +19,10 @@
         width: 450px;
         position: relative;
     }
+
+    .icon-cloud {
+        content:url("/resources/images/icon/cloud.svg");
+    }
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
@@ -26,6 +30,7 @@
     <ul>
         <li><a href="${pageContext.request.contextPath}/humanResources/loadLog"><i class="icon i-job"></i></a></li>
         <li><a href="${pageContext.request.contextPath}/chat"><i class="icon i-chat"></i></a></li>
+        <li><a href="${pageContext.request.contextPath}/cloud/main"><i class="icon icon-cloud"></i></a></li>
     </ul>
 </div>
 
