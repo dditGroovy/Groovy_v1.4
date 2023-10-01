@@ -14,5 +14,11 @@
         WHERE C.CLOUD_SHARE_EMPL_ID = E.EMPL_ID
           AND C.CLOUD_OBJECT_KEY = #{cloudObjectKey}
     </select>
+
+    <delete id="deleteCloud" parameterType="String">
+        DELETE
+        FROM CLOUD
+        WHERE CLOUD_OBJECT_KEY = #{cloudObjectKey}
+    </delete>
 </mapper>
 

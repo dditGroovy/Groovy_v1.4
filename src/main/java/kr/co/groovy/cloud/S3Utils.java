@@ -8,10 +8,19 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import kr.co.groovy.vo.CloudVO;
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -102,14 +111,20 @@ public class S3Utils {
         try {
             ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
                     .withBucketName(bucketName)
-                    .withPrefix(path)
-                    .withDelimiter("/");
+                    .withPrefix(path);
 
             ObjectListing objectListing = s3Client.listObjects(listObjectsRequest);
-
+            System.out.println("objectListing = " + objectListing);
             System.out.println("Object List:");
             for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
                 s3Client.deleteObject(bucketName, objectSummary.getKey());
+                System.out.println("objectSummary = " + objectSummary);
+                System.out.println("objectSummary = " + objectSummary.getKey());
+                mapper.deleteCloud(objectSummary.getKey());
+            }
+            for (String commonPrefix : objectListing.getCommonPrefixes()) {
+                // 하위 폴더에 대해 재귀적으로 삭제 작업 수행
+                System.out.println("commonPrefix = " + commonPrefix);
             }
         } catch (AmazonS3Exception e) {
             System.err.println(e.getErrorMessage());
@@ -117,6 +132,7 @@ public class S3Utils {
         }
 
         s3Client.deleteObject(bucketName, path);
+        mapper.deleteCloud(path);
     }
 
     //파일 업로드
@@ -172,6 +188,67 @@ public class S3Utils {
         return fileInfoMap;
     }
 
+    //다운로드
+    public ResponseEntity<byte[]> download(String url) throws IOException {
+        Map<String, Object> s3Info = getS3Info();
+        String bucketName = (String) s3Info.get("bucketName");
+        AmazonS3 s3Client = (AmazonS3) s3Info.get("s3Client");
+
+        S3Object s3Object = s3Client.getObject(new GetObjectRequest(bucketName, url));
+        S3ObjectInputStream inputStream = s3Object.getObjectContent();
+        byte[] bytes = IOUtils.toByteArray(inputStream);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(contentType(url));
+        httpHeaders.setContentLength(bytes.length);
+        String[] urlParts = url.split("/");
+        String type = urlParts[urlParts.length - 1];
+        String fileName = URLEncoder.encode(type, "UTF-8").replaceAll("\\+", "%20");
+        httpHeaders.setContentDispositionFormData("attachment", fileName);
+
+        return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
+    }
+
+    //폴더 생성
+    public void createFolder(String path) {
+        System.out.println("path = " + path);
+        Map<String, Object> s3Info = getS3Info();
+        String bucketName = (String) s3Info.get("bucketName");
+        AmazonS3 s3Client = (AmazonS3) s3Info.get("s3Client");
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(0L);
+        objectMetadata.setContentType("application/x-directory");
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, path, new ByteArrayInputStream(new byte[0]), objectMetadata);
+
+        try {
+            s3Client.putObject(putObjectRequest);
+        } catch (AmazonS3Exception e) {
+            e.printStackTrace();
+        } catch (SdkClientException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private MediaType contentType(String key) {
+        String[] keyParts = key.split("\\.");
+        String type = keyParts[keyParts.length - 1];
+        switch (type) {
+            case "txt":
+                return MediaType.TEXT_PLAIN;
+            case "jpg":
+                return MediaType.IMAGE_JPEG;
+            case "jpeg":
+                return MediaType.IMAGE_JPEG;
+            case "png":
+                return MediaType.IMAGE_PNG;
+            case "gif":
+                return MediaType.IMAGE_GIF;
+            default:
+                return MediaType.APPLICATION_OCTET_STREAM;
+        }
+    }
+
     //확장자
     public Map<String, Object> extensionToIcon() {
         Map<String, Object> extensionMap = new HashMap<>();
@@ -216,4 +293,8 @@ public class S3Utils {
         return contentTypeMap.get(extension);
     }
 
+    public static void main(String[] args) {
+        S3Utils s3Utils = new S3Utils(null);
+        s3Utils.deleteFolder("DEPT010/제발");
+    }
 }

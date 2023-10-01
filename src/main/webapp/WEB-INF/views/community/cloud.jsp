@@ -6,6 +6,33 @@
 <sec:authentication property="principal" var="CustomUser"/>
 
 <link rel="stylesheet" href="/resources/css/community/cloud.css">
+<!-- 폴더 생성 모달 -->
+<div id="modal" class="modal-dim" style="display: none;">
+    <div class="dim-bg"></div>
+    <div class="modal-layer card-df sm folderCard" style="display: block">
+        <div class="modal-top">
+            <div class="modal-title"><i class="icon-folder"></i>폴더 생성</div>
+            <button type="button" class="modal-close btn js-modal-close">
+                <i class="icon i-close close">X</i>
+            </button>
+        </div>
+        <div class="modal-container">
+            <form action="/cloud/createFolder" name="createFolder" method="post">
+                <div class="modal-content">
+                    <div class="modal-text">
+                        <h1 class="font-24 color-font-md">✅&nbsp;&nbsp;폴더 이름</h1>
+                        <input type="hidden" name="folderPath" value="${folderPath}">
+                        <input type="text" placeholder="생성할 폴더 이름 작성해주세요." name="folderName" class="font-14">
+                    </div>
+                    <div class="modal-footer btn-wrapper">
+                        <button type="reset" class="btn btn-close close box-btn font-14">취소</button>
+                        <button type="submit" id="createFolder" class="btn btn-create box-btn font-14">생성</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="content-container">
     <header id="tab-header">
         <div class="header">
@@ -17,14 +44,10 @@
         <div class="nav-box">
             <div class="path-box">
                 <ul class="path-nav">
-
                 </ul>
             </div>
             <div class="button-wrapper">
-                <button class="addFolder btn btn-free-blue btn-cloud font-md font-14"><i class="icon i-folder"></i>폴더 생성
-                </button>
-                <button class="uploadFile btn btn-free-blue btn-cloud font-md font-14"><i class="icon i-download"></i>올리기
-                </button>
+                <button type="button" class="addFolder btn btn-free-blue btn-cloud font-md font-14 btn-modal" id="createFolderBtn" data-name="folderCard"><i class="icon i-folder"></i>폴더 생성</button>
             </div>
         </div>
         <div class="cloud-wrapper">
@@ -36,8 +59,7 @@
                             <i class="icon-img folder-img"></i>
                             <p class="font-md font-14">${folder.subfolderName}</p>
                         </a>
-                        <button class="folder-delete-box btn btn-fill-wh-sm font-14" data-path="${folder.path}"
-                                onclick="deleteFolder(this)">폴더 삭제
+                        <button class="more-box btn btn-fill-wh-sm font-14" data-path="${folder.path}" data-type="folder" onclick="deleteObject(this)">폴더 삭제
                         </button>
                     </div>
                 </c:forEach>
@@ -46,25 +68,31 @@
                     <c:set var="extension" value="${fileParts[1]}"/>
                     <c:set var="extensionToIcon" value="${extensionList}"/>
                     <c:set var="iconClass" value="${extensionToIcon[extension]}"/>
-
-                    <div class="file-box cursor-box" data-key="${file.storageClass}" onclick="fileInfo(this)">
-                        <c:choose>
-                            <c:when test="${empty iconClass}">
-                                <i class="icon-img other-img"></i>
-                            </c:when>
-                            <c:otherwise>
-                                <i class="icon-img ${iconClass}"
-                                   style="background: url('/resources/images/cloud/${iconClass}.png') no-repeat;"></i>
-                            </c:otherwise>
-                        </c:choose>
-                        <p class="font-md font-14">${fileParts[0]}</p>
+                    <div style="position: relative">
+                        <div class="file-box cursor-box" data-key="${file.storageClass}" onclick="fileInfo(this)" oncontextmenu="right(event);">
+                            <c:choose>
+                                <c:when test="${empty iconClass}">
+                                    <i class="icon-img other-img"></i>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="icon-img ${iconClass}"
+                                       style="background: url('/resources/images/cloud/${iconClass}.png') no-repeat;"></i>
+                                </c:otherwise>
+                            </c:choose>
+                            <p class="font-md font-14">${fileParts[0]}</p>
+                        </div>
+                        <div class="sub-btn-box btn btn-fill-wh-sm">
+                            <a href="/cloud/download?url=${file.storageClass}" class="font-14 sub-btn-download">다운로드</a>
+                            <button class="btn sub-btn-delete font-14" data-path="${file.storageClass}" data-type="file" onclick="deleteObject(this)">파일 삭제
+                            </button>
+                        </div>
                     </div>
                 </c:forEach>
             </div>
-            <div class="cloud-preview">
+            <div class="cloud-preview" style="display: none">
                 <div class="title-box">
                     <h1 class="content-name font-reg font-24"></h1>
-                    <button type="button" class="close font-md font-18">X</button>
+                    <button type="button" class="close-preview font-md font-18">X</button>
                 </div>
                 <div class="content-preview"></div>
                 <div class="info-box">
@@ -84,20 +112,25 @@
                     <p class="share-name font-reg font-14 color-font-md"></p>
                 </div>
                 <div class="button-box">
-                    <button type="button" class="btn btn-download font-md font-14 color-font-md">다운로드</button>
-                    <button type="button" class="btn btn-delete font-md font-14 color-font-md">삭제</button>
+                    <a href="#" class="btn btn-download font-md font-14 color-font-md">다운로드</a>
+                    <button type="button" class="btn btn-delete font-md font-14 color-font-md" data-type="file" onclick="deleteObject(this)">삭제</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<script src="/resources/js/modal.js"></script>
 <script>
     let dept = `${CustomUser.employeeVO.deptNm}`;
     let path = `${folderPath}`;
     let previewBox = document.querySelector(".cloud-preview");
-    let closeBtn = document.querySelector(".close");
+    let closePreviewBtn = document.querySelector(".close-preview");
     let pathBox = document.querySelector(".path-nav");
+    let preview = document.querySelector(".content-preview");
+    let contentSize = document.querySelector(".content-size");
+    let contentType = document.querySelector(".content-type");
+    let shareName = document.querySelector(".share-name");
+    let lastDate = document.querySelector(".last-date");
 
     function pathMap() {
         code = `
@@ -114,17 +147,35 @@
         pathBox.innerHTML = code;
     }
 
-    function deleteFolder(deletebtn) {
+    function deleteObject(deletebtn) {
         let url = deletebtn.getAttribute("data-path");
+        let type = deletebtn.getAttribute("data-type");
+        console.log(type)
+        let deleteValid;
+        if (type == 'folder') {
+            deleteValid = confirm("폴더를 삭제하시면 폴더의 모든 파일이 삭제됩니다. 정말 삭제하시겠습니까?");
+        } else if(type == 'file') {
+            deleteValid = confirm("파일을 삭제하시겠습니까?");
+        }
 
-        if (!confirm("폴더를 삭제하시면 폴더의 모든 파일이 삭제됩니다. 정말 삭제하시겠습니까?")) {
+        if (!deleteValid) {
 
         } else {
             $.ajax({
                 type: 'delete',
                 url: `/cloud/deleteFolder?path=\${url}`,
                 success: function () {
-                    deletebtn.parentElement.remove();
+                    if (type == 'folder') {
+                        deletebtn.parentElement.remove();
+                    } else if(type == 'file') {
+                        let files = document.querySelectorAll('.file-box');
+                        files.forEach(file => {
+                            if (file.getAttribute("data-key") == url) {
+                                file.parentElement.remove();
+                            }
+                        });
+                        previewBox.style.display = "none";
+                    }
                 },
                 error: function (xhr) {
                     console.log(xhr.status);
@@ -135,33 +186,30 @@
 
     function fileInfo(infoBox) {
         let key = infoBox.getAttribute("data-key");
-        console.log(key)
+        console.log("key", key);
         let filename = infoBox.querySelector("p").innerText;
-        console.log(filename)
         $.ajax({
             type: 'get',
             url: `/cloud/fileInfo?key=\${key}`,
             success: function (fileInfo) {
                 console.log(fileInfo);
-                let preview = document.querySelector(".content-preview");
                 preview.style.background = '';
                 preview.innerText = '';
                 document.querySelector(".content-name").innerText = filename;
-                document.querySelector(".content-type").innerText = fileInfo.type;
+                contentType.innerText = fileInfo.type;
 
-                let sizeBox = document.querySelector(".content-size");
                 let size = fileInfo.size;
                 if (size < 1000) {
-                    sizeBox.innerText = size + "바이트";
+                    contentSize.innerText = size + "바이트";
                 } else if (1000 <= size < 1000 * 1000) {
-                    sizeBox.innerText = (size / 1000).toFixed(1) + "KB";
+                    contentSize.innerText = (size / 1000).toFixed(1) + "KB";
                 } else if (1000 * 1000 <= size < 1000 * 1000 * 1000) {
-                    sizeBox.innerText = (size / (1000 * 1000)).toFixed(1) + "MB";
+                    contentSize.innerText = (size / (1000 * 1000)).toFixed(1) + "MB";
                 } else {
-                    sizeBox.innerText = (size / (1000 * 1000 * 1000)).toFixed(1) + "GB";
+                    contentSize.innerText = (size / (1000 * 1000 * 1000)).toFixed(1) + "GB";
                 }
-                document.querySelector(".last-date").innerText = fileInfo.lastDate;
-                document.querySelector(".share-name").innerText = fileInfo.emplNm;
+                lastDate.innerText = fileInfo.lastDate;
+                shareName.innerText = fileInfo.emplNm;
                 let extensions = fileInfo.type.split("/");
                 let extension = extensions[0];
                 if (extension == 'image') {
@@ -173,6 +221,10 @@
                 } else {
                     preview.innerHTML = '<p>미리보기를 지원하지 않는 파일입니다.</p>';
                 }
+
+                let fileUrl = `/cloud/download?url=\${key}`;
+                document.querySelector(".btn-delete").setAttribute("data-path", key);
+                document.querySelector(".btn-download").setAttribute("href", fileUrl);
                 previewBox.style.display = "block";
             },
             error: function (xhr) {
@@ -205,13 +257,29 @@
     const right = (event) => {
         event.preventDefault();
         let deleteBtn = event.target.parentElement.nextElementSibling;
+        console.log(event.target.parentElement.nextElementSibling);
         deleteBtn.classList.add("on");
         valid = true;
     }
 
     document.addEventListener('click', function (e) {
-        if (valid == true && !e.target.classList.contains("folder-delete-box")) {
-            let deleteBtns = document.querySelectorAll(".folder-delete-box");
+        if (valid == true && !e.target.classList.contains("more-box") && !e.target.classList.contains("sub-btn-box")) {
+            let deleteBtns = document.querySelectorAll(".more-box");
+            let subBtnBoxs = document.querySelectorAll(".sub-btn-box");
+
+            subBtnBoxs.forEach(btn => {
+                btn.classList.remove("on");
+            })
+            deleteBtns.forEach(btn => {
+                btn.classList.remove("on");
+            });
+            valid = false;
+        }
+    });
+
+    document.addEventListener('click', function (e) {
+        if (valid == true && !e.target.classList.contains(".sub-btn-box")) {
+            let deleteBtns = document.querySelectorAll(".sub-btn-box");
             deleteBtns.forEach(btn => {
                 btn.classList.remove("on");
             });
@@ -221,7 +289,7 @@
 
     pathMap();
 
-    closeBtn.addEventListener("click", () => {
+    closePreviewBtn.addEventListener("click", () => {
         previewBox.style.display = "none";
     });
 

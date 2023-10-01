@@ -2,12 +2,19 @@ package kr.co.groovy.cloud;
 
 import kr.co.groovy.employee.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.Map;
 
@@ -26,7 +33,7 @@ public class CloudController {
 
     @GetMapping("/main")
     public String cloudMain(Principal principal, Model model, String path) {
-        System.out.println("path = " + path);
+        System.out.println("****path = " + path);
         String deptFolderName = null;
         if (path == null) {
             String emplId = principal.getName();
@@ -59,7 +66,19 @@ public class CloudController {
     @ResponseBody
     @PostMapping("/uploadFile")
     public void uploadFile(@RequestParam("file") MultipartFile file, String path, Principal principal) throws IOException {
-        System.out.println("file = " + file);
         s3Utils.uploadFile(file, path, principal.getName());
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<byte[]> download(String url) throws IOException {
+        return s3Utils.download(url);
+    }
+
+    @PostMapping("/createFolder")
+    public String createFolder(String folderPath, String folderName) throws UnsupportedEncodingException {
+        String path = folderPath + "/" + folderName + "/";
+        s3Utils.createFolder(path);
+        String encodedPath = URLEncoder.encode(path, StandardCharsets.UTF_8.toString());
+        return "redirect:/cloud/main?path=" + encodedPath;
     }
 }
