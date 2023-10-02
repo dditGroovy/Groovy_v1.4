@@ -35,7 +35,7 @@
                         DCLZ_WORK_DE,
                         DCLZ_WIK_WORK_TIME
                  FROM DCLZ
-                 WHERE DCLZ_WORK_DE BETWEEN TO_DATE(TO_CHAR(TRUNC(TO_DATE(#{dclzWorkDe}), 'IW'), 'YYYY-MM-DD'))  AND TO_DATE(TO_CHAR(TRUNC(TO_DATE(#{dclzWorkDe}), 'IW'), 'YYYY-MM-DD')) + 4
+                 WHERE DCLZ_WORK_DE BETWEEN TRUNC(TO_DATE(#{dclzWorkDe}, 'YYYY-MM-DD'), 'IW')  AND TRUNC(TO_DATE(#{dclzWorkDe}, 'YYYY-MM-DD'), 'IW') + 4
                    AND DCLZ_EMPL_ID = #{dclzEmplId}
              )
     </select>
