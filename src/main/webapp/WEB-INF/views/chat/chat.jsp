@@ -370,7 +370,7 @@
             groupedEmployees[deptNm].push({
                 emplId: "${employee.emplId}",
                 emplNm: "${employee.emplNm}",
-                clsfNm: "${employee.clsfNm}"
+                clsfNm: "${employee.clsfNm}",
                 proflPhotoFileStreNm: "${employee.proflPhotoFileStreNm}"
             });
             </c:forEach>
