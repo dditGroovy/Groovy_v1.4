@@ -165,3 +165,29 @@
 .fixed-memo > * {
     backface-visibility: hidden;
 }
+.memo-list-wrap {
+    display: flex;
+    flex-direction: column;
+    height: calc((96/var(--vh))*100vh);
+    gap: 8px;
+}
+.memo-list {
+    display: flex;
+    flex-direction: column;
+    height: calc((80/var(--vh))*100vh);;
+    gap: 8px;
+
+    overflow-y: auto;
+}
+#memoTitleData {
+    font-size: 14px;
+}
+#memoTitleData .title, .memo-list-wrap .title {
+    font-size: 11px;
+}
+.text {
+    font-size: 11px;
+}
+.memo-list .memoCn {
+    font-size: 11px;
+}

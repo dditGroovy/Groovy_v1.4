@@ -17,77 +17,77 @@
 		<!-- 리스트에서 고정할 메모 클릭하면 고정되어요~ -->
 		<div class="fixed-memo"></div>
 	</section>
-  	<div class="service-tab">
+	<div class="service-tab">
 
 	</div>
 
-  
+
 </div>
 
 <script>
 	getList();
-  var socket = null;
-  $(document).ready(function() {
-    connectWs();
-  });
+	var socket = null;
+	$(document).ready(function() {
+		connectWs();
+	});
 
-  function connectWs() {
-    // 웹소켓 연결
-    sock = new SockJS("<c:url value='https://12fa-175-116-155-226.ngrok-free.app/echo-ws'/>");
-    socket = sock;
+	function connectWs() {
+		// 웹소켓 연결
+		sock = new SockJS("<c:url value='https://12fa-175-116-155-226.ngrok-free.app/echo-ws'/>");
+		socket = sock;
 
-    sock.onopen = function () {
-      console.log("info: connection opened");
-    };
+		sock.onopen = function () {
+			console.log("info: connection opened");
+		};
 
-    sock.onmessage = function(event) {
-      getList();
-		console.log("event.data-floating", event.data);
-		let $socketAlarm = $("#aTagBox");
-		$("#floatingAlarm").css("display", "block");
+		sock.onmessage = function(event) {
+			getList();
+			console.log("event.data-floating", event.data);
+			let $socketAlarm = $("#aTagBox");
+			$("#floatingAlarm").css("display", "block");
 
-	$socketAlarm.html(event.data);
-    }
+			$socketAlarm.html(event.data);
+		}
 
-    sock.onclose = function () {
-      console.log("close");
-    }
+		sock.onclose = function () {
+			console.log("close");
+		}
 
-    sock.onerror = function (err) {
-      console.log("ERROR: ", err);
-    }
-  }
-document.querySelector(".alarmContainer").addEventListener("click",(e)=>{
-   const target = e.target;
-   if(target.classList.contains("readBtn")){
-     var ntcnSn = target.previousElementSibling.getAttribute("data-seq");
-     $.ajax({
-       type: 'delete',
-       url: '/alarm/deleteAlarm?ntcnSn=' + ntcnSn,
-       success: function () {
-         target.parentElement.remove();
-       },
-       error: function (xhr) {
-         xhr.status;
-       }
-     });
+		sock.onerror = function (err) {
+			console.log("ERROR: ", err);
+		}
+	}
+	document.querySelector(".alarmContainer").addEventListener("click",(e)=>{
+		const target = e.target;
+		if(target.classList.contains("readBtn")){
+			var ntcnSn = target.previousElementSibling.getAttribute("data-seq");
+			$.ajax({
+				type: 'delete',
+				url: '/alarm/deleteAlarm?ntcnSn=' + ntcnSn,
+				success: function () {
+					target.parentElement.remove();
+				},
+				error: function (xhr) {
+					xhr.status;
+				}
+			});
 
-   }
-})
-function getList() {
-  $.ajax({
-    type: 'get',
-    url: '/alarm/getAllAlarm',
-    dataType: 'json',
-    success: function (list) {
-      console.log(list);
-      $(".alarm-area").empty();
-      for (let i = 0; i < list.length; i++) {
-        $(".alarm-area").append(list[i].ntcnCn);
-      }
-    }
-  });
-}
+		}
+	})
+	function getList() {
+		$.ajax({
+			type: 'get',
+			url: '/alarm/getAllAlarm',
+			dataType: 'json',
+			success: function (list) {
+				console.log(list);
+				$(".alarm-area").empty();
+				for (let i = 0; i < list.length; i++) {
+					$(".alarm-area").append(list[i].ntcnCn);
+				}
+			}
+		});
+	}
 
 	$(document).ready(function() {
 		$("td.fixMemoCn").on("click", function() {
@@ -109,12 +109,11 @@ function getList() {
 			});
 		});
 
-		$("td.memoCn").on("click", function() {
-			let number = $(this).closest("tr").data("memo-sn");
+		$(".fixed-memo").on("click", ".memoCn",function() {
+			let number = $(this).parent("div").attr("data-memo-sn");
 			let memoSn = parseInt(number, 10);
-
-			console.log(memoSn);
-
+			const target = $(this);
+			console.log(number, target);
 			$.ajax({
 				type: 'put',
 				url: '/alarm/updateMemoAlarm/' + memoSn,
@@ -142,6 +141,7 @@ function getList() {
 									type: 'put',
 									url: '/alarm/noFix/' + memoSn,
 									success: function(res) {
+										const value = target.
 										$("#memoTitleData").text(null);
 										$("#memoDetailDataTitle").text(null);
 										$("#memoDetailDataContent").text(null);
@@ -161,7 +161,7 @@ function getList() {
 			success: function (map) {
 				let code = "";
 				if(map.memoVO.memoEmplId != null){
-				code += `
+					code += `
 					<div class="flip-memo front">
 						<p id="memoDetailDataTitle">\${map.memoVO.memoSj}</p>
 						<p id="memoDetailDataContent">\${map.memoVO.memoCn}</p>
@@ -178,38 +178,41 @@ function getList() {
 					<div id="memoTitleData">
 						<h3 class="title">고정 메모</h3>
 					`;
-						if(map.memoVO.memoSn != 0){
-							code += `
+				if(map.memoVO.memoSn != 0){
+					code += `
 							<div data-fix-memo-sn="\${map.memoVO.memoSn}">
 								<div class="fixMemoCn">\${map.memoVO.memoCn}</div>
 							</div></div>`;
-						}else {
-							code += `<p>고정된 메모가 없습니다.</p></div>`;
-						}
-					code += `<div class="memo-list">`;
+				}else {
+					code += `<p class="text">고정된 메모가 없습니다.</p></div>`;
+				}
+				code += `<div class="memo-list-wrap">
+						<h3 class="title">고정할 메모 선택</h3>
+						<div class="memo-list">
+						`;
 				if(map.list != null){
-				map.list.forEach(item => {
-					code += `
+					map.list.forEach(item => {
+						code += `
 						<div data-memo-sn="\${item.memoSn}">
 							<div class="memoCn">\${item.memoCn}</div>
 						</div>`
-				});
-				code += "</div></div>";
+					});
+					code += "</div></div></div>";
 				}else {
-					code += "<p class='no-data'>등록된 메모가 없습니다.</p></div></div>"
+					code += "<p class='no-data'>등록된 메모가 없습니다.</p></div></div></div>"
 				}
 				document.querySelector(".fixed-memo").innerHTML = code;
 			}
 		});
 	});
-  const serviceTab = document.querySelector(".service-tab");
-  const alarmWrapper = document.querySelector(".alarmWrapper");
+	const serviceTab = document.querySelector(".service-tab");
+	const alarmWrapper = document.querySelector(".alarmWrapper");
 
-  serviceTab.addEventListener("click", function() {
-	  alarmWrapper.classList.toggle("on");
-  });
+	serviceTab.addEventListener("click", function() {
+		alarmWrapper.classList.toggle("on");
+	});
 
-  /*	메[모	*/
+	/*	메[모	*/
 	document.querySelector(".fixed-memo").addEventListener("click",e => {
 		const target = e.target;
 		if(target.id == "addMemo"){
