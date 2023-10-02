@@ -65,7 +65,7 @@
                     </li>
                     <li>
                         <h5 class="club-title">4. 동호회 정원</h5>
-                        <div><input type="text" name="clbPsncpa" id="clbPsncpa" class="data-box input-l modal-input">
+                        <div><input type="number" name="clbPsncpa" id="clbPsncpa" class="data-box input-l modal-input">
                         </div>
                     </li>
                 </ul>
