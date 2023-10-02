@@ -71,7 +71,7 @@ class ClassBtn {
                             };
 
                             xhr.onerror = function () {
-                                console.error("네트워크 오류로 인해 삭제 요청이 실패했습니다.");
+                                console.error("오류로 인해 삭제 요청이 실패했습니다.");
                             };
 
                             xhr.send();

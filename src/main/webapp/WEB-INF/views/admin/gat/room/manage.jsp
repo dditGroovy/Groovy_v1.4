@@ -85,15 +85,21 @@
     class ClassBtn {
         init(params) {
             this.eGui = document.createElement('div');
+            const currentTime = new Date(); // 현재 날짜 및 시간 가져오기 
+            const endTime = new Date(params.data.endTime);
+            // 예약 끝 시간과 현재 시간을 비교하여 버튼을 활성화 또는 비활성화
+            if(endTime > currentTime){
+            	
             this.eGui.innerHTML = `
-            <button class="cancelRoom" id="${params.value}">예약 취소</button>
-        `;
+            	<button class="cancelRoom" id="${params.value}">예약 취소</button>
+        	`;
+ 
+        	// 클릭 이벤트 핸들러를 추가
             this.id = params.value;
             this.btnReturn = this.eGui.querySelector(".cancelRoom");
 
             // 클릭 이벤트 핸들러를 정의하고 삭제 버튼에 추가
             this.btnReturn.addEventListener("click", () => {
-                console.log("취소가 되니?");
                 if (confirm("정말 취소하시겠습니까?")) {
                     const fcltyResveSn = this.id; // params.value 대신 this.id를 사용
                     console.log(fcltyResveSn);
@@ -114,14 +120,15 @@
                         };
 
                         xhr.onerror = function () {
-                            console.error("네트워크 오류로 인해 삭제 요청이 실패했습니다.");
+                            console.error("오류로 인해 삭제 요청이 실패했습니다.");
                         };
 
                         xhr.send();
                     }
                 }
             });
-        }
+         }
+      }
 
         getGui() {
             return this.eGui;
@@ -166,6 +173,10 @@
     <c:if test="${empty requestMatter}">
     <c:set var="requestMatter" value=""/>
     </c:if>
+    
+    <c:set var="isoFormattedEndTime">
+		<fmt:formatDate value="${room.fcltyResveEndTime}" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+	</c:set>
 
     rowData.push({
         fcltyResveSn: count,
@@ -175,8 +186,10 @@
         fcltyResveEndTime: "${fEndTime}",
         fcltyResveEmplNmAndId: "${room.fcltyEmplName}(${room.fcltyResveEmplId})",
         fcltyResveRequstMatter : "${room.fcltyResveRequstMatter}",
-        chk:"${room.fcltyResveSn}"
-    })
+        chk:"${room.fcltyResveSn}",
+        endTime: new Date("${isoFormattedEndTime}")
+    });
+    
     </c:forEach>
 
     // ag-Grid 초기화
