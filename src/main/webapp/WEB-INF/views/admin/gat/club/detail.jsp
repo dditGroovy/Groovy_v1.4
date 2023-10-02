@@ -62,7 +62,7 @@
                     </div>
                     <div class="info-list">
                         <h3 class="club-clbPsncpa">동호회 정원(현재 / 전체)</h3>
-                        <p class="content">${clubDetail.clbPsncpa}</p>
+                        <p class="content">${clubDetail.clubMbrCnt} / ${clubDetail.clbPsncpa}</p>
                     </div>
                     <div class="info-list">
                         <h3 class="club-clbChirmnEmplId">동호회 회장(사번)</h3>

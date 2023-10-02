@@ -99,6 +99,7 @@
         },
         {field: "clbDc", headerName: "동호회 설명", cellRenderer: StringRenderer},
         {field: "clbPsncpa", headerName: "동호회 정원"},
+        {field: "clubMbrCnt", headerName: "전체 회원 수"},
         {field: "clbDate", headerName: "신청 날짜"},
         {field: "chk", headerName: " ", cellRenderer: ClassBtn},
         {field: "clbEtprCode", headerName: "clbEtprCode", hide: true},

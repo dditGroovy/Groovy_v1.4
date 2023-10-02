@@ -9,7 +9,8 @@
                C.CLB_PSNCPA,
                C.CLB_CHIRMN_EMPL_ID,
                (SELECT EMPL_NM FROM EMPL WHERE EMPL_ID = C.CLB_CHIRMN_EMPL_ID) AS CLBCHIRMNEMPLNM,
-               C.CLB_KIND
+               C.CLB_KIND,
+               (SELECT COUNT(*) FROM CLB_MBR WHERE CLB_ETPR_CODE = C.CLB_ETPR_CODE AND CLB_MBR_ACT_AT = 0) AS CLUBMBRCNT
         FROM CLB C,
              EMPL E
         WHERE C.CLB_CONFM_AT = #{clbConfmAt} AND CLB_CHIRMN_EMPL_ID = E.EMPL_ID
@@ -99,7 +100,8 @@
                 C.CLB_PSNCPA,
                 C.CLB_CHIRMN_EMPL_ID,
                 C.CLB_KIND,
-                C.CLB_CONFM_AT
+                C.CLB_CONFM_AT,
+                (SELECT COUNT(*) FROM CLB_MBR WHERE CLB_ETPR_CODE = C.CLB_ETPR_CODE AND CLB_MBR_ACT_AT = 0) AS CLUBMBRCNT
             FROM CLB C
             WHERE TO_NUMBER(C.CLB_CONFM_AT) = 1 OR TO_NUMBER(C.CLB_CONFM_AT) = 3
             ORDER BY C.CLB_DATE DESC
@@ -115,7 +117,8 @@
             C.CLB_CHIRMN_EMPL_ID,
             (SELECT EMPL_NM FROM EMPL WHERE EMPL_ID = C.CLB_CHIRMN_EMPL_ID) AS CLBCHIRMNEMPLNM,
             C.CLB_KIND,
-            C.CLB_CONFM_AT
+            C.CLB_CONFM_AT,
+            (SELECT COUNT(*) FROM CLB_MBR WHERE CLB_ETPR_CODE = C.CLB_ETPR_CODE AND CLB_MBR_ACT_AT = 0) AS CLUBMBRCNT
         FROM CLB C
         WHERE C.CLB_ETPR_CODE = #{clbEtprCode}
     </select>

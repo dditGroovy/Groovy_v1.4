@@ -70,9 +70,6 @@
                     </li>
                     <li>
                         <h5 class="club-title">5. 썸네일 설정</h5>
-                        <div>
-                            <
-                        </div>
                     </li>
                 </ul>
                 <div class="modal-description">

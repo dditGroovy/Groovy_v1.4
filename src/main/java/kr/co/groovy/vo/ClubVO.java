@@ -22,6 +22,7 @@ public class ClubVO {
     private String clbChirmnEmplNm;
     private String clbKind;
     private String clbConfmAt;
+    private int clubMbrCnt;
     private List<ClubMbrVO> clubMbr;
     private int joinChk;
 

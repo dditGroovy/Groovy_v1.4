@@ -185,8 +185,8 @@
         No: "${status.count}",
         clbDate: "${clubRegist.clbDate}",
         clbNm: "${clubRegist.clbNm}",
-        clbPsncpa: "${clubRegist.clbPsncpa}",
-        clbChirmnEmplId: "${clubRegist.clbChirmnEmplId} (${clubRegist.clbChirmnEmplNm})",
+        clbPsncpa: "${clubRegist.clubMbrCnt}/${clubRegist.clbPsncpa}",
+        clbChirmnEmplId: "${clubRegist.clbChirmnEmplNm} (${clubRegist.clbChirmnEmplId})",
         clbEtprCode: "${clubRegist.clbEtprCode}",
     })
     totalClub = ${status.count};

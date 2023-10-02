@@ -31,13 +31,11 @@ public class ClubService {
             vo.setClbMbrClsf(ClassOfPosition.valueOf(vo.getClbMbrClsf()).label());
         }
         clubVO.setClubMbr(clubMbrList);
-        log.info("clubMbrList  ==> " + clubMbrList);
         return clubVO;
     }
     public void inputClub(Map<String, Object> map){
         String clbEtprCode = makeSntncEtprCode();
         map.put("clbEtprCode",clbEtprCode);
-        log.info("clubMap ====>  " + map);
         mapper.inputClub(map);
     }
     public void updateClubAt(Map<String, Object> map){mapper.updateClubAt(map);}
