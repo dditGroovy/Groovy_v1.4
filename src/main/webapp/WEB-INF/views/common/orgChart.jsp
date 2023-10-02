@@ -32,12 +32,6 @@
                                             class="empl-clsf">${dept010.commonCodeClsf}</span>
                                     </div>
                                 </div>
-                                <div class="empl-service">
-                                    <a href="#${dept010.emplId}"><i class="icon i-chat"></i></a>
-                                    <!-- 채팅 아이콘/각 태그에 링킹 -->
-                                    <a href="#${dept010.emplId}"><i class="icon i-mail"></i></a>
-                                    <!-- 메일 아이콘/각 태그에 링킹 -->
-                                </div>
                             </li>
                         </c:forEach>
                     </ol>
@@ -53,10 +47,6 @@
                                         <h3 class="empl-name">${dept011.emplNm}</h3> <span
                                             class="empl-clsf">${dept011.commonCodeClsf}</span>
                                     </div>
-                                </div>
-                                <div class="empl-service">
-                                    <a href="#${dept011.emplId}"><i class="icon i-chat"></i></a>
-                                    <a href="#${dept011.emplId}"><i class="icon i-mail"></i></a>
                                 </div>
                             </li>
                         </c:forEach>
@@ -74,10 +64,6 @@
                                             class="empl-clsf">${dept012.commonCodeClsf}</span>
                                     </div>
                                 </div>
-                                <div class="empl-service">
-                                    <a href="#${dept012.emplId}"><i class="icon i-chat"></i></a>
-                                    <a href="#${dept012.emplId}"><i class="icon i-mail"></i></a>
-                                </div>
                             </li>
                         </c:forEach>
                     </ol>
@@ -94,10 +80,6 @@
                                             class="empl-clsf">${dept013.commonCodeClsf}</span>
                                     </div>
                                 </div>
-                                <div class="empl-service">
-                                    <a href="#${dept013.emplId}"><i class="icon i-chat"></i></a>
-                                    <a href="#${dept013.emplId}"><i class="icon i-mail"></i></a>
-                                </div>
                             </li>
                         </c:forEach>
                     </ol>
@@ -113,10 +95,6 @@
                                         <h3 class="empl-name">${dept014.emplNm}</h3> <span
                                             class="empl-clsf">${dept014.commonCodeClsf}</span>
                                     </div>
-                                </div>
-                                <div class="empl-service">
-                                    <a href="#${dept014.emplId}"><i class="icon i-chat"></i></a>
-                                    <a href="#${dept014.emplId}"><i class="icon i-mail"></i></a>
                                 </div>
                             </li>
                         </c:forEach>
