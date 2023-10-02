@@ -183,10 +183,14 @@
     overflow-y: auto;
 }
 #memoTitleData {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     font-size: 14px;
 }
 #memoTitleData .title, .memo-list-wrap .title {
     font-size: 11px;
+    font-family: var(--font-sb);
 }
 .text {
     font-size: 11px;
