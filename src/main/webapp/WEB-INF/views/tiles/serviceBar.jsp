@@ -33,7 +33,7 @@
 
 	function connectWs() {
 		// 웹소켓 연결
-		sock = new SockJS("https://12fa-175-116-155-226.ngrok-free.app/chat");
+		sock = new SockJS("/chat");
 		socket = sock;
 
 		sock.onopen = function () {
