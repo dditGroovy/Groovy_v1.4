@@ -65,7 +65,7 @@
 
     function connectWs() {
         //웹소켓 연결
-        sock = new SockJS("<c:url value="/echo-ws"/>");
+        sock = new SockJS("<c:url value="http://125.138.66.183:8080//echo-ws"/>");
         socket = sock;
 
         sock.onopen = function () {

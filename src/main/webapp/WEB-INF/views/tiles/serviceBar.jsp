@@ -16,33 +16,11 @@
 	<section class="memoContainer">
 		<!-- 리스트에서 고정할 메모 클릭하면 고정되어요~ -->
 		<div class="fixed-memo">
-					<c:choose>
-						<c:when test="${not empty memoList}">
-							<c:forEach items="${memoList}" var="memo">
-						<div data-memo-sn="${memo.memoSn}">
-							<div class="memoCn">${memo.memoCn}</div>
-						</div>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<div class="no-memo">
-								<button id="addMemo" class="btn"></button>
-							</div>
-						</c:otherwise>
-					</c:choose>
+
 				</div>
 
-			<!-- 고정된 메모 클릭하면 고정 해제되고 메모 디테일 내용도 사라져요~ -->
-				<div id="memoTitleData">
-					<div data-fix-memo-sn="${fixMemo.memoSn}">
-						<td class="fixMemoCn">${fixMemo.memoCn}</td>
-					</div>
-				</div>
-		<div class="flip-memo">
-			<p id="memoDetailDataTitle">${fixMemo.memoSj}</p>
-			<p id="memoDetailDataContent">${fixMemo.memoCn}</p>
-			<p id="memoDetailDataDate"><fmt:formatDate value="${fixMemo.memoWrtngDate}" type="date" pattern="yyyy-MM-dd"/></p>
-		</div>
+
+
 	</section>
   	<div class="service-tab">
 
@@ -52,7 +30,7 @@
 </div>
 
 <script>
-  getList();
+	getList();
   var socket = null;
   $(document).ready(function() {
     connectWs();
@@ -60,7 +38,7 @@
 
   function connectWs() {
     // 웹소켓 연결
-    sock = new SockJS("<c:url value='/echo-ws'/>");
+    sock = new SockJS("<c:url value='http://125.138.66.183:8080//echo-ws'/>");
     socket = sock;
 
     sock.onopen = function () {
@@ -116,88 +94,117 @@ function getList() {
   });
 }
 
+	$(document).ready(function() {
+		$("td.fixMemoCn").on("click", function() {
+			let number = $(this).closest("tr").data("fix-memo-sn");
+			let memoSn = parseInt(number, 10);
 
-$(document).ready(function(){
-	$("td.fixMemoCn").on("click", function() {
-		let number = $(this).closest("tr").data("fix-memo-sn");
-		
-		let memoSn = parseInt(number, 10);
-		
-		console.log(memoSn);
-		
+			console.log(memoSn);
+
+			$.ajax({
+				type: 'put',
+				url: '/alarm/noFix/' + memoSn,
+				success: function(res) {
+					$("#memoTitleData").text(null);
+
+					$("#memoDetailDataTitle").text(null);
+					$("#memoDetailDataContent").text(null);
+					$("#memoDetailDataDate").text(null);
+				}
+			});
+		});
+
+		$("td.memoCn").on("click", function() {
+			let number = $(this).closest("tr").data("memo-sn");
+			let memoSn = parseInt(number, 10);
+
+			console.log(memoSn);
+
+			$.ajax({
+				type: 'put',
+				url: '/alarm/updateMemoAlarm/' + memoSn,
+				success: function(res) {
+					$.ajax({
+						type: 'get',
+						url: '/alarm/updateMemoAlarm/' + memoSn,
+						success: function(data) {
+							let memoDate = data.memoWrtngDate;
+							let date = new Date(memoDate);
+							let formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+
+							$("#memoTitleData").text(data.memoCn);
+
+							$("#memoDetailDataTitle").text(data.memoSj);
+							$("#memoDetailDataContent").text(data.memoCn);
+							$("#memoDetailDataDate").text(formattedDate);
+
+							$("#memoTitleData").on("click", function() {
+								let memoSn = data.memoSn;
+
+								$("tr[data-fix-memo-sn]").attr("data-fix-memo-sn", memoSn);
+
+								$.ajax({
+									type: 'put',
+									url: '/alarm/noFix/' + memoSn,
+									success: function(res) {
+										$("#memoTitleData").text(null);
+										$("#memoDetailDataTitle").text(null);
+										$("#memoDetailDataContent").text(null);
+										$("#memoDetailDataDate").text(null);
+									}
+								});
+							});
+						}
+					});
+				}
+			});
+		});
+
 		$.ajax({
-			type: 'put',
-			url: '/alarm/noFix/' + memoSn,
-			success: function(res) {
-				$("#memoTitleData").text(null);
-		        
-		        $("#memoDetailDataTitle").text(null);
-		        $("#memoDetailDataContent").text(null);
-		        $("#memoDetailDataDate").text(null);
-			}
-		})
-	})
-})
+			url: `/alarm/all`,
+			type: 'GET',
+			success: function (map) {
+				let code = "";
+				code += `
+                <div class="flip-memo front">
+                    <p id="memoDetailDataTitle">\${map.memoVO.memoSj}</p>
+                    <p id="memoDetailDataContent">\${map.memoVO.memoCn}</p>
+                    <p id="memoDetailDataDate">\${map.memoVO.memoWrtngDate}</p>
+                </div>
+                <div class="no-memo front">
+                    <button id="addMemo" class="btn"></button>
+                </div>
+                <div class="no-memo front">
+                    <button id="addMemo" class="btn"></button>
+                </div>
+                <div id="memoTitleData">
+                    <div data-fix-memo-sn="\${map.memoVO.memoSn}">
+                        <td class="fixMemoCn">\${map.memoVO.memoCn}</td>
+                    </div>
+                </div>`;
 
+				map.list.forEach(item => {
+					code += `
+                <div data-memo-sn="\${item.memoSn}">
+                    <div class="memoCn">\${item.memoCn}</div>
+                </div>`;
+				});
 
-$(document).ready(function() {
-	$("td.memoCn").on("click", function() {
-		let number = $(this).closest("tr").data("memo-sn");
-		
-		let memoSn = parseInt(number, 10);
-		
-		console.log(memoSn);
-		
-		$.ajax({
-			type: 'put',
-			url: '/alarm/updateMemoAlarm/' + memoSn,
-			success: function(res) {
-				$.ajax({
-                    type: 'get',
-                    url: '/alarm/updateMemoAlarm/' + memoSn,
-                    success: function(data) {
-                        let memoDate = data.memoWrtngDate;
-                        
-                        let date = new Date(memoDate);
-                        
-                        let formattedDate = date.getFullYear() + '-' + 
-                        					('0' + (date.getMonth() + 1)).slice(-2) + '-' + 
-                        					('0' + date.getDate()).slice(-2);
-                        
-                        $("#memoTitleData").text(data.memoCn);
-                        
-                        $("#memoDetailDataTitle").text(data.memoSj);
-                        $("#memoDetailDataContent").text(data.memoCn);
-                        $("#memoDetailDataDate").text(formattedDate);
-						
-						
-						$("#memoTitleData").on("click", function() {
-                        	let memoSn = data.memoSn;
-                        
-                        	$("tr[data-fix-memo-sn]").attr("data-fix-memo-sn", memoSn);
-                        
-	                        $.ajax({
-	                			type: 'put',
-	                			url: '/alarm/noFix/' + memoSn,
-	                			success: function(res) {
-	                				$("#memoTitleData").text(null);
-	                		        
-	                		        $("#memoDetailDataTitle").text(null);
-	                		        $("#memoDetailDataContent").text(null);
-	                		        $("#memoDetailDataDate").text(null);
-	                			}
-	                		})
-						}) 
-                    }
-                });
+				console.log(code);
 			}
 		});
 	});
-})
   const serviceTab = document.querySelector(".service-tab");
   const alarmWrapper = document.querySelector(".alarmWrapper");
 
   serviceTab.addEventListener("click", function() {
 	  alarmWrapper.classList.toggle("on");
   });
+
+  /*	메[모	*/
+	/*const addMemoBtn = document.querySelector("#addMemo");
+  addMemoBtn.addEventListener("click".function(){
+
+  })*/
+
 </script>
