@@ -339,10 +339,10 @@
                 data: JSON.stringify(data),
                 contentType: "application/json",
                 success: function (data) {
-                    alert("결재 상태 업데이트 성공");
+                    console.log("결재 상태 업데이트 성공");
                 },
                 error: function (xhr) {
-                    alert("결재 상태 업데이트 실패");
+                    console.log("결재 상태 업데이트 실패");
                 }
             });
         }
@@ -401,7 +401,7 @@
 
             // 파일의 개수 제한
             if (data.files.length > 1) {
-                alert('파일은 하나씩 전송이 가능합니다.');
+                alert('파일은 하나만 업로드 가능합니다.');
                 return false;
             }
 

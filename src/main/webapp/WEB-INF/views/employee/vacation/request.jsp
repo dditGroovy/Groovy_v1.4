@@ -223,10 +223,10 @@
         const startDateName = "yrycUseDtlsBeginDate";
         const endDateName = "yrycUseDtlsEndDate";
 
-        // setDate(startDateName)
-        // setDate(endDateName)
-        // setMinDate(startDateName)
-        // setMinDate(endDateName)
+        setDate(startDateName)
+        setDate(endDateName)
+        setMinDate(startDateName)
+        setMinDate(endDateName)
 
         const detailVacation = document.querySelector(".detailVacation");
         const detailLink = document.querySelectorAll(".detailLink");
@@ -291,13 +291,13 @@
                 url: $("#" + formId).attr("action"),
                 data: formData,
                 success: function (res) {
-                    alert("ajax 성공");
+                    alert("신청이 완료되었습니다.");
                     modalClose()
                     resetModal();
                     loadRecord()
                 },
                 error: function (error) {
-                    alert("ajax 실패");
+                    console.log("신청 실패");
                 }
             });
         }

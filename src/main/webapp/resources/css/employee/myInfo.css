@@ -279,3 +279,6 @@ input[type='text'] {
 .modal-layer {
     gap: 0;
 }
+.sign-btn{
+    margin-top: var(--vh-40);
+}

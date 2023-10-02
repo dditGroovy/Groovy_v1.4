@@ -249,10 +249,10 @@
                 type: 'PUT',
                 success: function (data) {
                     appendSignImg()
-                    alert('승인 처리 되었습니다.')
+                    alert('승인 처리되었습니다.')
                 },
                 error: function (xhr) {
-                    alert('승인 처리 실패')
+                    alert('승인 처리에 실패하였습니다.')
                 }
             });
         }
@@ -289,13 +289,13 @@
                 type: 'PUT',
                 success: function (data) {
                     appendSignImg()
-                    alert('최종 승인 처리 되었습니다.')
+                    alert('최종 승인 처리되었습니다.')
                     if (afterPrcs != null) {
                         afterFinalApprove();
                     }
                 },
                 error: function (xhr) {
-                    alert('최종 승인 처리 실패')
+                    alert('최종 승인 처리에 실패하였습니다.')
                 }
             });
         }
@@ -308,10 +308,10 @@
                 data: afterPrcs,
                 contentType: "application/json",
                 success: function (data) {
-                    alert("후처리 실행(리플랙션) 성공");
+                    console.log("후처리 성공");
                 },
                 error: function (xhr) {
-                    alert("후처리 실행(리플랙션) 실패");
+                    console.log("후처리 실패");
                 }
             });
         }
@@ -341,10 +341,10 @@
                 success: function (data) {
                     signUrl = '/resources/images/reject.png';
                     appendSignImg()
-                    alert('반려 처리 되었습니다.')
+                    alert('반려 처리되었습니다.')
                 },
                 error: function (xhr) {
-                    alert('반려 처리 실패')
+                    alert('반려 처리에 실패하였습니다.')
                 }
             });
         }
@@ -355,12 +355,12 @@
                 url: `/sanction/api/collect/\${etprCode}`,
                 type: 'PUT',
                 success: function (data) {
-                    alert('회수 되었습니다.')
+                    alert('회수 처리되었습니다.')
                     location.reload()
 
                 },
                 error: function (xhr) {
-                    alert('회수 처리 실패')
+                    alert('회수 처리에 실패하였습니다.')
                 }
             });
         }
