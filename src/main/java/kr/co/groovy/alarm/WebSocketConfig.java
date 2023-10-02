@@ -1,7 +1,5 @@
 package kr.co.groovy.alarm;
 
-import kr.co.groovy.employee.EmployeeService;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
@@ -11,17 +9,6 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
-
-    private EmployeeService employeeService;
-
-    public WebSocketConfig(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
-    @Bean
-    public AlarmHandler alarmHandler() {
-        return new AlarmHandler(employeeService);
-    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
