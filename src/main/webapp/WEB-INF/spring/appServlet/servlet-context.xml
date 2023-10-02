@@ -52,7 +52,7 @@
 
 	<beans:bean id="alarmtHandler" class="kr.co.groovy.alarm.AlarmHandler" />
 	<websocket:handlers>
-		<websocket:mapping path="/echo-ws" handler="alarmtHandler"/>
+		<websocket:mapping path="http://125.138.66.183:8080//echo-ws" handler="alarmtHandler"/>
 		<websocket:handshake-interceptors>
 			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
