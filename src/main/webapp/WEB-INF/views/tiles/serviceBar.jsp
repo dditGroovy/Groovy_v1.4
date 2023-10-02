@@ -68,7 +68,6 @@
     };
 
     sock.onmessage = function(event) {
-      console.log(event.data);
       getList();
     }
 
