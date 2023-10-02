@@ -17,7 +17,31 @@
 
         #myGrid {
             width: 100%;
-            height: calc((656 / 1080) * 100vh);
+            height: calc((800 / 1080) * 100vh);
+        }
+
+        #quickFilter {
+            width: calc((400 / var(--vw)) * 100vw);
+            height: calc((45 / var(--vh)) * 100vh);
+            border: none;
+            outline: none;
+        }
+
+        .serviceWrap {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-stroke);
+            border-radius: var(--vh-8);
+            box-shadow: var(--clay-card);
+            outline-color: var(--color-main);
+            padding-left: 10px;
+            height: var(--vh-48);
+        }
+
+        .searchDiv {
+            display: flex;
+            margin-bottom: var(--vh-8);
+            align-items: flex-end;
+            justify-content: space-between;
         }
 
         .card .ag-root-wrapper {
@@ -54,22 +78,66 @@
         .ag-row-even, .ag-row-odd {
             border-color: var(--color-bg-grey);
         }
+
+        .dtsmtHeader {
+            margin-bottom: var(--vh-56);
+        }
+
+        .yearMonthDiv {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        #yearSelect {
+            width: calc(148 * (100vw / var(--vw)));
+            height: var(--vh-48);
+
+        }
+
+        .select-wrapper {
+            width: calc(148 * (100vw / var(--vw)));
+            display: inline;
+            margin-right: var(--vw-12);
+        }
+
+        #monthDiv button {
+            padding: var(--vw-16) var(--vh-24);
+            border-radius: var(--vh-8) !important;
+            height: var(--vh-48);
+            color: var(--color-font-md) !important;
+            width: calc(80 * (100vw / var(--vw)));
+        }
+
+        #monthDiv {
+            margin-bottom: var(--vh-8);
+        }
     </style>
     <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
     <div class="content-container">
+        <h1 class="dtsmtHeader tab-header font-md font-36">급여 정산</h1>
         <div class="wrap">
-        </div>
-        <br/>
-        <div class="serviceWrap">
-            <select name="sortOptions" id="yearSelect" class="stroke"></select>
+            <div class="yearMonthDiv">
+                <div class="select-wrapper">
+                    <select name="sortOptions" id="yearSelect"
+                            class="stroke selectBox font-md font-14 color-font-md"></select>
+                </div>
+                <div class="searchDiv">
+                    <div class="serviceWrap">
+                        <i class="icon i-search"></i>
+                        <input type="text" oninput="onQuickFilterChanged()" class="input-free-white" id="quickFilter"
+                               placeholder="검색어를 입력하세요"/>
+                    </div>
+                </div>
+            </div>
             <div id="monthDiv"></div>
-            <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
+
         </div>
         <div class="cardWrap">
             <div class="card">
                 <div id="myGrid" class="ag-theme-alpine"></div>
             </div>
         </div>
+
     </div>
 </sec:authorize>
 <script>
@@ -115,9 +183,9 @@
                 let code = ``;
                 for (let i = 1; i <= 12; i++) {
                     if (result.includes(i < 10 ? `0\${i}` : `\${i}` && nowDate.getDate() >= 15) || (i < nowDate.getMonth() + 1 && nowDate.getDate() >= 14)) {
-                        code += `<button type="button" onclick="getSalaryByYearAndMonth(\${year}, this)">\${i}월</button>`;
+                        code += `<button type="button" class="btn btn-free-white btn-sm font-14 font-md color-font-md btn-batch" onclick="getSalaryByYearAndMonth(\${year}, this)">\${i}월</button>`;
                     } else {
-                        code += `<button type="button" disabled>\${i}월</button>`;
+                        code += `<button type="button" class="btn btn-free-white btn-sm font-14 font-md color-font-md btn-batch" disabled>\${i}월</button>`;
                     }
                 }
                 monthDiv.innerHTML = code;
@@ -188,16 +256,51 @@
         {field: "overWorkTime", headerName: "초과근무시간", cellStyle: {textAlign: "center"}},
         {field: "totalWorkTime", headerName: "근무인정시간", cellStyle: {textAlign: "center"}},
         {field: "salaryBslry", headerName: "기본급", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
-        {field: "salaryOvtimeAllwnc", headerName: "초과근무수당", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
-        {field: "salaryDtsmtPymntTotamt", headerName: "지급액계", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
+        {
+            field: "salaryOvtimeAllwnc",
+            headerName: "초과근무수당",
+            cellStyle: {textAlign: "center"},
+            valueFormatter: formatNumber
+        },
+        {
+            field: "salaryDtsmtPymntTotamt",
+            headerName: "지급액계",
+            cellStyle: {textAlign: "center"},
+            valueFormatter: formatNumber
+        },
         {field: "salaryDtsmtSisNp", headerName: "국민연금", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
         {field: "salaryDtsmtSisHi", headerName: "건강보험", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
         {field: "salaryDtsmtSisEi", headerName: "고용보험", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
-        {field: "salaryDtsmtSisWci", headerName: "산재보험", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
-        {field: "salaryDtsmtIncmtax", headerName: "소득세", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
-        {field: "salaryDtsmtLocalityIncmtax", headerName: "지방소득세", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
-        {field: "salaryDtsmtDdcTotamt", headerName: "공제액계", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
-        {field: "salaryDtsmtNetPay", headerName: "실수령액", cellStyle: {textAlign: "center"}, valueFormatter: formatNumber},
+        {
+            field: "salaryDtsmtSisWci",
+            headerName: "산재보험",
+            cellStyle: {textAlign: "center"},
+            valueFormatter: formatNumber
+        },
+        {
+            field: "salaryDtsmtIncmtax",
+            headerName: "소득세",
+            cellStyle: {textAlign: "center"},
+            valueFormatter: formatNumber
+        },
+        {
+            field: "salaryDtsmtLocalityIncmtax",
+            headerName: "지방소득세",
+            cellStyle: {textAlign: "center"},
+            valueFormatter: formatNumber
+        },
+        {
+            field: "salaryDtsmtDdcTotamt",
+            headerName: "공제액계",
+            cellStyle: {textAlign: "center"},
+            valueFormatter: formatNumber
+        },
+        {
+            field: "salaryDtsmtNetPay",
+            headerName: "실수령액",
+            cellStyle: {textAlign: "center"},
+            valueFormatter: formatNumber
+        },
     ];
 
     const rowData = [];
