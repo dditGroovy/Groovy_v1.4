@@ -50,7 +50,7 @@
                             code += "<tr style='height: 100%;'><td colspan='8'>기안 결재 문서가 없습니다</td></tr>";
                         } else {
                             for (let i = 0; i < res.length; i++) {
-                                code += `<tr><td><a href="${pageContext.request.contextPath}/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
+                                code += `<tr><td><a href="${pageContext.request.contextPath}/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction link"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
                                 code += `<td>\${res[i].commonCodeSanctProgrs}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnFormatCode}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnSj}</td>`;
@@ -86,7 +86,7 @@
                             code += "<tr style='height: 100%;'><td colspan='8'>결재 대기 및 예정 문서가 없습니다</td></tr>";
                         } else {
                             for (let i = 0; i < res.length; i++) {
-                                code += `<tr><td><a href="${pageContext.request.contextPath}/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
+                                code += `<tr><td><a href="${pageContext.request.contextPath}/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction link"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
                                 code += `<td>\${res[i].commonCodeSanctProgrs}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnSj}</td>`;
                                 code += `<td>\${res[i].emplNm}</td>`;
@@ -117,7 +117,7 @@
                             code += "<tr style='height: 100%;'><td colspan='8'>참조 결재 문서가 없습니다</td></tr>";
                         } else {
                             for (let i = 0; i < res.length; i++) {
-                                code += `<tr><td><a href="${pageContext.request.contextPath}/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
+                                code += `<tr><td><a href="${pageContext.request.contextPath}/sanction/read/\${res[i].elctrnSanctnEtprCode}" class="openSanction link"> \${res[i].elctrnSanctnEtprCode}</a></td>`;
                                 code += `<td>\${res[i].commonCodeSanctProgrs}</td>`;
                                 code += `<td>\${res[i].elctrnSanctnSj}</td>`;
                                 code += `<td>\${res[i].emplNm}</td>`;

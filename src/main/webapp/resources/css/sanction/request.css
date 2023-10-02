@@ -56,10 +56,15 @@
 .state {
     border: 1px solid var(--color-font-md);
     border-radius: 50px;
-    padding: var(--vh-8) var(--vw-24);
     color: var(--color-font-md);
-}
 
+    width: 80px;
+    margin: 0 auto;
+}
+.state button {
+    padding: var(--vh-8) var(--vw-24);
+    font-size: 11px;
+}
 #record {
     padding: var(--vh-24);
     /*height: calc((718/var(--vh))*100vh);*/
@@ -72,4 +77,21 @@
 #countWrap {
     margin : 1%
 }
-
+.detailVacation td {
+    display: flex;
+    gap: 24px;
+}
+.form-data-list {
+    flex-direction: row;
+    align-items: center;
+}
+.form-data-list label {
+    white-space: nowrap;
+}
+.form input {
+    width: unset !important;
+    outline: none;
+}
+.form textarea {
+    outline: none;
+}

@@ -135,16 +135,16 @@ section .content-wrap {
     align-self: flex-end;
     padding: var(--vh-12);
     font-size: var(--font-size-11);
-    background: transparent;
-    border: 1px solid var(--color-main);
-    color: var(--color-main);
+    background: transparent !important;
+    border: 1px solid var(--color-main) !important;
+    color: var(--color-main) !important;
     display: flex;
     gap: 4px;
     align-items: center;
 }
 .requestJob:hover {
-    background: var(--color-main);
-    color: white;
+    background: var(--color-main) !important;
+    color: white !important;;
 }
 .requestJob:hover .i-send-blue {
     filter: invert(100%) sepia(97%) saturate(12%) hue-rotate(202deg) brightness(200%) contrast(106%)
@@ -191,7 +191,7 @@ section .content-wrap {
     display: flex;
     gap: var(--vw-32);
     width: 100%;
-    margin-left: -482px;
+    margin-left: -599px;
 }
 .todoBoardList {
     width: calc((304/var(--vw))*100vw) !important;

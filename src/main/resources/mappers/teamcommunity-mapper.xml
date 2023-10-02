@@ -48,6 +48,7 @@
             FROM EMPL e1
             WHERE e1.EMPL_ID = #{emplId}
         )
+        ORDER BY S.SNTNC_ETPR_CODE DESC
     </select>
 
     <insert id="uploadPostFile" parameterType="map">
@@ -180,6 +181,7 @@
             FROM EMPL E1
             WHERE E1.EMPL_ID = #{emplId}
         )
+        ORDER BY VR.VOTE_REGIST_AT ASC, VR.VOTE_REGIST_NO DESC
     </select>
     <select id="loadVoteOption" resultType="voteOptionVO" parameterType="map">
         SELECT

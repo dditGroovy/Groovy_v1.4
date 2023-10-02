@@ -17,7 +17,6 @@
                     data-action="request" id="requestVacation">휴가 신청
                 <i class="icon i-add-white"></i></button>
         </div>
-        <br><br>
         <div id="countWrap" class="color-font-md">전체 <span id="countBox" class="font-b font-14"></span></div>
         <div id="record" class="card-df">
 
@@ -105,29 +104,40 @@
                             <tr>
                                 <th>휴가 구분</th>
                                 <td>
-                                    <input type="radio" name="commonCodeYrycUseKind" value="YRYC010" id="vacation1">
-                                    <label for="vacation1">연차</label>
-
-                                    <input type="radio" name="commonCodeYrycUseKind" value="YRYC011" id="vacation2">
-                                    <label for="vacation2">공가</label>
+                                    <div class="form-data-list">
+                                        <input type="radio" name="commonCodeYrycUseKind" value="YRYC010" id="vacation1">
+                                        <label for="vacation1">연차</label>
+                                    </div>
+                                    <div class="form-data-list">
+                                        <input type="radio" name="commonCodeYrycUseKind" value="YRYC011" id="vacation2">
+                                        <label for="vacation2">공가</label>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>종류</th>
                                 <td>
-                                    <input type="radio" name="commonCodeYrycUseSe" id="morning" value="YRYC020">
-                                    <label for="morning">오전 반차</label>
-                                    <input type="radio" name="commonCodeYrycUseSe" id="afternoon" value="YRYC021">
-                                    <label for="afternoon">오후 반차</label>
-                                    <input type="radio" name="commonCodeYrycUseSe" id="allDay" value="YRYC022">
-                                    <label for="allDay">종일</label>
+                                    <div class="form-data-list">
+                                        <input type="radio" name="commonCodeYrycUseSe" id="morning" value="YRYC020">
+                                        <label for="morning">오전 반차</label>
+                                    </div>
+                                    <div class="form-data-list">
+                                        <input type="radio" name="commonCodeYrycUseSe" id="afternoon" value="YRYC021">
+                                        <label for="afternoon">오후 반차</label>
+                                    </div>
+                                    <div class="form-data-list">
+                                        <input type="radio" name="commonCodeYrycUseSe" id="allDay" value="YRYC022">
+                                        <label for="allDay">종일</label>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>기간</th>
                                 <td>
-                                    <input type="date" name="yrycUseDtlsBeginDate" id="startDay" placeholder="시작 날짜"> ~
-                                    <input type="date" name="yrycUseDtlsEndDate" id="endDay" placeholder="끝 날짜">
+                                    <div class="input-date">
+                                        <input type="date" name="yrycUseDtlsBeginDate" id="startDay" placeholder="시작 날짜"> ~
+                                        <input type="date" name="yrycUseDtlsEndDate" id="endDay" placeholder="끝 날짜">
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
@@ -194,8 +204,8 @@
                         <td>\${recodeVO.commonCodeYrycUseKind}</td>
                         <td>\${recodeVO.commonCodeYrycUseSe}</td>
                         <td>\${recodeVO.commonCodeYrycState}</td>
-                        <td><span class="state"><a href="#" data-name="detailVacation" data-seq="\${recodeVO.yrycUseDtlsSn}"
-                               class="detailLink">자세히<a></span></td>
+                        <td><p class="state"><button href="#" data-name="detailVacation" data-seq="\${recodeVO.yrycUseDtlsSn}"
+                               class="detailLink btn">자세히</button></p></td>
                     </tr>`;
 
                         });
@@ -315,13 +325,17 @@
                                     if ($(this).val() === value) {
                                         $(this).prop("checked", true);
                                     }
+                                    radioElements.prop("disabled", true);
                                 });
                             } else {
                                 inputElements.val(value);
+                                inputElements.css("border", "none");
+                                inputElements.prop("readonly", true);
                             }
                             if (textareaElement.length) {
                                 textareaElement.val(value);
                                 textareaElement.css("border", "none");
+                                textareaElement.prop("readonly", true);
                             }
                         }
                     }
@@ -344,7 +358,12 @@
         $("#modifyVacation").on("click", function () {
             let form = $("#vacationModifyForm");
             let inputElements = form.find("input, textarea");
+            let radioElement = form.find("input[type='radio']");
             inputElements.each(function () {
+                $(this).removeAttr("readonly");
+                $(this).css("border", "1px solid var(--color-stroke)");
+            });
+            radioElement.each(function () {
                 $(this).removeAttr("disabled");
                 $(this).css("border", "");
             });

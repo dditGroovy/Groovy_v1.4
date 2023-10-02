@@ -15,6 +15,7 @@
     }
     .calendar-wrap {
         padding: var(--vw-32);
+        margin-top: var(--vh-64);
     }
 	#calendar{
 		margin-top: var(--vh-40);

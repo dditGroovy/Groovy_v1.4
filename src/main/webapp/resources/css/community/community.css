@@ -4,9 +4,9 @@
 #tab-header {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 12px !important;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: flex-start !important;
 }
 #tab-header strong.font-sb {
     color: var(--color-main);
@@ -153,7 +153,7 @@
     color: var(--color-font-md);
 }
 .loadAnswer {
-    background: url("/resources/images/icon/comment.svg") 100% center / cover;
+    background: url("/resources/images/icon/comment.svg") 100% center / cover !important;
     filter : invert(48%) sepia(22%) saturate(277%) hue-rotate(174deg) brightness(90%) contrast(89%);
 }
 .post-list-wrap .post-card-footer {

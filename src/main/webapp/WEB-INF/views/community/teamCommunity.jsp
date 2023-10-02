@@ -233,8 +233,8 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-wrap">
-                    <button id="cancel" class="btn btn-fill-bl-sm">취소</button>
-                    <button id="inputVoteRegisterBtn" class="btn btn-fill-wh-sm">등록</button>
+                    <button id="cancel" class="btn btn-fill-wh-sm">취소</button>
+                    <button id="inputVoteRegisterBtn" class="btn btn-fill-bl-sm">등록</button>
                 </div>
             </div>
         </div>
