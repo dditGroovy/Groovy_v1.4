@@ -92,14 +92,26 @@
 
     function validateForm() {
         if (memoCnt === null) {
-            alert("내용을 입력해주세요");
+        	 Swal.fire({
+                 position: 'top',
+                 icon: 'warning',
+                 title: '내용을 입력해주세요',
+                 showConfirmButton: false,
+                 timer: 1500
+             });
             return false;
         }
 
         const memoValue = memoCnt.value;
 
         if (memoValue === null || memoValue.trim() === "") {
-            alert("내용을 입력해주세요");
+        	Swal.fire({
+                position: 'top',
+                icon: 'warning',
+                title: '내용을 입력해주세요',
+                showConfirmButton: false,
+                timer: 1500
+            });
             return false;
         }
 
@@ -113,7 +125,10 @@
         }else if(target.closest(".more")){
             target.closest(".more").classList.add("on");
         }else {
-            document.querySelector(".more").classList.remove("on");
+        	const moreElements = document.querySelectorAll(".more");
+            moreElements.forEach((element) => {
+                element.classList.remove("on");
+            });
         }
         if (target.classList.contains("savebtn")) {
             const memoElem = target.parentElement;
@@ -138,7 +153,13 @@
                     if (data == "success") {
                         location.href = location.href;
                     } else {
-                        alert("메모 추가를 실패했습니다");
+                    	Swal.fire({
+                            position: 'top',
+                            icon: 'warning',
+                            title: '메모 등록을 실패했습니다',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                     }
                 },
                 error: function (request, status, error) {
@@ -212,9 +233,14 @@
             content.innerText = memo.querySelector("#memoCn").value;
 
             if (title.innerText === "" || content.innerText === "") {
-                alert("내용을 입력해주세요");
-                location.reload();
-
+            	Swal.fire({
+                    position: 'top',
+                    icon: 'warning',
+                    title: '내용을 입력해주세요',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+				document.querySelector(".save").style.display = "inline-block";
                 return;
             }
 
@@ -243,7 +269,13 @@
                     if (data == "success") {
                         location.href = location.href;
                     } else {
-                        alert("메모 추가를 실패했습니다");
+                    	Swal.fire({
+                            position: 'top',
+                            icon: 'warning',
+                            title: '메모 수정을 실패했습니다',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 },
                 error: function (request, status, error) {
@@ -272,7 +304,13 @@
                     if (data == "success") {
                         location.href = location.href;
                     } else {
-                        alert("메모 삭제를 실패했습니다");
+                    	Swal.fire({
+                            position: 'top',
+                            icon: 'warning',
+                            title: '메모 삭제를 실패했습니다',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 },
                 error: function (request, status, error) {
@@ -281,4 +319,5 @@
             })
         }
     })
+
 </script>
