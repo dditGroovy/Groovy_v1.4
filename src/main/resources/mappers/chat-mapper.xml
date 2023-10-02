@@ -71,10 +71,11 @@
                E.EMPL_NM,
                (SELECT C.COMMON_NAME FROM COMMON C WHERE C.COMMON_CODE = E.COMMON_CODE_DEPT) AS DEPT_NM,
                (SELECT C.COMMON_NAME FROM COMMON C WHERE C.COMMON_CODE = E.COMMON_CODE_CLSF) AS CLSF_NM,
-               UF.UPLOAD_FILE_STRE_NM  AS PROFILE_FILE_NAME
+               UF.UPLOAD_FILE_STRE_NM  AS PROFL_PHOTO_FILE_STRE_NM
         FROM EMPL E
                  JOIN UPLOAD_FILE UF ON E.PROFL_ETPR_CODE = UF.UPLOAD_FILE_ETPR_CODE
         WHERE E.EMPL_ID != #{emplId}
+        ORDER BY EMPL_NM
     </select>
 
     <select id="loadRoomMessages" parameterType="integer" resultType="chatVO">
