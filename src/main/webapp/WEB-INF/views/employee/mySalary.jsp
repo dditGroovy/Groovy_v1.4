@@ -36,7 +36,7 @@
                 <div class="salary-wrap card card-df" id="paystub">
                     <div class="content-title-wrap">
                         <i class="icon i-budget"></i>
-                        <h2 class="content-title">${year}년 ${month}월 급여명세서</h2>
+                        <h2 class="content-title">${year}년 ${month - 1}월 급여명세서</h2>
                     </div>
                     <div class="total-salary-wrap">
                         <h3>실 수령액</h3>
