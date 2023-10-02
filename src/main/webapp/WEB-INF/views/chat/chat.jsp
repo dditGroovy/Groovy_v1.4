@@ -69,7 +69,7 @@
     const chatRoomMessages = {};
     const subscribedRooms = new Set();
 
-    let sockJS = new SockJS("/chat");
+    let sockJS = new SockJS("http://125.138.66.183:8080/chat");
     let client = Stomp.over(sockJS);
 
     let currentRoomNo;
