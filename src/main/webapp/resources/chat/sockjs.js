@@ -681,12 +681,12 @@ function SockJS(url, protocols, options) {
   } else if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
     throw new SyntaxError("The URL's scheme must be either 'http:' or 'https:'. '" + parsedUrl.protocol + "' is not allowed.");
   }
-
-  var secure = parsedUrl.protocol === 'https:';
-  // Step 2 - don't allow secure origin with an insecure protocol
-  if (loc.protocol === 'https:' && !secure) {
-    throw new Error('SecurityError: An insecure SockJS connection may not be initiated from a page loaded over HTTPS');
-  }
+  //
+  // var secure = parsedUrl.protocol === 'https:';
+  // // Step 2 - don't allow secure origin with an insecure protocol
+  // if (loc.protocol === 'https:' && !secure) {
+  //   throw new Error('SecurityError: An insecure SockJS connection may not be initiated from a page loaded over HTTPS');
+  // }
 
   // Step 3 - check port access - no need here
   // Step 4 - parse protocols argument
