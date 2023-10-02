@@ -188,21 +188,6 @@ public class SalaryService {
                     paystubVO.setSalaryDtsmtNetPay(paystubVO.getSalaryDtsmtPymntTotamt() - paystubVO.getSalaryDtsmtDdcTotamt());
                     CommuteAndPaystub cnp = new CommuteAndPaystub(commuteVO, paystubVO);
                     cnpList.add(cnp);
-
-                    Map<String, String> map = new HashMap<>();
-                    LocalDate inputDate = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month) + 1, 14);
-                    log.info(String.valueOf(inputDate));
-                    Instant instant = inputDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-                    for (CommuteAndPaystub commuteAndPaystub : cnpList) {
-                        map.put("salaryEmplId", commuteAndPaystub.getPaystubVO().getSalaryEmplId());
-                        map.put("date", String.valueOf(inputDate));
-                        if (salaryMapper.existsInsertedSalary(map) == 0 && salaryMapper.existsInsertedSalaryDtsmt(map) == 0) {
-                            commuteAndPaystub.getPaystubVO().setSalaryDtsmtIssuDate(Date.from(instant));
-                            commuteAndPaystub.getPaystubVO().setInsertAt("Y");
-                            salaryMapper.inputSalary(commuteAndPaystub.getPaystubVO());
-                            salaryMapper.inputSalaryDtsmt(commuteAndPaystub.getPaystubVO());
-                        }
-                    }
                 }
             }
         }
