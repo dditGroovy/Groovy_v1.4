@@ -5,8 +5,12 @@
 <link href="/resources/css/schedule/calendar.css" rel="stylesheet"/>
 
 <style>
+	#eventTitle{
+		margin-left: 41px;
+
+	}
     .modal-content {
-        border: 1px solid red;
+        font-weight: bold;
     }
 
     #calendar {
@@ -28,6 +32,43 @@
     .fc-event-time {
         display: none;
     }
+    
+    .close{
+		left: 95%;
+   		position: relative;
+    	width: 10%;
+    	height: 25px;
+    	border: 1px solid white;
+    	background-color: white;
+    	font-size: 24px;
+	}
+	
+	.form-group{
+		margin-bottom: 10px;
+	}
+	
+	.btn-primary {
+	    width: calc((200 / var(--vw)) * 100vw);
+	    height: var(--vh-56);
+	    background-color: var(--color-main);
+	    border-radius: var(--size-32);
+	    border: 1px solid var(--color-stroke);
+	    box-shadow: var(--clay-btn);
+	    outline-color: var(--color-main);
+	    color: white;
+	}
+	
+	.form-control{
+		border-radius: var(--size-24);
+		border: 2px solid gray;
+		height: var(--vh-40);
+		text-align: center;
+		width: 74%;
+	}
+	
+	#eventStart, #eventEnd{
+		margin-left: 10px;
+	}
 </style>
 
 <div class="content-container">

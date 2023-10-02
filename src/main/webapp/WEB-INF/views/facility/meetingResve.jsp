@@ -2,6 +2,50 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/employee/reservation.css">
 
+<style>
+	.btn-out-sm {
+		width: 50px!important; 
+		height: var(--vh-32)!important; 
+		background-color: var(--color-white)!important; 
+		border-radius: var(--size-32)!important; 
+		border: 1px solid var(--color-main)!important;  
+		color: var(--color-main)!important; 
+		outline-color: var(--color-main)!important;
+	}
+	
+	.btn-out-sm:hover {
+		background-color: var(--color-main)!important; 
+		color: white!important;
+	}
+	
+	.btn-fill-wh-sm {
+	    width: 100%!important;
+	    height: var(--vh-64)!important;
+	    background-color: var(--color-white)!important;
+	    border-radius: var(--size-32)!important;
+	    border: 1px solid var(--color-stroke)!important;
+	    box-shadow: var(--clay-card)!important;
+	    outline-color: var(--color-main)!important;
+	    color: var(--color-main)!important;
+	}
+	
+	.submit-btn {
+   		width: 90%!important;
+    	margin-top: var(--vw-24)!important;
+    	font-size: var(--font-size-14)!important;
+    	
+	}
+	
+	.btn-on {
+	    background-color: var(--color-main)!important;
+	    border: 1px solid var(--color-stroke)!important;
+	    box-shadow: var(--clay-btn)!important;
+	    outline-color: var(--color-main)!important;
+	    color: white!important;
+	}
+	
+</style>
+
 <div class="content-container">
     <header id="tab-header">
         <h1><a href="${pageContext.request.contextPath}/facility/meeting" class="on">회의실 예약</a></h1>
