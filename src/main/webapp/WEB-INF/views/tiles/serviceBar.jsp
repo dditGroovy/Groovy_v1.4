@@ -20,7 +20,7 @@
 						<c:when test="${not empty memoList}">
 							<c:forEach items="${memoList}" var="memo">
 						<div data-memo-sn="${memo.memoSn}">
-							<td class="memoCn">${memo.memoCn}</td>
+							<div class="memoCn">${memo.memoCn}</div>
 						</div>
 							</c:forEach>
 						</c:when>

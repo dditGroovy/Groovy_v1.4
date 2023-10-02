@@ -1,38 +1,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<h1>연차 관리</h1>
-
-<div>
-    <table border="1">
-        <tr>
-            <th>사번</th>
-            <th>이름</th>
-            <th>부서</th>
-            <th>직급</th>
-            <th>입사일</th>
-            <th>보유 연차</th>
-        </tr>
-        <c:forEach items="${allEmplVacation}" var="vacation">
-            <fmt:formatDate var= "emplEncpn" value="${vacation.emplEncpn}" type="date" pattern="yyyy-MM-dd" />
-        <tr>
-            <td class="yrycEmpId">${vacation.yrycEmpId}</td>
-            <td>${vacation.emplNm}</td>
-            <td>${vacation.deptNm}</td>
-            <td>${vacation.clsfNm}</td>
-            <td>${emplEncpn}</td>
-            <td>
-                <button class="minusBtn">-</button>
-                <input type="number" class="yrycNowCo" value="${vacation.yrycNowCo}">
-                <button class="plusBtn">+</button>
-                <button class="saveBtn">저장</button>
-            </td>
-        </tr>
-        </c:forEach>
-    </table>
+<div class="content-container">
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/vacation/manage" class="on">연차 관리</a></h1>
+    </header>
+    <main>
+        <table border="1">
+            <tr>
+                <th>사번</th>
+                <th>이름</th>
+                <th>부서</th>
+                <th>직급</th>
+                <th>입사일</th>
+                <th>보유 연차</th>
+            </tr>
+            <c:forEach items="${allEmplVacation}" var="vacation">
+                <fmt:formatDate var= "emplEncpn" value="${vacation.emplEncpn}" type="date" pattern="yyyy-MM-dd" />
+            <tr>
+                <td class="yrycEmpId">${vacation.yrycEmpId}</td>
+                <td>${vacation.emplNm}</td>
+                <td>${vacation.deptNm}</td>
+                <td>${vacation.clsfNm}</td>
+                <td>${emplEncpn}</td>
+                <td>
+                    <button class="minusBtn">-</button>
+                    <input type="number" class="yrycNowCo" value="${vacation.yrycNowCo}">
+                    <button class="plusBtn">+</button>
+                    <button class="saveBtn">저장</button>
+                </td>
+            </tr>
+            </c:forEach>
+        </table>
+    </main>
 </div>
-
 <script>
     $(".minusBtn").on("click", function () {
         let inputElement = $(this).next("input[type='number']");
