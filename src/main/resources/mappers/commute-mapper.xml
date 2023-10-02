@@ -34,9 +34,9 @@
                      DCLZ_WORK_DE,
                      DCLZ_WIK_WORK_TIME
               FROM DCLZ
-              WHERE DCLZ_WORK_DE BETWEEN TO_DATE(TO_CHAR(TRUNC(TO_DATE(#{dclzWorkDe}, 'YYYY-MM-DD'), 'IW'), 'YYYY-MM-DD'),'YYYY-MM-DD')
-                  AND TO_DATE(TO_CHAR(TRUNC(TO_DATE(#{dclzWorkDe}, 'YYYY-MM-DD'), 'IW') + 4, 'YYYY-MM-DD'), 'YYYY-MM-DD')
-                AND DCLZ_EMPL_ID = #{dclzEmplId})
+              WHERE DCLZ_WORK_DE BETWEEN TRUNC(TO_DATE(#{dclzWorkDe}, 'YYYY-MM-DD'), 'IW')
+                  AND TRUNC(TO_DATE(#{dclzWorkDe}, 'YYYY-MM-DD'), 'IW') + 4
+                    AND DCLZ_EMPL_ID = #{dclzEmplId})
     </select>
 
     <select id="getWeeklyAttendTime" parameterType="String" resultType="String">
