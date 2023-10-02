@@ -39,7 +39,7 @@
     align-items: center;
     justify-content: space-between;
 }
-.title {
+.alarm-title {
     font-size: 14px;
     color: var(--color-font-md);
     font-family: var(--font-md);

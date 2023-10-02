@@ -5,7 +5,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/alarm/alarm.css" rel="stylesheet"/>
 <div class="alarmWrapper">
 	<section class="alarmContainer">
-		<h2 class="title">알림</h2>
+		<h2 class="alarm-title">알림</h2>
 		<header id="alarm-header">
 			<a href="/employee/confirm/info" class="setting"><i class="icon i-setting"></i>알림 관리</a>
 			<button id="allReadAlarm" class="btn">모두 읽기</button>

@@ -222,8 +222,8 @@
 /* tab */
 #tab-header {
     display: flex;
-    /*gap: var(--vw-64);
-    align-items: center;*/
+    gap: var(--vh-24);
+    align-items: center;
     margin-bottom: var(--vh-64);
 }
 #tab-header a {
