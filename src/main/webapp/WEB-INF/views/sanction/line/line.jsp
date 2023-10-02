@@ -184,10 +184,14 @@
 
         window.onload = function () {
             const accordians = document.querySelectorAll(".dept");
+            console.log("accordians", accordians)
 
             accordians.forEach(item => {
                 let depth = item.querySelector(".depth");
+                console.log("depth", depth)
+
                 let header = item.querySelector(".department");
+                console.log("header", header)
 
                 header.addEventListener("click", e => {
                     e.preventDefault();
@@ -289,7 +293,6 @@
                 url: `/sanction/api/bookmark/\${emplId}`,
                 type: "GET",
                 success: function (lines) {
-                    console.log(lines)
                     let result = "";
                     if (lines.length == 0) {
                         result += `<p class="no-bookmark">저장된 결재선이 없습니다.</p>`;
@@ -323,7 +326,6 @@
         $("#bookmarkLine").on("click", ".removeBtn", function () {
             let pLabel = $(this).closest("label");
             let sn = pLabel.find("input[type='hidden']").val();
-            console.log(sn)
 
             $.ajax({
                 url: `/sanction/api/bookmark/\${sn}`,
