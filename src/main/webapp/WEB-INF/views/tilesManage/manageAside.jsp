@@ -65,7 +65,7 @@
 
     function connectWs() {
         //웹소켓 연결
-        sock = new SockJS("<c:url value="http://125.138.66.183:8080//echo-ws"/>");
+        sock = new SockJS("<c:url value="https://12fa-175-116-155-226.ngrok-free.app/echo-ws"/>");
         socket = sock;
 
         sock.onopen = function () {
