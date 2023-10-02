@@ -248,7 +248,14 @@
         const sign = '${CustomUser.employeeVO.signPhotoFileStreNm}'
         $("#startSanction").on("click", function () {
             if (sign === 'groovy_noSign.png') {
-                alert("서명 등록이 필요합니다.")
+                Swal.fire({
+                    position: 'top-end top',
+                    icon: 'warning',
+                    title: '서명 등록이 필요합니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                return;
                 return;
             }
             $("#modifyVacation").prop("disabled", true)

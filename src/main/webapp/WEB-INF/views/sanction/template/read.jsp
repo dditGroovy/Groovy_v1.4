@@ -249,7 +249,27 @@
                 type: 'PUT',
                 success: function (data) {
                     appendSignImg()
-                    alert('승인 처리되었습니다.')
+                    // alert('승인 처리되었습니다.')
+
+                    Swal.fire({
+                        title: '결재 승인',
+                        text: "승인 처리하시겠습니까?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '승인',
+                        cancelButtonText: '취소'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire(
+                                '승인',
+                                '승인 처리되었습니다',
+                                'success'
+                            )
+                        }
+                    })
+
                 },
                 error: function (xhr) {
                     alert('승인 처리에 실패하였습니다.')
@@ -278,7 +298,6 @@
                 text: rejectReason
             });
 
-            // 생성한 요소들을 #returnResn 요소에 추가합니다.
             $('#returnResn').append(returnResnDiv, returnResnText);
         }
 

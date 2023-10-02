@@ -232,7 +232,13 @@
         const sign = '${CustomUser.employeeVO.signPhotoFileStreNm}'
         $("#startSanction").on("click", function () {
             if(sign === 'groovy_noSign.png'){
-                alert("서명 등록이 필요합니다.")
+                Swal.fire({
+                    position: 'top',
+                    icon: 'warning',
+                    title: '서명 등록이 필요합니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 return;
             }
             $("#modifyRequest").prop("disabled", true);
@@ -263,6 +269,30 @@
                 url: $("#" + formId).attr("action"),
                 data: formData,
                 success: function (res) {
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'success',
+                        title: '신청이 완료되었습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    // Swal.fire({
+                    //     title: '결재 승인',
+                    //     text: "승인 처리하시겠습니까?",
+                    //     icon: 'warning',
+                    //     showCancelButton: true,
+                    //     confirmButtonColor: '#3085d6',
+                    //     cancelButtonColor: '#d33',
+                    //     confirmButtonText: '승인'
+                    // }).then((result) => {
+                    //     if (result.isConfirmed) {
+                    //         Swal.fire(
+                    //             '승인',
+                    //             '승인 처리되었습니다',
+                    //             'success'
+                    //         )
+                    //     }
+                    // })
                     alert("신청이 완료되었습니다.");
                     modalClose()
                     resetModal();
