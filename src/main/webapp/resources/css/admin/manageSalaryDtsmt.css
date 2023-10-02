@@ -43,7 +43,7 @@ ul {
 
 .btn-batch {
     padding: var(--vw-16) var(--vh-24);
-    border-radius: var(--vh-8);
+    border-radius: var(--vh-8) !important;
     height: var(--vh-48);
     display: flex;
     align-items: center;

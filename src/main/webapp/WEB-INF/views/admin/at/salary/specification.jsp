@@ -1,74 +1,70 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/commonStyle.css">
-<style>h1 {
+<style>
+    .h {
+        text-align: center;
+        font-size: 30px;
+    }
 
-    text-align: center;
-    font-size: 30px;
-}
+    .r, .s {
+        text-align: right;
+    }
 
-.r, .s {
-    text-align: right;
-}
+    .n {
+        width: 100%;
+        border-bottom: 1px solid #000;
+    }
 
-.n {
-    width: 100%;
-    border-bottom: 1px solid #000;
-}
+    .d {
+        display: flex;
+    }
 
-.d {
-    display: flex;
-}
+    .n th, .f th {
+        background: var(--color-bg-sky);
+        color: #000;
+    }
 
-th {
-    background: var(--color-bg-sky);
-    color: #000;
-}
+    .n td, .f td {
+        padding-left: 10px;
+    }
 
-td {
-    padding-left: 10px;
-}
+    .n th, .n td {
+        height: 50px;
+        border: 1px solid #000;
+    }
 
-.n th, .n td {
-    height: 50px;
-    border: 1px solid #000;
-}
+    .rT {
+        border-left: none;
+    }
 
-.rT {
-    border-left: none;
-}
+    .f th, .f td {
+        border: 1px solid #000;
+        border-top: none;
+    }
 
-.f th, .f td {
-    border: 1px solid #000;
-    border-top: none;
-}
+    .f td, .n td {
+        width: 230px;
+        height: 45px;
+    }
 
-.f td, .n td {
-    width: 230px;
-    height: 45px;
-}
+    .t {
+        text-align: center;
+    }
 
-.t {
-    text-align: center;
-}
+    .p {
+        margin: 50px 0 20px;
+    }
 
-.p {
-    margin: 50px 0 20px;
-}
+    .rT {
+        border-right: 1px solid #000;
+    }
 
-.rT {
-    border-right: 1px solid #000;
-}
-
-pre {
-    width: 50%;
-}
-
-.f {
-    width: 100%;
-    border-bottom: 1px solid #000;
-}</style>
-<h1>\${r.month}월 그루비 급여명세서</h1>
+    .f {
+        width: 100%;
+        border-bottom: 1px solid #000;
+    }</style>
+<h1 class="h">\${r.month}월 그루비 급여명세서</h1>
 <p class="p r" style="text-align: right;">지급일: \${fDate}</p>
 <div class="d">
     <table class="n">
