@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-
+<p>  The time on the server is ${serverTime}. </p>
 </body>
 </html>

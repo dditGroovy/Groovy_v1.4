@@ -61,13 +61,22 @@
     $(document).ready(function () {
         let today = new Date();
 
-        let oneMonthAgo = new Date(today);
-        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-        let startDayInput = $('input[name="startDay"]');
-        startDayInput.val(oneMonthAgo.toISOString().substr(0, 10));
+        const urlParams = new URLSearchParams(window.location.search);
+        const startDayParam = urlParams.get("startDay");
+        const endDayParam = urlParams.get("endDay");
 
+        let startDayInput = $('input[name="startDay"]');
         let endDayInput = $('input[name="endDay"]');
-        endDayInput.val(today.toISOString().substr(0, 10));
+
+        if (startDayParam && endDayParam) {
+            startDayInput.val(startDayParam);
+            endDayInput.val(endDayParam);
+        } else {
+            let oneMonthAgo = new Date(today);
+            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            startDayInput.val(oneMonthAgo.toISOString().substr(0, 10));
+            endDayInput.val(today.toISOString().substr(0, 10));
+        }
 
         startDayInput.on('change', function () {
             let startDate = new Date(startDayInput.val());
@@ -82,7 +91,9 @@
         endDayInput.on('change', function () {
             let startDate = new Date(startDayInput.val());
             let endDate = new Date(endDayInput.val());
-
+            if (endDate > today) {
+                endDayInput.val(today.toISOString().substr(0, 10));
+            }
             if (startDate > endDate) {
                 startDayInput.val(today.toISOString().substr(0, 10));
                 endDayInput.val(today.toISOString().substr(0, 10));

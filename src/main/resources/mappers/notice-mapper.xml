@@ -93,7 +93,7 @@
             )
         </if>
         <if test="startDay != null and startDay != '' and endDay != null and endDay != ''">
-            AND NOTI_DATE BETWEEN #{startDay} AND #{endDay}
+            AND NOTI_DATE BETWEEN TO_DATE(#{startDay}, 'YYYY-MM-DD') AND TO_DATE(#{endDay}, 'YYYY-MM-DD') + 1
         </if>
         ORDER BY
         CASE
