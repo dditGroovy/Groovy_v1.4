@@ -90,21 +90,22 @@
 	}
 
 	$(document).ready(function() {
-		$("td.fixMemoCn").on("click", function() {
-			let number = $(this).closest("tr").data("fix-memo-sn");
+		$(".fixed-memo").on("click", ".fixMemoCn",function() {
+			let number = $(this).parent("div").attr("data-fix-memo-sn");
 			let memoSn = parseInt(number, 10);
-
-			console.log(memoSn);
 
 			$.ajax({
 				type: 'put',
 				url: '/alarm/noFix/' + memoSn,
 				success: function(res) {
 					$("#memoTitleData").text(null);
-
 					$("#memoDetailDataTitle").text(null);
 					$("#memoDetailDataContent").text(null);
 					$("#memoDetailDataDate").text(null);
+					$(".fixed-memo").removeClass("on");
+
+					loadAllMemo();
+
 				}
 			});
 		});
@@ -113,7 +114,6 @@
 			let number = $(this).parent("div").attr("data-memo-sn");
 			let memoSn = parseInt(number, 10);
 			const target = $(this);
-			console.log(number, target);
 			$.ajax({
 				type: 'put',
 				url: '/alarm/updateMemoAlarm/' + memoSn,
@@ -126,84 +126,101 @@
 							let date = new Date(memoDate);
 							let formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
 
-							$("#memoTitleData").text(data.memoCn);
+							/*$("#memoTitleData").text(data.memoCn);
 
 							$("#memoDetailDataTitle").text(data.memoSj);
 							$("#memoDetailDataContent").text(data.memoCn);
-							$("#memoDetailDataDate").text(formattedDate);
+							$("#memoDetailDataDate").text(formattedDate);*/
 
-							$("#memoTitleData").on("click", function() {
+							$(".fixMemoCn").on("click", function() {
 								let memoSn = data.memoSn;
 
-								$("tr[data-fix-memo-sn]").attr("data-fix-memo-sn", memoSn);
+								$("div[data-fix-memo-sn]").attr("data-fix-memo-sn", memoSn);
 
 								$.ajax({
 									type: 'put',
 									url: '/alarm/noFix/' + memoSn,
 									success: function(res) {
-										const value = target.
-										$("#memoTitleData").text(null);
+										$(".fixMemoCn").text(null);
 										$("#memoDetailDataTitle").text(null);
 										$("#memoDetailDataContent").text(null);
 										$("#memoDetailDataDate").text(null);
+										$(".fixed-memo").removeClass("on")
 									}
 								});
 							});
+							target.on("click",function(){
+								let cn = target.text();
+								$.ajax({
+									type: 'put',
+									url: '/alarm/noFix/' + memoSn,
+									success: function(res) {
+										$(".fixMemoCn").text(cn);
+										$(".fixed-memo").removeClass("on");
+										loadAllMemo();
+									}
+								});
+							})
 						}
 					});
 				}
 			});
 		});
-
-		$.ajax({
-			url: `/alarm/all`,
-			type: 'GET',
-			success: function (map) {
-				let code = "";
-				if(map.memoVO.memoEmplId != null){
-					code += `
-					<div class="flip-memo front">
+		function loadAllMemo() {
+			$.ajax({
+				url: `/alarm/all`,
+				type: 'GET',
+				success: function (map) {
+					let code = "";
+					if (map.memoVO.memoEmplId != null) {
+						code += `
+					<header id="memo-header">
+								<button id="settingMemo" class="btn addMemo"><i class="icon i-memo"></i>고정 메모 변경</button>
+					</header>
+					<div class="flip-memo fixed-memo-list front">
 						<p id="memoDetailDataTitle">\${map.memoVO.memoSj}</p>
 						<p id="memoDetailDataContent">\${map.memoVO.memoCn}</p>
 						<p id="memoDetailDataDate">\${map.memoVO.memoWrtngDate}</p>
 					</div>`;
-				}else {
-					code += `
+					} else {
+						code += `
 						<div class="no-memo front">
-							<button id="addMemo" class="btn"></button>
+							<button id="addMemo" class="btn addMemo"></button>
 						</div>`;
-				}
-				code += `
+					}
+					code += `
 				<div class="fixed-memo-list back">
 					<div id="memoTitleData">
 						<h3 class="title">고정 메모</h3>
 					`;
-				if(map.memoVO.memoSn != 0){
-					code += `
+					if (map.memoVO.memoSn != 0) {
+						code += `
 							<div data-fix-memo-sn="\${map.memoVO.memoSn}">
 								<div class="fixMemoCn">\${map.memoVO.memoCn}</div>
 							</div></div>`;
-				}else {
-					code += `<p class="text">고정된 메모가 없습니다.</p></div>`;
-				}
-				code += `<div class="memo-list-wrap">
+					} else {
+						code += `<p class="text">고정된 메모가 없습니다.</p></div>`;
+					}
+					code += `<div class="memo-list-wrap">
 						<h3 class="title">고정할 메모 선택</h3>
 						<div class="memo-list">
 						`;
-				if(map.list != null){
-					map.list.forEach(item => {
-						code += `
+					if (map.list != null) {
+						map.list.forEach(item => {
+							code += `
 						<div data-memo-sn="\${item.memoSn}">
 							<div class="memoCn">\${item.memoCn}</div>
 						</div>`
-					});
-					code += "</div></div></div>";
-				}else {
-					code += "<p class='no-data'>등록된 메모가 없습니다.</p></div></div></div>"
+						});
+						code += "</div></div></div>";
+					} else {
+						code += "<p class='no-data'>등록된 메모가 없습니다.</p></div></div></div>"
+					}
+					document.querySelector(".fixed-memo").innerHTML = code;
 				}
-				document.querySelector(".fixed-memo").innerHTML = code;
-			}
-		});
+			});
+		}
+		loadAllMemo();
 	});
 	const serviceTab = document.querySelector(".service-tab");
 	const alarmWrapper = document.querySelector(".alarmWrapper");
@@ -215,7 +232,7 @@
 	/*	메[모	*/
 	document.querySelector(".fixed-memo").addEventListener("click",e => {
 		const target = e.target;
-		if(target.id == "addMemo"){
+		if(target.classList.contains("addMemo")){
 			target.closest(".fixed-memo").classList.toggle("on");
 		};
 

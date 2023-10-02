@@ -3,7 +3,6 @@
     position: fixed;
     right: calc(((344/var(--vw))*100vw)*-1);
     top: 0;
-    background: white;
     width: calc((344/var(--vw))*100vw);
     height: 100vh;
     display: flex;
@@ -11,6 +10,9 @@
     gap: var(--vh-64);
     z-index: 999;
     padding: calc((96/var(--vh))*100vh) var(--vw-48) 0;
+    background: var(--color-bg-alarmSide, linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.00) 100%));
+    backdrop-filter: blur(2px);
+    box-shadow: -5px 0px 68px rgba(225, 225, 225, 0.65);
 }
 .alarmWrapper.on {
     right: 0;
@@ -24,9 +26,6 @@
     transform: translateY(-50%);
     cursor: pointer;
     background: url("/resources/images/serviceBar.svg") 100% center / cover;
-}
-.alarmWrapper > section {
-    border: 1px solid red;
 }
 .alarmContainer {
     height: calc((416/var(--vh))*100vh);
@@ -67,11 +66,12 @@
 }
 .alarmBox {
     width: 100%;
-    background: rgba(255,255,255,.2);
     border-radius: 12px;
-    border: 1px solid var(--color-stroke);
     position: relative;
     cursor: pointer;
+    border: 1px solid var(--color-stroke);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(6.5px);
 }
 
 .aTag {
@@ -143,6 +143,7 @@
     flex-direction: column;
     transform: perspective(800px) rotateY(0deg);
     transform-style: preserve-3d;
+    gap: var(--vh-24);
 }
 .fixed-memo.on {
     transform: perspective(800px) rotateY(180deg);
@@ -150,12 +151,15 @@
 .fixed-memo-list {
     height: calc((240/var(--vh))*100vh);
     padding: var(--vh-24);
-    border: 1px solid red
+    border: 1px solid var(--color-white);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(6.5px);
 }
 .fixed-memo .fixed-memo-list.back{
     position: absolute;
     left: 0;
-    top: 0;
+    top: var(--vh-40);
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -168,15 +172,14 @@
 .memo-list-wrap {
     display: flex;
     flex-direction: column;
-    height: calc((96/var(--vh))*100vh);
+    height: calc((136/var(--vh))*100vh);
     gap: 8px;
 }
 .memo-list {
     display: flex;
     flex-direction: column;
-    height: calc((80/var(--vh))*100vh);;
+    height: calc((102/var(--vh))*100vh);;
     gap: 8px;
-
     overflow-y: auto;
 }
 #memoTitleData {
@@ -190,4 +193,32 @@
 }
 .memo-list .memoCn {
     font-size: 11px;
+}
+#memo-header {
+    align-self: flex-end;
+}
+#settingMemo {
+    font-size: 11px;
+    font-family: var(--font-md);
+    color: var(--color-font-md);
+}
+#settingMemo .i-memo {
+    filter: invert(44%) sepia(30%) saturate(208%) hue-rotate(173deg) brightness(96%) contrast(86%);
+}
+.flip-memo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-16);
+}
+#memoDetailDataTitle {
+    font-size: 14px;
+    font-family: var(--font-sb);
+}
+#memoDetailDataContent {
+    font-size: 11px;
+    height: 80%;
+}
+#memoDetailDataDate{
+    font-size: 9px;
+    color:var(--color-font-md);
 }

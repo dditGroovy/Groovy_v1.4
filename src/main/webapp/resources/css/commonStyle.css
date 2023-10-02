@@ -6,6 +6,7 @@
     --color-stroke : #e3ebf3;
     --color-bg-grey : #F9FAFB;
     --color-bg-darkGrey : #f3f3f6;
+    --color-bg-alarmSide : linear-gradient(180deg, rgba(107, 118, 132, 0.17) 0%, rgba(107, 118, 132, 0.11) 100%);
     --color-bg-sky : #F5FAFF;
     --color-white : #fff;
     --color-font-high : #191F28;
