@@ -140,5 +140,7 @@
 .fixed-memo {
     display: flex;
     flex-direction: column;
-    gap: var(--);
+}
+.fixed-memo.on {
+    transform: rotateY(180deg);
 }
