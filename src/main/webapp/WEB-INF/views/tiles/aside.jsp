@@ -25,7 +25,7 @@
                 </div>
                 <div class="btn-wrap">
                     <button id="logout" class="font-11 btn-free-white"><a
-                            href="${pageContext.request.contextPath}/signOut" style="color: black;">로그아웃<i
+                            href="#" style="color: black;">로그아웃<i
                             class="icon i-signOut"></i></a></button>
                     <button id="videoConference" class="font-11 btn-free-white"><a
                             href="${pageContext.request.contextPath}/employee/manageEmp"><span
@@ -108,5 +108,22 @@
         })
 
     });
+    $("#logout").on("click", function (){
+        $.ajax({
+            url: "/signOut",
+            type: "post",
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            },
+            success: function (result) {
+                window.location.href = '/employee/signIn'
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + xhr.error);
+            }
+        })
+    })
 
 </script>

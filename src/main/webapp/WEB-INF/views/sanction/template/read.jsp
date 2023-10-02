@@ -35,8 +35,8 @@
                             <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})" id="approveBtn"
                                     class="btn btn-free-white sanctionBtn">승인
                             </button>
-                            <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})" id="rejectBtn"
-                                    class="btn btn-free-white sanctionBtn" data-name="reject">반려
+                            <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
+                                    class="btn btn-free-white sanctionBtn rejectBtn" data-name="reject">반려
                             </button>
                         </c:if>
                         <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
@@ -47,7 +47,7 @@
                                     class="btn btn-free-white sanctionBtn" id="finalApproveBtn">최종승인
                             </button>
                             <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-white sanctionBtn" data-name="reject">반려
+                                    class="btn btn-free-white sanctionBtn rejectBtn" data-name="reject">반려
                             </button>
                         </c:if>
                     </c:forEach>
@@ -252,7 +252,7 @@
                 type: 'PUT',
                 success: function (data) {
                     appendSignImg()
-                    $("#approveBtn").prop("hidden", true);
+                    $(".sanctionBtn").prop("hidden", true);
                     Swal.fire({
                         icon: 'success',
                         title: '승인 처리되었습니다.',
@@ -304,7 +304,7 @@
                 type: 'PUT',
                 success: function (data) {
                     appendSignImg()
-                    $("#finalApproveBtn").prop("hidden", true);
+                    $(".sanctionBtn").prop("hidden", true);
                     Swal.fire({
                         icon: 'success',
                         title: '최종 승인 처리되었습니다',
@@ -367,13 +367,18 @@
                 success: function (data) {
                     signUrl = '/resources/images/reject.png';
                     appendSignImg()
-                    $("#rejectBtn").prop("hidden", true);
+                    $(".sanctionBtn").prop("hidden", true);
+                    modalClose()
+                    let returnResnElement = document.getElementById("returnResn");
+                    returnResnElement.innerHTML = `<div class="form-label"> 반려 사유 </div><p class="file-content form-out-content">\${rejectReason}</p>`;
                     Swal.fire({
                         icon: 'success',
                         title: '반려 처리되었습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
+
+
                 },
                 error: function (xhr) {
                     Swal.fire({

@@ -12,6 +12,7 @@
 
 	<div class="noticeCard card-df">
 		<form action="#" method="post" enctype="multipart/form-data" id="uploadForm">
+
 			<div class="notiDiv">
 				<label class="font-md font-18" for="noti-category">공지사항 분류</label>
 				<div class="select-wrapper">
@@ -61,6 +62,9 @@
             // dataType: 'text',
             contentType: false,
             processData: false,
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+			},
             success: function (notiEtprCode) {
                 console.log(notiEtprCode);
                 // 최대 알람 번호 가져오기

@@ -36,11 +36,11 @@
                              />
 
         <security:access-denied-handler ref="customAccessDenied"/>
-        <!--csrf : 테스트 위해 잠시 비활성화 -->
         <security:intercept-url pattern="/resources/**" access="permitAll"/>
         <security:intercept-url pattern="/" access="permitAll"/>
+        <security:intercept-url pattern="/signOut" access="permitAll"/>
+        <security:intercept-url pattern="/employee/signIn" access="permitAll"/>
         <security:intercept-url pattern="/test/test1" access="hasRole('ROLE_EMP')"/>
-        <security:csrf disabled="true"/>
     </security:http>
 
     <security:authentication-manager>

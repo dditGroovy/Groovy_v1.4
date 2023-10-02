@@ -183,21 +183,11 @@
         loadOrgLine() // 로드 시 결재선 불러오기
 
         window.onload = function () {
-            // const accordians = document.querySelectorAll("div .dept");
-            console.log("accordians", accordians)
-
             accordians.forEach(item => {
-                let depth = item.querySelector(".depth");
-                console.log("depth", depth)
-
                 let header = item.querySelector(".department");
-                console.log("header", header)
-
                 header.addEventListener("click", e => {
                     e.preventDefault();
                     accordians.forEach(item => {
-                        depth = item.querySelector(".depth");
-                        header = item.querySelector(".department");
                         item.classList.remove("active")
                     })
                     if (item.classList.contains("active")) {
@@ -207,16 +197,11 @@
                     }
                 });
             });
-
             openLine();
-            // popClose.addEventListener("click", () => {
-            //     window.close();
-            // });
         };
 
         function openLine() {
             const departmentElement = document.querySelector(`[data-dept="\${emplDept}"]`);
-            console.log(departmentElement)
             if (departmentElement) {
                 departmentElement.classList.add('active');
             }

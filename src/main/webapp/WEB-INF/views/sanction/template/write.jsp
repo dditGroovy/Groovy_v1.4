@@ -231,6 +231,7 @@
 
         function submitSanction() {
             updateStatus() // 결재 상태 업데이트
+
             content = $(".formContent").html();
             const jsonData = {
                 approver: approver,
@@ -342,12 +343,7 @@
                 data: JSON.stringify(data),
                 contentType: "application/json",
                 success: function (data) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '결재가 상신되었습니다',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
+
                 },
                 error: function (xhr) {
                     console.log("결재 상태 업데이트 실패");
@@ -358,6 +354,12 @@
         function closeWindow() {
             window.opener.refreshParent();
             window.close();
+            Swal.fire({
+                icon: 'success',
+                title: '결재가 상신되었습니다',
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
 
 

@@ -180,7 +180,8 @@
                             <td>\${recodeVO.cprCardUsePurps}</td>
                             <td>\${formatNumber(recodeVO.cprCardUseExpectAmount)}원</td>
                             <td>\${recodeVO.commonCodeYrycState === 'YRYC030' ? '미상신' : (recodeVO.commonCodeYrycState === 'YRYC031' ? '상신' : '승인')}</td>
-                            <td><span class="state"><a href="#" data-name="detailCard" data-seq="\${recodeVO.cprCardResveSn}" class="detailLink">자세히</a></span></td>
+                           <td><p class="state"><button href="#" data-name="detailCard" data-seq="\${recodeVO.cprCardResveSn}"
+                               class="detailLink btn">자세히</button></p></td>
                         </tr>`;
                         });
                     }
