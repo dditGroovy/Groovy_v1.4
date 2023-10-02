@@ -22,11 +22,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/diet")
 public class DietController {
 	final DietService dietService;
-	final String uploadSuin;
+	final String uploadPath;
 	
-	public DietController(DietService dietService, String uploadSuin) {
+	public DietController(DietService dietService, String uploadPath) {
 		this.dietService = dietService;
-		this.uploadSuin = uploadSuin;
+		this.uploadPath = uploadPath;
 	}
 
 	
@@ -49,9 +49,9 @@ public class DietController {
 		Map<String, Object> map;
 		
 		try {
-            ExcelRequest excelRequest = new ExcelRequest(uploadSuin);
+            ExcelRequest excelRequest = new ExcelRequest(uploadPath);
             final Map<String, MultipartFile> files = multipartHttpServletRequest.getFileMap();
-            List<HashMap<String, String>> apply = excelRequest.parseExcelMultiPart(files, "diet", 0, "", "");
+            List<HashMap<String, String>> apply = excelRequest.parseExcelMultiPart(files, "dietMenu", 0, "", "");
 
             map = dietService.insertDiet(apply);
             

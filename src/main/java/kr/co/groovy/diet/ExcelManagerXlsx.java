@@ -36,9 +36,6 @@ public class ExcelManagerXlsx {
 		}
 		XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
 
-		// xls시 이용
-		// HSSFWorkbook wb = new HSSFWorkbook ( new FileInputStream(file) );
-
 		int check = 0;
 
 		try {
@@ -60,18 +57,18 @@ public class ExcelManagerXlsx {
 								case STRING:
 									valueStr = cell.getStringCellValue();
 									break;
-								case NUMERIC: // 날짜 형식이든 숫자 형식이든 다 CELL_TYPE_NUMERIC으로 인식함.
-									if (DateUtil.isCellDateFormatted(cell)) { // 날짜 유형의 데이터일 경우,
+								case NUMERIC: 
+									if (DateUtil.isCellDateFormatted(cell)) { 
 										SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 										String formattedStr = dateFormat.format(cell.getDateCellValue());
 										valueStr = formattedStr;
 										break;
-									} else { // 순수하게 숫자 데이터일 경우,
+									} else { 
 										Double numericCellValue = cell.getNumericCellValue();
-										if (Math.floor(numericCellValue) == numericCellValue) { // 소수점 이하를 버린 값이 원래의 값과
-																								// 같다면,,
-											valueStr = numericCellValue.intValue() + ""; // int형으로 소수점 이하 버리고 String으로
-																							// 데이터 담는다.
+										if (Math.floor(numericCellValue) == numericCellValue) { 
+																								
+											valueStr = numericCellValue.intValue() + ""; 
+																						
 										} else {
 											valueStr = numericCellValue + "";
 										}
