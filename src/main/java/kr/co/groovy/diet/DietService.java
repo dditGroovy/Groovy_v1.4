@@ -1,11 +1,11 @@
 package kr.co.groovy.diet;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,14 +39,14 @@ public class DietService {
 				dietVO.setDietDish2(apply.get(i).get("cell_4"));
 				dietVO.setDietDish3(apply.get(i).get("cell_5"));
 				dietVO.setDietDessert(apply.get(i).get("cell_6"));
-
+				
 				dietMapper.insertDiet(dietVO);
 			}
 			map.put("res", "ok");
-			map.put("msg", "파일 업로드 성공");
+			map.put("msg", "ok");
 		} catch (Exception e) {
 			map.put("res", "error");
-			map.put("msg", "파일 업로드 실패");
+			map.put("msg", "error");
 		}
 
 		return map;

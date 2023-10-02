@@ -2,10 +2,9 @@ package kr.co.groovy.diet;
 
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
-
-import javax.naming.spi.DirStateFactory.Result;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 @Controller
 @RequestMapping("/diet")
@@ -52,17 +50,13 @@ public class DietController {
             ExcelRequest excelRequest = new ExcelRequest(uploadPath);
             final Map<String, MultipartFile> files = multipartHttpServletRequest.getFileMap();
             List<HashMap<String, String>> apply = excelRequest.parseExcelMultiPart(files, "dietMenu", 0, "", "");
-
+            
             map = dietService.insertDiet(apply);
-            
-            map.put("res", "ok");
-    		map.put("msg", "파일 업로드 성공");
-            
         } catch (Exception e) {
             System.out.println(e.toString());
             map = new HashMap<>();
             map.put("res", "error");
-            map.put("msg", "파일 업로드 실패");
+            map.put("msg", "error");
         }
 
         redirectAttributes.addFlashAttribute("map", map);

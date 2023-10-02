@@ -1,6 +1,7 @@
 package kr.co.groovy.diet;
 
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -77,6 +78,7 @@ public class ExcelRequest {
 	        file.transferTo(new File(EgovWebUtil.filePathBlackList(filePath)));
 	        
 	        List<HashMap<String, String>> excelData = ExcelManagerXlsx.getInstance().getListXlsxRead(filePath);
+	        
 	        list.addAll(excelData);
 	        
 	        fileKey++;

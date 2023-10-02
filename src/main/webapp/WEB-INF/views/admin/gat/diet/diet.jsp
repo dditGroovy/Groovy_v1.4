@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<link href="/resources/css/schedule/calendar.css" rel="stylesheet"/>
-
 
 <style>
     .fc-event-time {
@@ -29,7 +27,8 @@
     <div id="calendar"></div>
 </div>
 
-
+<link href="/resources/css/schedule/calendar.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="/resources/fullcalendar/main.js"></script>
@@ -38,22 +37,42 @@
 
     $(document).ready(function () {
         let msg = "${map.msg}";
-        if (msg != "") alert(msg);
+        console.log(msg);
+        if (msg == "ok") {
+        	Swal.fire({
+        	  position: 'top',
+        	  icon: 'success',
+        	  title: '파일 업로드 성공',
+        	  showConfirmButton: false,
+        	  timer: 1500
+        	})
+    	} else if(msg == "error") {
+    		Swal.fire({
+          	  position: 'top',
+          	  icon: 'warning',
+          	  title: '파일 업로드 실패',
+          	  showConfirmButton: false,
+          	  timer: 1500
+          	})
+    	}
     });
 
     function upload() {
         let fileInput = $("#file")[0];
 
         if (fileInput.files.length === 0) {
-            alert("파일을 업로드해주세요");
+            Swal.fire({
+          	  position: 'top',
+          	  icon: 'warning',
+          	  title: '파일을 업로드해주세요',
+          	  showConfirmButton: false,
+          	  timer: 1500
+          	})
+            
             fileInput.focus();
             return;
         }
-
-        if (!confirm("업로드하시겠습니까?")) {
-            return;
-        }
-
+        
         $("#inputForm").submit();
     }
 
