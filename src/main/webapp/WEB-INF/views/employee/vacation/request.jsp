@@ -135,7 +135,8 @@
                                 <th>기간</th>
                                 <td>
                                     <div class="input-date">
-                                        <input type="date" name="yrycUseDtlsBeginDate" id="startDay" placeholder="시작 날짜"> ~
+                                        <input type="date" name="yrycUseDtlsBeginDate" id="startDay"
+                                               placeholder="시작 날짜"> ~
                                         <input type="date" name="yrycUseDtlsEndDate" id="endDay" placeholder="끝 날짜">
                                     </div>
                                 </td>
@@ -244,8 +245,12 @@
         let param;
         let childWindow;
         let vacationKind;
-
+        const sign = '${CustomUser.employeeVO.signPhotoFileStreNm}'
         $("#startSanction").on("click", function () {
+            if (sign === 'groovy_noSign.png') {
+                alert("서명 등록이 필요합니다.")
+                return;
+            }
             $("#modifyVacation").prop("disabled", true)
             openChildWindow()
             checkChildWindow()

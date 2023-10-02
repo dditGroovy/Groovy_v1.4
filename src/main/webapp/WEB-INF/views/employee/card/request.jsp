@@ -229,7 +229,12 @@
             location.reload();
         }
 
+        const sign = '${CustomUser.employeeVO.signPhotoFileStreNm}'
         $("#startSanction").on("click", function () {
+            if(sign === 'groovy_noSign.png'){
+                alert("서명 등록이 필요합니다.")
+                return;
+            }
             $("#modifyRequest").prop("disabled", true);
             openChildWindow();
             checkChildWindow();
