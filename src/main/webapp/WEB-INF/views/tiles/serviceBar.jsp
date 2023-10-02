@@ -69,6 +69,11 @@
 
     sock.onmessage = function(event) {
       getList();
+		console.log("event.data-floating", event.data);
+		let $socketAlarm = $("#aTagBox");
+		$("#floatingAlarm").css("display", "block");
+
+	$socketAlarm.html(event.data);
     }
 
     sock.onclose = function () {

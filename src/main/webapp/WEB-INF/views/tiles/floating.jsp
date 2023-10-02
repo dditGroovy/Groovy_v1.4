@@ -39,36 +39,6 @@
     <button type="button" id="fReadBtn">읽음</button>
 </div>
 <script>
-    var socket = null;
-    $(document).ready(function() {
-        connectWs();
-    });
-
-    function connectWs() {
-        //웹소켓 연결
-        sock = new SockJS("<c:url value="/echo-ws"/>");
-        socket = sock;
-
-        sock.onopen = function () {
-            console.log("info: connection opened");
-        };
-
-        sock.onmessage = function(event) {
-            let $socketAlarm = $("#aTagBox");
-            $("#floatingAlarm").css("display", "block");
-
-            $socketAlarm.html(event.data);
-        }
-
-        sock.onclose = function () {
-            console.log("close");
-        }
-
-        sock.onerror = function (err) {
-            console.log("ERROR: ", err);
-        }
-    }
-
     //실시간 알림 읽음 처리
     $("#fReadBtn").on("click", function () {
         var ntcnSn = $("#fATag").attr("data-seq");
