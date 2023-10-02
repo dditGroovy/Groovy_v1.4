@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="/resources/css/schedule/calendar.css" rel="stylesheet"/>
 
 <style>
@@ -108,46 +109,49 @@
 					events: data,
 					locale: 'ko',
 					select: function (arg) {
+						
+						Swal.fire({
+					        title: '일정을 입력해주세요',
+					        input: 'text',
+					        inputPlaceholder: '일정을 입력하세요',
+					        showCancelButton: true,
+					        confirmButtonText: '확인',
+					        cancelButtonText: '취소',
+					        confirmButtonColor: '#3085d6',
+					        cancelButtonColor: '#d33',
+					        inputValidator: (value) => {
+					            if (!value.trim()) {
+					                return '일정이 입력되지 않았습니다';
+					            }
+					        }
+					    }).then((result) => {
+					        if (result.isConfirmed) {
+					            const userInput = result.value;
+					           
+					            let events = new Array();
+								let obj = new Object();
 
-						let title = prompt('일정을 입력해주세요');
-						if (title !== null) {
-							if (title.trim() !== '') {
-								calendar.addEvent({
-									title: title,
-									start: arg.start,
-									end: arg.end,
-									allDay: arg.allDay
+								obj.title = userInput;
+								obj.start = arg.start;
+								obj.end = arg.end;
+								events.push(obj);
+
+								let jsondata = JSON.stringify(events);
+
+								$(function saveData(jsonData) {
+									$.ajax({
+										url: "/schedule/schedule",
+										method: "POST",
+										dataType: "json",
+										data: JSON.stringify(events),
+										contentType: 'application/json'
+									});
+									location.reload();
+									calendar.unselect();
 								});
-							} else {
-								alert('일정이 입력되지 않았습니다');
-							}
-						} else {
-						}
-
-						let events = new Array();
-						let obj = new Object();
-
-						obj.title = title;
-						obj.start = arg.start;
-						obj.end = arg.end;
-						events.push(obj);
-
-						let jsondata = JSON.stringify(events);
-
-						$(function saveData(jsonData) {
-							$.ajax({
-								url: "/schedule/schedule",
-								method: "POST",
-								dataType: "json",
-								data: JSON.stringify(events),
-								contentType: 'application/json'
-							});
-							location.reload();
-							calendar.unselect();
-						});
+					        }
+					    });
 					},
-
-
 					eventClick: function (info) {
 
 						$("#eventModal").modal("show");
@@ -172,7 +176,13 @@
 
 									let dataType = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
 									if (!dataType.test($('#eventStart').val()) || !dataType.test($('#eventEnd').val())) {
-										alert("날짜는 2000-01-01 형식으로 입력해주세요");
+										Swal.fire({
+											  position: 'top',
+											  icon: 'warning',
+											  title: '날짜는 2000-01-01 형식으로 입력해주세요',
+											  showConfirmButton: false,
+											  timer: 1500
+											})
 										return false;
 									}
 
@@ -197,7 +207,13 @@
 											if (response == "success") {
 												location.href = location.href;
 											} else {
-												alert("일정 수정에 실패했습니다");
+													Swal.fire({
+														  position: 'top',
+														  icon: 'warning',
+														  title: '일정 수정에 실패했습니다',
+														  showConfirmButton: false,
+														  timer: 1500
+													})
 											}
 										},
 										error: function (request, status, error) {
@@ -230,7 +246,13 @@
 											if (response == "success") {
 												location.href = location.href;
 											} else {
-												alert("일정 삭제에 실패했습니다");
+												Swal.fire({
+													  position: 'top',
+													  icon: 'warning',
+													  title: '일정 삭제에 실패했습니다',
+													  showConfirmButton: false,
+													  timer: 1500
+												})
 											}
 										},
 										error: function (request, status, error) {
