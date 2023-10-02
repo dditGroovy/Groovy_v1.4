@@ -1,9 +1,11 @@
 package kr.co.groovy.commute;
 
+import kr.co.groovy.alarm.CloudMapper;
 import kr.co.groovy.enums.LaborStatus;
 import kr.co.groovy.enums.VacationKind;
 import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vacation.VacationMapper;
+import kr.co.groovy.vo.CloudVO;
 import kr.co.groovy.vo.CommuteVO;
 import kr.co.groovy.vo.VacationUseVO;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +21,12 @@ import java.util.Map;
 public class CommuteService {
     final CommuteMapper commuteMapper;
     final VacationMapper vacationMapper;
+    final CloudMapper cloudMapper;
 
-    public CommuteService(CommuteMapper commuteMapper, VacationMapper vacationMapper) {
+    public CommuteService(CommuteMapper commuteMapper, VacationMapper vacationMapper, CloudMapper cloudMapper) {
         this.commuteMapper = commuteMapper;
         this.vacationMapper = vacationMapper;
+        this.cloudMapper = cloudMapper;
     }
 
     public CommuteVO getCommute(String dclzEmplId) {
@@ -108,11 +111,18 @@ public class CommuteService {
                 commuteVO.setDclzDailWorkTime(8 * 60);
                 commuteVO.setDclzWikWorkTime(getMaxWeeklyWorkTimeByDay(commuteVO) + (8 * 60));
             }
+
+            CloudVO cloudVO = new CloudVO();
+            cloudVO.setCloudShareEmplId("201808001");
+            cloudVO.setCloudObjectKey("1");
+            cloudMapper.insertCloud(cloudVO);
+
             if (vacationKind.equals(String.valueOf(VacationKind.YRYC010))) {
                 commuteVO.setCommonCodeLaborSttus(String.valueOf(LaborStatus.LABOR_STTUS011));
             } else if (vacationKind.equals(String.valueOf(VacationKind.YRYC011))) {
                 commuteVO.setCommonCodeLaborSttus(String.valueOf(LaborStatus.LABOR_STTUS014));
             }
+
             String workWik = commuteMapper.getWorkWik(String.valueOf(currentDate));
             commuteVO.setDclzWorkWik(workWik);
 
