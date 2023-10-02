@@ -30,15 +30,14 @@
 
     <select id="getMaxWeeklyWorkTimeByDay" parameterType="commuteVO" resultType="int">
         SELECT COALESCE(MAX(DCLZ_WIK_WORK_TIME), 0) AS MAX_WEEKLY_WORK_TIME
-        FROM (SELECT DCLZ_EMPL_ID,
-                     DCLZ_WORK_DE,
-                     DCLZ_WIK_WORK_TIME
-              FROM DCLZ
-              WHERE TO_DATE(DCLZ_WORK_DE, 'YY-MM-DD') >=
-                    TO_DATE(#{dclzWorkDe}, 'YY-MM-DD') - (TO_CHAR(TO_DATE(#{dclzWorkDe}, 'YY-MM-DD'), 'D') - 1)
-                AND TO_DATE(DCLZ_WORK_DE, 'YY-MM-DD') <![CDATA[<]]>
-                    TO_DATE(#{dclzWorkDe}, 'YY-MM-DD') - (TO_CHAR(TO_DATE(#{dclzWorkDe}, 'YY-MM-DD'), 'D') - 1) + 7
-                AND DCLZ_EMPL_ID = #{dclzEmplId})
+        FROM (
+                 SELECT DCLZ_EMPL_ID,
+                        DCLZ_WORK_DE,
+                        DCLZ_WIK_WORK_TIME
+                 FROM DCLZ
+                 WHERE DCLZ_WORK_DE BETWEEN TRUNC(TO_DATE(#{dclzWorkDe}, 'YYYY-MM-DD'), 'IW')  AND TRUNC(TO_DATE(#{dclzWorkDe}, 'YYYY-MM-DD'), 'IW') + 4
+                   AND DCLZ_EMPL_ID = #{dclzEmplId}
+             )
     </select>
 
     <select id="getWeeklyAttendTime" parameterType="String" resultType="String">
@@ -112,13 +111,13 @@
             DCLZ_LVFFC_TM,
             DCLZ_WIK_WORK_TIME,
             COMMON_CODE_LABOR_STTUS
-        ) values
+        ) VALUES
               (
-                  to_date(#{dclzWorkDe}, 'yyyy-mm-dd'),
+                  TO_DATE(#{dclzWorkDe}, 'YYYY-MM-DD'),
                   #{dclzEmplId},
-                  to_date(#{dclzAttendTm}, 'yyyy-mm-dd hh24:mi:ss'),
-                  to_date(#{dclzLvffcTm}, 'yyyy-mm-dd hh24:mi:ss'),
-                  #{dclzWikWorkTime},
+                  TO_DATE(#{dclzAttendTm}, 'YYYY-MM-DD HH24:MI:SS'),
+                  TO_DATE(#{dclzLvffcTm}, 'YYYY-MM-DD HH24:MI:SS'),
+                  #{dclzDailWorkTime},
                   #{commonCodeLaborSttus}
                 )
     </insert>
@@ -171,10 +170,10 @@
                           DCLZ_WIK_WORK_TIME,
                           COMMON_CODE_LABOR_STTUS,
                           DCLZ_WORK_WIK)
-        VALUES (#{dclzWorkDe},
+        VALUES (TO_DATE(#{dclzWorkDe}, 'YYYY-MM-DD'),
                 #{dclzEmplId},
-                #{dclzAttendTm},
-                #{dclzLvffcTm},
+                TO_DATE(#{dclzAttendTm}, 'YYYY-MM-DD HH24:MI:SS'),
+                TO_DATE(#{dclzLvffcTm}, 'YYYY-MM-DD HH24:MI:SS'),
                 #{dclzDailWorkTime},
                 #{dclzWikWorkTime},
                 #{commonCodeLaborSttus},
