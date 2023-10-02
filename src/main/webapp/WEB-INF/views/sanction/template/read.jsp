@@ -32,10 +32,10 @@
                                     && (lineVO.commonCodeSanctProgrs == '대기')
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'N')}">
-                            <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})"
+                            <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})" id="approveBtn"
                                     class="btn btn-free-white sanctionBtn">승인
                             </button>
-                            <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
+                            <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})" id="rejectBtn"
                                     class="btn btn-free-white sanctionBtn" data-name="reject">반려
                             </button>
                         </c:if>
@@ -44,7 +44,7 @@
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'Y')}">
                             <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-white sanctionBtn">최종승인
+                                    class="btn btn-free-white sanctionBtn" id="finalApproveBtn">최종승인
                             </button>
                             <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
                                     class="btn btn-free-white sanctionBtn" data-name="reject">반려
@@ -184,6 +184,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
 
@@ -244,37 +245,32 @@
 
         /* 승인 처리 */
         function approve(id) {
+
+
             $.ajax({
                 url: `/sanction/api/approval/\${id}/\${etprCode}`,
                 type: 'PUT',
                 success: function (data) {
                     appendSignImg()
-                    // alert('승인 처리되었습니다.')
-
+                    $("#approveBtn").prop("hidden", true);
                     Swal.fire({
-                        title: '결재 승인',
-                        text: "승인 처리하시겠습니까?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '승인',
-                        cancelButtonText: '취소'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            Swal.fire(
-                                '승인',
-                                '승인 처리되었습니다',
-                                'success'
-                            )
-                        }
+                        icon: 'success',
+                        title: '승인 처리되었습니다.',
+                        showConfirmButton: false,
+                        timer: 1500
                     })
-
                 },
                 error: function (xhr) {
-                    alert('승인 처리에 실패하였습니다.')
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '승인 처리에 실패하였습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             });
+
+
         }
 
         function appendSignImg() {
@@ -308,13 +304,24 @@
                 type: 'PUT',
                 success: function (data) {
                     appendSignImg()
-                    alert('최종 승인 처리되었습니다.')
+                    $("#finalApproveBtn").prop("hidden", true);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '최종 승인 처리되었습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     if (afterPrcs != null) {
                         afterFinalApprove();
                     }
                 },
                 error: function (xhr) {
-                    alert('최종 승인 처리에 실패하였습니다.')
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '승인 처리에 실패하였습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             });
         }
@@ -360,10 +367,21 @@
                 success: function (data) {
                     signUrl = '/resources/images/reject.png';
                     appendSignImg()
-                    alert('반려 처리되었습니다.')
+                    $("#rejectBtn").prop("hidden", true);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '반려 처리되었습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 },
                 error: function (xhr) {
-                    alert('반려 처리에 실패하였습니다.')
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '반려 처리에 실패하였습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             });
         }
@@ -374,12 +392,22 @@
                 url: `/sanction/api/collect/\${etprCode}`,
                 type: 'PUT',
                 success: function (data) {
-                    alert('회수 처리되었습니다.')
-                    location.reload()
-
+                    Swal.fire({
+                        icon: 'success',
+                        title: '회수 처리되었습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    $("#collectBtn").prop("hidden", true);
+                    // location.reload()
                 },
                 error: function (xhr) {
-                    alert('회수 처리에 실패하였습니다.')
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '회수 처리에 실패하였습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             });
         }

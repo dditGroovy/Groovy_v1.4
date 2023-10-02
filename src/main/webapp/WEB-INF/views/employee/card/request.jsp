@@ -231,9 +231,8 @@
 
         const sign = '${CustomUser.employeeVO.signPhotoFileStreNm}'
         $("#startSanction").on("click", function () {
-            if(sign === 'groovy_noSign.png'){
+            if (sign === 'groovy_noSign.png') {
                 Swal.fire({
-                    position: 'top',
                     icon: 'warning',
                     title: '서명 등록이 필요합니다',
                     showConfirmButton: false,
@@ -270,36 +269,22 @@
                 data: formData,
                 success: function (res) {
                     Swal.fire({
-                        position: 'top',
                         icon: 'success',
                         title: '신청이 완료되었습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    // Swal.fire({
-                    //     title: '결재 승인',
-                    //     text: "승인 처리하시겠습니까?",
-                    //     icon: 'warning',
-                    //     showCancelButton: true,
-                    //     confirmButtonColor: '#3085d6',
-                    //     cancelButtonColor: '#d33',
-                    //     confirmButtonText: '승인'
-                    // }).then((result) => {
-                    //     if (result.isConfirmed) {
-                    //         Swal.fire(
-                    //             '승인',
-                    //             '승인 처리되었습니다',
-                    //             'success'
-                    //         )
-                    //     }
-                    // })
-                    alert("신청이 완료되었습니다.");
                     modalClose()
                     resetModal();
                     location.reload();
                 },
                 error: function (error) {
-                    alert("신청 및 수정 실패");
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '신청에 실패하였습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             });
         }

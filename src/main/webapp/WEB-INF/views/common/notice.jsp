@@ -21,7 +21,7 @@
                         <input type="date" name="endDay" value="" class="selectBox input-date"/>
                     </div>
                     <div id="search" class="search input-free-white">
-                        <input type="text" name="keyword" placeholder="검색어를 입력하세요." value="${param.keyword}"/>
+                        <input type="text" name="keyword" id="keywordInput" placeholder="검색어를 입력하세요." value="${param.keyword}"/>
                         <button type="submit" class="btn-search btn-flat btn">검색</button>
                     </div>
                 </form>
@@ -59,6 +59,14 @@
 </div>
 <script>
     $(document).ready(function () {
+
+        $("#keywordInput").click(function () {
+            let currentInputValue = $(this).val();
+            if (currentInputValue !== "") {
+                $(this).val("");
+            }
+        });
+
         let today = new Date();
 
         const urlParams = new URLSearchParams(window.location.search);

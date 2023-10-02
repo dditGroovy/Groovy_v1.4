@@ -50,10 +50,10 @@
 #tab-header {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 12px !important;
     justify-content: flex-start;
-    align-items: flex-start;
-    margin-bottom: var(--vh-48);
+    align-items: flex-start !important;
+    margin-bottom: var(--vh-40) !important;
 }
 
 .sub-title {
@@ -83,7 +83,7 @@
 .card-thum img {
     width: 100%;
     padding: 20px;
-    border-radius:var(--size-32) ;
+    border-radius: var(--vw-40);
 }
 
 .club-kind {
@@ -152,7 +152,9 @@
 .modal-thum img {
     width: 100%;
     height: 176px;
-    margin-bottom: var(--vh-24);
+    margin-bottom: var(--vh-32);
+    border-radius: var(--vw-24);
+
 }
 
 

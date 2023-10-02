@@ -67,6 +67,7 @@
         </div>
     </div>
     <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 
         let approver = [];
@@ -227,6 +228,7 @@
             submitSanction()
         });
 
+
         function submitSanction() {
             updateStatus() // 결재 상태 업데이트
             content = $(".formContent").html();
@@ -270,6 +272,7 @@
                 data: JSON.stringify(jsonData),
                 contentType: "application/json",
                 success: function (data) {
+
                     if (file != null) {
                         uploadFile();  // 결재 상신 후 파일이 있다면
                     } else {
@@ -339,7 +342,12 @@
                 data: JSON.stringify(data),
                 contentType: "application/json",
                 success: function (data) {
-                    console.log("결재 상태 업데이트 성공");
+                    Swal.fire({
+                        icon: 'success',
+                        title: '결재가 상신되었습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 },
                 error: function (xhr) {
                     console.log("결재 상태 업데이트 실패");
@@ -348,7 +356,6 @@
         }
 
         function closeWindow() {
-            alert("결재 상신이 완료되었습니다.")
             window.opener.refreshParent();
             window.close();
         }
@@ -401,13 +408,23 @@
 
             // 파일의 개수 제한
             if (data.files.length > 1) {
-                alert('파일은 하나만 업로드 가능합니다.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: '파일은 하나만 업로드 가능합니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 return false;
             }
 
             // 파일의 사이즈 제한
             if (data.files[0].size >= 1024 * 1024 * 50) {
-                alert('50MB 이상인 파일은 업로드할 수 없습니다.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: '50MB 이상인 파일은 업로드할 수 없습니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 return false;
             }
             return true;

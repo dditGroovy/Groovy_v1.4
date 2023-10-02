@@ -310,12 +310,21 @@
                 if (response === 'incorrect') {
                     $("#modifyRes").val('현재 비밀번호를 확인해 주세요.')
                 } else {
-                    alert('비밀번호 변경이 완료되었습니다.');
-                    modalClose()
+                    Swal.fire({
+                        icon: 'success',
+                        title: '비밀번호 변경이 완료되었습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             },
             error: function (xhr, textStatus, error) {
-                console.log("AJAX 오류:", error);
+                Swal.fire({
+                    icon: 'warning',
+                    title: '비밀번호 변경에 실패하였습니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             }
         });
     });
@@ -350,7 +359,12 @@
                 };
                 reader.readAsDataURL(file);
             } else {
-                alert("허용되지 않은 파일 형식입니다.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: '허용되지 않은 파일 형식입니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 $(this).val("");
             }
         }
@@ -413,7 +427,12 @@
             }
             updateMyInfo();
             saveNotificationSettings();
-            alert("내 정보가 정상적으로 변경되었습니다.")
+            Swal.fire({
+                icon: 'success',
+                title: '내 정보가 정상적으로 변경되었습니다',
+                showConfirmButton: false,
+                timer: 1500
+            })
         });
 
         // 개인 정보 수정

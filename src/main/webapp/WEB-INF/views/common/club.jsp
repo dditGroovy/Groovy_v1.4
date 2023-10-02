@@ -17,7 +17,7 @@
                 <div class="card card-df">
                     <a href="#" class="card-link btn-modal" data-target="${clubVO.clbEtprCode}" data-name="detailClub">
                         <div class="card-header">
-                            <div class="card-thum"><img src="/resources/images/club/club-coffee.png"></div>
+                            <div class="card-thum"><img src="/resources/images/clubclub.png"></div>
                         </div>
                         <div class="card-content">
                             <span class="club-kind badge badge-${status.count}">${clubVO.clbKind}</span>
@@ -90,7 +90,7 @@
         </div>
         <div class="modal-container">
             <div class="modal-thum">
-                <img src="/resources/images/club/club-coffee.png">
+                <img src="/resources/images/clubclub.png">
             </div>
             <div class="modal-content">
                 <span class="badge club-kind club-cate"></span>

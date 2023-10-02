@@ -182,7 +182,7 @@
 
         loadOrgLine() // 로드 시 결재선 불러오기
 
-        window.onload = function() {
+        window.onload = function () {
             const accordians = document.querySelectorAll(".dept");
 
             accordians.forEach(item => {
@@ -192,11 +192,11 @@
                 header.addEventListener("click", e => {
                     e.preventDefault();
                     accordians.forEach(item => {
-                         depth = item.querySelector(".depth");
-                         header = item.querySelector(".department");
+                        depth = item.querySelector(".depth");
+                        header = item.querySelector(".department");
                         item.classList.remove("active")
                     })
-                        if (item.classList.contains("active")) {
+                    if (item.classList.contains("active")) {
                         item.classList.remove("active");
                     } else {
                         item.classList.add("active");
@@ -210,7 +210,7 @@
             });
         };
 
-        function openLine(){
+        function openLine() {
             const departmentElement = document.querySelector(`[data-dept="\${emplDept}"]`);
             console.log(departmentElement)
             if (departmentElement) {
@@ -291,25 +291,28 @@
                 success: function (lines) {
                     console.log(lines)
                     let result = "";
-                    result += `<ul class="line-list">`;
-
-                    lines.forEach(function (line) {
-                        result += `<li class="emplList">
+                    if (lines.length == 0) {
+                        result += `<p class="no-bookmark">저장된 결재선이 없습니다.</p>`;
+                    } else {
+                        result += `<ul class="line-list">`;
+                        lines.forEach(function (line) {
+                            result += `<li class="emplList">
                                 <label style="display: flex" class="line-label">
                                 <input type="checkbox" class="savedlineChk">`;
-                        result += `<input type="hidden" value="\${line.no}"/>`;
-                        result += `<span class="line-name badge font-14 font-md">\${line.name}</span><div class="line-block">`;
+                            result += `<input type="hidden" value="\${line.no}"/>`;
+                            result += `<span class="line-name badge font-14 font-md">\${line.name}</span><div class="line-block">`;
 
-                        for (let key in line) {
-                            if (line.hasOwnProperty(key) && key != 'no' && key != 'name') {
-                                let value = line[key];
-                                result += `<p class="line-detail" data-id="\${key}">\${value}</p>`;
+                            for (let key in line) {
+                                if (line.hasOwnProperty(key) && key != 'no' && key != 'name') {
+                                    let value = line[key];
+                                    result += `<p class="line-detail" data-id="\${key}">\${value}</p>`;
+                                }
                             }
-                        }
-                        result += '</div><button type="button" class="btn removeBtn">X</button></li>';
-                        result += `</ul>`;
-                        $("#bookmarkLine").html(result);
-                    });
+                            result += '</div><button type="button" class="btn removeBtn">X</button></li>';
+                            result += `</ul>`;
+                        });
+                    }
+                    $("#bookmarkLine").html(result);
                 },
                 error: function (xhr) {
                 }
@@ -327,6 +330,7 @@
                 type: "DELETE",
                 success: function (res) {
                     pLabel.remove();
+                    loadLine()
                     console.log("북마크 삭제 성공")
                 },
                 error: function (xhr) {
@@ -334,7 +338,6 @@
             });
         });
 
-        // 결재선 저장
         // 결재선 저장
         function saveLine() {
             bookmarkName = $("#bookmarkName").val()
@@ -354,11 +357,11 @@
                 data: JSON.stringify(jsonData),
                 contentType: "application/json",
                 success: function (data) {
-                    alert("결재선 저장 성공");
+                    console.log("결재선 저장 성공");
                     modalClose();
                 },
                 error: function (xhr) {
-                    alert("결재선 저장 실패");
+                    console.log("결재선 저장 실패");
                 }
             });
         }

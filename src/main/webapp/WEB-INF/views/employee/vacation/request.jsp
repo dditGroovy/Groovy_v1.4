@@ -249,7 +249,6 @@
         $("#startSanction").on("click", function () {
             if (sign === 'groovy_noSign.png') {
                 Swal.fire({
-                    position: 'top-end top',
                     icon: 'warning',
                     title: '서명 등록이 필요합니다',
                     showConfirmButton: false,
@@ -303,13 +302,23 @@
                 url: $("#" + formId).attr("action"),
                 data: formData,
                 success: function (res) {
-                    alert("신청이 완료되었습니다.");
+                    Swal.fire({
+                        icon: 'success',
+                        title: '신청이 완료되었습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     modalClose()
                     resetModal();
                     loadRecord()
                 },
                 error: function (error) {
-                    console.log("신청 실패");
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '신청에 실패하였습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             });
         }
@@ -319,7 +328,6 @@
                 type: "GET",
                 url: `/vacation/data/\${num}`,
                 success: function (data) {
-                    // alert("vacationKind", data.commonCodeYrycUseKind)
                     modalOpen();
                     detailVacation.classList.add("on");
                     let form = $("#vacationModifyForm");
