@@ -60,11 +60,12 @@
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <input type="hidden" name="emplId"
                                        value="${CustomUser.employeeVO.emplId}"><br/>
-                                    <%--                                <div class="sign-btn"> <i class="icon i-add"></i>등록하기</div>--%>
                                 <label for="emplSignFile">
                                     <img id="userSignProfile"
                                          src="${pageContext.request.contextPath}/uploads/sign/${CustomUser.employeeVO.signPhotoFileStreNm}"
-                                         alt="signImage"/> </label>
+                                         alt="signImage"/>
+                                        <%--                                            <div class="sign-btn"><i class="icon i-add"></i>등록하기</div>--%>
+                                </label>
                                 <input type="file" name="signPhotoFile" id="emplSignFile" hidden="hidden"/>
 
                             </form>
