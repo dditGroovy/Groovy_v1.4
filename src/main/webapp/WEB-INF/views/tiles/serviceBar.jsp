@@ -15,12 +15,7 @@
 	<!-- 화면에 안 보여서 div에 margin을 줬어용 번거롭게 해서 미안합니당 지우고 써주셔용!!! -->
 	<section class="memoContainer">
 		<!-- 리스트에서 고정할 메모 클릭하면 고정되어요~ -->
-		<div class="fixed-memo">
-
-				</div>
-
-
-
+		<div class="fixed-memo"></div>
 	</section>
   	<div class="service-tab">
 
@@ -38,7 +33,7 @@
 
   function connectWs() {
     // 웹소켓 연결
-    sock = new SockJS("<c:url value='http://125.138.66.183:8080//echo-ws'/>");
+    sock = new SockJS("<c:url value='https://12fa-175-116-155-226.ngrok-free.app/echo-ws'/>");
     socket = sock;
 
     sock.onopen = function () {
@@ -165,32 +160,45 @@ function getList() {
 			type: 'GET',
 			success: function (map) {
 				let code = "";
+				if(map.memoVO.memoEmplId != null){
 				code += `
-                <div class="flip-memo front">
-                    <p id="memoDetailDataTitle">\${map.memoVO.memoSj}</p>
-                    <p id="memoDetailDataContent">\${map.memoVO.memoCn}</p>
-                    <p id="memoDetailDataDate">\${map.memoVO.memoWrtngDate}</p>
-                </div>
-                <div class="no-memo front">
-                    <button id="addMemo" class="btn"></button>
-                </div>
-                <div class="no-memo front">
-                    <button id="addMemo" class="btn"></button>
-                </div>
-                <div id="memoTitleData">
-                    <div data-fix-memo-sn="\${map.memoVO.memoSn}">
-                        <td class="fixMemoCn">\${map.memoVO.memoCn}</td>
-                    </div>
-                </div>`;
-
+					<div class="flip-memo front">
+						<p id="memoDetailDataTitle">\${map.memoVO.memoSj}</p>
+						<p id="memoDetailDataContent">\${map.memoVO.memoCn}</p>
+						<p id="memoDetailDataDate">\${map.memoVO.memoWrtngDate}</p>
+					</div>`;
+				}else {
+					code += `
+						<div class="no-memo front">
+							<button id="addMemo" class="btn"></button>
+						</div>`;
+				}
+				code += `
+				<div class="fixed-memo-list back">
+					<div id="memoTitleData">
+						<h3 class="title">고정 메모</h3>
+					`;
+						if(map.memoVO.memoSn != 0){
+							code += `
+							<div data-fix-memo-sn="\${map.memoVO.memoSn}">
+								<div class="fixMemoCn">\${map.memoVO.memoCn}</div>
+							</div></div>`;
+						}else {
+							code += `<p>고정된 메모가 없습니다.</p></div>`;
+						}
+					code += `<div class="memo-list">`;
+				if(map.list != null){
 				map.list.forEach(item => {
 					code += `
-                <div data-memo-sn="\${item.memoSn}">
-                    <div class="memoCn">\${item.memoCn}</div>
-                </div>`;
+						<div data-memo-sn="\${item.memoSn}">
+							<div class="memoCn">\${item.memoCn}</div>
+						</div>`
 				});
-
-				console.log(code);
+				code += "</div></div>";
+				}else {
+					code += "<p class='no-data'>등록된 메모가 없습니다.</p></div></div>"
+				}
+				document.querySelector(".fixed-memo").innerHTML = code;
 			}
 		});
 	});
@@ -202,9 +210,12 @@ function getList() {
   });
 
   /*	메[모	*/
-	/*const addMemoBtn = document.querySelector("#addMemo");
-  addMemoBtn.addEventListener("click".function(){
+	document.querySelector(".fixed-memo").addEventListener("click",e => {
+		const target = e.target;
+		if(target.id == "addMemo"){
+			target.closest(".fixed-memo").classList.toggle("on");
+		};
 
-  })*/
+	})
 
 </script>
