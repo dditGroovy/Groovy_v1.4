@@ -68,6 +68,12 @@
                         <div><input type="number" name="clbPsncpa" id="clbPsncpa" class="data-box input-l modal-input">
                         </div>
                     </li>
+                    <li>
+                        <h5 class="club-title">5. 썸네일 설정</h5>
+                        <div>
+                            <
+                        </div>
+                    </li>
                 </ul>
                 <div class="modal-description">
                     <p>✅ 동호회에 대한 전반적인 책임은 회사에서 지지 않습니다.</p>
@@ -126,34 +132,8 @@
     let clbEtprCode;
 
 
-    /*/!* 이모지 처리   *!/
-    function containsWindowsEmoji(text) {
-        const windowsEmojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
-        return windowsEmojiRegex.test(text);
-    }
-    function convertImojiToUnicode(text) {
-        const emojiRegex = /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
-        const emojis = text.match(emojiRegex);
-
-        if (!emojis) {
-            return text;
-        }
-
-        return emojis.map(function(match) {
-            if (match.length === 2) {
-                const codePoint1 = match.charCodeAt(0).toString(16).toUpperCase().padStart(4, '0');
-                const codePoint2 = match.charCodeAt(2).toString(16).toUpperCase().padStart(4, '0');
-                return '\\u{' + codePoint1 + '}' + '\\u{' + codePoint2 + '}';
-            } else {
-                return '\\u{' + match.codePointAt(0).toString(16).toUpperCase().padStart(4, '0') + '}';
-            }
-        }).join('');
-    }*/
     form.addEventListener("submit", e => {
         e.preventDefault();
-    })
-    document.querySelector("#proposalClb").addEventListener("click", () => {
-        document.querySelector("#modal-proposal").style.display = "block";
     })
     proposalBtn.addEventListener("click", () => {
         form.submit();
@@ -177,7 +157,7 @@
                 type: "GET",
                 success: function (data) {
                     console.log(data);
-                    clubTitle.innerText = data[0].clbNm;
+                    /*clubTitle.innerText = data[0].clbNm;*/
                     clubName.innerText = data[0].clbNm;
                     clubDc.innerText = data[0].clbDc;
                     clubCate.innerText = data[0].clbKind;
