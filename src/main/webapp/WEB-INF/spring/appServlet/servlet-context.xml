@@ -50,14 +50,14 @@
 	<!--		<beans:ref bean="customUserHandlerInterceptor" />-->
 	<!--	</mvc:interceptors>-->
 
-	<beans:bean id="alarmtHandler" class="kr.co.groovy.alarm.AlarmHandler" />
-	<websocket:handlers>
-		<websocket:mapping path="/echo-ws/**" handler="alarmtHandler"/>
-		<websocket:handshake-interceptors>
-			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
-		</websocket:handshake-interceptors>
-		<websocket:sockjs />
-	</websocket:handlers>
+<!--	<beans:bean id="alarmtHandler" class="kr.co.groovy.alarm.AlarmHandler" />-->
+<!--	<websocket:handlers>-->
+<!--		<websocket:mapping path="/echo-ws/**" handler="alarmtHandler"/>-->
+<!--		<websocket:handshake-interceptors>-->
+<!--			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />-->
+<!--		</websocket:handshake-interceptors>-->
+<!--		<websocket:sockjs />-->
+<!--	</websocket:handlers>-->
 
 	<task:scheduler id="jobScheduler" pool-size="10" />
 	<task:annotation-driven scheduler="jobScheduler" />
