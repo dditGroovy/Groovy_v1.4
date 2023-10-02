@@ -371,6 +371,7 @@
                 emplId: "${employee.emplId}",
                 emplNm: "${employee.emplNm}",
                 clsfNm: "${employee.clsfNm}"
+                proflPhotoFileStreNm: "${employee.proflPhotoFileStreNm}"
             });
             </c:forEach>
 
@@ -385,7 +386,7 @@
                 groupedEmployees[deptNm].forEach(function (employee) {
                     let liSub = $("<li>");
                     let label = $("<label>");
-                    let img = $("<img src='' class='thum'>")
+                    let img = $(`<img src="/uploads/profile/\${employee.proflPhotoFileStreNm}" class="thum">`)
                     let input = $("<input>").attr({
                         type: "checkbox",
                         name: "employees",
