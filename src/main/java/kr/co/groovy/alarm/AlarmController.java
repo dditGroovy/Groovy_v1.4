@@ -53,8 +53,8 @@ public class AlarmController {
     public Map<String, Object> all(Principal principal) {
     	List<MemoVO> list = memoService.getMemo(principal.getName());
     	MemoVO memoVO = memoService.getFixMemo();
-        System.out.println("memoVO = " + memoVO);
-        System.out.println("list = " + list);
+//        System.out.println("memoVO = " + memoVO);
+//        System.out.println("list = " + list);
 
         Map<String, Object> map = new HashMap<>();
         map.put("list",list);

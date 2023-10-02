@@ -340,12 +340,13 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.14</version>
         </dependency>
-
+    <!--
             <dependency>
                 <groupId>com.amazonaws</groupId>
                 <artifactId>aws-java-sdk</artifactId>
-                <version>1.11.966</version> <!-- 원하는 SDK 버전 사용 -->
+                <version>1.11.966</version>
             </dependency>
+    -->
 
 
     </dependencies>
