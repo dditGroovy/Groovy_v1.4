@@ -222,7 +222,7 @@
 /* tab */
 #tab-header {
     display: flex;
-    gap: var(--vh-24);
+    gap: var(--vw-64);
     align-items: center;
     margin-bottom: var(--vh-64);
 }
