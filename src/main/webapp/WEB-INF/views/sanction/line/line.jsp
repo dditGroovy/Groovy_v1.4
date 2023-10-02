@@ -183,11 +183,11 @@
         loadOrgLine() // 로드 시 결재선 불러오기
 
         window.onload = function () {
-            const accordians = document.querySelectorAll(".dept");
+            const accordians = document.querySelectorAll("div .dept");
             console.log("accordians", accordians)
 
             accordians.forEach(item => {
-                let depth = item.querySelector(".depth");
+                let depth = item.querySelector(".ad-depth");
                 console.log("depth", depth)
 
                 let header = item.querySelector(".department");
