@@ -120,7 +120,7 @@
             </div>
             <div class="modal-footer btn-wrapper">
                 <button type="button" class="submitLine btn btn-fill-bl-sm">결재선 적용</button>
-                <button class="popClose btn btn-fill-wh-sm">닫기</button>
+                <button type="button" class="btn btn-fill-wh-sm" onclick="window.close()">닫기</button>
             </div>
         </div>
     </div>
@@ -205,9 +205,9 @@
             });
 
             openLine();
-            popClose.addEventListener("click", () => {
-                window.close();
-            });
+            // popClose.addEventListener("click", () => {
+            //     window.close();
+            // });
         };
 
         function openLine() {

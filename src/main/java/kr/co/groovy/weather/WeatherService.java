@@ -33,7 +33,7 @@ public class WeatherService {
     }
 
     //    @Scheduled(fixedRate = 30 * 1000) // 30초마다
-    @Scheduled(cron = "0 0 2,5,8,11,14,17,20,23 * * *")
+    @Scheduled(cron = "0 5 2,5,8,11,14,17,20,23 * * *")
     public void saveWeather() throws IOException {
         String[] baseTimes = {"0200", "0500", "0800", "1100", "1400", "1700", "2000", "2300"};
 
