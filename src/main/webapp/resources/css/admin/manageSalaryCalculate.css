@@ -1,0 +1,106 @@
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.wrap ul {
+    display: flex;
+    gap: 10px
+}
+
+#myGrid {
+    width: 100%;
+    height: calc((700 / 1080) * 100vh);
+}
+
+#quickFilter {
+    width: calc((400 / var(--vw)) * 100vw);
+    height: calc((45 / var(--vh)) * 100vh);
+    border: none;
+    outline: none;
+}
+
+.serviceWrap {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-stroke);
+    border-radius: var(--vh-8);
+    box-shadow: var(--clay-card);
+    outline-color: var(--color-main);
+    padding-left: 10px;
+    height: var(--vh-48);
+}
+
+.searchDiv {
+    display: flex;
+    margin-bottom: var(--vh-8);
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.card .ag-root-wrapper {
+    border: none;
+    margin: 0;
+    font-size: var(--font-size-14);
+}
+
+.card {
+    overflow: hidden;
+    box-shadow: var(--clay-card);
+}
+
+.ag-theme-material {
+    width: 100%;
+    height: calc((360 / 1080) * 100vh);
+    text-align: center;
+    --ag-font-family: var(--font-reg);
+    --ag-font-size: var(--font-size-14);
+}
+
+.ag-header-cell-label {
+    justify-content: center;
+}
+
+.ag-header-row-column, .ag-header-viewport {
+    background-color: var(--color-bg-sky);
+}
+
+.ag-header {
+    border: none;
+}
+
+.ag-row-even, .ag-row-odd {
+    border-color: var(--color-bg-grey);
+}
+
+.dtsmtHeader {
+    margin-bottom: var(--vh-56);
+}
+
+.yearMonthDiv {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#yearSelect {
+    width: calc(148 * (100vw / var(--vw)));
+    height: var(--vh-48);
+
+}
+
+.select-wrapper {
+    width: calc(148 * (100vw / var(--vw)));
+    display: inline;
+    margin-right: var(--vw-12);
+}
+
+#monthDiv button {
+    padding: var(--vw-16) var(--vh-24);
+    border-radius: var(--vh-8) !important;
+    height: var(--vh-48);
+    color: var(--color-font-md) !important;
+    width: calc(80 * (100vw / var(--vw)));
+}
+
+#monthDiv {
+    margin-bottom: var(--vh-8);
+}
