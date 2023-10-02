@@ -58,6 +58,9 @@
     const gridOptions = {
         columnDefs: columnDefs,
         rowData: rowData,
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
     };
 
     document.addEventListener('DOMContentLoaded', () => {

@@ -9,7 +9,7 @@
 }
 
 .noticeRegisterTitleName {
-    padding: 11px;
+    padding: 13px var(--vw-24);
 }
 
 #uploadForm {
