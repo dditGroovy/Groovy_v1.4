@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/manageVacation.css">
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 
 <div class="content-container">
@@ -9,8 +10,11 @@
     </header>
     <main>
         <div>
-            <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
-            <div id="grid" class="ag-theme-alpine"></div>
+            <div id="search" class="input-free-white">
+                <i class="icon i-search"></i>
+                <input type="text" id="quickFilter" placeholder="검색어를 입력하세요." oninput="onQuickFilterChanged()"/>
+            </div>
+            <div id="grid" class="ag-theme-material"></div>
         </div>
     </main>
 </div>
@@ -32,7 +36,7 @@
                 }
             },
             error: function (xhr) {
-                alert("오류로 인하여 연차 개수 수정을 실패했습니다.");
+                alert("오류로 인하여 연차 개수 수정을 실패했습니다");
             }
         });
     }
@@ -44,10 +48,10 @@
             let yrycNowCo = data.yrycNowCo;
             this.eGui = document.createElement('div');
             this.eGui.innerHTML = `
-            <button class="minusBtn">-</button>
-            <input type="number" class="yrycNowCo" value="\${yrycNowCo}">
-            <button class="plusBtn">+</button>
-            <button class="saveBtn">저장</button>
+            <button class="minusBtn btn btn-fill-wh-sm"">-</button>
+            <input type="number" class="yrycNowCo input-free-white" value="\${yrycNowCo}">
+            <button class="plusBtn btn btn-fill-wh-sm">+</button>
+            <button class="saveBtn btn btn-fill-bl-sm">저장</button>
         `;
 
             const minusBtn = this.eGui.querySelector(".minusBtn");
@@ -112,28 +116,29 @@
         callRefreshAfterMillis(params, millis, api);
     }
 
-    function autoSizeAll(skipHeader) {
-        const allColumnIds = [];
-        gridOptions.columnApi.getColumns().forEach((column) => {
-            allColumnIds.push(column.getId());
-        });
-
-        gridOptions.columnApi.autoSizeColumns(allColumnIds, skipHeader);
-    }
+    // function autoSizeAll(skipHeader) {
+    //     const allColumnIds = [];
+    //     gridOptions.columnApi.getColumns().forEach((column) => {
+    //         allColumnIds.push(column.getId());
+    //     });
+    //
+    //     gridOptions.columnApi.autoSizeColumns(allColumnIds, skipHeader);
+    // }
 
     const columnDefs = [
         {
-            field: "yrycEmpId", headerName: "사번", getQuickFilterText: (params) => {
+            field: "yrycEmpId", headerName: "사번", width: 250, getQuickFilterText: (params) => {
                 return getMedalString(params.value);
             }
         },
         {field: "emplNm", headerName: "이름"},
         {field: "deptNm", headerName: "부서"},
         {field: "clsfNm", headerName: "직급"},
-        {field: "emplEncpn", headerName: "입사일"},
+        {field: "emplEncpn", headerName: "입사일", width: 250},
         {
             field: "yrycNowCo",
             headerName: "보유 연차",
+            width: 300,
             cellRenderer: "classCompRenderer",
             cellRendererParams: {
                 updateValue: updateValue,
@@ -162,12 +167,12 @@
         },
         // paginationAutoPageSize: true,
         pagination: true,
-        paginationPageSize: 12,
+        paginationPageSize: 10,
     };
 
     document.addEventListener('DOMContentLoaded', () => {
         const gridDiv = document.querySelector('#grid');
         new agGrid.Grid(gridDiv, gridOptions);
-        autoSizeAll(false);
+        // autoSizeAll(true);
     });
 </script>
