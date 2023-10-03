@@ -48,7 +48,7 @@
                         <td><input type="checkbox" class="selectMail"></td>
                         <td onclick="modifyTableAt(this)" data-type="redng" class="cursor">
                             <c:choose>
-                                <c:when test="${emailCc.emailRedngAt} == 'N'">
+                                <c:when test="${emailCc.emailRedngAt == 'N'}">
                                     <i class="icon i-mail-read mail-icon" data-at="N"></i>
                                 </c:when>
                                 <c:otherwise>
@@ -59,7 +59,7 @@
                         </td>
                         <td onclick="modifyTableAt(this)" data-type="imprtnc" class="cursor">
                             <c:choose>
-                                <c:when test="${emailCc.emailImprtncAt} == 'N'">
+                                <c:when test="${emailCc.emailImprtncAt == 'N'}">
                                     <i class="icon i-star-out star-icon" data-at="N"></i>
                                 </c:when>
                                 <c:otherwise>

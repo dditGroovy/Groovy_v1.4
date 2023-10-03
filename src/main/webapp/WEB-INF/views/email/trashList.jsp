@@ -30,10 +30,10 @@
                     <input type="checkbox" id="selectAll" onclick="checkAll()">
                 </th>
                 <th style="width: 48px">
-                    <button onclick="modifyAtByBtn()" class="btn btn-free-white btn-service"><span>읽음</span></button>
+                    <button onclick="modifyDeleteAtByBtn()" class="btn btn-free-white btn-service"><span>복구</span></button>
                 </th>
                 <th style="width: 48px">
-                    <button onclick="modifyDeleteAtByBtn()" class="btn btn-free-white btn-service"><span>삭제</span></button>
+                    <button onclick="deleteMail()" class="btn btn-free-white btn-service"><span>영구 삭제</span></button>
                 </th>
                 <th colspan="4" style="text-align:left; vertical-align: middle">
                     전체 메일 (할거야?)
@@ -48,7 +48,7 @@
                             <td><input type="checkbox" class="selectmail"></td>
                             <td onclick="modifyTableAt(this)" data-type="redng" class="cursor">
                                 <c:choose>
-                                    <c:when test="${emailCc.emailRedngAt} == 'N'">
+                                    <c:when test="${emailCc.emailRedngAt == 'N'}">
                                         <i class="icon i-mail-read mail-icon" data-at="N"></i>
                                     </c:when>
                                     <c:otherwise>
@@ -59,7 +59,7 @@
                             </td>
                             <td onclick="modifyTableAt(this)" data-type="imprtnc" class="cursor">
                                 <c:choose>
-                                    <c:when test="${emailCc.emailImprtncAt} == 'N'">
+                                    <c:when test="${emailCc.emailImprtncAt == 'N'}">
                                         <i class="icon i-star-out star-icon" data-at="N"></i>
                                     </c:when>
                                     <c:otherwise>
@@ -77,7 +77,7 @@
                 </c:when>
                 <c:otherwise>
                     <tr>
-                        <td class="no-data" colspan="7">
+                        <td class="no-data" co>
                             메일이 존재하지 않습니다.
                         </td>
                     </tr>

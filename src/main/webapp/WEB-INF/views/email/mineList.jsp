@@ -47,7 +47,7 @@
                             </td>
                             <td onclick="modifyTableAt(this)" data-type="imprtnc" class="cursor">
                                 <c:choose>
-                                    <c:when test="${emailCc.emailImprtncAt} == 'N'">
+                                    <c:when test="${emailCc.emailImprtncAt  == 'N'}">
                                         <i class="icon i-star-out star-icon" data-at="N"></i>
                                     </c:when>
                                     <c:otherwise>
