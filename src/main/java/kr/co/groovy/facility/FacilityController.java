@@ -106,6 +106,7 @@ public class FacilityController {
         int count = service.deleteReservedByFcltyResveSn(fcltyResveSn);
         return String.valueOf(count);
     }
+
     @GetMapping("/rest/reserved/{roomNo}")
     @ResponseBody
     public List<FacilityVO> getReservedRestRoomsByFcltyKind(@PathVariable String roomNo) {
@@ -148,6 +149,4 @@ public class FacilityController {
             return String.valueOf(count);
         }
     }
-
-
 }

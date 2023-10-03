@@ -280,6 +280,9 @@
             data: JSON.stringify(facilityVO),
             contentType: "application/json;charset=utf-8",
             dataType: 'json',
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            },
             success: function (result) {
                 if (result) {
                     alert("예약이 완료되었습니다.");
@@ -312,6 +315,9 @@
             url: `/facility/\${fcltyResveSn}`,
             type: "delete",
             dataType: 'json',
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            },
             success: function (result) {
                 loadMyReserveList();
             },

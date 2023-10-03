@@ -63,12 +63,12 @@
                                 <i class="icon icon-car"></i>
                                 <div class="car-div">
                                     <div class="carNum">
-                                        <h3>${vehicleVO.vhcleVhcty}</h3> <!-- 차량 -->
-                                        <p class="no">${vehicleVO.vhcleNo}</p> <!-- 차 번호 -->
+                                        <h3>${vehicleVO.vhcleVhcty}</h3>
+                                        <p class="no">${vehicleVO.vhcleNo}</p>
                                     </div>
                                     <div class="carDetail" style="display: flex">
                                         <h4>하이패스</h4>
-                                        <p>${vehicleVO.commonCodeHipassAsnAt}</p> <!-- 가능/불가능 -->
+                                        <p>${vehicleVO.commonCodeHipassAsnAt}</p>
                                         <h4>인원</h4>
                                         <p><span>${vehicleVO.vhclePsncpa}</span>명</p>
                                     </div>
@@ -266,6 +266,9 @@
             data: JSON.stringify(vehicleVO),
             contentType: "application/json;charset=utf-8",
             dataType: 'json',
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            },
             success: function (result) {
                 if (result) {
                     alert("예약이 완료되었습니다. 총무팀에서 차키를 받을 수 있습니다.");
@@ -299,6 +302,9 @@
             url: `/facility/vehicle/\${vhcleResveNo}`,
             type: "delete",
             dataType: 'json',
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            },
             success: function (result) {
                 loadMyReserveList();
             },
