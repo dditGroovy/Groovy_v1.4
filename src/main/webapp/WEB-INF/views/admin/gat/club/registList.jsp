@@ -1,17 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/manageClub.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <div class="content-container">
-    <h1 class="tab"><a href="/club/admin">동호회 관리</a></h1><br/><br/>
+    <header id="tab-header">
+        <h1><a class="on" href="/club/admin">동호회 관리</a></h1>
+    </header>
     <div class="content-wrapper">
         <div class="content-header">
-            <h2>동호회 운영내역</h2>
-        </div>
-        <div class="content-body">
-            <div id="listGrid" class="ag-theme-alpine">
-
+            <div class="side-header-wrap">
+                <h1 class="font-md color-font-md font-18 h1">동호회 운영내역</h1>
             </div>
+        </div>
+        <div class="content-body card">
+            <div id="listGrid" class="ag-theme-alpine"></div>
         </div>
     </div>
 </div>
@@ -79,6 +82,9 @@
                 clbEtprCode: clbEtprCode
             }),
             contentType: "application/json; charset=utf-8",
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            },
             success: function (data) {
                 window.location.href = "/club/admin/registList";
             },
@@ -90,23 +96,26 @@
 
     let rowData = [];
     const columnDefs = [
-        {field: "No", headerName: "No", valueGetter: generateRowNumber},
-        {field: "clbChirmnEmplId", headerName: "사번"},
+        {field: "No", headerName: "No", valueGetter: generateRowNumber, cellStyle: {textAlign: "center"}},
+        {field: "clbChirmnEmplId", headerName: "사번", cellStyle: {textAlign: "center"}},
         {
             field: "clbNm", headerName: "동호회 이름", getQuickFilterText: (params) => {
                 return params.data.clbNm
-            }, cellRenderer: StringRenderer
+            }, cellRenderer: StringRenderer, cellStyle: {textAlign: "center"}
         },
-        {field: "clbDc", headerName: "동호회 설명", cellRenderer: StringRenderer},
-        {field: "clbPsncpa", headerName: "동호회 정원"},
-        {field: "clubMbrCnt", headerName: "전체 회원 수"},
-        {field: "clbDate", headerName: "신청 날짜"},
-        {field: "chk", headerName: " ", cellRenderer: ClassBtn},
-        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true},
+        {field: "clbDc", headerName: "동호회 설명", cellRenderer: StringRenderer, cellStyle: {textAlign: "center"}},
+        {field: "clbPsncpa", headerName: "동호회 정원", cellStyle: {textAlign: "center"}},
+        {field: "clubMbrCnt", headerName: "전체 회원 수", cellStyle: {textAlign: "center"}},
+        {field: "clbDate", headerName: "신청 날짜", cellStyle: {textAlign: "center"}},
+        {field: "chk", headerName: " ", cellRenderer: ClassBtn, cellStyle: {textAlign: "center"}},
+        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true, cellStyle: {textAlign: "center"}},
     ];
     const Options = {
         columnDefs: columnDefs,
         rowData: rowData,
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
     };
 
     function customSort(a, b) {

@@ -1,44 +1,33 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/manageClub.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
-<style>
-    .short {
-        display: flex;
-        align-items: center;
-    }
-
-    #request-club {
-        height: 200px;
-    }
-
-    #manage-club {
-        height: 400px;
-    }
-</style>
 <div class="content-container">
-    <h1 class="tab"><a href="/club/admin">동호회 관리</a></h1><br/><br/>
+    <header id="tab-header">
+        <h1><a class="on" href="/club/admin">동호회 관리</a></h1><br/><br/>
+    </header>
     <div class="content-wrapper">
-        <div class="request-club-wrap">
+        <div class="request-club-wrap card card-df grid-card">
             <div class="short">
-                <h3>동호회 제안</h3>
+                <h3 class="color-font-high font-b font-24">동호회 제안</h3>
                 <div class="total">
-                    <a href="#" class="total-count"></a>
-                    건
-                    <a href="/club/admin/proposalList" class="more">더보기</a>
+                    <a href="#" class="total-count font-md font-36 clubCount"></a>
+                    <span class="color-font-high font-md font-18">건</span>
                 </div>
+                    <a href="/club/admin/proposalList" class="more font-md font-11">더보기<i class="icon i-arr-rt"></i></a>
             </div>
             <div id="request-club" class="ag-theme-alpine"></div>
         </div>
         <br/><br/>
-        <div class="manage-club-wrap">
+        <div class="manage-club-wrap card card-df grid-card">
             <div class="short">
-                <h3>등록된 동호회</h3>
+                <h3 class="color-font-high font-b font-24">등록된 동호회</h3>
                 <div class="total">
-                    <a href="#" class="total-club"></a>
-                    개
-                    <a href="/club/admin/registList" class="more">더보기</a>
+                    <a href="#" class="total-club font-md font-36 clubCount"></a>
+                    <span class="color-font-high font-md font-18">개</span>
                 </div>
+                    <a href="/club/admin/registList" class="more font-md font-11">더보기<i class="icon i-arr-rt"></i></a>
             </div>
             <div id="manage-club" class="ag-theme-alpine"></div>
         </div>
@@ -58,8 +47,8 @@
             const clbEtprCode = params.data.clbEtprCode
             this.eGui = document.createElement('div');
             this.eGui.innerHTML = `
-                        <button class="approve">승인</button>
-                        <button class="disapprove">거절</button>
+                        <button class="approve font-md font-11 color-font-md">승인</button>
+                        <button class="disapprove font-md font-11 color-font-md">거절</button>
                     `;
             this.id = params.data.notiEtprCode;
             this.approveBtn = this.eGui.querySelector(".approve");
@@ -83,8 +72,8 @@
             const clbEtprCode = params.data.clbEtprCode
             this.eGui = document.createElement('div');
             this.eGui.innerHTML = `
-                        <button class="dormacy">미운영 처리</button>
-                        <button class="manage">회원 관리</button>
+                        <button class="dormacy font-md font-11 color-font-md">미운영 처리</button>
+                        <button class="manage font-md font-11 color-font-md">회원 관리</button>
                     `;
             this.id = params.data.notiEtprCode;
             this.dormacyBtn = this.eGui.querySelector(".dormacy");
@@ -124,6 +113,9 @@
                 clbConfmAt: text,
                 clbEtprCode: clbEtprCode
             }),
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            },
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 window.location.href = "/club/admin";
@@ -136,18 +128,18 @@
 
     let rowDataRequest = [];
     const columnDefsRequest = [
-        {field: "No", headerName: "No"},
-        {field: "clbChirmnEmplId", headerName: "요청한 사원(사번)"},
+        {field: "No", headerName: "No", cellStyle: {textAlign: "center"}},
+        {field: "clbChirmnEmplId", headerName: "요청한 사원(사번)", cellStyle: {textAlign: "center"}},
         {
             field: "clbNm", headerName: "동호회 이름", getQuickFilterText: (params) => {
                 return params.data.clbNm
-            }
+            }, cellStyle: {textAlign: "center"}
         },
-        {field: "clbDc", headerName: "동호회 설명"},
-        {field: "clbPsncpa", headerName: "동호회 정원"},
-        {field: "clbDate", headerName: "신청 날짜"},
-        {field: "chk", headerName: " ", cellRenderer: ClassProposalBtn},
-        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true},
+        {field: "clbDc", headerName: "동호회 설명", cellStyle: {textAlign: "center"}},
+        {field: "clbPsncpa", headerName: "동호회 정원", cellStyle: {textAlign: "center"}},
+        {field: "clbDate", headerName: "신청 날짜", cellStyle: {textAlign: "center"}},
+        {field: "chk", headerName: " ", cellRenderer: ClassProposalBtn, cellStyle: {textAlign: "center"}},
+        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true, cellStyle: {textAlign: "center"}},
     ];
     <c:forEach var="clubVO" items="${clubList}" varStatus="status">
     rowDataRequest.push({
@@ -164,21 +156,24 @@
     const gridProposalOptions = {
         columnDefs: columnDefsRequest,
         rowData: rowDataRequest,
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
     };
 
     let rowDataRegist = [];
     const columnDefsRegist = [
-        {field: "No", headerName: "No"},
-        {field: "clbDate", headerName: "등록일"},
+        {field: "No", headerName: "No", cellStyle: {textAlign: "center"}},
+        {field: "clbDate", headerName: "등록일", cellStyle: {textAlign: "center"}},
         {
             field: "clbNm", headerName: "동호회 이름", getQuickFilterText: (params) => {
                 return params.data.clbNm
-            }
+            }, cellStyle: {textAlign: "center"}
         },
-        {field: "clbPsncpa", headerName: "전체 회원수/정원"},
-        {field: "clbChirmnEmplId", headerName: "동호회장(사번)"},
-        {field: "chk", headerName: " ", cellRenderer: ClassClubBtn},
-        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true},
+        {field: "clbPsncpa", headerName: "전체 회원수/정원", cellStyle: {textAlign: "center"}},
+        {field: "clbChirmnEmplId", headerName: "동호회장(사번)", cellStyle: {textAlign: "center"}},
+        {field: "chk", headerName: " ", cellRenderer: ClassClubBtn, cellStyle: {textAlign: "center"}},
+        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true, cellStyle: {textAlign: "center"}},
     ];
     <c:forEach var="clubRegist" items="${clubRegistList}" varStatus="status">
     rowDataRegist.push({
@@ -194,6 +189,9 @@
     const gridRegistOptions = {
         columnDefs: columnDefsRegist,
         rowData: rowDataRegist,
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
     };
     document.addEventListener('DOMContentLoaded', () => {
         const requestClubGrid = document.querySelector('#request-club');
