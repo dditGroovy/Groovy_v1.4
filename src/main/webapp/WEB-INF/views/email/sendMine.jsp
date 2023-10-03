@@ -14,7 +14,7 @@
                 <div class="serviceWrap">
                     <div class="writeWrap">
                         <button type="button" id="sendBtn" class="btn">보내기</button>
-                        <a href="${pageContext.request.contextPath}/email/sendMail" class="send-mine"><i class="icon i-change"></i>메일 쓰기</a>
+                        <a href="${pageContext.request.contextPath}/email/send" class="send-mine"><i class="icon i-change"></i>메일 쓰기</a>
                     </div>
                 </div>
                 <div class="content-body">
