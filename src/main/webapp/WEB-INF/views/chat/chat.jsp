@@ -69,7 +69,7 @@
     const chatRoomMessages = {};
     const subscribedRooms = new Set();
 
-    let sockJS = new SockJS("https://12fa-175-116-155-226.ngrok-free.app/chat");
+    let sockJS = new SockJS("/chat");
     let client = Stomp.over(sockJS);
 
     let currentRoomNo;
