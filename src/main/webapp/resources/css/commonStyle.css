@@ -289,6 +289,7 @@
 .i-set {content: url("/resources/images/icon/i-setting.svg")}
 .i-star-out {content: url("/resources/images/icon/magic-star-out.svg")}
 .i-star-fill {content: url("/resources/images/icon/magic-star-fill.svg")}
+.i-change {content: url("/resources/images/icon/change.svg")}
 .i-3d.icon {
     width: var(--vw-32);
     height: var(--vw-32);

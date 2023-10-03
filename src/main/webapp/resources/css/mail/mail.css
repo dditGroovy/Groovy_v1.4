@@ -1,5 +1,9 @@
 @import "../commonStyle.css";
-
+/*  공통  */
+.writeWrap {
+    display: flex;
+    height: var(--vh-48);
+}
 /* mail */
 .mailnavWrap {
     display: flex;
@@ -53,22 +57,20 @@
     justify-content: space-between;
     align-items: center;
 }
-.writeWrap {
-    display: flex;
+.mail-all-wrap .writeWrap {
     width: calc((230/var(--vw))*100vw);
-    height: var(--vh-48);
     background: var(--color-main);
     box-shadow: var(--clay-btn);
     border-radius: 8px;
 }
-.writeWrap > a {
+.mail-all-wrap .writeWrap > a {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 14px;
     color: var(--color-white);
-    font-family: var(--font-sb);
+    font-family: var(--font-md);
 }
 .writeWrap > a:first-child {
     border-right: 1px solid #4987E3;
@@ -101,4 +103,140 @@ input[type=checkbox]{outline: none}
 }
 .cursor {
     cursor: pointer;
+}
+
+/*메일 보내기*/
+.send-wrap {
+    padding: var(--vh-24) var(--vw-48);
+}
+#sendBtn {
+    width: calc((96/var(--vw))*100vw);
+    background: var(--color-main);
+    box-shadow: var(--clay-btn);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--color-white);
+    font-family: var(--font-md);
+}
+.send-mine {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-font-high);
+    font-size: 14px;
+}
+.send-wrap .writeWrap {
+    gap: 24px;
+}
+.content-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-24);
+}
+.mail-write-options {
+    display: flex;
+    flex-direction: column;
+}
+.mail-write-option {
+    display: flex;
+    align-items: center;
+}
+.mail-write-option > h3 {
+    width: calc((96/var(--vw))*100vw);
+}
+.option-wrap {
+    flex: 1;
+    display: flex;
+    padding: 4px 0;
+    align-items: center;
+}
+.mail-write-option:not(:last-child) .mail-input{
+    border-bottom: 1px solid var(--color-font-row);
+}
+.mail-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: var(--vh-12) 0;
+}
+.btn-org {
+    width: calc((96/var(--vw))*100vw);
+    padding: var(--vh-12) 0;
+    justify-content: center;
+    font-size: 14px;
+}
+.emplBadge {
+    padding: 4px 8px;
+    border: 1px solid var(--color-main);
+    margin-right: 8px;
+    color: var(--color-main);
+    font-size: 11px;
+}
+.close-empl {
+    color: var(--color-main);
+}
+.mail-file-wrap .option-wrap {
+    flex: 1;
+}
+.file-btn{
+    width: calc((120/var(--vw))*100vw);
+    height: var(--vh-48);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-main);
+    gap: 4px;
+    font-size: 14px;
+    margin-top: 4px;
+}
+.file-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.i-file {
+    filter : invert(54%) sepia(23%) saturate(2818%) hue-rotate(194deg) brightness(100%) contrast(91%);
+}
+#file {
+    display: none;
+}
+.file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    padding: var(--vh-24) var(--vw-12);
+    border: 1px solid var(--color-font-row);
+    min-height: calc((120/var(--vh))*100vh);
+}
+.delete{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background: var(--color-white);
+    box-shadow: var(--clay-card);
+    border: 1px solid var(--color-stroke);
+    border-radius: 2px;
+    cursor: pointer;
+}
+.filebox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.name {
+    font-size: 11px;
+    font-family: var(--font-md);
+}
+/*ck editor*/
+#cke_1_toolbox {
+    display: flex !important;
+}
+#cke_1_contents {
+    min-height: 100px;
+    height: 25vh!important;
+    overflow-y: auto;
 }

@@ -1,61 +1,64 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<style>
-    .contentWrap {
-        margin-left: 400px;
-    }
-</style>
+<link href="/resources/css/mail/mail.css" rel="stylesheet"/>
 <sec:authentication property="principal" var="CustomUser"/>
-<div class="contentWrap">
-    <form action="#" method="post" id="mailForm" enctype="multipart/form-data">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <table border="1" style="width: 50%">
-            <tr>
-                <th>받는 사람</th>
-                <td>
-                    <span id="receiveTo"></span>
-                    <input type="text" name="emailToAddr" id="emailToAddr">
-                    <button type="button" id="orgBtnTo">조직도</button>
-
-                </td>
-            </tr>
-            <tr>
-                <th>참조</th>
-                <td>
-                    <span id="receiveCc"></span>
-                    <input type="text" name="emailCcAddr" id="emailCcAddr">
-                    <button type="button" id="orgBtnCc">조직도</button>
-                </td>
-            </tr>
-            <tr>
-                <th>제목</th>
-                <td>
-                    <input type="text" name="emailFromSj" id="emailFromSj">
-                </td>
-            </tr>
-            <tr>
-                <th>파일첨부</th>
-                <td>
-                    <input type="file" name="emailFiles" id="file" multiple>
-                </td>
-            </tr>
-            <tr>
-                <th>내용</th>
-                <td>
-                    <textarea id="editor" name="emailFromCn" required></textarea>
-                </td>
-            </tr>
-        </table>
-        <div class="serviceWrap">
-            <div class="serviceWrap">
-                <div class="writeWrap">
-                    <button type="button" id="sendBtn">보내기</button>
-                    <button type="button" id="saveBtn">임시저장</button>
-                    <button type="button" id="resveBtn">예약</button>
+<div class="content-container">
+    <jsp:include page="header.jsp"></jsp:include>
+    <div class="contentWrap card card-df send-wrap">
+        <div class="send-wrap-inner">
+            <form action="#" method="post" id="mailForm" enctype="multipart/form-data">
+                <div class="serviceWrap">
+                    <div class="writeWrap">
+                        <button type="button" id="sendBtn" class="btn">보내기</button>
+                        <a href="${pageContext.request.contextPath}/email/sendMine" class="send-mine"><i class="icon i-change"></i>내게 쓰기</a>
+                    </div>
                 </div>
-            </div>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <div class="content-body">
+                    <div class="mail-write-options">
+                        <div class="mail-receive-wrap mail-write-option">
+                            <h3><label for="emailToAddr">받는 사람</label></h3>
+                            <div class="option-wrap">
+                                <span id="receiveTo"></span>
+                                <input type="text" name="emailToAddr" id="emailToAddr" class="mail-input">
+                                <button type="button" id="orgBtnTo" class="btn btn-flat btn-org">조직도</button>
+                            </div>
+                        </div>
+                        <div class="mail-cc-wrap mail-write-option">
+                            <h3><label for="emailToAddr">참조</label></h3>
+                            <div class="option-wrap">
+                                <span id="receiveCc"></span>
+                                <input type="text" name="emailCcAddr" id="emailCcAddr" class="mail-input">
+                                <button type="button" id="orgBtnCc" class="btn btn-flat btn-org">조직도</button>
+                            </div>
+                        </div>
+                        <div class="mail-title-wrap mail-write-option">
+                            <h3><label for="emailToAddr">제목</label></h3>
+                            <div class="option-wrap">
+                                <input type="text" name="emailFromSj" id="emailFromSj" class="mail-input">
+                            </div>
+                        </div>
+                        <div class="mail-file-wrap mail-write-option">
+                            <h3><label for="emailToAddr">파일 첨부</label></h3>
+                            <div class="option-wrap">
+                                <div class="file-wrap">
+                                    <label for="file" class="btn btn-free-white file-btn">
+                                        <i class="icon i-file"></i>
+                                        내 PC
+                                    </label>
+                                    <input type="file" name="emailFiles" id="file" multiple  onchange="addFile(this);">
+                                    <div class="file-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mail-write-editor">
+                        <textarea id="editor" name="emailFromCn" required></textarea>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 <script src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script>
 <script>
@@ -81,6 +84,10 @@
 
     addEmailAddrSpan(emailToAddrInput, receiveTo);
     addEmailAddrSpan(emailCcAddrInput, receiveCc);
+
+    /*  메일 헤더 가리기   */
+    document.querySelector("#tab-header").style.display = "none";
+    document.querySelector(".mailnavWrap form").style.display = "none";
 
     document.querySelector("#sendBtn").addEventListener("click", function () {
         let emplIdToArr = document.querySelectorAll("input[name=emplIdToArr]");
@@ -204,7 +211,7 @@
 
                     let newButton = document.createElement("button");
                     newButton.setAttribute("type", "button");
-                    newButton.setAttribute("class", "close-empl");
+                    newButton.setAttribute("class", "close-empl btn");
                     newButton.textContent = "X";
 
                     let newInput = document.createElement("input");
@@ -248,15 +255,15 @@
                                     emplNm
                                 }
                                 if (orgBtn.getAttribute("id") === "orgBtnTo") {
-                                    str += `<span data-id=\${empl.emplId}>
+                                    str += `<span data-id=\${empl.emplId} class="badge emplBadge">
                                             \${empl.emplNm}
-                                            <button type="button" class="close-empl">X</button>
+                                            <button type="button" class="close-empl btn">x</button>
                                         </span>
                                             <input type="hidden" name="emplIdToArr" value="\${empl.emplId}">`;
                                 } else if (orgBtn.getAttribute("id") === "orgBtnCc") {
-                                    str += `<span data-id=\${empl.emplId}>
+                                    str += `<span data-id=\${empl.emplId} class="badge emplBadge">
                                             \${empl.emplNm}
-                                            <button type="button" class="close-empl">X</button>
+                                            <button type="button" class="close-empl btn">x</button>
                                             <input type="hidden" name="emplIdCcArr" value="\${empl.emplId}">
                                         </span>`;
                                 }
@@ -274,5 +281,66 @@
                     console.error("데이터 가져오기 실패:", error);
                 });
         });
+    }
+
+    /*  파일 첨부   */
+    let fileNo = 0;
+    let filesArr = new Array();
+
+    /* 첨부파일 추가 */
+    function addFile(obj){
+        let maxFileCnt = 5;   // 첨부파일 최대 개수
+        let attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
+        let remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
+        let curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
+
+        // 첨부파일 개수 확인
+        if (curFileCnt > remainFileCnt) {
+            alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+        } else {
+            for (const file of obj.files) {
+                // 첨부파일 검증
+                if (validation(file)) {
+                    let reader = new FileReader();
+                    reader.onload = function () {
+                        filesArr.push(file);
+                    };
+                    reader.readAsDataURL(file);
+
+                    // 목록 추가
+                    let htmlData = '';
+                    htmlData += '<div id="file' + fileNo + '" class="filebox">';
+                    htmlData += '   <p class="name">' + file.name + '</p>';
+                    htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="icon i-close"></i></a>';
+                    htmlData += '</div>';
+                    $('.file-list').append(htmlData);
+                    fileNo++;
+                } else {
+                    continue;
+                }
+            }
+        }
+        // 초기화
+        document.querySelector("input[type=file]").value = "";
+    }
+    /* 첨부파일 검증 */
+    function validation(file){
+        if (file.name.length > 100) {
+            alert("파일명이 100자 이상인 파일은 제외되었습니다.");
+            return false;
+        } else if (file.size > (100 * 1024 * 1024)) {
+            alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
+            return false;
+        } else if (file.name.lastIndexOf('.') == -1) {
+            alert("확장자가 없는 파일은 제외되었습니다.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    /* 첨부파일 삭제 */
+    function deleteFile(num) {
+        document.querySelector("#file" + num).remove();
+        filesArr[num].is_delete = true;
     }
 </script>
