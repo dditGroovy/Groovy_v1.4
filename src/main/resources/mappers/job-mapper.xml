@@ -228,6 +228,7 @@
                J.JOB_BEGIN_DATE,
                J.JOB_CLOS_DATE,
                J.COMMON_CODE_DUTY_KIND,
+               J.JOB_REQUST_EMPL_ID,
                E.EMPL_NM AS JOB_REQUST_EMPL_NM,
                P.COMMON_CODE_DUTY_PROGRS
         FROM JOB J,

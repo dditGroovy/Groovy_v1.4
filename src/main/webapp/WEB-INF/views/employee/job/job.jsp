@@ -308,6 +308,7 @@
             </div>
             <div class="modal-container">
                 <form id="requestJob" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <ul class="modal-list">
                         <li class="form-data-list">
                             <label for="jobSj" class="modal-title">📚 업무 제목</label>
@@ -463,6 +464,7 @@
             <div class="modal-container">
                 <div class="modal-option new-job on" data-target="tab-new-job">
                     <form id="registNewJob">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <ul class="modal-list">
                             <li class="form-data-list">
                                 <label for="sj" class="modal-title">📚 업무 제목</label>
@@ -514,6 +516,7 @@
                 </div>
                 <div class="modal-option new-request" data-target="tab-new-request">
                     <form>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <div class="request-list-wrap">
                             <c:choose>
                                 <c:when test="${not empty receiveJobList}">
@@ -597,6 +600,7 @@
                 </div>
             </div>
         </div>
+
         <div class="modal-layer card-df sm jobDetail">
             <div class="modal-top">
                 <div class="modal-title"><i class="icon i-idea i-3d"></i>업무 상세</div>
@@ -609,23 +613,31 @@
                     <li class="form-data-list">
                         <h5 class="modal-title">📚 업무 제목</h5>
                         <div class="data-box input-l modal-input">
-                            <p id="sj-data"></p>
+                            <p id="sj-data">
+                                <input type="text" name="jobSj" readonly>
+                            </p>
                         </div>
                     </li>
                     <li class="form-data-list">
                         <h5 class="modal-title">✅ 업무 내용</h5>
                         <div class="data-box input-l modal-input">
-                            <p id="cn-data"></p>
+                            <p id="cn-data">
+                                <input type="text" name="jobCn" readonly>
+                            </p>
                         </div>
                     </li>
                     <li class="form-data-list">
                         <h5 class="modal-title">📅 업무 기간</h5>
                         <div class="input-date">
                             <div class="data-box input-l modal-input">
-                                <p id="begin-data"></p>
+                                <p id="begin-data">
+                                    <input type="date" name="jobBeginDate" readonly>
+                                </p>
                             </div>
                             <div class="data-box input-l modal-input">
-                                <p id="close-data"></p>
+                                <p id="close-data">
+                                    <input type="date" name="jobClosDate" readonly>
+                                </p>
                             </div>
                         </div>
                     </li>
@@ -670,12 +682,13 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-wrap">
-                    <button class="close btn btn-fill-wh-sm">취소</button>
+                    <button class="close btn-close btn btn-fill-wh-sm" onclick="test()">취소</button>
                     <button type="button" id="modify"  class="btn btn-fill-bl-sm">수정</button>
                     <button type="button" id="confirm" style="display: none" class="btn btn-fill-bl-sm">저장</button>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 <script src="/resources/js/orgChart.js"></script>
@@ -685,6 +698,7 @@
     <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser" />
     let emplNm = `${CustomUser.employeeVO.emplNm}`;
+    let emplId = `${CustomUser.employeeVO.emplId}`;
     </sec:authorize>
 
     var swiper = new Swiper("#todoBoard", {

@@ -151,6 +151,9 @@ function rejectOrAgree(jobProgressVO) {
         url:'/job/updateJobStatus',
         data: JSON.stringify(jobProgressVO),
         contentType: 'application/json; charset=utf-8',
+        beforeSend : function(xhr) {
+            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+        },
         success: function () {
             location.href = "/job/main";
         },
@@ -254,6 +257,9 @@ document.querySelector("#regist").addEventListener("click", () => {
         contentType: false,
         processData: false,
         cache: false,
+        beforeSend : function(xhr) {
+            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+        },
         success: function() {
             location.href = "/job/main";
         },
@@ -267,6 +273,7 @@ let progressList = document.querySelectorAll(".progress");
 let myJobs = document.querySelectorAll(".myJob");
 myJobs.forEach(myJob => {
     myJob.addEventListener("click", (event)=> {
+        confirmBtn.style.display = "none";
         let kindList = document.querySelectorAll(".kind-data");
         let target = event.target;
 
@@ -288,10 +295,11 @@ myJobs.forEach(myJob => {
                 type: 'get',
                 url: `/job/getJobByNoAndId?jobNo=${jobNo}`,
                 success: function (rslt) {
-                    document.querySelector("#sj-data").innerHTML = rslt.jobSj;
-                    document.querySelector("#cn-data").innerHTML = rslt.jobCn;
-                    document.querySelector("#begin-data").innerHTML = rslt.jobBeginDate;
-                    document.querySelector("#close-data").innerHTML = rslt.jobClosDate;
+                    console.log(rslt);
+                    document.querySelector("#sj-data input").value = rslt.jobSj;
+                    document.querySelector("#cn-data input").value = rslt.jobCn;
+                    document.querySelector("#begin-data input").value = rslt.jobBeginDate;
+                    document.querySelector("#close-data input").value = rslt.jobClosDate;
                     document.querySelector("#request-data").innerHTML = rslt.jobRequstEmplNm;
                     kindList.forEach(kind => {
                         kind.disabled = true;
@@ -305,6 +313,7 @@ myJobs.forEach(myJob => {
                             progress.checked = true;
                         }
                     });
+                    modifyBtn.setAttribute("data-id", rslt.jobRequstEmplId);
                     document.querySelector("#confirm").setAttribute("data-seq", jobNo);
                    /* openModal("#modal-job-detail");*/
                 },
@@ -401,6 +410,9 @@ requestBtn.addEventListener("click", (event) => {
         contentType: false,
         processData: false,
         cache: false,
+        beforeSend : function(xhr) {
+            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+        },
         success: function() {
             //알림 보내기
             $.get("/alarm/getMaxAlarm")
@@ -436,6 +448,9 @@ requestBtn.addEventListener("click", (event) => {
                         type: 'post',
                         url: '/alarm/insertAlarmTargeList',
                         data: alarmVO,
+                        beforeSend : function(xhr) {
+                            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+                        },
                         success: function (rslt) {
                             console.log(rslt);
                             if (socket) {
@@ -463,11 +478,21 @@ requestBtn.addEventListener("click", (event) => {
 let modifyBtn = document.querySelector("#modify");
 let confirmBtn = document.querySelector("#confirm");
 modifyBtn.addEventListener("click", function(){
+    let dataId = modifyBtn.getAttribute("data-id");
+    console.log(dataId);
     progressList.forEach(progress => {
         progress.disabled = false;
     });
     confirmBtn.style.display = "block";
     this.style.display = "none";
+    if (dataId == emplId) { // 나 -> 나
+        let inputList = document.querySelectorAll(".jobDetail input");
+        console.log(inputList);
+        inputList.forEach(input => {
+            input.disabled = false;
+            input.readOnly = false;
+        })
+    }
 });
 
 confirmBtn.addEventListener("click", () => {
@@ -525,4 +550,3 @@ dutykinds.forEach(kind => {
         kind.classList.add("badge-etc-meeting");
     }
 });
-
