@@ -152,7 +152,7 @@ function rejectOrAgree(jobProgressVO) {
         data: JSON.stringify(jobProgressVO),
         contentType: 'application/json; charset=utf-8',
         beforeSend : function(xhr) {
-            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            xhr.setRequestHeader("\${_csrf.headerName}","\${_csrf.token}");
         },
         success: function () {
             location.href = "/job/main";
@@ -513,9 +513,6 @@ confirmBtn.addEventListener("click", () => {
         url: '/job/updateJobProgress',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(jobProgressVO),
-        beforeSend : function(xhr) {
-            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-        },
         success: function () {
             location.href = "/job/main";
         },
