@@ -46,7 +46,7 @@
 
     <div id="formDiv">
         <form name="inputForm" id="inputForm" method="post" action="dietMain" enctype="multipart/form-data">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
             <input type="file" name="file" id="file" accept=".xlsx"/>
             <button type="button" class="fileButton" onclick="upload()">파일 등록</button>
         </form>
