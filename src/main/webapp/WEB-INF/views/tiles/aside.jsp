@@ -112,9 +112,9 @@
         $.ajax({
             url: "/signOut",
             type: "post",
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-            },
+            <%--beforeSend : function(xhr) {--%>
+            <%--    xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");--%>
+            <%--},--%>
             success: function (result) {
                 window.location.href = '/employee/signIn'
             },

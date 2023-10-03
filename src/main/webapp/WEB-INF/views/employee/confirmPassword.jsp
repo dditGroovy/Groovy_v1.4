@@ -51,7 +51,6 @@
         </div>
         <div>
             <form action="${pageContext.request.contextPath}/email/all" method="post" id="emailForm">
-                <sec:csrfInput/>
                 <input type="password" id="password" name="password" placeholder="PASSWORD"
                        class="userPw btn-free-white input-l"/>
                 <button type="button" class="btn-free-blue checkBtn btn">확인</button>
@@ -78,10 +77,7 @@
             type: "post",
             data: password,
             contentType: "application/json",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
-            },
-            success: function (result) {
+           success: function (result) {
                 if (result === 'correct') {
                     if (page !== "email") {
                         window.location.href = url;
