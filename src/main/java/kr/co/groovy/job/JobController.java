@@ -131,6 +131,12 @@ public class JobController {
         service.updateJobProgress(jobProgressVO, principal.getName());
     }
 
+    @PutMapping("/updateJob")
+    @ResponseBody
+    public void updateJob(@RequestBody JobVO jobVO) {
+        service.updateJob(jobVO);
+    }
+
     //요청한 업무 내역
     @GetMapping("/request")
     public String requestMain(Principal principal, Model model) {

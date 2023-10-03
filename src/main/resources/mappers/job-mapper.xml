@@ -248,6 +248,16 @@
           AND JOB_RECPTN_EMPL_ID = #{jobRecptnEmplId}
     </update>
 
+    <update id="updateJob" parameterType="jobVO">
+        UPDATE JOB
+        SET JOB_SJ = #{jobSj},
+            JOB_CN = #{jobCn},
+            JOB_BEGIN_DATE = #{jobBeginDate},
+            JOB_CLOS_DATE = #{jobClosDate},
+            COMMON_CODE_DUTY_KIND = #{commonCodeDutyKind}
+        WHERE JOB_NO = #{jobNo}
+    </update>
+
     <update id="updateJobProgress" parameterType="jobProgressVO">
         UPDATE  JOB_PROGRS
         SET COMMON_CODE_DUTY_PROGRS = #{commonCodeDutyProgrs}

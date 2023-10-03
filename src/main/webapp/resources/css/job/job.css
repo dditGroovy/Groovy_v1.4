@@ -452,3 +452,14 @@ section .content-wrap {
     gap: var(--vw-24);
     margin-top: var(--vh-24);
 }
+
+.detail-p {
+    width: 100%;
+}
+
+.input-text, .input-date {
+    outline: none;
+    border: none;
+    width: 100%;
+    background: rgba(0,0,0,0);
+}

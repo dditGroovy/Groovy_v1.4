@@ -613,16 +613,16 @@
                     <li class="form-data-list">
                         <h5 class="modal-title">📚 업무 제목</h5>
                         <div class="data-box input-l modal-input">
-                            <p id="sj-data">
-                                <input type="text" name="jobSj" readonly>
+                            <p id="sj-data" class="detail-p">
+                                <input type="text" name="jobSj" class="input-text font-14" readonly>
                             </p>
                         </div>
                     </li>
                     <li class="form-data-list">
                         <h5 class="modal-title">✅ 업무 내용</h5>
                         <div class="data-box input-l modal-input">
-                            <p id="cn-data">
-                                <input type="text" name="jobCn" readonly>
+                            <p id="cn-data" class="detail-p">
+                                <input type="text" name="jobCn" class="input-text font-14" readonly>
                             </p>
                         </div>
                     </li>
@@ -630,13 +630,13 @@
                         <h5 class="modal-title">📅 업무 기간</h5>
                         <div class="input-date">
                             <div class="data-box input-l modal-input">
-                                <p id="begin-data">
-                                    <input type="date" name="jobBeginDate" readonly>
+                                <p id="begin-data" class="detail-p">
+                                    <input type="date" name="jobBeginDate" class="input-date font-14 font-reg" readonly>
                                 </p>
                             </div>
                             <div class="data-box input-l modal-input">
-                                <p id="close-data">
-                                    <input type="date" name="jobClosDate" readonly>
+                                <p id="close-data" class="detail-p">
+                                    <input type="date" name="jobClosDate"  class="input-date font-14 font-reg" readonly>
                                 </p>
                             </div>
                         </div>
@@ -670,7 +670,7 @@
                             <label for="done">업무 완료</label>
                         </div>
                     </li>
-                    <li class="form-data-list">
+                    <li class="form-data-list send-empl">
                         <div class="head">
                             <h5 class="modal-title">💌 보낸 사람</h5>
                         </div>
@@ -682,7 +682,7 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-wrap">
-                    <button class="close btn-close btn btn-fill-wh-sm" onclick="test()">취소</button>
+                    <button class="close btn-close btn btn-fill-wh-sm">취소</button>
                     <button type="button" id="modify"  class="btn btn-fill-bl-sm">수정</button>
                     <button type="button" id="confirm" style="display: none" class="btn btn-fill-bl-sm">저장</button>
                 </div>

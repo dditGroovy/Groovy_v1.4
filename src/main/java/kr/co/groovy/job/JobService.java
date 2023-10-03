@@ -129,6 +129,11 @@ public class JobService {
         mapper.updateJobProgress(jobProgressVO);
     }
 
+    public void updateJob(JobVO jobVO) {
+        jobVO.setCommonCodeDutyKind(DutyKind.getValueOfByLabel(jobVO.getCommonCodeDutyKind()));
+        mapper.updateJob(jobVO);
+    }
+
     public List<JobVO> getJobByDate(Map<String, Object> map) {
         return mapper.getJobByDate(map);
     }

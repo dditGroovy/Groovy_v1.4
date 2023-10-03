@@ -151,9 +151,6 @@ function rejectOrAgree(jobProgressVO) {
         url:'/job/updateJobStatus',
         data: JSON.stringify(jobProgressVO),
         contentType: 'application/json; charset=utf-8',
-        beforeSend : function(xhr) {
-            xhr.setRequestHeader("\${_csrf.headerName}","\${_csrf.token}");
-        },
         success: function () {
             location.href = "/job/main";
         },
@@ -257,9 +254,6 @@ document.querySelector("#regist").addEventListener("click", () => {
         contentType: false,
         processData: false,
         cache: false,
-        beforeSend : function(xhr) {
-            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-        },
         success: function() {
             location.href = "/job/main";
         },
@@ -271,9 +265,11 @@ document.querySelector("#regist").addEventListener("click", () => {
 
 let progressList = document.querySelectorAll(".progress");
 let myJobs = document.querySelectorAll(".myJob");
+let requestId = document.querySelector("#request-data");
 myJobs.forEach(myJob => {
     myJob.addEventListener("click", (event)=> {
         confirmBtn.style.display = "none";
+        document.querySelector(".send-empl").style.display = "block";
         let kindList = document.querySelectorAll(".kind-data");
         let target = event.target;
 
@@ -301,6 +297,9 @@ myJobs.forEach(myJob => {
                     document.querySelector("#begin-data input").value = rslt.jobBeginDate;
                     document.querySelector("#close-data input").value = rslt.jobClosDate;
                     document.querySelector("#request-data").innerHTML = rslt.jobRequstEmplNm;
+                    if (rslt.jobRequstEmplId == emplId) {
+                        document.querySelector(".send-empl").style.display = "none";
+                    }
                     kindList.forEach(kind => {
                         kind.disabled = true;
                         if (kind.value === rslt.commonCodeDutyKind) {
@@ -314,6 +313,7 @@ myJobs.forEach(myJob => {
                         }
                     });
                     modifyBtn.setAttribute("data-id", rslt.jobRequstEmplId);
+                    requestId.setAttribute("data-id", rslt.jobRequstEmplId);
                     document.querySelector("#confirm").setAttribute("data-seq", jobNo);
                    /* openModal("#modal-job-detail");*/
                 },
@@ -410,9 +410,6 @@ requestBtn.addEventListener("click", (event) => {
         contentType: false,
         processData: false,
         cache: false,
-        beforeSend : function(xhr) {
-            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-        },
         success: function() {
             //알림 보내기
             $.get("/alarm/getMaxAlarm")
@@ -448,9 +445,6 @@ requestBtn.addEventListener("click", (event) => {
                         type: 'post',
                         url: '/alarm/insertAlarmTargeList',
                         data: alarmVO,
-                        beforeSend : function(xhr) {
-                            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                        },
                         success: function (rslt) {
                             console.log(rslt);
                             if (socket) {
@@ -477,6 +471,7 @@ requestBtn.addEventListener("click", (event) => {
 //수정
 let modifyBtn = document.querySelector("#modify");
 let confirmBtn = document.querySelector("#confirm");
+
 modifyBtn.addEventListener("click", function(){
     let dataId = modifyBtn.getAttribute("data-id");
     console.log(dataId);
@@ -497,30 +492,63 @@ modifyBtn.addEventListener("click", function(){
 
 confirmBtn.addEventListener("click", () => {
     let jobNo = confirmBtn.getAttribute("data-seq");
+    let id = requestId.getAttribute("data-id");
+    let checkboxes = document.querySelectorAll(".kind-data");
     let selectedValue;
+    let commonCodeDutyKind;
     progressList.forEach(progress => {
         if (progress.checked) {
             selectedValue = progress.getAttribute("data-code");
         }
     });
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            console.log(checkbox)
+           commonCodeDutyKind = checkbox.value;
+        }
+    })
+
     let jobProgressVO = {
         "jobNo": jobNo,
         "commonCodeDutyProgrs": selectedValue
     }
-    console.log(jobProgressVO)
+
+    let jobVO = {
+        "jobNo": jobNo,
+        "jobSj": document.querySelector("#sj-data input").value,
+        "jobCn": document.querySelector("#cn-data input").value,
+        "jobBeginDate": document.querySelector("#begin-data input").value,
+        "jobClosDate": document.querySelector("#close-data input").value,
+        "commonCodeDutyKind": commonCodeDutyKind
+    }
     $.ajax({
         type: 'put',
         url: '/job/updateJobProgress',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(jobProgressVO),
         success: function () {
-            location.href = "/job/main";
+            if (id == emplId) {
+                $.ajax({
+                    type: 'put',
+                    url: '/job/updateJob',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(jobVO),
+                    success: function () {
+                        location.href = "/job/main";
+                    },
+                    error: function (xhr) {
+                        console.log(xhr.status);
+                    }
+                });
+            } else {
+                location.href = "/job/main";
+            }
         },
         error: function (xhr) {
             console.log(xhr.status);
         }
     });
-})
+});
 
 //to do
 let progresses = document.querySelectorAll(".dutyProgrs");
