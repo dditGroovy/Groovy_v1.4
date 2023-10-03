@@ -73,7 +73,7 @@
         <h1>카드 신청 미처리건 <span id="waitingListCnt" style="color: dodgerblue; font-weight: bolder">${waitingListCnt}</span>
         </h1>
         <div id="cardWaitingList">
-            <div id="waitingListGrid" class="ag-theme-alpine"></div>
+            <div id="waitingListGrid" class="ag-theme-material"></div>
         </div>
         <hr/>
 
@@ -169,10 +169,8 @@
                                         let cntText = $("#waitingListCnt").text();
                                         let cnt = parseInt(cntText, 10);
                                         $("#waitingListCnt").text(cnt - 1);
-                                        alert("카드 지정 완료")
                                     },
                                     error: function (xhr) {
-                                        console.log(xhr.status);
                                     }
                                 });
                             })
@@ -181,8 +179,12 @@
                             });
                     },
                     error: function (xhr) {
-                        alert("실패")
-                        console.log(xhr.responseText);
+                        Swal.fire({
+                            icon: 'error',
+                            text: '오류로 인하여 카드 지정을 실패했습니다',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 })
             };
@@ -268,7 +270,12 @@
 
         let cardNo = $("#cardNo").val();
         if (!isValidCardNumber(cardNo)) {
-            alert("카드 번호 형식이 올바르지 않습니다.\n0000-0000-0000-0000 형식으로 입력하세요.");
+            Swal.fire({
+                icon: 'error',
+                text: '카드 번호 형식이 올바르지 않습니다',
+                showConfirmButton: false,
+                timer: 1500
+            })
             return;
         }
 
@@ -284,8 +291,12 @@
                 loadAllCard();
             },
             error: function (xhr) {
-                console.log(xhr.responseText);
-                alert("오류로 인한 실패")
+                Swal.fire({
+                    icon: 'error',
+                    text: '오류로 인하여 카드 등록을 실패했습니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             }
         })
     })
@@ -303,23 +314,33 @@
                     <p id="btnCardNm">\${obj.cprCardNm}</p>
                     <p id="btnCardNo">\${obj.maskCardNo}</p>
                     <p id="btnCardCom">\${obj.cprCardChrgCmpny}</p>
-                    <input type=hidden id="btnCardStatus" value="\${obj.cprCardSttus}">
-                    </button><br/>`;
-
+                    <input type=hidden id="btnCardStatus" value="\${obj.cprCardSttus}">`;
                     let cprCardSttus = obj.cprCardSttus
-
-                    if (cprCardSttus == 0) {
-                        optionCode += `<option value="\${obj.cprCardNo}">\${obj.cprCardNm}</option>`;
+                    switch(cprCardSttus) {
+                        case 0:
+                            optionCode += `<option value="\${obj.cprCardNo}">\${obj.cprCardNm}</option>`;
+                            break;
+                        case 1:
+                            codeforList += "<p>사용중</p>"
+                            break;
+                        case 2:
+                            codeforList += "<p>사용불가</p>"
+                            break;
+                        default:
+                        codeforList += "</button><br/>";
                     }
-
                 });
                 cardListDiv.html(codeforList);
                 $(".selectedCard").html(optionCode);
 
             },
             error: function (xhr) {
-                console.log(xhr.responseText);
-                alert("실패");
+                Swal.fire({
+                    icon: 'error',
+                    text: '오류로 인하여 카드 목록을 불러오지 못하였습니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             }
         })
     }
@@ -376,12 +397,21 @@
                 if (result == 1) {
                     loadAllCard();
                 } else {
-                    alert("수정 실패")
+                    Swal.fire({
+                        icon: 'error',
+                        text: '오류로 인하여 카드 이름 수정을 실패했습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             },
             error: function (xhr) {
-                console.log(xhr.responseText);
-                alert("오류로 인한 실패");
+                Swal.fire({
+                    icon: 'error',
+                    text: '오류로 인하여 카드 이름 수정을 실패했습니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             }
         })
 
@@ -402,36 +432,57 @@
     })
 
     disabledCardBtn.on("click", function () {
-        if (confirm(`'\${currentCardNm}' 카드를 사용불가 처리하시겠습니까?`)) {
-            $.ajax({
-                url: `/card/modifyCardStatusDisabled/\${currentCardNo}`,
-                type: "get",
-                success: function (result) {
-                    if (result == 1) {
-                        loadAllCard();
-                        selectedCardName.html('');
-                        selectedCardNo.html('');
-                        selectedCardCom.html('');
-                        alert("사용불가 처리 완료");
-                    } else {
-                        alert("사용불가 처리 실패")
+        Swal.fire({
+            title: '카드 사용불가 처리',
+            text: '해당 카드를 사용불가 처리하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '네',
+            cancelButtonText: '아니오',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `/card/modifyCardStatusDisabled/\${currentCardNo}`,
+                    type: "get",
+                    success: function (result) {
+                        if (result == 1) {
+                            loadAllCard();
+                            selectedCardName.html('');
+                            selectedCardNo.html('');
+                            selectedCardCom.html('');
+                            Swal.fire({
+                                icon: 'success',
+                                text: '카드 사용불가 처리를 완료했습니다',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                text: '오류로 인하여 카드 사용불가 처리를 실패했습니다',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            text: '오류로 인하여 카드 사용불가 처리를 실패했습니다',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
-                },
-                error: function (xhr) {
-                    console.log(xhr.responseText);
-                    alert("오류로 인한 실패")
-                }
-            })
-        } else {
-            alert("사용불가 처리 취소");
-        }
+                })
+            }
+        })
     })
-
 
     function isValidCardNumber(cardNumber) {
         let cardNumberPattern = /^\d{4}-\d{4}-\d{4}-\d{4}$/;
         return cardNumberPattern.test(cardNumber);
     }
-
 
 </script>

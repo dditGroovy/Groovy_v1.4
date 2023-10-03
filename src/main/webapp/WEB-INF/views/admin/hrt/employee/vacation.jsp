@@ -36,7 +36,13 @@
                 }
             },
             error: function (xhr) {
-                alert("오류로 인하여 연차 개수 수정을 실패했습니다");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERROR',
+                    text: '오류로 인하여 연차 개수 수정을 실패했습니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             }
         });
     }
@@ -115,15 +121,6 @@
         };
         callRefreshAfterMillis(params, millis, api);
     }
-
-    // function autoSizeAll(skipHeader) {
-    //     const allColumnIds = [];
-    //     gridOptions.columnApi.getColumns().forEach((column) => {
-    //         allColumnIds.push(column.getId());
-    //     });
-    //
-    //     gridOptions.columnApi.autoSizeColumns(allColumnIds, skipHeader);
-    // }
 
     const columnDefs = [
         {
