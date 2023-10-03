@@ -70,14 +70,14 @@
                                         <c:choose>
                                             <c:when test="${memVacation.yrycUseDtlsBeginDate == memVacation.yrycUseDtlsEndDate}">
                                                 <li class="color-font-md vacation-list-item">
-                                                    <img src="${memVacation.profileFileName}" class="member-profile"/>
+                                                    <img src="/uploads/profile/${memVacation.profileFileName}" class="member-profile"/>
                                                     <strong class="font-b">${memVacation.yrycUseDtlsEmplNm}</strong>
                                                     ${memVacation.commonCodeYrycUseKind} ${memVacation.yrycUseDtlsBeginDate}
                                                 </li>
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="color-font-md vacation-list-item">
-                                                    <img src="${memVacation.profileFileName}" class="member-profile"/>
+                                                    <img src="/uploads/profile/${memVacation.profileFileName}" class="member-profile"/>
                                                     <strong class="font-b">${memVacation.yrycUseDtlsEmplNm}</strong>
                                                     ${memVacation.commonCodeYrycUseKind} ${memVacation.yrycUseDtlsBeginDate}
                                                     ~ ${memVacation.yrycUseDtlsEndDate}
