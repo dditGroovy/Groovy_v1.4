@@ -44,18 +44,6 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
-    <!-- 시큐리티 multipart 토근 인식 -->
-    <filter>
-	    <display-name>springMultipartFilter</display-name>
-	    <filter-name>springMultipartFilter</filter-name>
-	    <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
-	</filter>
-	<filter-mapping>
-	    <filter-name>springMultipartFilter</filter-name>
-	    <url-pattern>/*</url-pattern>
-	</filter-mapping> 
-    
 
     <error-page>
         <error-code>403</error-code>
