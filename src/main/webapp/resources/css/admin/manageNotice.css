@@ -18,14 +18,13 @@
 
 .deleteNotice {
     width: calc((80 / 1920) * 100vw);
-    height: calc((36 / 1080) * 100vh);
+    height: var(--vh-32);
     border-radius: 20px;
     border: 1px solid var(--color-font-md);
     background-color: rgba(0, 0, 0, 0);
     color: var(--color-font-md);
     font-size: var(--font-size-14);
-    margin: 0 auto;
-    margin-top: 8px;
+    margin: var(--vh-12);
 }
 
 .serviceWrap {
