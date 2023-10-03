@@ -65,7 +65,7 @@
                     <div id="memVacation" class="card-df vacation-card">
                         <ul class="memVacation-list vacation-list">
                             <c:choose>
-                                <c:when test="${not empty myVacation}">
+                                <c:when test="${not empty teamMemVacation}">
                                     <c:forEach items="${teamMemVacation}" var="memVacation">
                                         <c:choose>
                                             <c:when test="${memVacation.yrycUseDtlsBeginDate == memVacation.yrycUseDtlsEndDate}">
