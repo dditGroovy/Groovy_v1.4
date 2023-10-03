@@ -10,7 +10,6 @@
         <div class="main-inner">
             <div id="detail" class="card card-df">
                 <form action="/job/insertDiary" method="post" enctype="multipart/form-data" style="width: 100%;">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <table class="form">
                         <tr>
                             <th>제목</th>

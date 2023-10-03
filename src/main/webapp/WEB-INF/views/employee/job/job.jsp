@@ -308,7 +308,6 @@
             </div>
             <div class="modal-container">
                 <form id="requestJob" method="post">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <ul class="modal-list">
                         <li class="form-data-list">
                             <label for="jobSj" class="modal-title">📚 업무 제목</label>
@@ -464,7 +463,6 @@
             <div class="modal-container">
                 <div class="modal-option new-job on" data-target="tab-new-job">
                     <form id="registNewJob">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <ul class="modal-list">
                             <li class="form-data-list">
                                 <label for="sj" class="modal-title">📚 업무 제목</label>
@@ -516,7 +514,6 @@
                 </div>
                 <div class="modal-option new-request" data-target="tab-new-request">
                     <form>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <div class="request-list-wrap">
                             <c:choose>
                                 <c:when test="${not empty receiveJobList}">
