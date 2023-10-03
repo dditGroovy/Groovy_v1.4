@@ -4,6 +4,7 @@
     <sec:authentication property="principal" var="CustomUser"/>
     <div class="contentWrap">
         <form action="#" method="post" id="mailForm" enctype="multipart/form-data">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" name="emailFromAddr" value="${CustomUser.employeeVO.emplEmail}">
             <input type="hidden" name="emailToAddr" value="${CustomUser.employeeVO.emplEmail}">
             <table border="1" style="width: 50%">
@@ -51,9 +52,9 @@
 
         let xhr = new XMLHttpRequest();
         xhr.open("post", "/email/send", true);
+        xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.responseText);
                 if (xhr.responseText === "success") {
                     alert("메일을 성공적으로 전송했습니다.");
                     location.href = "/email/all";

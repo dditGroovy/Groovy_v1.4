@@ -105,6 +105,9 @@
                     $.ajax({
                         url: `/email/\${emailEtprCode}`,
                         type: "put",
+                        beforeSend : function(xhr) {
+                            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+                        },
                         success: function (result) {
                             tr.remove();
                         },

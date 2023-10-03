@@ -8,6 +8,7 @@
 <sec:authentication property="principal" var="CustomUser"/>
 <div class="contentWrap">
     <form action="#" method="post" id="mailForm" enctype="multipart/form-data">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <table border="1" style="width: 50%">
             <tr>
                 <th>받는 사람</th>
@@ -114,9 +115,9 @@
 
         let xhr = new XMLHttpRequest();
         xhr.open("post", "/email/send", true);
+        xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.responseText);
                 if (xhr.responseText === "success") {
                     //알림 보내기
                     $.get("/alarm/getMaxAlarm")
@@ -150,6 +151,9 @@
                                 type: 'post',
                                 url: '/alarm/insertAlarmTargeList',
                                 data: alarmVO,
+                                beforeSend : function(xhr) {
+                                    xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+                                },
                                 success: function (rslt) {
                                     if (socket) {
                                         //알람번호,카테고리,url,제일,받는사람아이디리스트
@@ -271,6 +275,4 @@
                 });
         });
     }
-
-
 </script>

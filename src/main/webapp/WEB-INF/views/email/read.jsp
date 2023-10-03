@@ -101,6 +101,7 @@
         let code = "delete";
         let xhr = new XMLHttpRequest();
         xhr.open("put", `/email/\${code}/\${emailEtprCode}`, true);
+        xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
         xhr.onreadystatechange = function () {
             if (xhr.status == 200 && xhr.readyState == 4) {
                 alert("해당 메일을 휴지통으로 이동했습니다.");

@@ -17,6 +17,9 @@ function modifyTableAt(td) {
             url: `/email/${code}/${emailEtprCode}`,
             type: 'put',
             data: at,
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            },
             success: function (result) {
                 at = result;
                 td.innerHTML = at;
@@ -35,6 +38,9 @@ function modifyTableAt(td) {
             url: `/email/${code}/${emailEtprCode}`,
             type: 'put',
             data: at,
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            },
             success: function (result) {
                 td.remove();
             },
