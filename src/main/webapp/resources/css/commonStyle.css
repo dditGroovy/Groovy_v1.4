@@ -253,6 +253,7 @@
 .i-share {content:url("/resources/images/icon/share.svg");}
 .i-org {content:url("/resources/images/icon/profile-2user.svg");}
 .i-mail {content:url("/resources/images/icon/mail-unread.svg");}
+.i-mail-read {content:url("/resources/images/icon/mail-read.svg");}
 .i-mail-medium {content:url("/resources/images/icon/mail-unread-medium.svg");}
 .i-signOut {content:url("/resources/images/icon/logout.svg");}
 .i-view {content: url("/resources/images/icon/view.svg")}
