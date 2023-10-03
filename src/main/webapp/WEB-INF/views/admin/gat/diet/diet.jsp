@@ -9,6 +9,33 @@
     .fc-daygrid-event-dot {
         display: none;
     }
+    
+    #formDiv {
+    	margin-bottom: var(--vh-40);
+    }
+    
+    input[type=file]::file-selector-button {
+	background-color: var(--color-white); 
+	border-radius: var(--size-32); 
+	border: 1px solid var(--color-stroke); 
+	box-shadow: var(--clay-card);  
+	outline-color: var(--color-main); 
+	color: var(--color-main);
+	font-size: var(--font-size-14);
+	height: var(--vh-56);
+	width: calc((100 / var(--vw)) * 100vw);
+	}
+
+	.fileButton {
+	height: var(--vh-56);
+	width: calc((120 / var(--vw)) * 100vw);
+	font-size: var(--font-size-14);
+	background-color: var(--color-main); 
+	border: 1px solid var(--color-stroke); 
+	border-radius: var(--size-32); 
+	box-shadow: var(--clay-btn); 
+	color: white;
+	}
 </style>
 
 
@@ -17,10 +44,10 @@
         <h1><a href="${pageContext.request.contextPath}/diet/dietMain" class="on">식단 관리</a></h1>
     </header>
 
-    <div>
+    <div id="formDiv">
         <form name="inputForm" id="inputForm" method="post" action="dietMain" enctype="multipart/form-data">
             <input type="file" name="file" id="file" accept=".xlsx, .xls"/>
-            <button type="button" onclick="upload()">엑셀 파일 업로드</button>
+            <button type="button" class="fileButton" onclick="upload()">파일 등록</button>
         </form>
     </div>
 

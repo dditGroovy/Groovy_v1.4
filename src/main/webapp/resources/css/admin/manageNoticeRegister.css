@@ -20,7 +20,6 @@ input[type=file]::file-selector-button {
 	box-shadow: var(--clay-card);  
 	outline-color: var(--color-main); 
 	color: var(--color-main);
-
 	font-size: var(--font-size-14);
 	height: var(--vh-40);
 	width: calc((130 / var(--vw)) * 100vw);
