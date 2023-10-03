@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(myHandler(), "/echo-ws")
+        registry.addHandler(myHandler(), "/echo-ws/**")
                 .addInterceptors(new HttpSessionHandshakeInterceptor())
                 .setAllowedOrigins("https://12fa-175-116-155-226.ngrok-free.app/")
                 .withSockJS();
