@@ -33,15 +33,54 @@
                     <sec:authentication property="principal.username" var="emplId"/>
                 <div class="input-wrap">
                 <input type="hidden" name="emplId" id="emplId" readonly value="${emplId}"></sec:authorize>
-                <input type="text" class="password btn-free-white input-l" name="emplPassword" id="empPass" placeholder="비밀번호"/>
-                <input type="text" class="password btn-free-white input-l" name="passwordchk" id="passwordchk" placeholder="비밀번호 확인"/>
+                <input type="password" class="password btn-free-white input-l" name="emplPassword" id="empPass" placeholder="비밀번호" required/>
+                <input type="password" class="password btn-free-white input-l" name="passwordchk" id="passwordchk" placeholder="비밀번호 확인" required/>
                 </div>
                 <div class="btn-wrap">
+                    <div class="error"></div>
                     <button type="button" class="btn btn-free-blue input-l" id="submitBtn">비밀번호 설정하기</button>
                 </div>
             </form>
         </div>
     </main>
 </div>
+<script src="/resources/js/validate.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const passwordField = document.getElementById("empPass");
+        const passwordConfirmField = document.getElementById("passwordchk");
+        const submitButton = document.getElementById("submitBtn");
+        const errorDiv = document.querySelector(".error");
+        let message = "";
+        document.querySelector(".btn-wrap").a
+        submitButton.addEventListener("click", function() {
+            const password = passwordField.value;
+            const passwordConfirm = passwordConfirmField.value;
+
+            if (!validatePassword(password)) {
+                message = "비밀번호는 8자에서 19자 사이이어야 하며, 숫자와 특수 문자를 포함해야 합니다.";
+                errorDiv.innerText = message;
+                passwordField.value = "";
+                passwordConfirmField.value = "";
+                console.log(password, passwordConfirm);
+                return;
+            }
+
+            if (password == passwordConfirm) {
+                const form = document.querySelector("form");
+                passwordField.value = "";
+                passwordConfirmField.value = "";
+                errorDiv.innerText = "";
+                form.submit();
+            } else {
+                message = "비밀번호가 일치하지 않습니다.";
+                errorDiv.innerText = message;
+                passwordField.value = "";
+                passwordConfirmField.value = "";
+                console.log(password, passwordConfirm);
+            }
+        });
+    });
+</script>
 </body>
 </html>
