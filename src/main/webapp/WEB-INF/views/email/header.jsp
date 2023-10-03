@@ -5,7 +5,7 @@
 <div class="mailnavWrap">
     <nav>
         <ul>
-            <li class="mail"><a href="/email/all">전체메일</a></li>
+            <li class="mail"><a href="/employee/confirm/email">전체메일</a></li>
             <li class="mail"><a href="/email/inbox">받은메일함</a></li>
             <li class="mail"><a href="/email/sent">보낸메일함</a></li>
             <li class="mail"><a href="/email/mine">내게쓴메일함</a></li>
