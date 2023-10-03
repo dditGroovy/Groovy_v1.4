@@ -48,6 +48,7 @@
                 let vhcleResveNo = this.returnCarBtn.getAttribute("id");
                 let xhr = new XMLHttpRequest();
                 xhr.open("put", "/reserve/return", true);
+                xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
                 xhr.onreadystatechange = () => {
                     if (xhr.status == 200 && xhr.readyState == 4) {
                         if (xhr.responseText == 1) {
