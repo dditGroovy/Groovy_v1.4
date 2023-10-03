@@ -415,7 +415,6 @@ requestBtn.addEventListener("click", (event) => {
             $.get("/alarm/getMaxAlarm")
                 .then(function (maxNum) {
                     maxNum = parseInt(maxNum) + 1;
-                    console.log("최대 알람 번호:", maxNum);
 
                     let subject = formData.get("jobSj");
                     console.log(subject);
@@ -423,11 +422,11 @@ requestBtn.addEventListener("click", (event) => {
                     let content = `<div class="alarmBox">
                                         <a href="${url}" class="aTag" data-seq="${maxNum}">
                                             <h1>[업무 요청]</h1>
-                                            <p>${emplNm}님이 [<span style="white-space: nowrap;
+                                            <p>${emplNm}님이 [<p style="white-space: nowrap;
                                               display: inline-block;
                                               overflow: hidden;
                                               text-overflow: ellipsis;
-                                              max-width: 15ch;"> ${subject} </span>]업무를
+                                              max-width: 15ch;"> ${subject} </p>]업무를
                                               요청하셨습니다.</p>
                                         </a>
                                         <button type="button" class="readBtn">읽음</button>

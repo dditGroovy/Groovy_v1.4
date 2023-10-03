@@ -108,11 +108,11 @@ public class AlarmHandler extends TextWebSocketHandler {
                     String notificationHtml = String.format(
                             "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
                                     "<h1>[팀 커뮤니티]</h1>\n" +
-                                    "<p>[<span style=\"white-space: nowrap; " +
+                                    "<p>[<p style=\"white-space: nowrap; " +
                                     "   display: inline-block;\n" +
                                     "  overflow: hidden;\n" +
                                     "  text-overflow: ellipsis;\n" +
-                                    "  max-width: 15ch;\">%s</span>]에\n" +
+                                    "  max-width: 15ch;\">%s</p>]에\n" +
                                     " %s님이 댓글을 등록하셨습니다.</p>" +
                                     "</a>",
                             url, seq, subject, sendName
@@ -130,12 +130,12 @@ public class AlarmHandler extends TextWebSocketHandler {
                         String notificationHtml = String.format(
                                 "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
                                         "<h1>[업무 요청]</h1>\n" +
-                                        "<p>[<span style=\"white-space: nowrap; " +
+                                        "<p>[<p style=\"white-space: nowrap; " +
                                         "   display: inline-block;\n" +
                                         "  overflow: hidden;\n" +
                                         "  text-overflow: ellipsis;\n" +
-                                        "  max-width: 15ch;\">%s</span>]에\n" +
-                                        " %s님이 댓글을 등록하셨습니다.</p>" +
+                                        "  max-width: 15ch;\">%s</p>]에\n" +
+                                        " %s님이 업무를 요청하셨습니다..</p>" +
                                         "</a>",
                                 url, seq, subject, sendName
                         );
@@ -169,11 +169,11 @@ public class AlarmHandler extends TextWebSocketHandler {
                         String notificationHtml = String.format(
                                 "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
                                         "<h1>[메일]</h1>\n" +
-                                        "<p>[<span style=\"white-space: nowrap; " +
+                                        "<p>[<p style=\"white-space: nowrap; " +
                                         "   display: inline-block;\n" +
                                         "  overflow: hidden;\n" +
                                         "  text-overflow: ellipsis;\n" +
-                                        "  max-width: 15ch;\">%s</span>]\n" +
+                                        "  max-width: 15ch;\">%s</p>]\n" +
                                         " 메일이 도착했습니다.</p>" +
                                         "</a>",
                                 url, seq, subject
@@ -206,6 +206,29 @@ public class AlarmHandler extends TextWebSocketHandler {
                             url, seq
                     );
                     receiveSession.sendMessage(new TextMessage(notificationHtml));
+                }
+            } else if (category.equals("sanctionReception")) {
+                String sendName = msgs[3];
+                String title = msgs[4];
+                String[] selectedEmplIdsArray = Arrays.copyOfRange(msgs, 5, msgs.length);
+                for (String emplId : selectedEmplIdsArray) {
+                    WebSocketSession receiveSession = userSessionMap.get(emplId);
+                    NotificationVO noticeAt = service.getNoticeAt(currentUserId(receiveSession));
+                    if (receiveSession != null && receiveSession.isOpen() && noticeAt.getElectronSanctionReception().equals("NTCN_AT010")) {
+                        String notificationHtml = String.format(
+                                "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
+                                        "<h1>[결재 요청]</h1>\n" +
+                                        "<p>%s님이 [<p style=\"white-space: nowrap; " +
+                                        "   display: inline-block;\n" +
+                                        "  overflow: hidden;\n" +
+                                        "  text-overflow: ellipsis;\n" +
+                                        "  max-width: 15ch;\">%s</p>] \n" +
+                                        " 결재를 요청하셨습니다.</p>" +
+                                        "</a>",
+                                url, seq, sendName, title
+                        );
+                        receiveSession.sendMessage(new TextMessage(notificationHtml));
+                    }
                 }
             }
         }

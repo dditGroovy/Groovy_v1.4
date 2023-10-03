@@ -67,6 +67,7 @@
         </div>
     </div>
     <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 
@@ -78,7 +79,8 @@
         const deptCode = "${dept}" // 문서 구분용
         const etprCode = "${etprCode}";
         const formatCode = "${format.commonCodeSanctnFormat}";
-        const writer = "${CustomUser.employeeVO.emplId}"
+        const writer = "${CustomUser.employeeVO.emplId}";
+        const emplNm = "${CustomUser.employeeVO.emplNm}";
         const title = "${format.formatSj}";
         const num = opener.$("#sanctionNum").val();
         let content;
@@ -86,7 +88,28 @@
 
         const getLineBtn = document.querySelector("#getLine"); // 팝업
 
+        var socket = null;
+
+        function connectWs() {
+            //웹소켓 연결
+            sock = new SockJS("/echo-ws");
+            socket = sock;
+
+            sock.onopen = function () {
+                console.log("info: connection opened");
+            };
+
+            sock.onclose = function () {
+                console.log("close");
+            }
+
+            sock.onerror = function (err) {
+                console.log("ERROR: ", err);
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
+            connectWs();
             $("#sanctionNo").html(etprCode);
             $("#writeDate").html(today);
             $("#writer").html("${CustomUser.employeeVO.emplNm}")
@@ -273,11 +296,11 @@
                 data: JSON.stringify(jsonData),
                 contentType: "application/json",
                 success: function (data) {
-
                     if (file != null) {
                         uploadFile();  // 결재 상신 후 파일이 있다면
                     } else {
-                        closeWindow()
+                        // closeWindow()
+                        alarm();
                     }
                 },
                 error: function (xhr) {
@@ -313,7 +336,8 @@
                 processData: false,
                 success: function (data) {
                     console.log("결재 파일 업로드 성공");
-                    closeWindow()
+                    // closeWindow()
+                    alarm();
                 },
                 error: function (xhr) {
                     console.log("결재 파일 업로드 실패");
@@ -430,6 +454,55 @@
                 return false;
             }
             return true;
+        }
+
+        function alarm() {
+            //알림
+            $.get("/alarm/getMaxAlarm")
+                .then(function (maxNum) {
+                    maxNum = parseInt(maxNum) + 1;
+
+                    let url = '/sanction/document';
+                    let content = `<div class="alarmBox">
+                                                <a href="\${url}" class="aTag" data-seq="\${maxNum}">
+                                                    <h1>[결재 요청]</h1>
+                                                    <p>\${emplNm}님이 [<p style="white-space: nowrap;
+                                                                      display: inline-block;
+                                                                      overflow: hidden;
+                                                                      text-overflow: ellipsis;다
+                                                                      max-width: 15ch;"> \${title} </p>]
+                                                    결재를 요청하셨습니다.</p>
+                                                </a>
+                                                <button type="button" class="readBtn">읽음</button>
+                                            </div>`;
+                    let alarmVO = {
+                        "ntcnSn": maxNum,
+                        "ntcnUrl": url,
+                        "ntcnCn": content,
+                        "commonCodeNtcnKind": 'NTCN017',
+                        "selectedEmplIds": approver
+                    };
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/alarm/insertAlarmTargeList',
+                        data: alarmVO,
+                        success: function () {
+                            if (socket) {
+                                //알람번호,카테고리,url,보낸사람이름,결재종류,결재자아이디
+                                let msg = `\${maxNum},sanctionReception,\${url},\${emplNm},\${title},\${approver}`;
+                                socket.send(msg);
+                            }
+                            closeWindow();
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.status);
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    console.log("최대 알람 번호 가져오기 오류:", error);
+                });
         }
 
     </script>
