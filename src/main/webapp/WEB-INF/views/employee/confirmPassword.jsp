@@ -17,7 +17,13 @@
     main {
         display: flex;
         flex-direction: column;
-        gap: var(--vh-56);
+        gap: var(--vh-40);
+    }
+
+    #modifyRes {
+        color: var(--color-font-md);
+        font-size: var(--font-size-14);
+        margin-left: 16px;
     }
 </style>
 <div class="content-container">
@@ -45,11 +51,13 @@
         </div>
         <div>
             <form action="${pageContext.request.contextPath}/email/all" method="post" id="emailForm">
-                <sec:csrfInput />
+                <sec:csrfInput/>
                 <input type="password" id="password" name="password" placeholder="PASSWORD"
                        class="userPw btn-free-white input-l"/>
                 <button type="button" class="btn-free-blue checkBtn btn">확인</button>
             </form>
+        </div>
+        <div id="modifyRes" class="main-desc">
         </div>
     </main>
 </div>
@@ -70,8 +78,8 @@
             type: "post",
             data: password,
             contentType: "application/json",
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
             },
             success: function (result) {
                 if (result === 'correct') {
@@ -81,12 +89,12 @@
                         document.querySelector("#emailForm").submit();
                     }
                 } else {
-                    alert("비밀번호가 일치하지 않습니다.");
+                    $("#modifyRes").html('비밀번호가 일치하지 않습니다.')
                     $("#password").val("")
                 }
             },
             error: function (xhr) {
-                alert("오류로 인하여 비밀번호를 확인할 수 없습니다.");
+                $("#modifyRes").html('오류로 인하여 비밀번호를 확인할 수 없습니다.')
             }
         });
     });

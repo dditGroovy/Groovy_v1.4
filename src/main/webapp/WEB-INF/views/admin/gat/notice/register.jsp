@@ -76,7 +76,7 @@
                         maxNum = parseInt(maxNum) + 1;
                         console.log("최대 알람 번호:", maxNum);
 
-                        let url = '/notice/detail?notiEtprCode=' + notiEtprCode;
+						let url = '/notice/detai/' + notiEtprCode;
                         let content = `<div class="alarmBox">
                                             <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                                 <h1>[전체공지]</h1>

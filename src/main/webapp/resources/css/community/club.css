@@ -204,3 +204,34 @@
     color: var(--color-main);
     border-color: var(--color-main);
 }
+
+
+
+.file-btn{
+    width: calc((120/var(--vw))*100vw);
+    height: var(--vh-48);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-main);
+    gap: 4px;
+    font-size: 14px;
+}
+#postFile{
+    position: absolute;
+    width: 0;
+    left: -99999px;
+}
+.i-file {
+    filter : invert(54%) sepia(23%) saturate(2818%) hue-rotate(194deg) brightness(100%) contrast(91%);
+}
+.file-wrap {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+#originName{
+    color: var(--color-font-md);
+    font-size: var(--font-size-14);
+    font-family: var(--font-reg);
+}
