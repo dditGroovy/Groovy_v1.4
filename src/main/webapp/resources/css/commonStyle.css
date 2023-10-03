@@ -285,6 +285,7 @@
 .i-setting {content: url("/resources/images/icon/setting.svg")}
 .i-memo {content: url("/resources/images/icon/sticker.svg")}
 .i-comment {content: url("/resources/images/icon/comment.svg")}
+.i-set {content: url("/resources/images/icon/i-setting.svg")}
 .i-3d.icon {
     width: var(--vw-32);
     height: var(--vw-32);

@@ -31,12 +31,14 @@
     }
 </style>
 <div class="content-container">
-    <h1 class="tab"><a href="/club/admin">동호회 관리</a></h1><br/><br/>
+    <header id="tab-header">
+        <h1><a class="on" href="/club/admin">동호회 관리</a></h1>
+    </header>
     <div class="content-wrapper">
         <section id="club-info">
             <div class="content-header">
                 <h2>동호회 정보</h2>
-                <button id="modify">수정</button>
+                <button id="modify"><i class="icon i-setting"></i></button>
             </div>
             <div class="content-body">
                 <div class="info-wrapper">
