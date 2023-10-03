@@ -5,7 +5,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <div class="content-container">
-	<h1 class="sanctionHeader tab-header font-md font-36">수신 문서함</h1>
+	<header id="tab-header">
+    	<h1><a class="on">수신 문서함</a></h1>
+    </header>
 	
 	<div class="searchDiv">
 	    <div class="serviceWrap">

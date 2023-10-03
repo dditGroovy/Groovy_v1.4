@@ -5,7 +5,10 @@
 <link rel="stylesheet"
 	href="/resources/css/admin/manageNoticeRegister.css">
 <div class="content-container">
-	<h1 class="noticeHeader tab-header font-md font-36">공지사항 관리</h1>
+	<header id="tab-header">
+    	<h1><a href="${pageContext.request.contextPath}/notice/manage" class="on">공지사항 관리</a></h1>
+    </header>
+
 	<div class="noticeRegisterTitle bg-wht">
 		<p class="noticeRegisterTitleName color-font-md">공지사항 등록</p>
 	</div>
