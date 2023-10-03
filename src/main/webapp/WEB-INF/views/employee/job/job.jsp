@@ -143,8 +143,8 @@
                                                 </div>
                                             </button>
                                             <div class="btn-wrap">
-                                                <button class="jobReject btn receive-btn">거절</button>
-                                                <button class="jobAgree btn receive-btn">승인</button>
+                                                <button type="button" class="jobReject btn receive-btn">거절</button>
+                                                <button type="button" class="jobAgree btn receive-btn">승인</button>
                                             </div>
                                         </li>
                                     </c:forEach>
@@ -294,8 +294,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="btn-wrap">
-                        <button id="reject" class="btn btn-fill-wh-sm">거절</button>
-                        <button id="agree" class="btn btn-fill-bl-sm">승인</button>
+                        <button type="button" id="reject" class="btn btn-fill-wh-sm">거절</button>
+                        <button type="button" id="agree" class="btn btn-fill-bl-sm">승인</button>
                     </div>
                 </div>
         </div>
@@ -594,8 +594,8 @@
                 </div>
                 <div class="tab-new-request">
                     <div class="btn-wrap">
-                        <button id="rejectJob" class="btn btn-fill-wh-sm">거절</button>
-                        <button id="agreeJob" class="btn btn-fill-bl-sm">승인</button>
+                        <button type="button" id="rejectJob" class="btn btn-fill-wh-sm">거절</button>
+                        <button type="button" id="agreeJob" class="btn btn-fill-bl-sm">승인</button>
                     </div>
                 </div>
             </div>

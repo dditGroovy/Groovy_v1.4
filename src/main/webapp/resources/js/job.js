@@ -513,6 +513,9 @@ confirmBtn.addEventListener("click", () => {
         url: '/job/updateJobProgress',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(jobProgressVO),
+        beforeSend : function(xhr) {
+            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+        },
         success: function () {
             location.href = "/job/main";
         },
