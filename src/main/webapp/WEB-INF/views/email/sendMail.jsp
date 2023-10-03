@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="mail-cc-wrap mail-write-option">
-                            <h3><label for="emailToAddr">참조</label></h3>
+                            <h3><label for="emailCcAddr">참조</label></h3>
                             <div class="option-wrap">
                                 <span id="receiveCc"></span>
                                 <input type="text" name="emailCcAddr" id="emailCcAddr" class="mail-input">
