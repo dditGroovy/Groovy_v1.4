@@ -74,11 +74,6 @@
         }
     }
 
-
-    function returnChkFnc() {
-
-    }
-
     const getMedalString = function (param) {
         const str = `${param} `;
         return str;

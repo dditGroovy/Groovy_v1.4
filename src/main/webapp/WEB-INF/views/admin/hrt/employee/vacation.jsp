@@ -1,80 +1,173 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+
 <div class="content-container">
     <header id="tab-header">
         <h1><a href="${pageContext.request.contextPath}/vacation/manage" class="on">연차 관리</a></h1>
     </header>
     <main>
-        <table border="1">
-            <tr>
-                <th>사번</th>
-                <th>이름</th>
-                <th>부서</th>
-                <th>직급</th>
-                <th>입사일</th>
-                <th>보유 연차</th>
-            </tr>
-            <c:forEach items="${allEmplVacation}" var="vacation">
-                <fmt:formatDate var= "emplEncpn" value="${vacation.emplEncpn}" type="date" pattern="yyyy-MM-dd" />
-            <tr>
-                <td class="yrycEmpId">${vacation.yrycEmpId}</td>
-                <td>${vacation.emplNm}</td>
-                <td>${vacation.deptNm}</td>
-                <td>${vacation.clsfNm}</td>
-                <td>${emplEncpn}</td>
-                <td>
-                    <button class="minusBtn">-</button>
-                    <input type="number" class="yrycNowCo" value="${vacation.yrycNowCo}">
-                    <button class="plusBtn">+</button>
-                    <button class="saveBtn">저장</button>
-                </td>
-            </tr>
-            </c:forEach>
-        </table>
+        <div>
+            <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
+            <div id="grid" class="ag-theme-alpine"></div>
+        </div>
     </main>
 </div>
 <script>
-    $(".minusBtn").on("click", function () {
-        let inputElement = $(this).next("input[type='number']");
-        let currentValue = parseFloat(inputElement.val());
-        if (!isNaN(currentValue)) {
-            inputElement.val(currentValue - 1);
-        }
-    });
+    function updateValue(yrycEmpId, newValue) {
+        const modifyData = {
+            yrycEmpId: yrycEmpId,
+            yrycNowCo: newValue
+        };
 
-    $(".plusBtn").on("click", function () {
-        let inputElement = $(this).prev("input[type='number']");
-        let currentValue = parseFloat(inputElement.val());
-        if (!isNaN(currentValue)) {
-            inputElement.val(currentValue + 1);
-        }
-    });
-
-    $(".saveBtn").on("click", function() {
-        let inputElement = $(this).siblings(".yrycNowCo");
-        let currentValue = parseFloat(inputElement.val());
-        let emplId = $(this).closest("tr").find(".yrycEmpId").text();
-
-        let data = {
-            yrycEmpId : emplId,
-            yrycNowCo : currentValue
-        }
-
-        console.log(data);
         $.ajax({
-            url : "/vacation/manage",
-            type : "post",
-            data: JSON.stringify(data),
+            url: "/vacation/manage",
+            type: "post",
+            data: JSON.stringify(modifyData),
             contentType: "application/json;charset:utf-8",
-            success : function (result) {
+            success: function (result) {
                 if(result == 1) {
                     location.href = "/vacation/manage";
                 }
             },
-            error : function (xhr) {
-                alert("오류로 인하여 연차 개수 수정을 실패했습니다.")
+            error: function (xhr) {
+                alert("오류로 인하여 연차 개수 수정을 실패했습니다.");
             }
-        })
+        });
+    }
+
+    class ClassComp {
+        init(params) {
+            let data = params.node.data
+            let yrycEmpId = data.yrycEmpId;
+            let yrycNowCo = data.yrycNowCo;
+            this.eGui = document.createElement('div');
+            this.eGui.innerHTML = `
+            <button class="minusBtn">-</button>
+            <input type="number" class="yrycNowCo" value="\${yrycNowCo}">
+            <button class="plusBtn">+</button>
+            <button class="saveBtn">저장</button>
+        `;
+
+            const minusBtn = this.eGui.querySelector(".minusBtn");
+            const plusBtn = this.eGui.querySelector(".plusBtn");
+            const saveBtn = this.eGui.querySelector(".saveBtn");
+            const inputElement = this.eGui.querySelector(".yrycNowCo");
+
+            minusBtn.addEventListener("click", () => {
+                this.updateCellValue(-1.0);
+            });
+
+            plusBtn.addEventListener("click", () => {
+                this.updateCellValue(1.0);
+            });
+
+            saveBtn.addEventListener("click", () => {
+                const newValue = parseFloat(inputElement.value);
+                if (parseFloat(yrycNowCo) != newValue) {
+                    updateValue(yrycEmpId, newValue);
+                }
+            });
+        }
+
+        getGui() {
+            return this.eGui;
+        }
+
+        destroy() {
+
+        }
+
+        updateCellValue(changeValue) {
+            const inputElement = this.eGui.querySelector(".yrycNowCo");
+            const currentValue = parseFloat(inputElement.value);
+            if (!isNaN(currentValue)) {
+                const newValue = currentValue + changeValue;
+                inputElement.value = newValue;
+            }
+        }
+    }
+
+    const getMedalString = function (param) {
+        const str = `${param} `;
+        return str;
+    };
+    const MedalRenderer = function (params) {
+        return getMedalString(params.value);
+    };
+
+    function onQuickFilterChanged() {
+        gridOptions.api.setQuickFilter(document.getElementById('quickFilter').value);
+    }
+
+    function refreshRow(rowNode, api) {
+        var millis = frame++ * 100;
+        var rowNodes = [rowNode];
+        var params = {
+            force: isForceRefreshSelected(),
+            suppressFlash: isSuppressFlashSelected(),
+            rowNodes: rowNodes,
+        };
+        callRefreshAfterMillis(params, millis, api);
+    }
+
+    function autoSizeAll(skipHeader) {
+        const allColumnIds = [];
+        gridOptions.columnApi.getColumns().forEach((column) => {
+            allColumnIds.push(column.getId());
+        });
+
+        gridOptions.columnApi.autoSizeColumns(allColumnIds, skipHeader);
+    }
+
+    const columnDefs = [
+        {
+            field: "yrycEmpId", headerName: "사번", getQuickFilterText: (params) => {
+                return getMedalString(params.value);
+            }
+        },
+        {field: "emplNm", headerName: "이름"},
+        {field: "deptNm", headerName: "부서"},
+        {field: "clsfNm", headerName: "직급"},
+        {field: "emplEncpn", headerName: "입사일"},
+        {
+            field: "yrycNowCo",
+            headerName: "보유 연차",
+            cellRenderer: "classCompRenderer",
+            cellRendererParams: {
+                updateValue: updateValue,
+            },
+        },
+    ];
+
+    const rowData = [];
+    <c:forEach items="${allEmplVacation}" var="vacation">
+    <fmt:formatDate var= "emplEncpn" value="${vacation.emplEncpn}" type="date" pattern="yyyy-MM-dd" />
+    rowData.push({
+        yrycEmpId: "${vacation.yrycEmpId}",
+        emplNm: "${vacation.emplNm}",
+        deptNm: "${vacation.deptNm}",
+        clsfNm: "${vacation.clsfNm}",
+        emplEncpn: "${emplEncpn}",
+        yrycNowCo: "${vacation.yrycNowCo}",
     })
+    </c:forEach>
+
+    const gridOptions = {
+        columnDefs: columnDefs,
+        rowData: rowData,
+        components: {
+            classCompRenderer: ClassComp,
+        },
+        // paginationAutoPageSize: true,
+        pagination: true,
+        paginationPageSize: 12,
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const gridDiv = document.querySelector('#grid');
+        new agGrid.Grid(gridDiv, gridOptions);
+        autoSizeAll(false);
+    });
 </script>
