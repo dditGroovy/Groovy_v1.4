@@ -46,7 +46,7 @@
     </filter-mapping>
     
     <!-- 시큐리티  Multipart-->
-	<filter>
+<!-- 	<filter>
 		<display-name>springMultipartFilter</display-name>
 		<filter-name>springMultipartFilter</filter-name>
 		<filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
@@ -54,7 +54,7 @@
 	<filter-mapping>
 		<filter-name>springMultipartFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping> 
+	</filter-mapping>  -->
 
     <error-page>
         <error-code>403</error-code>
