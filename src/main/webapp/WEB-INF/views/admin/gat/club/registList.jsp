@@ -131,7 +131,11 @@
         $.ajax({
             url: `/club/admin/registList`,
             type: "POST",
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+            },
             success: function (data) {
+                console.log(data);
                 const sortedData = data.sort(customSort);
                 Options.api.setRowData(sortedData);
             },

@@ -65,7 +65,6 @@ public class ClubController {
     public String loadAdminClub(Model model){
         List<ClubVO> clubList = service.loadAllClub("0");
         List<ClubVO> clubRegistList = service.loadAllClub("1");
-        log.info("clubRegistList  ===> " + clubRegistList);
         model.addAttribute("clubList",clubList);
         model.addAttribute("clubRegistList",clubRegistList);
         return "admin/gat/club/manage";
@@ -103,13 +102,11 @@ public class ClubController {
     @PostMapping("/admin/registList")
     public List<ClubVO> loadRegistList(){
         List<ClubVO> clubList = service.loadRegistList();
-        log.info("clubList ===> " + clubList);
         return clubList;
     }
     @GetMapping("/admin/{clbEtprCode}")
     public String loadClubDetail(@PathVariable String clbEtprCode, Model model){
         ClubVO clubDetail = service.loadClubDetail(clbEtprCode);
-        log.info("clubDetail ==> " + clubDetail);
         model.addAttribute("clubDetail",clubDetail);
         return "admin/gat/club/detail";
     }
