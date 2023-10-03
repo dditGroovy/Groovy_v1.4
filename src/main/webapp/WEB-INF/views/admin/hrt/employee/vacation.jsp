@@ -37,8 +37,8 @@
             },
             error: function (xhr) {
                 Swal.fire({
+                    position: 'top',
                     icon: 'error',
-                    title: 'ERROR',
                     text: '오류로 인하여 연차 개수 수정을 실패했습니다',
                     showConfirmButton: false,
                     timer: 1500

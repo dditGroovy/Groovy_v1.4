@@ -180,6 +180,7 @@
                     },
                     error: function (xhr) {
                         Swal.fire({
+                            position: 'top',
                             icon: 'error',
                             text: '오류로 인하여 카드 지정을 실패했습니다',
                             showConfirmButton: false,
@@ -271,6 +272,7 @@
         let cardNo = $("#cardNo").val();
         if (!isValidCardNumber(cardNo)) {
             Swal.fire({
+                position: 'top',
                 icon: 'error',
                 text: '카드 번호 형식이 올바르지 않습니다',
                 showConfirmButton: false,
@@ -292,6 +294,7 @@
             },
             error: function (xhr) {
                 Swal.fire({
+                    position: 'top',
                     icon: 'error',
                     text: '오류로 인하여 카드 등록을 실패했습니다',
                     showConfirmButton: false,
@@ -336,6 +339,7 @@
             },
             error: function (xhr) {
                 Swal.fire({
+                    position: 'top',
                     icon: 'error',
                     text: '오류로 인하여 카드 목록을 불러오지 못하였습니다',
                     showConfirmButton: false,
@@ -398,6 +402,7 @@
                     loadAllCard();
                 } else {
                     Swal.fire({
+                        position: 'top',
                         icon: 'error',
                         text: '오류로 인하여 카드 이름 수정을 실패했습니다',
                         showConfirmButton: false,
@@ -407,6 +412,7 @@
             },
             error: function (xhr) {
                 Swal.fire({
+                    position: 'top',
                     icon: 'error',
                     text: '오류로 인하여 카드 이름 수정을 실패했습니다',
                     showConfirmButton: false,
@@ -453,6 +459,7 @@
                             selectedCardNo.html('');
                             selectedCardCom.html('');
                             Swal.fire({
+                                position: 'top',
                                 icon: 'success',
                                 text: '카드 사용불가 처리를 완료했습니다',
                                 showConfirmButton: false,
@@ -460,6 +467,7 @@
                             })
                         } else {
                             Swal.fire({
+                                position: 'top',
                                 icon: 'error',
                                 text: '오류로 인하여 카드 사용불가 처리를 실패했습니다',
                                 showConfirmButton: false,
@@ -469,6 +477,7 @@
                     },
                     error: function (xhr) {
                         Swal.fire({
+                            position: 'top',
                             icon: 'error',
                             text: '오류로 인하여 카드 사용불가 처리를 실패했습니다',
                             showConfirmButton: false,

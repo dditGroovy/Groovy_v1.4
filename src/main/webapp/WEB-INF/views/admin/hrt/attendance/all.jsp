@@ -6,7 +6,6 @@
 <div class="content-container">
     <header id="tab-header">
             <h1><a class="on" href="${pageContext.request.contextPath}/attendance/manage">근태 관리</a></h1>
-            <h1><a href="${pageContext.request.contextPath}/employee/loadLog">로그 관리</a></h1>
     </header>
     <nav class="nav">
         <button class="btn btn-fill-bl-sm font-18 font-md" onclick="location.href='${pageContext.request.contextPath}/attendance/manage'">전체</button>
