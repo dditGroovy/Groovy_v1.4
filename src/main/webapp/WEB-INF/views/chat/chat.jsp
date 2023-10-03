@@ -131,13 +131,14 @@
             msg.val('');
         }
 
-        function enterRoom(currentRoomNo, currentRoomNm) {
+        function enterRoom(currentRoomNo, currentRoomNm,chttRoomTy) {
             emplsToInvite = [];
             chttRoomMem = [];
             $("input[type='checkbox'][name='employees']").prop("disabled", false).prop("checked", false);
             $("#inviteEmplBtn").hide();
             $("#createRoomBtn").show();
             $("#chatRoom").html("");
+            if(chttRoomTy != 0){
             $("#chatRoom").append(`
                 <div id="msgArea">
                             <div class="content-header">
@@ -151,7 +152,21 @@
                                                 <input type="text" id="msg">
                                                 <button type="button" id="sendBtn" class="btn">전송</button>
                                             </div>
+            `)}else {
+                $("#chatRoom").append(`
+                <div id="msgArea">
+                            <div class="content-header">
+                                <h3 class="chat-user-info">\${currentRoomNm}</h3>
+                            </div>
+                <div class="content-body">
+                <div class="myroom" id="room\${currentRoomNo}"></div>
+                </div>
+                <div class="content-footer btn-free-white">
+                                                <input type="text" id="msg">
+                                                <button type="button" id="sendBtn" class="btn">전송</button>
+                                            </div>
             `)
+            }
 
             $.ajax({
                 url: `/chat/loadRoomMessages/\${currentRoomNo}`,
@@ -305,7 +320,7 @@
 
             currentRoomNo = chttRoomNo;
             currentRoomNm = chttRoomNm;
-            enterRoom(currentRoomNo, currentRoomNm);
+            enterRoom(currentRoomNo, currentRoomNm,chttRoomTy);
 
         });
 
