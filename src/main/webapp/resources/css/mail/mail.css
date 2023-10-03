@@ -2,7 +2,10 @@
 
 /* mail */
 .mailnavWrap {
-    border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
 }
 .mailnavWrap nav {
     width: calc((900/var(--vw))*100vw);
@@ -11,5 +14,91 @@
     align-items: center;
     background: var(--color-white);
     box-shadow: var(--clay-card);
+    border: 1px solid var(--color-stroke);
     border-radius: var(--size-24);
+}
+.mailnavWrap nav ul {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.mailnavWrap nav li {
+    flex: 1;
+}
+.mailnavWrap nav li a {
+    height: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--color-font-md);
+}
+.mailnavWrap nav li a.on {
+    color: var(--color-main);
+}
+
+/*  전체 메일함  */
+.contentWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    height: calc((808/var(--vh))*100vh);
+    margin-top: 24px;
+    padding: var(--vh-24);
+}
+.serviceWrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.writeWrap {
+    display: flex;
+    width: calc((230/var(--vw))*100vw);
+    height: var(--vh-48);
+    background: var(--color-main);
+    box-shadow: var(--clay-btn);
+    border-radius: 8px;
+}
+.writeWrap > a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--color-white);
+    font-family: var(--font-sb);
+}
+.writeWrap > a:first-child {
+    border-right: 1px solid #4987E3;
+}
+.form {
+    width: 100% !important;
+    text-align: center;
+}
+.form th {
+    padding: var(--vw-10);
+}
+.form th:nth-child(2),.form th:nth-child(3){
+    padding: 0;
+}
+.form tr th:not(:last-child) {
+    border-right: none !important;
+}
+.btn-service {
+    border-radius: 4px !important;
+    width: 90%;
+    height: var(--vh-40);
+    font-size: 11px;
+}
+input[type=checkbox]{outline: none}
+.mail-icon {
+    filter: invert(91%) sepia(8%) saturate(193%) hue-rotate(175deg) brightness(91%) contrast(89%);
+}
+.star-icon {
+    filter: invert(96%) sepia(4%) saturate(520%) hue-rotate(184deg) brightness(84%) contrast(96%);
+}
+.cursor {
+    cursor: pointer;
 }

@@ -44,7 +44,8 @@
             </button>
         </div>
         <div class="modal-container">
-            <form action="${pageContext.request.contextPath}/club/inputClub" method="post" id="proposal">
+            <form action="${pageContext.request.contextPath}/club/inputClub" method="post" id="proposal" enctype="multipart/form-data">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <ul>
                     <li>
                         <h5 class="club-title">1. 희망 동호회 종류</h5>
@@ -70,6 +71,14 @@
                     </li>
                     <li>
                         <h5 class="club-title">5. 썸네일 설정</h5>
+                    </li>
+                    <li class="file-wrap">
+                        <label for="postFile" class="btn btn-free-white file-btn">
+                            <i class="icon i-file"></i>
+                            파일 첨부
+                        </label>
+                        <input type="file" name="clubFile" id="postFile">
+                        <p id="originName"></p>
                     </li>
                 </ul>
                 <div class="modal-description">
@@ -128,6 +137,15 @@
     const clbNm = document.querySelector("#clbNm");
     let clbEtprCode;
 
+    const postFile = document.querySelector("#postFile");
+    const originName = document.querySelector("#originName");
+    postFile.addEventListener("change", function () {
+        if (postFile.value.length) {
+            originName.innerHTML = postFile.files[0].name;
+        } else {
+            originName.innerHTML = "";
+        }
+    })
 
     form.addEventListener("submit", e => {
         e.preventDefault();
