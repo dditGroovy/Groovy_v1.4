@@ -75,8 +75,8 @@ public class EmailService {
         emailMapper.modifyEmailRedngAt(map);
     }
 
-    public void deleteMails(String emailEtprCode) {
-        emailMapper.deleteMails(emailEtprCode);
+    public int deleteMails(String emailEtprCode) {
+        return emailMapper.deleteMails(emailEtprCode);
     }
 
     public int getUnreadMailCount(String emplId) {

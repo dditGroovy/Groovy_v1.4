@@ -25,56 +25,53 @@
         </div>
         <table class="form">
             <thead>
-                <tr>
-                    <th style="width: 80px">
-                        <input type="checkbox" id="selectAll" onclick="checkAll()">
-                    </th>
-                    <th style="width: 48px">
-                        <button onclick="modifyAtByBtn()" class="btn btn-free-white btn-service"><span>읽음</span></button>
-                    </th>
-                    <th style="width: 48px">
-                        <button onclick="modifyDeleteAtByBtn()" class="btn btn-free-white btn-service"><span>삭제</span></button>
-                    </th>
-                    <th colspan="4" style="text-align:left; vertical-align: middle">
-                        읽지 않은 메일 수 / 전체 메일 (할거야?)
-                    </th>
-                </tr>
+            <tr>
+                <th style="width: 80px">
+                    <input type="checkbox" id="selectAll" onclick="checkAll()">
+                </th>
+                <th style="width: 48px">
+                    <button onclick="modifyAtByBtn()" class="btn btn-free-white btn-service"><span>읽음</span></button>
+                </th>
+                <th style="width: 48px">
+                    <button onclick="modifyDeleteAtByBtn()" class="btn btn-free-white btn-service"><span>삭제</span>
+                    </button>
+                </th>
+                <th colspan="4" style="text-align:left; vertical-align: middle">
+                    읽지 않은 메일 수 / 전체 메일 (할거야?)
+                </th>
+            </tr>
             </thead>
             <tbody>
             <c:choose>
-            <c:when test="${not empty list}">
-                <c:forEach var="emailCc" items="${list}">
-                    <tr data-id="${emailCc.emailEtprCode}">
-                        <td><input type="checkbox" class="selectMail"></td>
-                        <td onclick="modifyTableAt(this)" data-type="redng" class="cursor">
-                            <c:choose>
-                                <c:when test="${emailCc.emailRedngAt == 'N'}">
-                                    <i class="icon i-mail-read mail-icon" data-at="N"></i>
-                                </c:when>
-                                <c:otherwise>
-                                    <i class="icon i-mail mail-icon" data-at="Y"></i>
-                                </c:otherwise>
-                            </c:choose>
-                            <input type="hidden" value="${emailCc.emailDeleteAt}" name="deleteAt">
-                        </td>
-                        <td onclick="modifyTableAt(this)" data-type="imprtnc" class="cursor">
-                            <c:choose>
-                                <c:when test="${emailCc.emailImprtncAt == 'N'}">
+                <c:when test="${not empty list}">
+                    <c:forEach var="emailVO" items="${list}">
+                        <tr data-id="${emailVO.emailEtprCode}">
+                            <td><input type="checkbox" class="selectMail"></td>
+                            <td onclick="modifyTableAt(this)" data-type="redng" class="cursor">
+                                <c:if test="${emailVO.emailRedngAt eq 'N'}">
+                                    <i class="icon i-mail mail-icon" data-at="N"></i>
+                                </c:if>
+                                <c:if test="${emailVO.emailRedngAt eq 'Y'}">
+                                    <i class="icon i-mail-read mail-icon" data-at="Y"></i>
+                                </c:if>
+                                <input type="hidden" value="${emailVO.emailDeleteAt}" name="deleteAt">
+                            </td>
+                            <td onclick="modifyTableAt(this)" data-type="imprtnc" class="cursor">
+                                <c:if test="${emailVO.emailImprtncAt == 'N'}">
                                     <i class="icon i-star-out star-icon" data-at="N"></i>
-                                </c:when>
-                                <c:otherwise>
+                                </c:if>
+                                <c:if test="${emailVO.emailImprtncAt == 'Y'}">
                                     <i class="icon i-star-fill star-icon" data-at="Y"></i>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>${emailCc.emailFromAddr}</td>
-                        <td><a href="#">${emailCc.emailFromSj}</a></td>
-                        <c:set var="sendDateStr" value="${emailCc.emailFromSendDate}"/>
-                        <fmt:formatDate var="sendDate" value="${sendDateStr}" pattern="yy.MM.dd"/>
-                        <td>${sendDate}</td>
-                    </tr>
-                </c:forEach>
-            </c:when>
+                                </c:if>
+                            </td>
+                            <td>${emailVO.emailFromAddr}</td>
+                            <td><a href="#">${emailVO.emailFromSj}</a></td>
+                            <c:set var="sendDateStr" value="${emailVO.emailFromSendDate}"/>
+                            <fmt:formatDate var="sendDate" value="${sendDateStr}" pattern="yy.MM.dd"/>
+                            <td>${sendDate}</td>
+                        </tr>
+                    </c:forEach>
+                </c:when>
                 <c:otherwise>
                     <tr>
                         <td class="no-data" colspan="7">

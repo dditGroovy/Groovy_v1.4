@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="content-container">
-<jsp:include page="header.jsp"></jsp:include>
+    <jsp:include page="header.jsp"></jsp:include>
     <div class="contentWrap card card-df mail-all-wrap">
         <div class="serviceWrap">
             <div class="writeWrap">
@@ -30,7 +30,8 @@
                     <input type="checkbox" id="selectAll" onclick="checkAll()">
                 </th>
                 <th style="width: 48px">
-                    <button class="btn btn-free-white btn-service"><span>삭제</span></button>
+                    <button onclick="modifyDeleteAtByBtn()" class="btn btn-free-white btn-service"><span>삭제</span>
+                    </button>
                 </th>
                 <th colspan="4" style="text-align:left; vertical-align: middle">
                     읽지 않은 메일 수 / 전체 메일 (할거야?)
@@ -40,23 +41,23 @@
             <tbody>
             <c:choose>
                 <c:when test="${not empty list}">
-                    <c:forEach var="emailCc" items="${list}">
-                        <tr data-id="${emailCc.emailEtprCode}">
+                    <c:forEach var="emailVO" items="${list}">
+                        <tr data-id="${emailVO.emailEtprCode}">
                             <td><input type="checkbox" class="selectmail"></td>
                             <td onclick="modifyTableAt(this)" data-type="imprtnc" class="cursor">
                                 <c:choose>
-                                    <c:when test="${emailCc.emailImprtncAt  == 'N'}">
+                                    <c:when test="${emailVO.emailImprtncAt  == 'N'}">
                                         <i class="icon i-star-out star-icon" data-at="N"></i>
                                     </c:when>
                                     <c:otherwise>
                                         <i class="icon i-star-fill star-icon" data-at="Y"></i>
                                     </c:otherwise>
                                 </c:choose>
+                                <input type="hidden" value="${emailVO.emailDeleteAt}" name="deleteAt">
                             </td>
-
-                            <td>${emailCc.emailFromAddr}</td>
-                            <td><a href="#">${emailCc.emailFromSj}</a></td>
-                            <c:set var="sendDateStr" value="${emailCc.emailFromSendDate}"/>
+                            <td>${emailVO.emailFromAddr}</td>
+                            <td><a href="#">${emailVO.emailFromSj}</a></td>
+                            <c:set var="sendDateStr" value="${emailVO.emailFromSendDate}"/>
                             <fmt:formatDate var="sendDate" value="${sendDateStr}" pattern="yy.MM.dd"/>
                             <td>${sendDate}</td>
                         </tr>

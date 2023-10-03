@@ -30,7 +30,7 @@ public interface EmailMapper {
 
     int modifyEmailRedngAt(Map<String, String> map);
 
-    void deleteMails(String emailEtprCode);
+    int deleteMails(String emailEtprCode);
 
     int getUnreadMailCount(String emplId);
 

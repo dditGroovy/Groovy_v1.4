@@ -140,42 +140,44 @@
 
     <!-- 내게 쓴 메일함 -->
     <select id="getAllSentMailsToMe" resultType="emailVO" parameterType="Map">
-        SELECT distinct ef.EMAIL_ETPR_CODE
-                      , ef.EMAIL_SN
-                      , ef.EMAIL_FROM_ADDR
-                      , ef.EMAIL_FROM_SJ
-                      , ef.EMAIL_FROM_SEND_DATE
-                      , et.EMAIL_TO_ADDR
-                      , et.EMAIL_TO_RECEIVED_DATE
-                      , ers.EMAIL_DELETE_AT
-        FROM EMAIL_FROM ef
-                 left JOIN EMAIL_TO et on ef.EMAIL_ETPR_CODE = et.EMAIL_ETPR_CODE
-                 left join EMAIL_RECEIVED_STTUS ers on ef.EMAIL_ETPR_CODE = ers.EMAIL_ETPR_CODE
-        where ef.EMAIL_FROM_ADDR = #{emailAddr}
-          and ef.EMAIL_FROM_ADDR = et.EMAIL_TO_ADDR
-          and ers.EMAIL_DELETE_AT = #{at}
-          and ers.EMAIL_REAL_DELETE_AT = 'N'
-        order by ef.EMAIL_ETPR_CODE desc
+        SELECT DISTINCT EF.EMAIL_ETPR_CODE
+                      , EF.EMAIL_SN
+                      , EF.EMAIL_FROM_ADDR
+                      , EF.EMAIL_FROM_SJ
+                      , EF.EMAIL_FROM_SEND_DATE
+                      , ET.EMAIL_TO_ADDR
+                      , ET.EMAIL_TO_RECEIVED_DATE
+                      , ERS.EMAIL_DELETE_AT
+                      , ERS.EMAIL_IMPRTNC_AT
+        FROM EMAIL_FROM EF
+                 LEFT JOIN EMAIL_TO ET ON EF.EMAIL_ETPR_CODE = ET.EMAIL_ETPR_CODE
+                 LEFT JOIN EMAIL_RECEIVED_STTUS ERS ON EF.EMAIL_ETPR_CODE = ERS.EMAIL_ETPR_CODE
+        WHERE EF.EMAIL_FROM_ADDR = #{emailAddr}
+          AND EF.EMAIL_FROM_ADDR = ET.EMAIL_TO_ADDR
+          AND ERS.EMAIL_DELETE_AT = #{at}
+          AND ERS.EMAIL_REAL_DELETE_AT = 'N'
+        ORDER BY EF.EMAIL_ETPR_CODE DESC
     </select>
 
     <!-- 보낸메일함 -->
     <select id="getAllSentMailsByMe" resultType="emailVO" parameterType="Map">
-        select distinct ef.EMAIL_ETPR_CODE
-                      , ef.EMAIL_SN
-                      , ef.EMAIL_FROM_ADDR
-                      , ef.EMAIL_FROM_SJ
-                      , ef.EMAIL_FROM_SEND_DATE
-                      , et.EMAIL_TO_ADDR
-                      , et.EMAIL_TO_RECEIVED_DATE
-                      , ers.EMAIL_DELETE_AT
-        from EMAIL_FROM ef
-                 left join EMAIL_TO ET on ef.EMAIL_ETPR_CODE = ET.EMAIL_ETPR_CODE
-                 left join EMAIL_RECEIVED_STTUS ERS on ef.EMAIL_FROM_ADDR = ERS.EMAIL_FROM_ADDR
-        where ef.EMAIL_FROM_ADDR = #{emailAddr}
-          and et.EMAIL_TO_ADDR not in #{emailAddr}
-          and ers.EMAIL_DELETE_AT = #{at}
-          and ers.EMAIL_REAL_DELETE_AT = 'N'
-        order by ef.EMAIL_ETPR_CODE desc
+        SELECT DISTINCT EF.EMAIL_ETPR_CODE
+                      , EF.EMAIL_SN
+                      , EF.EMAIL_FROM_ADDR
+                      , EF.EMAIL_FROM_SJ
+                      , EF.EMAIL_FROM_SEND_DATE
+                      , ET.EMAIL_TO_ADDR
+                      , ET.EMAIL_TO_RECEIVED_DATE
+                      , ERS.EMAIL_DELETE_AT
+                      , ERS.EMAIL_IMPRTNC_AT
+        FROM EMAIL_FROM EF
+                 LEFT JOIN EMAIL_TO ET ON EF.EMAIL_ETPR_CODE = ET.EMAIL_ETPR_CODE
+                 LEFT JOIN EMAIL_RECEIVED_STTUS ERS ON EF.EMAIL_FROM_ADDR = ERS.EMAIL_FROM_ADDR
+        WHERE EF.EMAIL_FROM_ADDR = #{emailAddr}
+          AND ET.EMAIL_TO_ADDR NOT IN #{emailAddr}
+          AND ERS.EMAIL_DELETE_AT = #{at}
+          AND ERS.EMAIL_REAL_DELETE_AT = 'N'
+        ORDER BY EF.EMAIL_ETPR_CODE DESC
     </select>
 
     <select id="getEmployeeByEmailAddr" resultType="int" parameterType="String">
