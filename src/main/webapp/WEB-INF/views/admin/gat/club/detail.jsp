@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/manageClub.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <style>
@@ -13,13 +14,20 @@
         display: grid;
         width: calc((726 / 1920) * 100vw);
         grid-template-rows: repeat(3, 1fr);
-        grid-template-columns: repeat(2, 1fr);
-        border: 1px solid black;
+        grid-template-columns: repeat(3, 1fr);
+        box-shadow: var(--clay-card);
+        padding: var(--vh-16) var(--vw-24);
+        justify-items: center;
+        align-items: center;
+        margin-bottom: var(--vh-24);
     }
 
-    .info-wrapper > .info-list {
+    .info-wrapper > .info-list, .info-modify-wrapper > .info-list {
         display: flex;
         flex-direction: column;
+        width: calc((315 / var(--vw)) * 100vw);
+        height: calc((120 / var(--vh)) * 100vh);
+        padding-top: var(--vh-12);
     }
 
     #modify-club {
@@ -28,94 +36,135 @@
 
     #save {
         display: none;
+        float: right;
+    }
+
+    #modify {
+        background: url("/resources/images/icon/i-setting.svg");
+        background-size: var(--vw-16);
+        border: none;
+        width: var(--vw-16);
+        height: var(--vw-16);
+    }
+
+    .content-header {
+        display: flex;
+    }
+
+    .content {
+        margin-top: var(--vh-24);
+    }
+
+    .bar {
+        height: var(--vh-48);
+        border-left: 1px solid var(--color-font-row);
+    }
+
+    .display {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .org {
+        height: var(--vh-40);
+        margin-left: 10px;
     }
 </style>
 <div class="content-container">
     <header id="tab-header">
         <h1><a class="on" href="/club/admin">동호회 관리</a></h1>
     </header>
-    <div class="content-wrapper">
+    <div class="content-wrapper grid">
         <section id="club-info">
-            <div class="content-header">
-                <h2>동호회 정보</h2>
-                <button id="modify"><i class="icon i-setting"></i></button>
+            <div class="content-header side-header-wrap">
+                <h2 class="font-md font-18 color-font-md">동호회 정보</h2>
+                <button id="modify"></button>
             </div>
             <div class="content-body">
-                <div class="info-wrapper">
+                <div class="info-wrapper stroke bg-wht border-radius-24">
                     <div class="info-list">
-                        <h3 class="club-clbEtprCode">동호회 번호</h3>
-                        <p class="content">${clubDetail.clbEtprCode}</p>
+                        <h3 class="club-clbEtprCode font-md font-14 color-font-high">동호회 번호</h3>
+                        <p class="content font-reg font-18 color-font-high">${clubDetail.clbEtprCode}</p>
+                    </div>
+                    <div class="bar"></div>
+                    <div class="info-list">
+                        <h3 class="club-clbDate font-md font-14 color-font-high">등록일</h3>
+                        <p class="content font-reg font-18 color-font-high">${clubDetail.clbDate}</p>
                     </div>
                     <div class="info-list">
-                        <h3 class="club-clbDate">등록일</h3>
-                        <p class="content">${clubDetail.clbDate}</p>
+                        <h3 class="club-clbKind font-md font-14 color-font-high">동호회 종류</h3>
+                        <p class="content font-reg font-18 color-font-high">${clubDetail.clbKind}</p>
+                    </div>
+                    <div class="bar"></div>
+                    <div class="info-list">
+                        <h3 class="club-clbNm font-md font-14 color-font-high">동호회 이름</h3>
+                        <p class="content font-reg font-18 color-font-high">${clubDetail.clbNm}</p>
                     </div>
                     <div class="info-list">
-                        <h3 class="club-clbKind">동호회 종류</h3>
-                        <p class="content">${clubDetail.clbKind}</p>
+                        <h3 class="club-clbDc font-md font-14 color-font-high">동호회 설명</h3>
+                        <p class="content font-reg font-18 color-font-high">${clubDetail.clbDc}</p>
+                    </div>
+                    <div class="bar"></div>
+                    <div class="info-list">
+                        <h3 class="club-clbPsncpa font-md font-14 color-font-high">동호회 정원(현재 / 전체)</h3>
+                        <p class="content font-reg font-18 color-font-high">${clubDetail.clubMbrCnt}
+                            / ${clubDetail.clbPsncpa}</p>
                     </div>
                     <div class="info-list">
-                        <h3 class="club-clbNm">동호회 이름</h3>
-                        <p class="content">${clubDetail.clbNm}</p>
+                        <h3 class="club-clbChirmnEmplId font-md font-14 color-font-high">동호회 회장(사번)</h3>
+                        <p class="content font-reg font-18 color-font-high">${clubDetail.clbChirmnEmplNm}(${clubDetail.clbChirmnEmplId})</p>
                     </div>
-                    <div class="info-list">
-                        <h3 class="club-clbDc">동호회 설명</h3>
-                        <p class="content">${clubDetail.clbDc}</p>
-                    </div>
-                    <div class="info-list">
-                        <h3 class="club-clbPsncpa">동호회 정원(현재 / 전체)</h3>
-                        <p class="content">${clubDetail.clubMbrCnt} / ${clubDetail.clbPsncpa}</p>
-                    </div>
-                    <div class="info-list">
-                        <h3 class="club-clbChirmnEmplId">동호회 회장(사번)</h3>
-                        <p class="content">${clubDetail.clbChirmnEmplNm}(${clubDetail.clbChirmnEmplId})</p>
-                    </div>
+                    <div class="bar"></div>
                 </div>
                 <form id="modify-club" method="post">
-                    <div class="info-modify-wrapper">
+                    <div class="info-modify-wrapper stroke bg-wht border-radius-24">
                         <div class="info-list">
-                            <h3 class="club-clbEtprCode">동호회 번호</h3>
+                            <h3 class="club-clbEtprCode font-md font-14 color-font-high">동호회 번호</h3>
                             <input type="text" name="clbEtprCode" id="clbEtprCode" value="${clubDetail.clbEtprCode}"
-                                   readonly>
+                                   readonly class="content input-free-white">
+                        </div>
+                        <div class="bar"></div>
+                        <div class="info-list">
+                            <h3 class="club-clbDate font-md font-14 color-font-high">등록일</h3>
+                            <input type="text" name="clbDate" id="clbDate" value="${clubDetail.clbDate}" readonly class="content input-free-white">
                         </div>
                         <div class="info-list">
-                            <h3 class="club-clbDate">등록일</h3>
-                            <input type="text" name="clbDate" id="clbDate" value="${clubDetail.clbDate}" readonly>
+                            <h3 class="club-clbKind font-md font-14 color-font-high">동호회 종류</h3>
+                            <input type="text" name="clbKind" id="clbKind" value="${clubDetail.clbKind}" class="content input-free-white">
+                        </div>
+                        <div class="bar"></div>
+                        <div class="info-list">
+                            <h3 class="club-clbNm font-md font-14 color-font-high">동호회 이름</h3>
+                            <input type="text" name="clbNm" id="clbNm" value="${clubDetail.clbNm}" class="content input-free-white">
                         </div>
                         <div class="info-list">
-                            <h3 class="club-clbKind">동호회 종류</h3>
-                            <input type="text" name="clbKind" id="clbKind" value="${clubDetail.clbKind}">
+                            <h3 class="club-clbDc font-md font-14 color-font-high">동호회 설명</h3>
+                            <input type="text" name="clbDc" id="clbDc" value="${clubDetail.clbDc}" class="content input-free-white">
                         </div>
+                        <div class="bar"></div>
                         <div class="info-list">
-                            <h3 class="club-clbNm">동호회 이름</h3>
-                            <input type="text" name="clbNm" id="clbNm" value="${clubDetail.clbNm}">
+                            <h3 class="club-clbPsncpa font-md font-14 color-font-high">동호회 정원(현재 / 전체)</h3>
+                            <input type="text" name="clbPsncpa" id="clbPsncpa" value="${clubDetail.clbPsncpa}" class="content input-free-white">
                         </div>
-                        <div class="info-list">
-                            <h3 class="club-clbDc">동호회 설명</h3>
-                            <input type="text" name="clbDc" id="clbDc" value="${clubDetail.clbDc}">
-                        </div>
-                        <div class="info-list">
-                            <h3 class="club-clbPsncpa">동호회 정원(현재 / 전체)</h3>
-                            <input type="text" name="clbPsncpa" id="clbPsncpa" value="${clubDetail.clbPsncpa}">
-                        </div>
-                        <div class="info-list">
-                            <h3 class="club-clbChirmnEmplId">동호회 회장(사번)</h3>
-                            <input type="text" name="clbChirmnEmplId" id="clbChirmnEmplId"
-                                   value="${clubDetail.clbChirmnEmplNm}(${clubDetail.clbChirmnEmplId})">
-                            <button id="loadOrgChart">사원 찾기</button>
+                        <div class="info-list ">
+                            <h3 class="club-clbChirmnEmplId font-md font-14 color-font-high">동호회 회장(사번)</h3>
+                            <div class="display">
+                                <input type="text" name="clbChirmnEmplId" id="clbChirmnEmplId"
+                                       value="${clubDetail.clbChirmnEmplNm}(${clubDetail.clbChirmnEmplId})" class="content input-free-white">
+                                <button id="loadOrgChart" class="btn btn-flat org">사원 찾기</button>
+                            </div>
                         </div>
                     </div>
-                    <button id="save">저장하기</button>
+                    <button id="save" class="btn-fill-bl-sm">저장하기</button>
                 </form>
             </div>
         </section>
         <section id="club-member-info">
-            <div class="content-header">
-                <h2>회원 관리</h2>
+            <div class="content-header side-header-wrap">
+                <h2 class="font-md font-18 color-font-md">회원 관리</h2>
             </div>
-            <div class="content-body">
-                <div id="agGrid" class="ag-theme-alpine">
-                </div>
+            <div class="content-body card">
+                <div id="agGrid" class="ag-theme-alpine"></div>
             </div>
         </section>
     </div>
@@ -186,7 +235,7 @@
             this.eGui.id = "actionArea";
             if (clbMbrActAt == 0) {
                 this.eGui.innerHTML = `
-                        <button class="leave">탈퇴 처리</button>
+                        <button class="leave font-md font-11 color-font-md">탈퇴 처리</button>
                     `;
                 this.id = params.data.notiEtprCode;
                 this.leaveBtn = this.eGui.querySelector(".leave");
@@ -234,17 +283,17 @@
     }
 
     const columnDefs = [
-        {field: "clbMbrEmplId", headerName: "사번"},
+        {field: "clbMbrEmplId", headerName: "사번", cellStyle: {textAlign: "center"}},
         {
             field: "clbMbrEmplNm", headerName: "사원 이름", getQuickFilterText: (params) => {
                 return params.data.clbMbrEmplNm
-            }, cellRenderer: StringRenderer
+            }, cellRenderer: StringRenderer, cellStyle: {textAlign: "center"}
         },
-        {field: "clbMbrDept", headerName: "부서"},
-        {field: "clbMbrClsf", headerName: "직급"},
-        {field: "chk", headerName: " ", cellRenderer: ClassBtn},
-        {field: "clbMbrActAt", headerName: "clbMbrActAt", hide: true, sortable: true},
-        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true, sortable: true},
+        {field: "clbMbrDept", headerName: "부서", cellStyle: {textAlign: "center"}},
+        {field: "clbMbrClsf", headerName: "직급", cellStyle: {textAlign: "center"}},
+        {field: "chk", headerName: " ", cellRenderer: ClassBtn, cellStyle: {textAlign: "center"}},
+        {field: "clbMbrActAt", headerName: "clbMbrActAt", hide: true, sortable: true, cellStyle: {textAlign: "center"}},
+        {field: "clbEtprCode", headerName: "clbEtprCode", hide: true, sortable: true, cellStyle: {textAlign: "center"}},
     ];
 
     function customSort(a, b) {
@@ -270,6 +319,9 @@
     const Options = {
         columnDefs: columnDefs,
         rowData: rowData,
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
     };
     document.addEventListener('DOMContentLoaded', () => {
         const listGrid = document.querySelector('#agGrid');

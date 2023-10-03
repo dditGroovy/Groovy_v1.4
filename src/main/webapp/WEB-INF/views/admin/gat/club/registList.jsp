@@ -30,8 +30,8 @@
             this.eGui = document.createElement('div');
             if (clbConfmAt == 1) {
                 this.eGui.innerHTML = `
-                        <button class="closure">미운영 처리</button>
-                        <button class="manageMember">회원 관리</button>
+                        <button class="closure font-md font-11 color-font-md">미운영 처리</button>
+                        <button class="manageMember font-md font-11 color-font-md">회원 관리</button>
                     `;
                 this.id = params.data.notiEtprCode;
                 this.closureBtn = this.eGui.querySelector(".closure");
@@ -45,7 +45,7 @@
                 };
             } else if (clbConfmAt == 3) {
                 this.eGui.innerHTML = `
-                    <p class="status">미운영</p>
+                    <p class="status font-md font-11 color-font-md">미운영</p>
                `;
                 const status = this.eGui.querySelector(".status");
             }

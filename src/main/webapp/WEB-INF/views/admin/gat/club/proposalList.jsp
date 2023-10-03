@@ -10,7 +10,7 @@
     <div class="content-wrapper">
         <div class="content-header">
             <div class="side-header-wrap">
-                <h1 class="font-md color-font-md font-18 h1">동호회 제안내역</h1>
+                <h1 class="font-md color-font-md font-18">동호회 제안내역</h1>
             </div>
         </div>
         <div class="content-body card">

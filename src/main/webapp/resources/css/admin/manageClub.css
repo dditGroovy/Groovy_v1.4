@@ -26,8 +26,7 @@
     color: var(--color-main);
 }
 
-.approve, .disapprove, .dormacy, .manage {
-    /*padding: var(--vh-12) var(--vw-32);*/
+.approve, .disapprove, .dormacy, .manage, .leave, .closure, .manageMember {
     width: calc((80 / var(--vw)) * 100vw);
     height: calc((33 / var(--vh)) * 100vh);
     border: 1px solid var(--color-font-md);
@@ -81,4 +80,73 @@
 
 .ag-row-even, .ag-row-odd {
     border-color: var(--color-bg-grey);
+}
+
+.ag-row .ag-cell {
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center;
+}
+
+/* 회원관리 */
+.grid {
+    display: grid;
+    gap: var(--vw-24);
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.info-wrapper, .info-modify-wrapper {
+    display: grid;
+    width: calc((726 / 1920) * 100vw);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    box-shadow: var(--clay-card);
+    padding: var(--vh-16) var(--vw-24);
+    justify-items: center;
+    align-items: center;
+    margin-bottom: var(--vh-24);
+}
+
+.info-wrapper > .info-list, .info-modify-wrapper > .info-list {
+    display: flex;
+    flex-direction: column;
+    width: calc((315 / var(--vw)) * 100vw);
+    height: calc((120 / var(--vh)) * 100vh);
+    padding-top: var(--vh-12);
+}
+
+#modify-club {
+    display: none;
+}
+
+#save {
+    display: none;
+    float: right;
+}
+
+#modify {
+    background: url("/resources/images/icon/i-setting.svg");
+    background-size: var(--vw-16);
+    border: none;
+    width: var(--vw-16);
+    height: var(--vw-16);
+}
+
+.content {
+    margin-top: var(--vh-24);
+}
+
+.bar {
+    height: var(--vh-48);
+    border-left: 1px solid var(--color-font-row);
+}
+
+.display {
+    display: flex;
+    align-items: flex-end;
+}
+
+.org {
+    height: var(--vh-40);
+    margin-left: 10px;
 }
