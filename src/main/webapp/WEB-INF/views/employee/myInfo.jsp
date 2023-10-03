@@ -308,7 +308,7 @@
             processData: false,
             success: function (response) {
                 if (response === 'incorrect') {
-                    $("#modifyRes").val('현재 비밀번호를 확인해 주세요.')
+                    $("#modifyRes").html('현재 비밀번호를 확인해 주세요.')
                 } else {
                     Swal.fire({
                         icon: 'success',
