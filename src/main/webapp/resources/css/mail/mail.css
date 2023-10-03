@@ -235,8 +235,3 @@ input[type=checkbox]{outline: none}
 #cke_1_toolbox {
     display: flex !important;
 }
-#cke_1_contents {
-    min-height: 100px;
-    height: 25vh!important;
-    overflow-y: auto;
-}

@@ -1,5 +1,13 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<style>
+    #cke_1_contents {
+        min-height: 100px !important;
+        height: 25vh!important;
+        max-height: 32vh !important;
+        overflow-y: auto;
+    }
+</style>
 <link href="/resources/css/mail/mail.css" rel="stylesheet"/>
 <sec:authentication property="principal" var="CustomUser"/>
 <div class="content-container">
@@ -33,13 +41,13 @@
                             </div>
                         </div>
                         <div class="mail-title-wrap mail-write-option">
-                            <h3><label for="emailToAddr">제목</label></h3>
+                            <h3><label for="emailFromSj">제목</label></h3>
                             <div class="option-wrap">
                                 <input type="text" name="emailFromSj" id="emailFromSj" class="mail-input">
                             </div>
                         </div>
                         <div class="mail-file-wrap mail-write-option">
-                            <h3><label for="emailToAddr">파일 첨부</label></h3>
+                            <h3><label for="file">파일 첨부</label></h3>
                             <div class="option-wrap">
                                 <div class="file-wrap">
                                     <label for="file" class="btn btn-free-white file-btn">
