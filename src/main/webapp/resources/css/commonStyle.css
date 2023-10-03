@@ -287,6 +287,8 @@
 .i-memo {content: url("/resources/images/icon/sticker.svg")}
 .i-comment {content: url("/resources/images/icon/comment.svg")}
 .i-set {content: url("/resources/images/icon/i-setting.svg")}
+.i-star-out {content: url("/resources/images/icon/magic-star-out.svg")}
+.i-star-fill {content: url("/resources/images/icon/magic-star-fill.svg")}
 .i-3d.icon {
     width: var(--vw-32);
     height: var(--vw-32);

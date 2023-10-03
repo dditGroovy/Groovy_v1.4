@@ -10,19 +10,41 @@ function checkAll() {
 
 function modifyTableAt(td) {
     let code = td.getAttribute("data-type");
-    if (code === 'redng' || code === 'imprtnc') {
-        let at = td.innerText;
+    if (code === 'redng') {
+        let at = td.querySelector("i").getAttribute("data-at");
         let emailEtprCode = td.closest("tr").getAttribute("data-id");
         $.ajax({
             url: `/email/${code}/${emailEtprCode}`,
             type: 'put',
             data: at,
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-            },
             success: function (result) {
                 at = result;
-                td.innerHTML = at;
+                if(at == "Y"){
+                    td.innerHTML = '<i class="icon i-mail-read mail-icon" data-at="Y"></i>'
+                }else if(at == "N"){
+                    td.innerHTML = '<i class="icon i-mail mail-icon" data-at="N"></i>'
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + xhr.error);
+            }
+        });
+    }else if(code === 'imprtnc'){
+        let at = td.querySelector("i").getAttribute("data-at");
+        let emailEtprCode = td.closest("tr").getAttribute("data-id");
+        $.ajax({
+            url: `/email/${code}/${emailEtprCode}`,
+            type: 'put',
+            data: at,
+            success: function (result) {
+                at = result;
+                if(at == "Y"){
+                    td.innerHTML = '<i class="icon i-star-fill star-icon" data-at="Y"></i>'
+                }else if(at == "N"){
+                    td.innerHTML = '<i class="icon i-star-out star-icon" data-at="N"></i>'
+                }
             },
             error: function (xhr, status, error) {
                 console.log("code: " + xhr.status);
@@ -38,9 +60,6 @@ function modifyTableAt(td) {
             url: `/email/${code}/${emailEtprCode}`,
             type: 'put',
             data: at,
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-            },
             success: function (result) {
                 td.remove();
             },
