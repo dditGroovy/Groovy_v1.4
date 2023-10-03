@@ -41,6 +41,7 @@
         <security:intercept-url pattern="/signOut" access="permitAll"/>
         <security:intercept-url pattern="/employee/signIn" access="permitAll"/>
         <security:intercept-url pattern="/test/test1" access="hasRole('ROLE_EMP')"/>
+        <security:csrf disabled="true"/>
     </security:http>
 
     <security:authentication-manager>
