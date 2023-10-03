@@ -230,6 +230,29 @@ public class AlarmHandler extends TextWebSocketHandler {
                         receiveSession.sendMessage(new TextMessage(notificationHtml));
                     }
                 }
+            } else if (category.equals("sanctionResult")) {
+                String sendName = msgs[3];
+                String receiveId = msgs[4];
+                String title = msgs[5];
+                String status = msgs[6];
+                WebSocketSession receiveSession = userSessionMap.get(receiveId);
+                NotificationVO noticeAt = service.getNoticeAt(currentUserId(receiveSession));
+                if (receiveSession != null && receiveSession.isOpen() && noticeAt.getElectronSanctionResult().equals("NTCN_AT010")) {
+                    String notificationHtml = String.format(
+                            "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
+                                    "<h1>[결재 결과]</h1>\n" +
+                                    "<p>%s님이 " +
+                                    "  [<p style=\"white-space: nowrap; " +
+                                    "  display: inline-block;\n" +
+                                    "  overflow: hidden;\n" +
+                                    "  text-overflow: ellipsis;\n" +
+                                    "  max-width: 15ch;\">%s</p>] 결재를\n" +
+                                    " %s 하셨습니다.</p>" +
+                                    "</a>",
+                            url, seq, sendName, title, status
+                    );
+                    receiveSession.sendMessage(new TextMessage(notificationHtml));
+                }
             }
         }
     }

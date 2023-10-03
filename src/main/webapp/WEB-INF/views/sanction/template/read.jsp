@@ -184,10 +184,32 @@
     <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        var socket = null;
+        document.addEventListener("DOMContentLoaded", () => {
+            connectWs();
+        });
 
+        function connectWs() {
+            //웹소켓 연결
+            sock = new SockJS("/echo-ws");
+            socket = sock;
+
+            sock.onopen = function () {
+                console.log("info: connection open");
+            };
+
+            sock.onclose = function () {
+                console.log("close");
+            }
+
+            sock.onerror = function (err) {
+                console.log("ERROR: ", err);
+            }
+        }
         // pdf 생성
         window.jsPDF = window.jspdf.jsPDF;
 
@@ -228,8 +250,10 @@
         let etprCode = '${sanction.elctrnSanctnEtprCode}';
         let afterPrcs = '${sanction.elctrnSanctnAfterPrcs}'
         let emplId = '${CustomUser.employeeVO.emplId}';
+        let emplNm = '${CustomUser.employeeVO.emplNm}';
         let signUrl = '/uploads/sign/' + '${CustomUser.employeeVO.signPhotoFileStreNm}';
         let signElement = document.getElementById(emplId);
+        let drftEmplId = '${sanction.elctrnSanctnDrftEmplId}';
 
         $(function () {
             $("#elctrnSanctnFinalDate").html('${sanction.elctrnSanctnFinalDate}');
@@ -251,7 +275,8 @@
                 url: `/sanction/api/approval/\${id}/\${etprCode}`,
                 type: 'PUT',
                 success: function (data) {
-                    appendSignImg()
+                    appendSignImg();
+                    alarm('승인');
                     $(".sanctionBtn").prop("hidden", true);
                     Swal.fire({
                         icon: 'success',
@@ -303,7 +328,8 @@
                 url: `/sanction/api/final/approval/\${id}/\${etprCode}`,
                 type: 'PUT',
                 success: function (data) {
-                    appendSignImg()
+                    appendSignImg();
+                    alarm('최종승인');
                     $(".sanctionBtn").prop("hidden", true);
                     Swal.fire({
                         icon: 'success',
@@ -366,7 +392,8 @@
                 contentType: "application/json",
                 success: function (data) {
                     signUrl = '/resources/images/reject.png';
-                    appendSignImg()
+                    appendSignImg();
+                    alarm('반려');
                     $(".sanctionBtn").prop("hidden", true);
                     modalClose()
                     let returnResnElement = document.getElementById("returnResn");
@@ -415,6 +442,56 @@
                     })
                 }
             });
+        }
+
+        function alarm(status) {
+            $.get("/alarm/getMaxAlarm")
+                .then(function (maxNum) {
+                    maxNum = parseInt(maxNum) + 1;
+
+                    let url = '/sanction/document';
+                    let title = document.querySelector(".main-title").innerText;
+                    let content = `<div class="alarmBox">
+                                    <a href="\${url}" id="fATag" data-seq="\${maxNum}">
+                                        <h1>[결재 결과]</h1>
+                                        <p>\${emplNm}님이
+                                          [<p style="white-space: nowrap;
+                                          display: inline-block;
+                                          overflow: hidden;
+                                          text-overflow: ellipsis;
+                                          max-width: 15ch;">\${title}</>] 결재를
+                                          \${status} 하셨습니다. </p>
+                                    </a>
+                                    <button type="button" class="readBtn">읽음</button>
+                                </div>`;
+                    let alarmVO = {
+                        "ntcnEmplId": drftEmplId,
+                        "ntcnSn": maxNum,
+                        "ntcnUrl": url,
+                        "ntcnCn": content,
+                        "commonCodeNtcnKind": 'NTCN018'
+                    };
+
+                    //알림 생성 및 페이지 이동
+                    $.ajax({
+                        type: 'post',
+                        url: '/alarm/insertAlarmTarget',
+                        data: alarmVO,
+                        success: function (rslt) {
+                            if (socket) {
+                                //알람번호,카테고리,url,보낸사람이름,받는사람아이디, 결재 종류, 상태
+                                let msg = maxNum + ",sanctionResult," + url + "," + emplNm + "," + drftEmplId + "," + title + "," + status;
+                                socket.send(msg);
+                            }
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.status);
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    console.log("최대 알람 번호 가져오기 오류:", error);
+                });
         }
     </script>
 </sec:authorize>
