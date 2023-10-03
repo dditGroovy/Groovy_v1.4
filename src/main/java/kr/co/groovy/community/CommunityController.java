@@ -194,7 +194,7 @@ public class CommunityController {
     }
 
     @ResponseBody
-    @PostMapping("/loadAllRegistVote")
+    @GetMapping("/loadAllRegistVote")
     public List<VoteRegisterVO> loadAllRegistVote(){
         List<VoteRegisterVO> voteList = service.loadAllRegistVote(emplId);
         return voteList;

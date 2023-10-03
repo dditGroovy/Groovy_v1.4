@@ -9,6 +9,7 @@
     <li>인사팀</li>
     <c:forEach var="hrtList" items="${DEPT010List}">
       <c:if test="${CustomUser.employeeVO.emplId ne hrtList.emplId}">
+
         <li>
           <label for="${hrtList.emplId}">
             <input type="checkbox" name="orgCheckbox" id="${hrtList.emplId}">

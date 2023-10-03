@@ -6,10 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<header id="mailheader" class="tab">
-    <ul>
-        <li><a href="/email/all">메일</a></li>
-    </ul>
+<header id="tab-header">
+    <h1><a href="${pageContext.request.contextPath}/email/all" class="on">메일</a></h1>
 </header>
 <div class="mailnavWrap">
     <nav>

@@ -1,0 +1,15 @@
+@import "../commonStyle.css";
+
+/* mail */
+.mailnavWrap {
+    border: 1px solid red;
+}
+.mailnavWrap nav {
+    width: calc((900/var(--vw))*100vw);
+    height: var(--vh-64);
+    display: flex;
+    align-items: center;
+    background: var(--color-white);
+    box-shadow: var(--clay-card);
+    border-radius: var(--size-24);
+}

@@ -30,15 +30,12 @@
     let selectedFile = undefined;
     let num = 0;
     let sntncEtprCode;
-
+    loadTeamVote();
     function loadAnswerFn(sntncEtprCode, item) {
         $.ajax({
             url: "/teamCommunity/loadAnswer",
             type: "POST",
             data: {sntncEtprCode: sntncEtprCode},
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-            },
             success: function (data) {
                 let code = "";
                 data.forEach(item => {
@@ -92,9 +89,6 @@
                     type: "POST",
                     data: sntncVO,
                     dataType: "text",
-                    beforeSend : function(xhr) {
-                        xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                    },
                     success: function (data) {
                         const like = item.querySelector(".recommendCnt");
                         like.innerText = data + " Likes";
@@ -117,9 +111,6 @@
                     type: "POST",
                     data: recommendVo,
                     dataType: "text",
-                    beforeSend : function(xhr) {
-                        xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                    },
                     success: function (data) {
                         const like = item.querySelector(".recommendCnt");
                         like.innerText = data + " Likes";
@@ -159,9 +150,6 @@
                     data: JSON.stringify(sntncVO),
                     contentType: "application/json",
                     dataType: "text",
-                    beforeSend : function(xhr) {
-                        xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                    },
                     success: function (data) {
                         item.querySelector(".modifySntncCn").remove();
                         sntncCnbox.innerText = sntncVO.sntncCn;
@@ -179,9 +167,6 @@
                     type: "Delete",
                     data: JSON.stringify({sntncEtprCode: sntncEtprCode}),
                     contentType: 'application/json',
-                    beforeSend : function(xhr) {
-                        xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                    },
                     success: function (data) {
                         item.remove();
                     },
@@ -207,9 +192,6 @@
                         data: JSON.stringify(answerVO),
                         contentType: "application/json",
                         dataType: "text",
-                        beforeSend : function(xhr) {
-                            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                        },
                         success: function (data) {
                             answerCnt.innerText = data;
                             answerContent.value = "";
@@ -249,9 +231,6 @@
                                         type: 'post',
                                         url: '/alarm/insertAlarmTarget',
                                         data: alarmVO,
-                                        beforeSend : function(xhr) {
-                                            xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                                        },
                                         success: function (rslt) {
                                             if (socket) {
                                                 //알람번호,카테고리,url,보낸사람이름,받는사람아이디
@@ -287,9 +266,6 @@
         $.ajax({
             url: "/teamCommunity/loadTeamNoti",
             type: "POST",
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-            },
             success: function (data) {
                 let code = '<button type="button" class="btn btn-modal addBtn" id="addTeamNotice" data-name="insertNotice">+ 공지 추가하기</button>' +
                     '<div class="notice-wrap">' +
@@ -390,9 +366,6 @@
                     data: JSON.stringify(voteOptionVO),
                     contentType: "application/json",
                     dataType: "text",
-                    beforeSend : function(xhr) {
-                        xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                    },
                     success: function (data) {
                         if (data == "success") {
                             checkBox.checked = false;
@@ -416,9 +389,6 @@
                     data: JSON.stringify(voteOptionVO),
                     contentType: "application/json",
                     dataType: "text",
-                    beforeSend : function(xhr) {
-                        xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                    },
                     success: function (data) {
                         if (data == "success") {
                             checkBox.checked = true;
@@ -444,9 +414,6 @@
                 type: "Put",
                 data: voteRegistNo,
                 contentType: "text/plain",
-                beforeSend : function(xhr) {
-                    xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                },
                 success: function (data) {
                     window.location.href = "/teamCommunity"
                 },
@@ -467,9 +434,6 @@
             data: JSON.stringify(notiSntncVO),
             contentType: "application/json",
             dataType: "text",
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-            },
             success: function (data) {
                 notisntncSj.value = "";
                 notisntncCn.value = "";
@@ -532,9 +496,6 @@
             data: JSON.stringify(notiSntncVO),
             contentType: "application/json",
             dataType: "text",
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-            },
             success: function (data) {
                 notisntncSj.value = "";
                 notisntncCn.value = "";
@@ -552,10 +513,7 @@
     function loadTeamVote() {
         $.ajax({
             url: "/teamCommunity/loadAllRegistVote",
-            type: "POST",
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-            },
+            type: "GET",
             success: function (data) {
 
                 let code = '<button type="button" id="addVote" class="btn btn-modal addBtn" data-name="insertVote">+ 투표 등록하기</button>' +
@@ -637,8 +595,6 @@
     inputVoteRegister.addEventListener("submit",e=>{
         e.preventDefault();
     })
-    if(teamVote.classList.contains("on"))loadTeamVote();
-
     /*  모달  */
     modal.addEventListener("click",e=>{
         const target = e.target;
@@ -696,9 +652,6 @@
                 contentType: false,
                 processData: false,
                 cache: false,
-                beforeSend : function(xhr) {
-                    xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                },
                 success: function(data) {
                     const inputs = inputVoteRegister.querySelectorAll("input");
                     inputs.forEach(item => {
@@ -751,6 +704,8 @@
             item.classList.add("on");
         })
     })
+
+
 
 
     
