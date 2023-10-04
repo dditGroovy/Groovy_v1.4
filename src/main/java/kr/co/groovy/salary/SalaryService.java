@@ -112,7 +112,6 @@ public class SalaryService {
     }
 
     public PaystubVO loadPaystubDetail(String emplId, String paymentDate) {
-        log.info(paymentDate);
         return salaryMapper.loadPaystubDetail(emplId, paymentDate);
     }
 
