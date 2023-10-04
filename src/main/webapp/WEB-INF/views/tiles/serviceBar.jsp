@@ -83,9 +83,9 @@
 			success: function (list) {
 				console.log("list", list.length);
 				$(".alarm-area").empty();
-				$(".alarm-area").removeClass("alarmBox");
+				$(".alarm-area").removeClass("alarmListBox");
 				if (list.length == 0) {
-					$(".alarm-area").addClass("alarmBox");
+					$(".alarm-area").addClass("alarmListBox");
 					$(".alarm-area").html("<p class='font-11 none-alarm color-font-md'>최근 알림내역이 없습니다.</p>");
 				} else {
 					for (let i = 0; i < list.length; i++) {

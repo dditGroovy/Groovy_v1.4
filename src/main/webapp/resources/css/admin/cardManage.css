@@ -1,0 +1,94 @@
+.card-wrapper {
+    display: flex;
+    gap: var(--vw-12);
+}
+
+.card-wrapper .card-regist {
+    border: 1px dashed var(--color-font-md);
+    border-radius: var(--vw-32);
+    background: rgba(0, 0, 0, 0);
+    width: calc((300/1920)*100vw);
+    height: calc((350/1080)*100vh);
+    cursor: pointer;
+}
+
+.card-regist .i-add-md {
+    width: var(--vw-24);
+    height: var(--vw-24);
+    margin-bottom: 4px;
+}
+
+.modal-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-card {
+    display: inline-block;
+    width: calc((32 / 1920) * 100vw) !important;
+    height: calc((32 / 1920) * 100vw) !important;
+    background-image: url("/resources/images/Icon3d/card.png");
+    background-size: var(--vw-32) var(--vh-32);
+    background-repeat: no-repeat;
+    margin-right: 8px;
+}
+
+.modal-title {
+    margin-bottom: var(--vh-48);
+}
+
+.register-table {
+    width: 100%;
+}
+
+.register-table td {
+    height: var(--vh-48);
+    padding: 0 var(--vw-12);
+}
+
+.table-title {
+    background: var(--color-bg-sky);
+    border-right: 1px solid var(--color-stroke);
+}
+
+.register-table input[type="text"] {
+    width: 100%;
+    padding: var(--vw-12);
+    outline: none;
+    border: none;
+}
+
+.register-table #cardCom {
+    width: 33%;
+    height: var(--vh-48);
+    border: none;
+    padding-left: var(--vw-12);
+}
+
+#registerCardBtn {
+    margin-top: var(--vh-32);
+}
+
+#cardList {
+    width: calc((1700 / 1920) * 100vw);
+    display: flex;
+    overflow: auto;
+    white-space: nowrap;
+    gap: 8px;
+}
+
+.cards {
+    width: 180px;
+    height: 90%;
+    display: inline-flex;
+    border-radius: var(--vw-24);
+    border: none;
+}
+
+
+#cardList::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+}
+
