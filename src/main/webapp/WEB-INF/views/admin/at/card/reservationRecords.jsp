@@ -55,10 +55,22 @@
                             cprCardResveRturnAt = 1;
                             cell.innerHTML = "<p>반납 완료</p>";
                             gridOptions.api.refreshCells();
-                            alert("카드 반납 완료 처리하였습니다.");
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'success',
+                                title: '카드 반납 완료 처리하였습니다',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
                         },
                         error: function (xhr) {
-                            alert("오류로 인한 처리 실패");
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'error',
+                                title: '오류로 인하여 반납 완료 처리를 실패했습니다',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
                             console.log(xhr.responseText);
                         }
                     });
