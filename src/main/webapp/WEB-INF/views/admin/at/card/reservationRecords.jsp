@@ -58,7 +58,7 @@
                             Swal.fire({
                                 position: 'top',
                                 icon: 'success',
-                                title: '카드 반납 완료 처리하였습니다',
+                                text: '카드 반납 처리를 완료했습니다',
                                 showConfirmButton: false,
                                 timer: 1500
                             });
@@ -67,7 +67,7 @@
                             Swal.fire({
                                 position: 'top',
                                 icon: 'error',
-                                title: '오류로 인하여 반납 완료 처리를 실패했습니다',
+                                text: '오류로 인하여 반납 완료 처리를 실패했습니다',
                                 showConfirmButton: false,
                                 timer: 1500
                             });
