@@ -3,7 +3,7 @@
 <style>
     #cke_1_contents {
         min-height: 100px !important;
-        height: 25vh!important;
+        height: 25vh !important;
         max-height: 32vh !important;
         overflow-y: auto;
     }
@@ -18,7 +18,8 @@
                 <div class="serviceWrap">
                     <div class="writeWrap">
                         <button type="button" id="sendBtn" class="btn">보내기</button>
-                        <a href="${pageContext.request.contextPath}/email/sendMine" class="send-mine"><i class="icon i-change"></i>내게 쓰기</a>
+                        <a href="${pageContext.request.contextPath}/email/sendMine" class="send-mine"><i
+                                class="icon i-change"></i>내게 쓰기</a>
                     </div>
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -28,7 +29,7 @@
                             <h3><label for="emailToAddr">받는 사람</label></h3>
                             <div class="option-wrap">
                                 <span id="receiveTo"></span>
-                                <input type="text" name="emailToAddr" id="emailToAddr" class="mail-input">
+                                <input type="text" id="emailToAddr" class="mail-input">
                                 <button type="button" id="orgBtnTo" class="btn btn-flat btn-org">조직도</button>
                             </div>
                         </div>
@@ -36,7 +37,7 @@
                             <h3><label for="emailCcAddr">참조</label></h3>
                             <div class="option-wrap">
                                 <span id="receiveCc"></span>
-                                <input type="text" name="emailCcAddr" id="emailCcAddr" class="mail-input">
+                                <input type="text" id="emailCcAddr" class="mail-input">
                                 <button type="button" id="orgBtnCc" class="btn btn-flat btn-org">조직도</button>
                             </div>
                         </div>
@@ -54,7 +55,7 @@
                                         <i class="icon i-file"></i>
                                         내 PC
                                     </label>
-                                    <input type="file" name="emailFiles" id="file" multiple  onchange="addFile(this);">
+                                    <input type="file" name="emailFiles" id="file" multiple onchange="addFile(this);">
                                     <div class="file-list"></div>
                                 </div>
                             </div>
@@ -113,7 +114,6 @@
         emailToAddrArr.forEach((emailAddr) => {
             emailToAddrList.push(emailAddr.value);
         });
-
         let emailCcAddrArr = document.querySelectorAll("input[name=emailCcAddrArr]");
         let emailCcAddrList = [];
         emailCcAddrArr.forEach((emailAddr) => {
@@ -128,15 +128,15 @@
         formData.append("emailCcAddrList", emailCcAddrList);
         formData.append("emailFromCn", editor.getData());
 
-        let xhr = new XMLHttpRequest();
-        xhr.open("post", "/email/send", true);
-        xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                if (xhr.responseText === "success") {
-                    //알림 보내기
-                    $.get("/alarm/getMaxAlarm")
-                        .then(function (maxNum) {
+        if (emplIdToList != null) {
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("post", "/email/send", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    if (xhr.responseText === "success") {
+                        //알림 보내기
+                        $.get("/alarm/getMaxAlarm").then(function (maxNum) {
                             maxNum = parseInt(maxNum) + 1;
                             let url = '/email/all';
                             let subject = formData.get("emailFromSj");
@@ -161,37 +161,40 @@
                                 "selectedEmplIds": emplIdToList
                             };
 
-                            //알림 생성 및 페이지 이동
-                            $.ajax({
-                                type: 'post',
-                                url: '/alarm/insertAlarmTargeList',
-                                data: alarmVO,
-                                beforeSend : function(xhr) {
-                                    xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-                                },
-                                success: function (rslt) {
-                                    if (socket) {
-                                        //알람번호,카테고리,url,제일,받는사람아이디리스트
-                                        let msg = `\${maxNum},email,\${url},\${subject},\${emplIdToList}`;
-                                        socket.send(msg);
+                            if (emplIdToList.length != 0) {
+                                //알림 생성 및 페이지 이동
+                                $.ajax({
+                                    type: 'post',
+                                    url: '/alarm/insertAlarmTargeList',
+                                    data: alarmVO,
+                                    success: function (rslt) {
+                                        if (socket) {
+                                            //알람번호,카테고리,url,제일,받는사람아이디리스트
+                                            let msg = `\${maxNum},email,\${url},\${subject},\${emplIdToList}`;
+                                            socket.send(msg);
+                                        }
+                                        alert("메일을 성공적으로 전송했습니다");
+                                        location.href = "/email/sent";
+                                    },
+                                    error: function (xhr) {
+                                        console.log(xhr.status);
                                     }
-                                    alert("메일을 성공적으로 전송했습니다.");
-                                    location.href = "/email/all";
-                                },
-                                error: function (xhr) {
-                                    console.log(xhr.status);
-                                }
-                            });
-                        })
-                        .catch(function (error) {
+                                });
+                            } else {
+                                alert("메일을 성공적으로 전송했습니다");
+                                location.href = "/email/sent";
+                            }
+                        }).catch(function (error) {
                             console.log("최대 알람 번호 가져오기 오류:", error);
                         });
-                } else {
-                    alert("메일 전송에 실패했습니다. 다시 시도해주세요");
+                    } else {
+                        alert("메일 전송에 실패했습니다 다시 시도해주세요");
+                    }
                 }
             }
+
+            xhr.send(formData);
         }
-        xhr.send(formData);
     });
 
     document.addEventListener("click", function (event) {
@@ -296,7 +299,7 @@
     let filesArr = new Array();
 
     /* 첨부파일 추가 */
-    function addFile(obj){
+    function addFile(obj) {
         let maxFileCnt = 5;   // 첨부파일 최대 개수
         let attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
         let remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
@@ -331,8 +334,9 @@
         // 초기화
         document.querySelector("input[type=file]").value = "";
     }
+
     /* 첨부파일 검증 */
-    function validation(file){
+    function validation(file) {
         if (file.name.length > 100) {
             alert("파일명이 100자 이상인 파일은 제외되었습니다.");
             return false;
@@ -346,6 +350,7 @@
             return true;
         }
     }
+
     /* 첨부파일 삭제 */
     function deleteFile(num) {
         document.querySelector("#file" + num).remove();

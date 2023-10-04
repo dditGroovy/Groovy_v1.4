@@ -3,6 +3,7 @@ package kr.co.groovy.email;
 import kr.co.groovy.employee.EmployeeService;
 import kr.co.groovy.vo.EmailVO;
 import kr.co.groovy.vo.EmployeeVO;
+import kr.co.groovy.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -24,77 +25,77 @@ public class EmailController {
     private final EmployeeService employeeService;
 
     @PostMapping("/all")
-    public String getAllMailsGet(Principal principal, EmailVO emailVO, Model model, @RequestParam String password) throws Exception {
+    public String getAllMailsGet(Principal principal, EmailVO emailVO, Model model, @RequestParam String password, PageVO pageVO) throws Exception {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, password);
+        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, password, pageVO);
         model.addAttribute("list", list);
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);
         return "email/allList";
     }
 
     @GetMapping("/inbox")
-    public String getReceivedMails(Principal principal, EmailVO emailVO, Model model) throws Exception {
+    public String getReceivedMails(Principal principal, Model model, PageVO pageVO) throws Exception {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.getAllReceivedMailList(employeeVO);
-        for (EmailVO mail : list) {
-            mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
+        List<EmailVO> list = emailService.getAllReceivedMailList(employeeVO, pageVO);
+        for (EmailVO emailVO : list) {
+            emailVO.setEmailFromAddr(emailService.getEmplNmByEmplEmail(emailVO));
         }
         model.addAttribute("list", list);
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);
         return "email/inboxList";
     }
 
     @GetMapping("/sent")
-    public String getAllSentMailsByMe(Principal principal, EmailVO emailVO, Model model) {
+    public String getAllSentMailsByMe(Principal principal, Model model, PageVO pageVO) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.getAllSentMailsByMe(employeeVO);
-        for (EmailVO mail : list) {
-            mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
+        List<EmailVO> list = emailService.getAllSentMailsByMe(employeeVO, pageVO);
+        for (EmailVO emailVO : list) {
+            emailVO.setEmailFromAddr(emailService.getEmplNmByEmplEmail(emailVO));
         }
         model.addAttribute("list", list);
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);
         return "email/sentList";
     }
 
     @GetMapping("/mine")
-    public String getAllSentMailsToMe(Principal principal, EmailVO emailVO, Model model) {
+    public String getAllSentMailsToMe(Principal principal, Model model, PageVO pageVO) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.getSentMailsToMe(employeeVO);
-        for (EmailVO mail : list) {
-            mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
+        List<EmailVO> list = emailService.getSentMailsToMe(employeeVO, pageVO);
+        for (EmailVO emailVO : list) {
+            emailVO.setEmailFromAddr(emailService.getEmplNmByEmplEmail(emailVO));
         }
         model.addAttribute("list", list);
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);
         return "email/mineList";
     }
 
     @GetMapping("/trash")
-    public String getAllDeletedMails(Principal principal, EmailVO emailVO, Model model) {
+    public String getAllDeletedMails(Principal principal, EmailVO emailVO, Model model, PageVO pageVO) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.setAllEmailList(employeeVO.getEmplEmail(), "Y");
+        List<EmailVO> list = emailService.setAllEmailList(employeeVO.getEmplEmail(), "Y", pageVO);
         for (EmailVO mail : list) {
             mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
         }
         model.addAttribute("list", list);
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
         model.addAttribute(unreadMailCount);
         model.addAttribute(allMailCount);
         return "email/trashList";
@@ -120,7 +121,7 @@ public class EmailController {
 
     @PostMapping("/send")
     @ResponseBody
-    public String inputSentEmail(Principal principal, EmailVO emailVO, MultipartFile[] emailFiles, String password) {
+    public String inputSentEmail(Principal principal, EmailVO emailVO, MultipartFile[] emailFiles) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
         return emailService.sentMail(emailVO, emailFiles, employeeVO);
     }
@@ -150,7 +151,7 @@ public class EmailController {
         List<EmailVO> toList = emailService.getToPerEmail(emailEtprCode, emailVO.getEmailToAddr());
         List<EmailVO> ccList = emailService.getCcPerEmail(emailEtprCode, emailVO.getEmailCcAddr());
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
 
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);

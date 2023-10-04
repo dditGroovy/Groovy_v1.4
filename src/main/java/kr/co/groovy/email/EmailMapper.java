@@ -16,13 +16,13 @@ public interface EmailMapper {
 
     int inputReceivedStatus(EmailVO emailVO);
 
-    List<EmailVO> getAllReceivedMailsToMe(Map<String, String> map);
+    List<EmailVO> getAllReceivedMailsToMe(Map<String, Object> map);
 
-    List<EmailVO> getAllReferencedMailsToMe(Map<String, String> map);
+    List<EmailVO> getAllReferencedMailsToMe(Map<String, Object> map);
 
-    List<EmailVO> getAllSentMailsToMe(Map<String, String> map);
+    List<EmailVO> getAllSentMailsToMe(Map<String, Object> map);
 
-    List<EmailVO> getAllSentMailsByMe(Map<String, String> map);
+    List<EmailVO> getAllSentMailsByMe(Map<String, Object> map);
 
     int getEmployeeByEmailAddr(String emailAddr);
 
@@ -34,7 +34,7 @@ public interface EmailMapper {
 
     int getUnreadMailCount(String emplId);
 
-    int getAllMailCount(String emailAddr);
+    long getAllMailCount(String emailAddr);
 
     int getEmailSeq();
 
@@ -49,4 +49,10 @@ public interface EmailMapper {
     List<EmailVO> getToPerEmail(Map<String, String> map);
 
     List<EmailVO> getCcPerEmail(Map<String, String> map);
+
+    long getSentMailCount(String emailAddr);
+
+    long getReceivedMailCount(String emailAddr);
+
+    long getSentMailToMeCount(String emailAddr);
 }

@@ -4,6 +4,7 @@ import kr.co.groovy.employee.EmployeeMapper;
 import kr.co.groovy.enums.Department;
 import kr.co.groovy.vo.EmailVO;
 import kr.co.groovy.vo.EmployeeVO;
+import kr.co.groovy.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -51,19 +52,19 @@ public class EmailService {
         return emailMapper.existsMessageNumber(map);
     }
 
-    public List<EmailVO> getAllReceivedMailsToMe(Map<String, String> map) {
+    public List<EmailVO> getAllReceivedMailsToMe(Map<String, Object> map) {
         return emailMapper.getAllReceivedMailsToMe(map);
     }
 
-    public List<EmailVO> getAllReferencedMailsToMe(Map<String, String> map) {
+    public List<EmailVO> getAllReferencedMailsToMe(Map<String, Object> map) {
         return emailMapper.getAllReferencedMailsToMe(map);
     }
 
-    public List<EmailVO> getAllSentMailsToMe(Map<String, String> map) {
+    public List<EmailVO> getAllSentMailsToMe(Map<String, Object> map) {
         return emailMapper.getAllSentMailsToMe(map);
     }
 
-    public List<EmailVO> getAllSentMailsByMe(Map<String, String> map) {
+    public List<EmailVO> getAllSentMailsByMe(Map<String, Object> map) {
         return emailMapper.getAllSentMailsByMe(map);
     }
 
@@ -83,7 +84,7 @@ public class EmailService {
         return emailMapper.getUnreadMailCount(emplId);
     }
 
-    public int getAllMailCount(String emailAddr) {
+    public long getAllMailCount(String emailAddr) {
         return emailMapper.getAllMailCount(emailAddr);
     }
 
@@ -113,8 +114,8 @@ public class EmailService {
         return emailMapper.getCcPerEmail(map);
     }
 
-    public List<EmailVO> getAllReceivedMailList(EmployeeVO employeeVO) {
-        Map<String, String> map = new HashMap<>();
+    public List<EmailVO> getAllReceivedMailList(EmployeeVO employeeVO, PageVO pageVO) {
+        Map<String, Object> map = new HashMap<>();
         map.put("emailAddr", employeeVO.getEmplEmail());
         map.put("at", "N");
         List<EmailVO> allReceivedMailsToMe = emailMapper.getAllReceivedMailsToMe(map);
@@ -131,21 +132,55 @@ public class EmailService {
                 return emailSn1.compareTo(emailSn2) * -1;
             }
         });
-        return allReceivedMails;
+
+        pageVO.setRow();
+        pageVO.setNum((long) allReceivedMails.size());
+
+        int startIdx = Math.toIntExact(pageVO.getStartRow());
+        int endIdx = Math.min(Math.toIntExact(pageVO.getLastRow()), allReceivedMails.size());
+
+        if (startIdx <= endIdx) {
+            return allReceivedMails.subList(startIdx, endIdx);
+        } else {
+            return new ArrayList<>();
+        }
     }
 
-    public List<EmailVO> getAllSentMailsByMe(EmployeeVO employeeVO) {
-        Map<String, String> map = new HashMap<>();
+    public List<EmailVO> getAllSentMailsByMe(EmployeeVO employeeVO, PageVO pageVO) {
+        Map<String, Object> map = new HashMap<>();
         map.put("emailAddr", employeeVO.getEmplEmail());
         map.put("at", "N");
-        return emailMapper.getAllSentMailsByMe(map);
+
+        List<EmailVO> list = emailMapper.getAllSentMailsByMe(map);
+        pageVO.setRow();
+        pageVO.setNum((long) list.size());
+
+        int startIdx = Math.toIntExact(pageVO.getStartRow());
+        int endIdx = Math.min(Math.toIntExact(pageVO.getLastRow()), list.size());
+
+        if (startIdx <= endIdx) {
+            return list.subList(startIdx, endIdx);
+        } else {
+            return new ArrayList<>();
+        }
     }
 
-    public List<EmailVO> getSentMailsToMe(EmployeeVO employeeVO) {
-        Map<String, String> map = new HashMap<>();
+    public List<EmailVO> getSentMailsToMe(EmployeeVO employeeVO, PageVO pageVO) {
+        Map<String, Object> map = new HashMap<>();
         map.put("emailAddr", employeeVO.getEmplEmail());
         map.put("at", "N");
-        return emailMapper.getAllSentMailsToMe(map);
+        List<EmailVO> list = emailMapper.getAllSentMailsToMe(map);
+        pageVO.setRow();
+        pageVO.setNum((long) list.size());
+
+        int startIdx = Math.toIntExact(pageVO.getStartRow());
+        int endIdx = Math.min(Math.toIntExact(pageVO.getLastRow()), list.size());
+
+        if (startIdx <= endIdx) {
+            return list.subList(startIdx, endIdx);
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     public Map<String, String> getEmailAtMap(String code, String emailEtprCode, String at) {
@@ -221,7 +256,7 @@ public class EmailService {
         return mailSender;
     }
 
-    public List<EmailVO> inputReceivedEmails(Principal principal, EmailVO emailVO, String password) throws Exception {
+    public List<EmailVO> inputReceivedEmails(Principal principal, EmailVO emailVO, String password, PageVO pageVO) throws Exception {
         EmployeeVO employeeVO = employeeMapper.loadEmp(principal.getName());
         this.password = password;
         URLName url = getUrlName(employeeVO, password);
@@ -331,7 +366,7 @@ public class EmailService {
                 }
             }
         }
-        return setAllEmailList(employeeVO.getEmplEmail(), "N");
+        return setAllEmailList(employeeVO.getEmplEmail(), "N", pageVO);
     }
 
     private URLName getUrlName(EmployeeVO employeeVO, String password) {
@@ -346,14 +381,13 @@ public class EmailService {
             host = "pop.daum.net";
         } else if (employeeVO.getEmplEmail().contains("naver.com")) {
             password = this.password;
-            log.info(password);
             host = "pop.naver.com";
         }
         return new URLName("pop3s", host, port, "INBOX", emailAddr, password);
     }
 
-    public List<EmailVO> setAllEmailList(String emailAddr, String at) {
-        Map<String, String> map = new HashMap<>();
+    public List<EmailVO> setAllEmailList(String emailAddr, String at, PageVO pageVO) {
+        Map<String, Object> map = new HashMap<>();
         map.put("emailAddr", emailAddr);
         map.put("at", at);
         List<EmailVO> receivedMails = emailMapper.getAllReceivedMailsToMe(map);
@@ -381,6 +415,7 @@ public class EmailService {
         allMails.addAll(referencedMails);
         allMails.addAll(allSentMailsToMe);
         allMails.addAll(allSentMailsByMe);
+
         allMails.sort(new Comparator<EmailVO>() {
             @Override
             public int compare(EmailVO vo1, EmailVO vo2) {
@@ -389,7 +424,18 @@ public class EmailService {
                 return seq1.compareTo(seq2) * -1;
             }
         });
-        return allMails;
+
+        pageVO.setRow();
+        pageVO.setNum((long) allMails.size());
+
+        int startIdx = Math.toIntExact(pageVO.getStartRow());
+        int endIdx = Math.min(Math.toIntExact(pageVO.getLastRow()), allMails.size());
+
+        if (startIdx <= endIdx) {
+            return allMails.subList(startIdx, endIdx);
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     public String getEmplNmByEmplEmail(EmailVO mail) {
@@ -420,17 +466,18 @@ public class EmailService {
 
     public String sentMail(EmailVO emailVO, MultipartFile[] emailFiles, EmployeeVO employeeVO) {
         String emplEmail = employeeVO.getEmplEmail();
+        String password = this.password;
         JavaMailSenderImpl mailSender = null;
         if (emplEmail.contains("naver.com")) {
-            mailSender = naverMailSender(emplEmail, this.password);
+            mailSender = naverMailSender(emplEmail, password);
         } else if (emplEmail.contains("gmail.com")) {
             mailSender = googleMailSender(emplEmail, "zwhfanbijftbggwx");
         } else if (emplEmail.contains("daum.net")) {
-            mailSender = daumMailSender(emplEmail, this.password);
+            mailSender = daumMailSender(emplEmail, password);
         }
 
         List<String> toList = new ArrayList<>();
-        if (emailVO.getEmailToAddr() == null) {
+        if (emailVO.getEmailToAddr() == null || emailVO.getEmailToAddr() == "") {
             if (emailVO.getEmplIdToList() != null || emailVO.getEmailToAddrList() != null) {
                 List<String> emplIdToList = emailVO.getEmplIdToList();
                 for (String emplId : emplIdToList) {
@@ -460,12 +507,10 @@ public class EmailService {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            if (emailVO.getEmailToAddr() != null) {
+            if (toArr == null) {
                 helper.setTo(emailVO.getEmailToAddr());
-            } else if (!emailVO.getEmailToAddr().equals(employeeVO.getEmplEmail())) {
+            } else if (toArr != null) {
                 helper.setTo(toArr);
-            } else {
-                helper.setTo(emailVO.getEmailToAddr());
             }
             helper.setCc(ccArr);
             helper.setFrom(emplEmail);
@@ -500,6 +545,7 @@ public class EmailService {
             sendMail.setEmailFromTmprStreAt("N");
             sendMail.setEmailFromCnType(message.getContentType());
             sendMail.setEmailSn(emailVO.getEmailSn());
+            emailMapper.inputReceivedEmailsFrom(sendMail);
 
             if (emailVO.getEmailToAddr() == null) {
                 List<String> emailToAddrList = emailVO.getEmailToAddrList();
@@ -513,25 +559,34 @@ public class EmailService {
                 }
             } else {
                 sendMail.setEmailToAddr(emailVO.getEmailToAddr());
+                sendMail.setEmailToReceivedDate(new Date());
             }
+            emailMapper.inputReceivedEmailsTo(sendMail);
 
             List<String> emailCcAddrList = emailVO.getEmailCcAddrList();
-            try {
-                for (String cc : emailCcAddrList) {
-                    sendMail.setEmailCcAddr(cc);
-                    sendMail.setEmailCcReceivedDate(new Date());
+            if (!emailCcAddrList.isEmpty()) {
+                try {
+                    for (String cc : emailCcAddrList) {
+                        sendMail.setEmailCcAddr(cc);
+                        sendMail.setEmailCcReceivedDate(new Date());
+                    }
+                    emailMapper.inputReceivedEmailsCc(sendMail);
+                } catch (NullPointerException e) {
+                    e.getMessage();
                 }
-            } catch (NullPointerException e) {
-                e.getMessage();
             }
+
             sendMail.setEmailImprtncAt("N");
             sendMail.setEmailDeleteAt("N");
             sendMail.setEmailRealDeleteAt("N");
             sendMail.setEmailRedngAt("N");
             sendMail.setEmailReceivedEmplId(employeeVO.getEmplId());
+            emailMapper.inputReceivedStatus(sendMail);
+
             mailSender.send(message);
             return "success";
         } catch (MessagingException | IOException e) {
+            e.printStackTrace();
             return "fail";
         }
     }

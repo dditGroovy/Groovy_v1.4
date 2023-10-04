@@ -65,7 +65,6 @@
                , #{emailRealDeleteAt})
     </insert>
     <insert id="uploadEmailFile" parameterType="map">
-        /* 총무팀 - 공지사항 등록 파일 업로드 처리(다중) */
         INSERT INTO UPLOAD_FILE(UPLOAD_FILE_SN,
                                 UPLOAD_FILE_ETPR_CODE,
                                 UPLOAD_FILE_ORGINL_NM,
@@ -118,24 +117,24 @@
 
     <!-- 참조받은 메일함 -->
     <select id="getAllReferencedMailsToMe" resultType="emailVO" parameterType="Map">
-        SELECT distinct ef.email_etpr_code
-                      , ef.EMAIL_SN
-                      , ef.EMAIL_FROM_ADDR
-                      , ef.EMAIL_FROM_SJ
-                      , ef.EMAIL_FROM_SEND_DATE
-                      , ec.EMAIL_CC_ADDR
-                      , ec.EMAIL_CC_RECEIVED_DATE
-                      , ers.EMAIL_DELETE_AT
-                      , ers.EMAIL_IMPRTNC_AT
-                      , ers.EMAIL_REDNG_AT
-        FROM EMAIL_FROM ef
-                 left JOIN EMAIL_CC ec on ef.EMAIL_ETPR_CODE = ec.EMAIL_ETPR_CODE
-                 left join EMAIL_RECEIVED_STTUS ers on ef.EMAIL_ETPR_CODE = ers.EMAIL_ETPR_CODE
-        where ef.EMAIL_FROM_ADDR not in #{emailAddr}
-          and ec.EMAIL_CC_ADDR in #{emailAddr}
-          and ers.EMAIL_DELETE_AT = #{at}
-          and ers.EMAIL_REAL_DELETE_AT = 'N'
-        order by ef.EMAIL_ETPR_CODE desc
+        SELECT DISTINCT EF.EMAIL_ETPR_CODE
+                      , EF.EMAIL_SN
+                      , EF.EMAIL_FROM_ADDR
+                      , EF.EMAIL_FROM_SJ
+                      , EF.EMAIL_FROM_SEND_DATE
+                      , EC.EMAIL_CC_ADDR
+                      , EC.EMAIL_CC_RECEIVED_DATE
+                      , ERS.EMAIL_DELETE_AT
+                      , ERS.EMAIL_IMPRTNC_AT
+                      , ERS.EMAIL_REDNG_AT
+        FROM EMAIL_FROM EF
+                 LEFT JOIN EMAIL_CC EC ON EF.EMAIL_ETPR_CODE = EC.EMAIL_ETPR_CODE
+                 LEFT JOIN EMAIL_RECEIVED_STTUS ERS ON EF.EMAIL_ETPR_CODE = ERS.EMAIL_ETPR_CODE
+        WHERE EF.EMAIL_FROM_ADDR NOT IN #{emailAddr}
+          AND EC.EMAIL_CC_ADDR IN #{emailAddr}
+          AND ERS.EMAIL_DELETE_AT = #{at}
+          AND ERS.EMAIL_REAL_DELETE_AT = 'N'
+        ORDER BY EF.EMAIL_ETPR_CODE DESC
     </select>
 
     <!-- 내게 쓴 메일함 -->
@@ -244,7 +243,7 @@
     </select>
 
     <!-- 전체 메일 개수 -->
-    <select id="getAllMailCount" resultType="int" parameterType="String">
+    <select id="getAllMailCount" resultType="long" parameterType="String">
         SELECT COUNT(DISTINCT EMAIL_ETPR_CODE)
         FROM (SELECT EMAIL_ETPR_CODE
               FROM EMAIL_FROM
@@ -259,12 +258,38 @@
               WHERE EMAIL_CC_ADDR = #{emailAddr})
     </select>
 
+    <!-- 받은메일함 개수 -->
+    <select id="getReceivedMailCount" resultType="long" parameterType="String">
+        SELECT COUNT(DISTINCT EMAIL_ETPR_CODE)
+        FROM (SELECT EMAIL_ETPR_CODE
+              FROM EMAIL_TO
+              WHERE EMAIL_TO_ADDR = #{emailAddr}
+              UNION
+              SELECT EMAIL_ETPR_CODE
+              FROM EMAIL_CC
+              WHERE EMAIL_CC_ADDR = #{emailAddr})
+    </select>
+
+    <!-- 보낸메일함 개수 -->
+    <select id="getSentMailCount" resultType="long" parameterType="String">
+        SELECT COUNT(DISTINCT EMAIL_ETPR_CODE)
+        FROM (SELECT EF.EMAIL_ETPR_CODE
+              FROM EMAIL_FROM EF inner join EMAIL_TO ET on EF.EMAIL_ETPR_CODE = ET.EMAIL_ETPR_CODE and EF.EMAIL_FROM_ADDR = ET.EMAIL_FROM_ADDR
+              WHERE ET.EMAIL_TO_ADDR != #{emailAddr} AND EF.EMAIL_FROM_ADDR = #{emailAddr})
+    </select>
+
+    <!-- 내게쓴메일함 개수 -->
+    <select id="getSentMailToMeCount" resultType="long" parameterType="String">
+        SELECT COUNT(DISTINCT EMAIL_ETPR_CODE)
+        FROM (SELECT EF.EMAIL_ETPR_CODE
+              FROM EMAIL_FROM EF inner join EMAIL_TO ET on EF.EMAIL_ETPR_CODE = ET.EMAIL_ETPR_CODE and EF.EMAIL_FROM_ADDR = ET.EMAIL_FROM_ADDR
+              WHERE ET.EMAIL_TO_ADDR = #{emailAddr} AND EF.EMAIL_FROM_ADDR = #{emailAddr})
+    </select>
+
     <update id="modifyEmailRedngAt" parameterType="Map">
         update EMAIL_RECEIVED_STTUS
         set ${emailAtKind} = #{at}
         where EMAIL_ETPR_CODE in #{emailEtprCode}
     </update>
-
-
 </mapper>
 

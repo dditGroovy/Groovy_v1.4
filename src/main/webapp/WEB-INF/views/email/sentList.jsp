@@ -73,6 +73,27 @@
             </c:choose>
             </tbody>
         </table>
+        <div class="pagination-wrapper">
+            <ul class="pagination">
+                <li class="page-item \${pager.pre==false?'disabled':''}" value="${pageVO.pre}" id="pre">
+                    <a class="page-link" href="/email/sent?page=${pageVO.page-1}" aria-label="Previous">
+                        <span aria-hidden="true" class="color-font-high font-14">Prev</span>
+                    </a>
+                </li>
+
+                <c:forEach var="i" begin="${pageVO.startNum}" end="${pageVO.lastNum}">
+                    <li class="page-item ${pageVO.page==i? 'active':''}">
+                        <a class="page-link page-num" href="/email/sent?page=${i}">${i}</a>
+                    </li>
+                </c:forEach>
+
+                <li class="${pageVO.next?'':'disabled'}" id="next">
+                    <a href="/email/sent?page=${pageVO.page+1}" aria-label="Next">
+                        <span class="color-font-high font-14">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 <script src="${pageContext.request.contextPath}/resources/js/mailAt.js"></script>
