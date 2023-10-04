@@ -34,8 +34,8 @@
     const leaveBtn = document.getElementById('leaveBtn');
     const streamControls = document.getElementById('streamControls');
 
-    const appId = '3e5fbb869b084748968baccbcb51dd6f';
-    const token = '007eJxTYFj+gOOScYBxyLR4mceL9O+HcnAHLZpYHJ3KZams3y9SIa3AYJxqmpaUZGFmmWRgYWJuYmFpZpGUmJyclJxkapiSYpYWmSiV2hDIyBD9toaBEQpBfDaG9KL8/LJKBgYAe4kc7A==';
+    const appId = '';
+    const token = '';
     const channelName = 'groovy';
 
     const client = AgoraRTC.createClient({mode:"rtc", codec:"vp8"});
