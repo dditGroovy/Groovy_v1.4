@@ -98,8 +98,11 @@ tbody::-webkit-scrollbar-thumb,div::-webkit-scrollbar-thumb, ul::-webkit-scrollb
     grid-template-columns: repeat(2, 1fr);
     gap: 4px;
 }
-.user .btn-wrap #logout {
+.user .btn-wrap #logout, .user .btn-wrap #toHome{
     column-span: 2;
+}
+.user .btn-wrap #toHome {
+    grid-column: 1 / -1;
 }
 #videoConference {
     position: relative;}
