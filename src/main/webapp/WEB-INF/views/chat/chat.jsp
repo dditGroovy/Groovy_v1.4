@@ -286,7 +286,7 @@
                                 .then(function (maxNum) {
                                     maxNum = parseInt(maxNum) + 1;
                                     let url = '/chat';
-                                    let content = `<div class="alarmBox">
+                                    let content = `<div class="alarmListBox">
                                         <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                             <h1>[채팅]</h1>
                                             <div class="alarm-textbox">
@@ -465,7 +465,7 @@
                                 .then(function (maxNum) {
                                     maxNum = parseInt(maxNum) + 1;
                                     let url = '/chat';
-                                    let content = `<div class="alarmBox">
+                                    let content = `<div class="alarmListBox">
                                         <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                             <h1>[채팅]</h1>
                                             <p>\${emplNm}님이 채팅방에 초대하셨습니다.</p>

@@ -443,7 +443,7 @@
 
                     let url = '/sanction/document';
                     let title = document.querySelector(".main-title").innerText;
-                    let content = `<div class="alarmBox">
+                    let content = `<div class="alarmListBox">
                                     <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                         <h1>[결재 결과]</h1>
                                         <div class="alarm-textbox">

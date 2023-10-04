@@ -65,9 +65,9 @@
 			// dataType: 'text',
 			contentType: false,
 			processData: false,
-			<%--beforeSend : function(xhr) {--%>
-			<%--	xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");--%>
-			<%--},--%>
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+			},
 			success: function (notiEtprCode) {
 				console.log(notiEtprCode);
 				// 최대 알람 번호 가져오기
@@ -77,7 +77,7 @@
 							console.log("최대 알람 번호:", maxNum);
 
 							let url = '/notice/detail/' + notiEtprCode;
-							let content = `<div class="alarmBox">
+							let content = `<div class="alarmListBox">
 										<a href="\${url}" class="aTag" data-seq="\${maxNum}">
 											<h1>[전체공지]</h1>
 											<div class="alarm-textbox">

@@ -473,7 +473,7 @@
 
                     let ntcnEmplId = emplId;
                     let url = '/employee/confirm';
-                    let content = `<div class="alarmBox">
+                    let content = `<div class="alarmListBox">
                                     <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                         <h1>[서명 등록 요청]</h1>
                                         <div class="alarm-textbox">

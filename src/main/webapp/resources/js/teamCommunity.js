@@ -206,7 +206,7 @@
                                     let postWriterId = target.closest("tr").querySelector(".postWriterInfo").getAttribute("data-id");
                                     let subject = target.closest("tr").querySelector(".sntncCn").innerText;
                                     let url = '/teamCommunity';
-                                    let content = `<div class="alarmBox">
+                                    let content = `<div class="alarmListBox">
                                                                 <a href="${url}" class="aTag" data-seq="${maxNum}">
                                                                     <div class="alarm-textbox">
                                                                         [<span>${subject}</span>]에
@@ -447,7 +447,7 @@
                         maxNum = parseInt(maxNum) + 1;
 
                         let url = '/teamCommunity';
-                        let content = `<div class="alarmBox">
+                        let content = `<div class="alarmListBox">
                                                     <a href="${url}" class="aTag" data-seq="${maxNum}">
                                                     <h1>[팀 커뮤니티]</h1>
                                                     <div class="alarm-textbox">

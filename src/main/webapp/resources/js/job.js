@@ -419,12 +419,12 @@ requestBtn.addEventListener("click", (event) => {
                     let subject = formData.get("jobSj");
                     console.log(subject);
                     let url = '/job/main';
-                    let content = `<div class="alarmBox">
+                    let content = `<div class="alarmListBox">
                                     <a href="${url}" class="aTag" data-seq="${maxNum}">
                                         <h1>[업무 요청]</h1>
                                         <div class="alarm-textbox">
-                                            <p>\${emplNm}님이</p>
-                                            [<span>\${subject}</span>]
+                                            <p>${emplNm}님이</p>
+                                            [<span>${subject}</span>]
                                              <p>업무를 요청하셨습니다.</p>
                                         </div>
                                     </a>

@@ -190,7 +190,7 @@ public class AlarmHandler extends TextWebSocketHandler {
                             "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
                                 "<h1>[법인카드 신청]</h1>\n" +
                                 "<div class=\"alarm-textbox\">" +
-                                    "<p>법인카드 신청이 승인 되셨습니다.</p>" +
+                                    "<p>법인카드 신청이 승인되었습니다.</p>" +
                                 "</div>" +
                             "</a>",
                             url, seq

@@ -2,83 +2,106 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%-- 동작 위한 스타일 외엔(예: display:none 등) 전부 제가 작업하면서 편하게 보려고 임시로 먹인겁니다 ! --%>
-
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <style>
     #modifyCardInfoBtn, #saveCardInfoBtn, #cancelModifyCardInfoBtn, #disabledCardBtn {
         display: none;
     }
 </style>
+<link rel="stylesheet" href="/resources/css/admin/cardManage.css">
 <div class="content-container">
-    <header>
-        <ul>
-            <li><a href="${pageContext.request.contextPath}/card/manage">회사 카드 관리</a></li>
-            <li><a href="${pageContext.request.contextPath}/card/reservationRecords">대여 내역 관리</a></li>
-        </ul>
+    <header id="tab-header">
+        <h1><a href="${pageContext.request.contextPath}/card/manage" class="on">회사 카드 관리</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/card/reservationRecords">대여 내역 관리</a></h1>
     </header>
-    <main>
-        <h1>카드 등록</h1>
-        <div id="registerCard">
-            <form id="registerCardForm" method="post">
-                <label for="cardName">카드 이름</label>
-                <input type="text" id="cardName" name="cprCardNm" required><br/>
-                <label for="cardNo">카드 번호</label>
-                <input type="text" id="cardNo" name="cprCardNo" placeholder="0000-0000-0000-0000" required><br/>
-                <labek for="cardCom">카드사</labek>
-                <select name="cprCardChrgCmpny" id="cardCom">
-                    <option value="IBK기업은행">IBK기업은행</option>
-                    <option value="KB국민카드">KB국민카드</option>
-                    <option value="NH농협은행">NH농협은행</option>
-                    <option value="롯데카드">롯데카드</option>
-                    <option value="비씨카드">비씨카드</option>
-                    <option value="삼성카드">삼성카드</option>
-                    <option value="신한카드">신한카드</option>
-                    <option value="우리카드">우리카드</option>
-                    <option value="하나카드">하나카드</option>
-                    <option value="한국씨티은행">한국씨티은행</option>
-                    <option value="현대카드">현대카드</option>
-                </select>
-                <button id="registerCardBtn">등록</button>
-            </form>
+    <div id="registCardModal" class="modal-dim" style="display: none">
+        <div class="dim-bg"></div>
+        <div class="modal-layer card-df sm registerCard" style="display: block">
+            <div class="modal-top">
+                <div class="modal-title"><i class="icon-card"></i>카드 등록</div>
+                <button type="button" class="modal-close btn js-modal-close">
+                    <i class="icon i-close close">X</i>
+                </button>
+            </div>
+            <div class="modal-container">
+                <div id="registerCard">
+                    <form id="registerCardForm" method="post">
+                        <table class="register-table">
+                            <tr>
+                                <td class="table-title">카드 이름</td>
+                                <td><input type="text" id="cardName" class="font-14" name="cprCardNm" placeholder="카드 이름을 입력해주세요." required></td>
+                            </tr>
+                            <tr>
+                                <td class="table-title">카드 번호</td>
+                                <td><input type="text" id="cardNo" class="font-14" name="cprCardNo" placeholder="0000-0000-0000-0000" required></td>
+                            </tr>
+                            <tr>
+                                <td class="table-title">카드사</td>
+                                <td>
+                                    <select name="cprCardChrgCmpny" id="cardCom">
+                                        <option value="IBK기업은행">IBK기업은행</option>
+                                        <option value="KB국민카드">KB국민카드</option>
+                                        <option value="NH농협은행">NH농협은행</option>
+                                        <option value="롯데카드">롯데카드</option>
+                                        <option value="비씨카드">비씨카드</option>
+                                        <option value="삼성카드">삼성카드</option>
+                                        <option value="신한카드">신한카드</option>
+                                        <option value="우리카드">우리카드</option>
+                                        <option value="하나카드">하나카드</option>
+                                        <option value="한국씨티은행">한국씨티은행</option>
+                                        <option value="현대카드">현대카드</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer btn-wrapper">
+                <button type="button" id="registerCardBtn" class="btn btn-out-sm">등록</button>
+            </div>
         </div>
-        <hr/>
-        <h1>카드 목록</h1>
-        <div id="cardList"></div>
-        <hr/>
-        <h1>카드 기본 정보</h1>
-        <div id="cardInfo">
-            <button id="modifyCardInfoBtn">수정</button>
-            <button id="saveCardInfoBtn">저장</button>
-            <button id="cancelModifyCardInfoBtn">취소</button>
-            <button id="disabledCardBtn">사용불가 처리</button>
-            <form id="cardInfoForm" method="post">
-                <table border="1">
-                    <tr>
-                        <td>카드 이름</td>
-                        <td id="selectedCardName"></td>
-                    </tr>
-                    <tr>
-                        <td>카드 번호</td>
-                        <td id="selectedCardNo"></td>
-                    </tr>
-                    <tr>
-                        <td>카드 회사</td>
-                        <td id="selectedCardCom"></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-        <hr/>
-        <h1>카드 신청 미처리건 <span id="waitingListCnt" style="color: dodgerblue; font-weight: bolder">${waitingListCnt}</span>
-        </h1>
-        <div id="cardWaitingList">
-            <div id="waitingListGrid" class="ag-theme-material"></div>
-        </div>
-        <hr/>
+    </div>
 
-    </main>
+    <div class="card-wrapper">
+        <button type="button" class="card-regist color-font-md font-md font-14 btn-modal" data-name="registerCard">카드 등록 <i class="icon i-add-md"></i></button>
+        <div id="cardList"></div>
+    </div>
+
+    <hr/>
+    <h1>카드 기본 정보</h1>
+    <div id="cardInfo">
+        <button id="modifyCardInfoBtn">수정</button>
+        <button id="saveCardInfoBtn">저장</button>
+        <button id="cancelModifyCardInfoBtn">취소</button>
+        <button id="disabledCardBtn">사용불가 처리</button>
+        <form id="cardInfoForm" method="post">
+            <table border="1">
+                <tr>
+                    <td>카드 이름</td>
+                    <td id="selectedCardName"></td>
+                </tr>
+                <tr>
+                    <td>카드 번호</td>
+                    <td id="selectedCardNo"></td>
+                </tr>
+                <tr>
+                    <td>카드 회사</td>
+                    <td id="selectedCardCom"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <hr/>
+    <h1>카드 신청 미처리건 <span id="waitingListCnt" style="color: dodgerblue; font-weight: bolder">${waitingListCnt}</span>
+    </h1>
+    <div id="cardWaitingList">
+        <div id="waitingListGrid" class="ag-theme-material"></div>
+    </div>
+    <hr/>
+
 </div>
+<script src="/resources/js/modal.js"></script>
 <script>
     const cardListDiv = $("#cardList");
     const registerCardBtn = $("#registerCardBtn");
@@ -137,11 +160,11 @@
                                 console.log("최대 알람 번호:", maxNum);
                                 let ntcnEmplId = cprCardResveEmplId;
                                 let url = '/card/request';
-                                let content = `<div class="alarmBox">
+                                let content = `<div class="alarmListBox">
                                                 <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                                     <h1>[법인카드 신청]</h1>
                                                     <div class="alarm-textbox">
-                                                        <p>법인카드 신청이 승인 되셨습니다.</p>
+                                                        <p>법인카드 신청이 승인되었습니다.</p>
                                                     </div>
                                                 </a>
                                                 <button type="button" class="readBtn">읽음</button>
@@ -293,6 +316,7 @@
             contentType: false,
             success: function (result) {
                 loadAllCard();
+                document.querySelector("#registCardModal").style.display = "none";
             },
             error: function (xhr) {
                 Swal.fire({
@@ -332,7 +356,7 @@
                             codeforList += "<p>사용불가</p>"
                             break;
                         default:
-                        codeforList += "</button><br/>";
+                            codeforList += "</button>";
                     }
                 });
                 cardListDiv.html(codeforList);
