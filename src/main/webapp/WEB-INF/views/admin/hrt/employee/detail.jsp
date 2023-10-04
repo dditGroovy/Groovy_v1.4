@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<link rel="stylesheet" href="/resources/css/admin/detailEmployee.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/detailEmployee.css">
 <div class="content-container">
     <header id="tab-header">
         <h1><a href="${pageContext.request.contextPath}/employee/manageEmp" class="on">사원 관리</a></h1>
@@ -13,7 +13,6 @@
     </div>
     <div id="empDetail">
         <form action="#" method="post" id="modifyEmpForm">
-            <!-- seoju : csrf 토큰 추가-->
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <%--        <input type="hidden" name="enabled" value="1"/>--%>
             <table border="1" class="employeeTable">
@@ -136,15 +135,14 @@
 
 </div>
 <script>
-    <%--    모든 요소 (사번/입사일/이메일)제외 선택하면 val("") 처리--%>
     $("#btn-save").on("click", function () {
-        var formData = new FormData($("#modifyEmpForm")[0]);
+        let formData = new FormData($("#modifyEmpForm")[0]);
         $.ajax({
             type: "POST",
             url: "/employee/modifyEmp",
             data: formData,
-            contentType: false, // 필수
-            processData: false, // 필수
+            contentType: false,
+            processData: false,
             success: function (response) {
                 console.log("서버 응답:", response);
                 alert("사원 정보 수정 성공")
@@ -160,19 +158,12 @@
     })
 
     $("#btn-modify").on("click", function () {
-        // 우편번호 찾기 버튼 활성화
         $("#findZip").prop("hidden", false)
-        // 모든 인풋 요소 readonly 속성 제거
         let inputElements = $("#empDetail form input");
-
         inputElements.each(function () {
             $(this).removeAttr("readonly");
         });
-
-        // 저장(submit)버튼 활성화
         let saveBtn = $("#btn-save").removeAttr("hidden");
-
-        //수정 버튼 숨김
         $(this).hide();
     })
 
@@ -188,5 +179,3 @@
         }).open();
     })
 </script>
-</body>
-</html>
