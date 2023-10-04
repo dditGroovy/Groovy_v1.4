@@ -234,7 +234,7 @@ i.icon {
     flex-direction: column;
     gap: 4px;
 }
-.alarmBox a, .alarmListBox a  {
+.alarmBox a {
     height: 48px;
     display: flex;
     flex-direction: column;
