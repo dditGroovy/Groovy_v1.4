@@ -249,6 +249,7 @@ i.icon {
     gap: 4px;
     align-items: center;
     font-size: 11px;
+    height: 100%;
 }
 .readBtn {
     position: absolute;
