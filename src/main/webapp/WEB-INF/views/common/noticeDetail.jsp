@@ -63,4 +63,4 @@
     CKEDITOR.replace('editor');
     $("#editor").attr("readOnly", true);
 
-</script>
+</script>  
