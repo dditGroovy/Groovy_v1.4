@@ -36,7 +36,7 @@
                                     src="/resources/images/${noticeVO.notiCtgryIconFileStreNm}"></div>
                             <div class="notice-body">
                                 <h3 class="notice-title">${noticeVO.notiTitle}</h3>
-                                <p class="notice-content">${noticeVO.notiContent}</p>
+                                <div class="notice-content">${noticeVO.notiContent}</div>
                             </div>
                             <div class="notice-footer">
                                 <div class="box-view">
