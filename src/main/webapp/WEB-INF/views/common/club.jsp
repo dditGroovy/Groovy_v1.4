@@ -17,7 +17,7 @@
                 <div class="card card-df">
                     <a href="#" class="card-link btn-modal" data-target="${clubVO.clbEtprCode}" data-name="detailClub">
                         <div class="card-header">
-                            <div class="card-thum"><img src="/resources/images/clubclub.png"></div>
+                            <div class="card-thum"><img src="/resources/images/club/${clubVO.clbKind}.jpg"></div>
                         </div>
                         <div class="card-content">
                             <span class="club-kind badge badge-${status.count}">${clubVO.clbKind}</span>
@@ -69,17 +69,17 @@
                         <div><input type="number" name="clbPsncpa" id="clbPsncpa" class="data-box input-l modal-input">
                         </div>
                     </li>
-                    <li>
-                        <h5 class="club-title">5. 썸네일 설정</h5>
-                    </li>
-                    <li class="file-wrap">
-                        <label for="postFile" class="btn btn-free-white file-btn">
-                            <i class="icon i-file"></i>
-                            파일 첨부
-                        </label>
-                        <input type="file" name="clubFile" id="postFile">
-                        <p id="originName"></p>
-                    </li>
+<%--                    <li>--%>
+<%--                        <h5 class="club-title">5. 썸네일 설정</h5>--%>
+<%--                    </li>--%>
+<%--                    <li class="file-wrap">--%>
+<%--                        <label for="postFile" class="btn btn-free-white file-btn">--%>
+<%--                            <i class="icon i-file"></i>--%>
+<%--                            파일 첨부--%>
+<%--                        </label>--%>
+<%--                        <input type="file" name="clubFile" id="postFile">--%>
+<%--                        <p id="originName"></p>--%>
+<%--                    </li>--%>
                 </ul>
                 <div class="modal-description">
                     <p>✅ 동호회에 대한 전반적인 책임은 회사에서 지지 않습니다.</p>
@@ -102,7 +102,7 @@
         </div>
         <div class="modal-container">
             <div class="modal-thum">
-                <img src="/resources/images/clubclub.png">
+                <img src="/resources/images/clubclub.png" id="modalImg">
             </div>
             <div class="modal-content">
                 <span class="badge club-kind club-cate"></span>
@@ -139,18 +139,13 @@
 
     const postFile = document.querySelector("#postFile");
     const originName = document.querySelector("#originName");
-    postFile.addEventListener("change", function () {
-        if (postFile.value.length) {
-            originName.innerHTML = postFile.files[0].name;
-        } else {
-            originName.innerHTML = "";
-        }
-    })
-
-    form.addEventListener("submit", e => {
+    form.addEventListener("submit",e=>{
         e.preventDefault();
     })
-    proposalBtn.addEventListener("click", () => {
+    document.querySelector("#proposalClb").addEventListener("click",()=>{
+        document.querySelector("#modal-proposal").style.display = "block";
+    })
+    proposalBtn.addEventListener("click",()=>{
         form.submit();
         return false;
     })
@@ -171,8 +166,7 @@
                 url: `/club/\${clbEtprCode}`,
                 type: "GET",
                 success: function (data) {
-                    console.log(data);
-                    /*clubTitle.innerText = data[0].clbNm;*/
+                    $("#modalImg").prop("src", `/resources/images/club/\${data[0].clbKind}.jpg`)
                     clubName.innerText = data[0].clbNm;
                     clubDc.innerText = data[0].clbDc;
                     clubCate.innerText = data[0].clbKind;

@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal" var="CustomUser"/>
 <div id="sideBar" class="manageSideBar">
     <header id="header">
         <div id="profile">
@@ -55,8 +58,8 @@
             </ul>
         </div>
     </nav>
-
 </div>
+</sec:authorize>
 <script>
     var socket = null;
     $(document).ready(function() {

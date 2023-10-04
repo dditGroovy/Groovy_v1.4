@@ -81,6 +81,7 @@
 
 .card-thum img {
     width: 100%;
+    height: 60%;
     padding: 20px;
     border-radius: var(--vw-40);
 }
