@@ -379,8 +379,7 @@
             window.opener.refreshParent();
             window.close();
             Swal.fire({
-                icon: 'success',
-                title: '결재가 상신되었습니다',
+                text: '결재가 상신되었습니다',
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -435,8 +434,7 @@
             // 파일의 개수 제한
             if (data.files.length > 1) {
                 Swal.fire({
-                    icon: 'warning',
-                    title: '파일은 하나만 업로드 가능합니다',
+                    text: '파일은 하나만 업로드 가능합니다',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -446,8 +444,7 @@
             // 파일의 사이즈 제한
             if (data.files[0].size >= 1024 * 1024 * 50) {
                 Swal.fire({
-                    icon: 'warning',
-                    title: '50MB 이상인 파일은 업로드할 수 없습니다',
+                    text: '50MB 이상인 파일은 업로드할 수 없습니다',
                     showConfirmButton: false,
                     timer: 1500
                 })

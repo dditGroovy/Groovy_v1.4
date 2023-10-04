@@ -71,7 +71,7 @@
                                 <th>내용</th>
                                 <td>
                                 <textarea name="yrycUseDtlsRm" cols="30" rows="10"
-                                        ></textarea>
+                                ></textarea>
                                 </td>
                             </tr>
                         </table>
@@ -249,12 +249,10 @@
         $("#startSanction").on("click", function () {
             if (sign === 'groovy_noSign.png') {
                 Swal.fire({
-                    icon: 'warning',
-                    title: '서명 등록이 필요합니다',
+                    text: '서명 등록이 필요합니다',
                     showConfirmButton: false,
                     timer: 1500
                 })
-                return;
                 return;
             }
             $("#modifyVacation").prop("disabled", true)
@@ -291,7 +289,20 @@
         $("#requestCard").on("click", function () {
             event.preventDefault();
             if (validateDate("vacationRequestForm", startDateName, endDateName) && validateEmpty("vacationRequestForm")) {
-                submitAjax("vacationRequestForm");
+                Swal.fire({
+                    text: "신청하시겠습니까??",
+                    showCancelButton: true,
+                    confirmButtonColor: '#5796F3FF',
+                    cancelButtonColor: '#e1e1e1',
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        submitAjax("vacationRequestForm");
+                    } else {
+                        return false;
+                    }
+                })
             }
         })
 
@@ -303,8 +314,7 @@
                 data: formData,
                 success: function (res) {
                     Swal.fire({
-                        icon: 'success',
-                        title: '신청이 완료되었습니다',
+                        text: '신청이 완료되었습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -314,8 +324,7 @@
                 },
                 error: function (error) {
                     Swal.fire({
-                        icon: 'warning',
-                        title: '신청에 실패하였습니다',
+                        text: '신청에 실패하였습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })

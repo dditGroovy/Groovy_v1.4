@@ -434,6 +434,11 @@
             success: function (data) {
                 notisntncSj.value = "";
                 notisntncCn.value = "";
+                Swal.fire({
+                    text: '공지 등록 완료!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 modalClose();
                 loadTeamNotiFnc();
 
@@ -622,7 +627,11 @@
                 newDiv.append(newBtn);
                 optionBody.append(newDiv);
             }else {
-                alert("옵션은 5개까지 추가할 수 있습니다.");
+                Swal.fire({
+                    text: '옵션은 최대 5개까지 추가할 수 있습니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 document.querySelector("#add-option").disabled = true
             }
         }
@@ -655,8 +664,13 @@
                     const inputs = inputVoteRegister.querySelectorAll("input");
                     inputs.forEach(item => {
                         item.value = "";
+                        Swal.fire({
+                            text: '투표 등록 완료!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                         modalClose();
-                        location.href = location.href;
+                        loadTeamVote()
                     })
                 },
                 error: function(xhr) {

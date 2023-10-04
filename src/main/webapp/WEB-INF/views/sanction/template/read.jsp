@@ -279,16 +279,14 @@
                     alarm('승인');
                     $(".sanctionBtn").prop("hidden", true);
                     Swal.fire({
-                        icon: 'success',
-                        title: '승인 처리되었습니다.',
+                        text: '승인 처리되었습니다.',
                         showConfirmButton: false,
                         timer: 1500
                     })
                 },
                 error: function (xhr) {
                     Swal.fire({
-                        icon: 'warning',
-                        title: '승인 처리에 실패하였습니다',
+                        text: '승인 처리에 실패하였습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -332,8 +330,7 @@
                     alarm('최종승인');
                     $(".sanctionBtn").prop("hidden", true);
                     Swal.fire({
-                        icon: 'success',
-                        title: '최종 승인 처리되었습니다',
+                        text: '최종 승인 처리되었습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -343,8 +340,7 @@
                 },
                 error: function (xhr) {
                     Swal.fire({
-                        icon: 'warning',
-                        title: '승인 처리에 실패하였습니다',
+                        text: '승인 처리에 실패하였습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -399,8 +395,7 @@
                     let returnResnElement = document.getElementById("returnResn");
                     returnResnElement.innerHTML = `<div class="form-label"> 반려 사유 </div><p class="file-content form-out-content">\${rejectReason}</p>`;
                     Swal.fire({
-                        icon: 'success',
-                        title: '반려 처리되었습니다',
+                        text: '반려 처리되었습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -409,8 +404,7 @@
                 },
                 error: function (xhr) {
                     Swal.fire({
-                        icon: 'warning',
-                        title: '반려 처리에 실패하였습니다',
+                        text: '반려 처리에 실패하였습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -425,8 +419,7 @@
                 type: 'PUT',
                 success: function (data) {
                     Swal.fire({
-                        icon: 'success',
-                        title: '회수 처리되었습니다',
+                        text: '회수 처리되었습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -435,8 +428,7 @@
                 },
                 error: function (xhr) {
                     Swal.fire({
-                        icon: 'warning',
-                        title: '회수 처리에 실패하였습니다',
+                        text: '회수 처리에 실패하였습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })

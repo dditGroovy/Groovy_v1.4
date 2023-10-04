@@ -44,7 +44,7 @@
             </button>
         </div>
         <div class="modal-container">
-            <form action="${pageContext.request.contextPath}/club/inputClub" method="post" id="proposal" enctype="multipart/form-data">
+            <form action="${pageContext.request.contextPath}/club/inputClub" method="post" id="proposal">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <ul>
                     <li>
@@ -69,17 +69,17 @@
                         <div><input type="number" name="clbPsncpa" id="clbPsncpa" class="data-box input-l modal-input">
                         </div>
                     </li>
-<%--                    <li>--%>
-<%--                        <h5 class="club-title">5. 썸네일 설정</h5>--%>
-<%--                    </li>--%>
-<%--                    <li class="file-wrap">--%>
-<%--                        <label for="postFile" class="btn btn-free-white file-btn">--%>
-<%--                            <i class="icon i-file"></i>--%>
-<%--                            파일 첨부--%>
-<%--                        </label>--%>
-<%--                        <input type="file" name="clubFile" id="postFile">--%>
-<%--                        <p id="originName"></p>--%>
-<%--                    </li>--%>
+                    <%--                    <li>--%>
+                    <%--                        <h5 class="club-title">5. 썸네일 설정</h5>--%>
+                    <%--                    </li>--%>
+                    <%--                    <li class="file-wrap">--%>
+                    <%--                        <label for="postFile" class="btn btn-free-white file-btn">--%>
+                    <%--                            <i class="icon i-file"></i>--%>
+                    <%--                            파일 첨부--%>
+                    <%--                        </label>--%>
+                    <%--                        <input type="file" name="clubFile" id="postFile">--%>
+                    <%--                        <p id="originName"></p>--%>
+                    <%--                    </li>--%>
                 </ul>
                 <div class="modal-description">
                     <p>✅ 동호회에 대한 전반적인 책임은 회사에서 지지 않습니다.</p>
@@ -102,7 +102,7 @@
         </div>
         <div class="modal-container">
             <div class="modal-thum">
-                <img src="/resources/images/clubclub.png" id="modalImg">
+                <img src="" id="modalImg">
             </div>
             <div class="modal-content">
                 <span class="badge club-kind club-cate"></span>
@@ -139,14 +139,27 @@
 
     const postFile = document.querySelector("#postFile");
     const originName = document.querySelector("#originName");
-    form.addEventListener("submit",e=>{
+    form.addEventListener("submit", e => {
         e.preventDefault();
     })
-    document.querySelector("#proposalClb").addEventListener("click",()=>{
+    document.querySelector("#proposalClb").addEventListener("click", () => {
         document.querySelector("#modal-proposal").style.display = "block";
     })
-    proposalBtn.addEventListener("click",()=>{
-        form.submit();
+    proposalBtn.addEventListener("click", () => {
+        Swal.fire({
+            text: "제안하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: '#5796F3FF',
+            cancelButtonColor: '#e1e1e1',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            } else {
+                return false;
+            }
+        })
         return false;
     })
     const close = document.querySelectorAll(".close");
@@ -197,6 +210,13 @@
                     chatBtn.style.display = "none";
                     joinBtn.style.display = "none";
                     leaveBtn.style.display = "block";
+
+                    Swal.fire({
+                        text: '가입을 환영합니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+
                 },
                 error: function (request, status, error) {
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -215,6 +235,12 @@
                     chatBtn.style.display = "block";
                     joinBtn.style.display = "block";
                     leaveBtn.style.display = "none";
+
+                    Swal.fire({
+                        text: '다음에 또 만나요',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 },
                 error: function (request, status, error) {
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);

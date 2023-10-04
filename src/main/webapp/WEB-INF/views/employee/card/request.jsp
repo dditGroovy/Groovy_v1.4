@@ -234,8 +234,7 @@
         $("#startSanction").on("click", function () {
             if (sign === 'groovy_noSign.png') {
                 Swal.fire({
-                    icon: 'warning',
-                    title: '서명 등록이 필요합니다',
+                    text: '서명 등록이 필요합니다',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -258,7 +257,20 @@
         $("#requestCard").on("click", function () {
             event.preventDefault();
             if (validateDate("cardRequestForm", startDateName, endDateName) && validateEmpty("cardRequestForm")) {
-                submitAjax("cardRequestForm");
+                Swal.fire({
+                    text: "신청하시겠습니까??",
+                    showCancelButton: true,
+                    confirmButtonColor: '#5796F3FF',
+                    cancelButtonColor: '#e1e1e1',
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        submitAjax("cardRequestForm");
+                    } else {
+                        return false;
+                    }
+                })
             }
         })
 
@@ -270,19 +282,17 @@
                 data: formData,
                 success: function (res) {
                     Swal.fire({
-                        icon: 'success',
-                        title: '신청이 완료되었습니다',
+                        text: '신청이 완료되었습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
                     modalClose()
                     resetModal();
-                    location.reload();
+                    loadRecord()
                 },
                 error: function (error) {
                     Swal.fire({
-                        icon: 'warning',
-                        title: '신청에 실패하였습니다',
+                        text: '신청에 실패하였습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
