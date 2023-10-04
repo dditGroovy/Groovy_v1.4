@@ -72,7 +72,6 @@ public class ChatController {
     @GetMapping(value = "/loadNewRoomName/{chttRoomNo}", produces = "application/text;charset=utf8")
     @ResponseBody
     public String loadNewRoomName(@PathVariable int chttRoomNo) {
-        log.info("{}", service.loadNewRoomName(chttRoomNo));
         return service.loadNewRoomName(chttRoomNo);
     }
 }
