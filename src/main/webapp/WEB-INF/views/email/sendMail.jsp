@@ -212,7 +212,7 @@
                 const value = emailAddrInput.value;
                 const regExpEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
                 if (!regExpEmail.test(value)) {
-                    alert("이메일 형식이 아닙니다. 다시 입력해주세요.");
+                    alert("이메일 형식이 아닙니다 다시 입력해주세요");
                     emailAddrInput.value = '';
                     return;
                 }
@@ -338,13 +338,13 @@
     /* 첨부파일 검증 */
     function validation(file) {
         if (file.name.length > 100) {
-            alert("파일명이 100자 이상인 파일은 제외되었습니다.");
+            alert("파일명이 100자 이상인 파일은 제외되었습니다");
             return false;
         } else if (file.size > (100 * 1024 * 1024)) {
-            alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
+            alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다");
             return false;
         } else if (file.name.lastIndexOf('.') == -1) {
-            alert("확장자가 없는 파일은 제외되었습니다.");
+            alert("확장자가 없는 파일은 제외되었습니다");
             return false;
         } else {
             return true;

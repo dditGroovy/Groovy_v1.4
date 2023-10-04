@@ -13,15 +13,13 @@
             <li class="mail"><a href="/email/trash">휴지통</a></li>
         </ul>
     </nav>
-    <form action="#" method="get">
-        <div id="search" class="search input-free-white">
-            <input type="text" name="searchName" placeholder="검색어를 입력하세요."/>
-            <button type="submit" id="findMail" class="btn-search btn-flat btn">검색</button>
-        </div>
-    </form>
+    <div id="search" class="search input-free-white">
+        <input type="text" name="searchName" placeholder="제목을 입력하세요"/>
+        <button type="submit" id="findMail" class="btn-search btn-flat btn">검색</button>
+    </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const currentPath = window.location.pathname;
         const target = document.querySelectorAll(".mailnavWrap nav a");
 
@@ -35,7 +33,7 @@
     const target = document.querySelectorAll(".mailnavWrap nav a");
 
     target.forEach(link => {
-        link.addEventListener("click", function(event) {
+        link.addEventListener("click", function (event) {
             event.preventDefault(); // 기본 동작(페이지 이동) 막기
 
             target.forEach(item => {
