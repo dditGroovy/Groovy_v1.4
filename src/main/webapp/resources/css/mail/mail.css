@@ -1,4 +1,4 @@
-@import "../commonStyle.css";
+/*@import "../commonStyle.css";*/
 /*  공통  */
 .writeWrap {
     display: flex;
@@ -237,4 +237,99 @@ input[type=checkbox]{outline: none}
 /*ck editor*/
 #cke_1_toolbox {
     display: flex !important;
+}
+
+/*  메일 읽기   */
+.contentWrap.read-wrap {
+    padding: var(--vh-24) var(--vw-48);
+    height: unset !important;
+}
+.content-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.mail-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.mail-title > a {
+    display: flex;
+    align-items: center;
+}
+.mail-cnt-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.mail-cnt {
+    font-size: 14px;
+    color: var(--color-font-row);
+}
+.unread-mail {
+    position: relative;
+    color: var(--color-main);
+}
+.unread-mail::after {
+    content: "/";
+    position: absolute;
+    right: -6px;
+    color: var(--color-font-row);
+}
+.delete-btn {
+    padding: 4px 12px;
+    border-radius: 4px !important;
+}
+.mail-view-wrap {
+    padding: var(--vh-24) 0;
+}
+.mail-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-16);
+}
+.mail-header .mail-view-title {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.mail-header .mail-view-title .title {
+    font-size: 24px;
+    font-family: var(--color-font-high);
+}
+.mail-header .mail-view-title .mail-date {
+    font-size: 14px;
+    color: var(--color-font-md);
+    font-family: var(--font-md);
+}
+.mail-header .mail-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.mail-option {
+    height: var(--vh-32);
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+.mail-option .title {
+    font-size: 14px;
+}
+.mail-option .button-option {
+    height: 100%;
+    padding: 0 var(--vw-32);
+    border-radius: var(--size-32);
+    background: var(--color-bg-sky);
+    font-size: 11px;
+    border: 1px solid var(--color-stroke);
+}
+.mail-body .mail-view {
+    padding: var(--vh-48) 0;
+    min-height: calc((400/var(--vh))*100vh);
+}
+#emailFromCn {
+    line-height: 1.2;
+    color: var(--color-font-high);
 }
