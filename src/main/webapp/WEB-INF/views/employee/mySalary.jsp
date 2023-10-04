@@ -189,7 +189,7 @@
                 }
             },
             error: function (xhr) {
-                console.log(xhr.responseText);
+
             }
         })
     }
@@ -204,7 +204,7 @@
             success: function (result) {
             },
             error: function (xhr) {
-                console.log(xhr.responseText);
+
             }
         });
     });
