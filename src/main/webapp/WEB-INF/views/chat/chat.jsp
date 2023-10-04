@@ -88,7 +88,6 @@
 
     connectToStomp().then(function () {
         $("#chatRoom").on("keyup", "#msg", function (event) {
-            console.log($("#msg").val())
             if (event.keyCode === 13) {
                 sendMessage();
             }
@@ -116,7 +115,6 @@
             }
 
             client.send('/public/chat/message', {}, JSON.stringify(chatVO));
-            console.log("chatVO", chatVO);
             $.ajax({
                 url: "/chat/inputMessage",
                 type: "post",
@@ -213,38 +211,34 @@
             msg.val('');
 
         }
+
         $("#newBtn").on("click",function(){
             $("#createRoomBtn").show();
             $("#inviteEmplBtn").hide();
         });
-        $("#chatRoom").on("click", "#inviteBtn",function () {
+
+        $("#chatRoom").on("click", "#inviteBtn", function () {
             modalOpen("createRoom");
+            $(".receive").html("");
+            $("input[name='employees']").each(function () {
+                let emplId = $(this).attr("id");
+                    if (chttRoomMem.includes(emplId)) {
+                        $(this).prop("disabled", true);
+                    } else {
+                        $(this).prop("disabled", false);
+                    }
+            });
             $("#createRoomBtn").hide();
             $("#inviteEmplBtn").show();
+
         })
 
         $("#inviteEmplBtn").on("click", function () {
-            $("input[name='employees']").each(function () {
-                let employees = $(this).val();
-                let splitResult = employees.split("/");
-                if (splitResult.length === 2) {
-                    let emplId = splitResult[0];
-                    if (chttRoomMem.includes(emplId)) {
-                        // 현재 채팅 멤버에 포함된 경우 비활성화
-                        $(this).prop("disabled", true);
-                    }
-                }
-            });
-
             let selectedEmplIds = [];
             $("input[name='employees']:checked").each(function () {
-                let employees = $(this).val();
-                let splitResult = employees.split("/");
-                if (splitResult.length === 2) {
-                    let emplId = splitResult[0];
-                    emplsToInvite.push(emplId);
-                    selectedEmplIds.push(emplId);
-                }
+                let emplId = $(this).attr("id");
+                emplsToInvite.push(emplId);
+                selectedEmplIds.push(emplId);
             });
 
             let newMem = {
@@ -307,6 +301,13 @@
                                             }
                                             loadRoomList();
                                             modalClose();
+                                            Swal.fire({
+                                                position: 'top',
+                                                icon: 'success',
+                                                text: '채팅방 초대를 완료했습니다',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            })
 
                                         },
                                         error: function (xhr) {
@@ -420,23 +421,20 @@
         }
 
         $("#createRoomBtn").click(function () {
+            $(".receive").html("");
             let roomMemList = [];
             let selectedEmplIds = [];
 
             $("input[name='employees']:checked").each(function () {
-                let employees = $(this).val()
-                let splitResult = employees.split("/");
+                let emplId = $(this).attr("id");
+                let emplNm = $(this).val();
 
-                if (splitResult.length === 2) {
-                    let emplId = splitResult[0];
-                    let emplNm = splitResult[1];
-                    selectedEmplIds.push(emplId);
-                    let EmployeeVO = {
-                        emplId: emplId,
-                        emplNm: emplNm
-                    };
-                    roomMemList.push(EmployeeVO);
-                }
+                selectedEmplIds.push(emplId);
+                let EmployeeVO = {
+                    emplId: emplId,
+                    emplNm: emplNm
+                };
+                roomMemList.push(EmployeeVO);
             });
 
             if(roomMemList.length > 0) {
@@ -615,7 +613,8 @@
             let input = $("<input>").attr({
                 type: "checkbox",
                 name: "employees",
-                value: employee.emplId + "/" + employee.emplNm
+                id: employee.emplId,
+                value: employee.emplNm
             });
             label.append(input);
             label.append(img);
@@ -628,47 +627,56 @@
 
     /*  조직도 */
     const modal = $("#modal");
+
     modal.on("click",".department > a",function(){
         $(".department").removeClass("on");
         $(this).parent(".department").toggleClass("on");
     })
-    modal.on("click","label",function(){
+
+    modal.on("click", "label", function () {
         const employees = $(this).find("input[type=checkbox]");
-        let str = ``;
-        if(employees.is(':checked')){
-            const val = employees.attr("value");
-            let parts = val.split("/");
-            const emplId = parts[0];
-            const emplNm = parts[1];
+        if (employees.is(':disabled')) {
+            Swal.fire({
+                position: 'top',
+                icon: 'warning',
+                text: '기존 채팅방 멤버는 선택할 수 없습니다',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else {
+            employees.prop("checked", !employees.prop("checked"));
+            updateSelectedMembers();
+        }
+    });
+
+    function updateSelectedMembers() {
+        $(".receive").html("");
+        $("input[name='employees']:checked").each(function () {
+            let emplId = $(this).attr("id");
+            let emplNm = $(this).val();
 
             let empl = {
                 emplId,
                 emplNm
-            }
-            str += `<span class="badge emplBadge" data-id="\${empl.emplId}"> \${empl.emplNm} <button type="button" class="close-empl btn"><i class="icon i-close"></i></button> </span>`;
+            };
+
+            let str = `<span class="badge emplBadge" data-id="\${empl.emplId}"> \${empl.emplNm} <button type="button" class="close-empl btn"><i class="icon i-close"></i></button> </span>`;
             $(".receive").append(str);
-        }
-    })
+        });
+    }
+
     modal.on("click",".close-empl",function(){
+        let selectedEmpl = $(this).parent("span").data("id");
+        $(`#\${selectedEmpl}`).prop("checked", false);
         $(this).parent("span").remove();
+        updateSelectedMembers();
     })
+
     $(".close").on("click",function(){
+        $("input[name='employees']").prop("checked", false);
+        $("input[name='employees']").prop("disabled", false);
         $(".department").removeClass("on");
         $(".receive").html("");
     })
-    /*const checkboxes = popup.document.querySelectorAll("input[name=orgCheckbox]");
-    let str = ``;
-    checkboxes.forEach((checkbox) => {
-        if (checkbox.checked) {
-            const label = checkbox.closest("label");
-            const emplId = checkbox.id;
-            const emplNm = label.querySelector("span").innerText;
 
-            let empl = {
-                emplId,
-                emplNm
-            }
-            str += `<span data-id="${empl.emplId}"> ${empl.emplNm} <button type="button" class="close-empl btn">X</button> </span>`;
-        }
-    });*/
 </script>
