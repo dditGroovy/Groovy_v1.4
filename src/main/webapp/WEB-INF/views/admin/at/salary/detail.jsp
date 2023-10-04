@@ -74,7 +74,8 @@
     let tariffList;
     let id = document.querySelector("a").getAttribute("data-id");
     let yearSelect = document.querySelector("#yearSelect");
-    let flag = true;
+    let pdfCount = 0;
+    let mailCount = 0;
 
     getAllYear();
 
@@ -312,19 +313,27 @@
             doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
 
             let fileName = `\${r.salaryDtsmtEtprCode}.pdf`;
+
+            let data = {
+                etprCode: `\${r.salaryDtsmtEtprCode}`,
+                datauri: doc.output('datauristring')
+            };
+            let dataLength = Object.keys(data).length;
+
             $.ajax({
                 url: "/salary/uploadFile",
                 type: 'post',
-                data: JSON.stringify({
-                    etprCode: `\${r.salaryDtsmtEtprCode}`,
-                    datauri: doc.output('datauristring')
-                }),
+                data: JSON.stringify(data),
                 contentType: 'application/json',
                 success: function (result) {
                     if (result === "success") {
-                        if (flag) {
-                            alert("급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.");
-                            flag = false;
+                        pdfCount++;
+                        if (dataLength === pdfCount) {
+                            Swal.fire({
+                                text: '급여명세서 생성이 완료되었습니다. 다운로드 및 일괄전송이 가능합니다.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
                         }
                     }
                 },
@@ -399,12 +408,14 @@
         month = month < 10 ? "0" + month : month;
         let date = year + month
 
+        let data = {
+            data: emplIdJson,
+            date: date
+        }
+
         $.ajax({
             url: "/salary/email",
-            data: {
-                data: emplIdJson,
-                date: date
-            },
+            data: data,
             type: 'post',
             success: function (result) {
                 if (result === "success") {
@@ -412,7 +423,7 @@
                         text: '메일 전송을 완료했습니다.',
                         showConfirmButton: false,
                         timer: 1500
-                    })
+                    });
                 }
             },
             error: function (xhr, status, error) {
@@ -421,7 +432,6 @@
                 console.log("error: " + xhr.error);
             }
         });
-
     })
 
 </script>

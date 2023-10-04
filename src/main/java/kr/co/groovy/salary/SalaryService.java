@@ -302,8 +302,7 @@ public class SalaryService {
                 MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
 
                 EmployeeVO toEmployee = employeeMapper.loadEmp(emplId);
-                String toEmail = toEmployee.getEmplEmail();
-                emailVO.setEmailToAddr(toEmail);
+                emailVO.setEmailToAddr(toEmployee.getEmplEmail());
                 emailVO.setEmailFromSj(date.substring(0, 2) + "년 " + date.substring(2) + "월 " + toEmployee.getEmplNm() + "님 급여명세서 보내드립니다.");
                 emailVO.setEmailFromSendDate(new Date());
                 emailVO.setEmailFromCn("");

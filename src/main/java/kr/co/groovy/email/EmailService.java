@@ -373,9 +373,9 @@ public class EmailService {
         String host = null;
         int port = 995;
         String emailAddr = employeeVO.getEmplEmail();
-        if (employeeVO.getEmplEmail().contains("gmail.com")) {
-            password = "zwhfanbijftbggwx";
-            host = "pop.gmail.com";
+        if (employeeVO.getEmplEmail().contains("noreply")) {
+            password = "zwhfanbijftbggwx@1";
+            host = "pop.daum.net";
         } else if (employeeVO.getEmplEmail().contains("daum.net")) {
             password = this.password;
             host = "pop.daum.net";
@@ -470,13 +470,14 @@ public class EmailService {
         JavaMailSenderImpl mailSender = null;
         if (emplEmail.contains("naver.com")) {
             mailSender = naverMailSender(emplEmail, password);
-        } else if (emplEmail.contains("gmail.com")) {
-            mailSender = googleMailSender(emplEmail, "zwhfanbijftbggwx");
+        } else if (emplEmail.contains("noreply")) {
+            mailSender = daumMailSender(emplEmail, "zwhfanbijftbggwx@1");
         } else if (emplEmail.contains("daum.net")) {
             mailSender = daumMailSender(emplEmail, password);
         }
 
         List<String> toList = new ArrayList<>();
+        String[] toArr;
         if (emailVO.getEmailToAddr() == null || emailVO.getEmailToAddr() == "") {
             if (emailVO.getEmplIdToList() != null || emailVO.getEmailToAddrList() != null) {
                 List<String> emplIdToList = emailVO.getEmplIdToList();
@@ -488,8 +489,10 @@ public class EmailService {
                 toList.addAll(emplIdToList);
                 toList.addAll(emailVO.getEmailToAddrList());
             }
+            toArr = toList.toArray(new String[0]);
+        } else {
+            toArr = null;
         }
-        String[] toArr = toList.toArray(new String[0]);
 
         List<String> ccList = new ArrayList<>();
         if (emailVO.getEmplIdCcList() != null || emailVO.getEmailCcAddrList() != null) {
@@ -508,8 +511,11 @@ public class EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             if (toArr == null) {
+                log.info("toArr == null");
+                log.info(emailVO.getEmailToAddr());
                 helper.setTo(emailVO.getEmailToAddr());
             } else if (toArr != null) {
+                log.info("toArr != null");
                 helper.setTo(toArr);
             }
             helper.setCc(ccArr);
@@ -564,7 +570,7 @@ public class EmailService {
             emailMapper.inputReceivedEmailsTo(sendMail);
 
             List<String> emailCcAddrList = emailVO.getEmailCcAddrList();
-            if (!emailCcAddrList.isEmpty()) {
+            if ((emailCcAddrList != null) && !emailCcAddrList.isEmpty()) {
                 try {
                     for (String cc : emailCcAddrList) {
                         sendMail.setEmailCcAddr(cc);

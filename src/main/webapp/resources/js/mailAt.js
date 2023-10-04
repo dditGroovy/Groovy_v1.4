@@ -18,7 +18,6 @@ function modifyTableAt(td) {
             type: 'put',
             data: at,
             success: function (result) {
-                console.log(result);
                 at = result;
                 if (at === "Y") {
                     td.innerHTML = '<i class="icon i-mail-read mail-icon" data-at="Y"></i>'

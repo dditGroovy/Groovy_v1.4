@@ -159,8 +159,8 @@ public class SalaryController {
 
     @PostMapping("/email")
     @ResponseBody
-    public String sentEmail(Principal principal, @RequestParam String data, @RequestParam String date) throws Exception {
-        return salaryService.sentEmails(principal, data, date);
+    public String sentEmail(Principal principal, @RequestParam Map<String, String> map) throws Exception {
+        return salaryService.sentEmails(principal, map.get("data"), map.get("date"));
     }
 
 }
