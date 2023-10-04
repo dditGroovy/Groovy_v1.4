@@ -111,7 +111,7 @@
         FROM CHTT_MBR
         WHERE CHTT_ROOM_NO = #{chttRoomNo}
     </select>
-    
+
     <insert id="inviteEmpl" parameterType="chatVO">
         INSERT INTO CHTT_MBR
         VALUES (#{chttRoomNo}, #{chttMbrEmplId})
@@ -123,5 +123,10 @@
         WHERE CHTT_ROOM_NO = #{chttRoomNo}
     </update>
 
+    <select id="loadNewRoomName" resultType="String">
+        SELECT CHTT_ROOM_NM
+        FROM CHTT_ROOM
+        WHERE CHTT_ROOM_NO = #{chttRoomNo}
+    </select>
 
 </mapper>

@@ -32,4 +32,6 @@ public interface ChatMapper {
 
     int modifyRoomNm(ChatRoomVO chatRoomVO);
 
+    String loadNewRoomName(int chttRoomNo);
+
 }

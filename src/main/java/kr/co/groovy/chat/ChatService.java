@@ -43,8 +43,12 @@ public class ChatService {
         return chatMapper.loadRoomMessages(chttRoomNo);
     }
 
-    List<String> loadRoomMembers(int chttRoomNo) {
+    public List<String> loadRoomMembers(int chttRoomNo) {
         return chatMapper.loadRoomMembers(chttRoomNo);
+    }
+
+    public String loadNewRoomName(int chttRoomNo) {
+        return chatMapper.loadNewRoomName(chttRoomNo);
     }
 
     int inviteEmpl(Map<String, Object> newMem) {

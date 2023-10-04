@@ -87,7 +87,7 @@
     }
 
     connectToStomp().then(function () {
-        $("#chatRoom").on("keyup", "#msg",function (event) {
+        $("#chatRoom").on("keyup", "#msg", function (event) {
             console.log($("#msg").val())
             if (event.keyCode === 13) {
                 sendMessage();
@@ -125,13 +125,12 @@
                 success: function (result) {
                 },
                 error: function (request, status, error) {
-                    alert("채팅 전송 실패")
                 }
             })
             msg.val('');
         }
 
-        function enterRoom(currentRoomNo, currentRoomNm,chttRoomTy) {
+        function enterRoom(currentRoomNo, currentRoomNm, chttRoomTy) {
             emplsToInvite = [];
             chttRoomMem = [];
             $("input[type='checkbox'][name='employees']").prop("disabled", false).prop("checked", false);
@@ -142,7 +141,7 @@
             $("#chatRoom").append(`
                 <div id="msgArea">
                             <div class="content-header">
-                                <h3 class="chat-user-info">\${currentRoomNm}</h3>
+                                <h3 class="chat-user-info" id="\${currentRoomNo}">\${currentRoomNm}</h3>
                                 <button type="button" id="inviteBtn" class="btn invite-chat btn-modal" data-name="inviteEmpl">채팅방 초대</button>
                             </div>
                 <div class="content-body">
@@ -152,11 +151,11 @@
                                                 <input type="text" id="msg">
                                                 <button type="button" id="sendBtn" class="btn">전송</button>
                                             </div>
-            `)}else {
+            `)} else {
                 $("#chatRoom").append(`
                 <div id="msgArea">
                             <div class="content-header">
-                                <h3 class="chat-user-info">\${currentRoomNm}</h3>
+                                <h3 class="chat-user-info" id="\${currentRoomNo}">\${currentRoomNm}</h3>
                             </div>
                 <div class="content-body">
                 <div class="myroom" id="room\${currentRoomNo}"></div>
@@ -190,7 +189,7 @@
                         </div>`;
                             $(`#room\${currentRoomNo}`).append(code);
                         }
-                       /* scrollToBottom();*/
+                        scrollToBottom();
                     });
                 },
                 error: function (request, status, error) {
@@ -207,7 +206,7 @@
                     })
                 },
                 error: function (request, status, error) {
-                    alert("채팅방 멤버 로드 실패")
+
                 }
             })
 
@@ -225,6 +224,18 @@
         })
 
         $("#inviteEmplBtn").on("click", function () {
+            $("input[name='employees']").each(function () {
+                let employees = $(this).val();
+                let splitResult = employees.split("/");
+                if (splitResult.length === 2) {
+                    let emplId = splitResult[0];
+                    if (chttRoomMem.includes(emplId)) {
+                        // 현재 채팅 멤버에 포함된 경우 비활성화
+                        $(this).prop("disabled", true);
+                    }
+                }
+            });
+
             let selectedEmplIds = [];
             $("input[name='employees']:checked").each(function () {
                 let employees = $(this).val();
@@ -250,6 +261,19 @@
                     contentType: "application/json;charset:utf-8",
                     success: function (result) {
                         if (result == 1) {
+
+                            $.ajax({
+                                url : `/chat/loadNewRoomName/\${currentRoomNo}`,
+                                type : 'get',
+                                success : function(newName) {
+                                    let roomName = document.getElementById(currentRoomNo);
+                                    roomName.innerText = newName;
+                                },
+                                error : function (xhr) {
+                                    console.log(xhr.status);
+                                }
+                            })
+
                             //알림 보내기
                             $.get("/alarm/getMaxAlarm")
                                 .then(function (maxNum) {
@@ -282,7 +306,8 @@
                                                 socket.send(msg);
                                             }
                                             loadRoomList();
-                                            alert("초대 성공");
+                                            modalClose();
+
                                         },
                                         error: function (xhr) {
                                             console.log(xhr.status);
@@ -293,16 +318,34 @@
                                     console.log("최대 알람 번호 가져오기 오류:", error);
                                 });
                         } else {
-                            alert("초대 실패")
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'error',
+                                text: '채팅방 초대를 실패했습니다',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
                         }
                     },
                     error: function (request, status, error) {
-                        alert("오류로 인한 초대 실패")
+                        Swal.fire({
+                            position: 'top',
+                            icon: 'error',
+                            text: '채팅방 초대를 실패했습니다',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 });
                 $("input[name='employees']:checked").prop("checked", false);
             } else {
-                alert("초대할 사원을 선택해주세요.")
+                Swal.fire({
+                    position: 'top',
+                    icon: 'warning',
+                    text: '초대할 사원을 선택해주세요',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             }
         });
 
@@ -375,46 +418,7 @@
             let chatRoom = $("#chatRoomList" + chttRoomNo);
             chatRoom.find("#latestChttCn").text(latestChttCn);
         }
-            let groupedEmployees = {};
-            let deptNm
-            <c:forEach items="${emplListForChat}" var="employee">
-            deptNm = "${employee.deptNm}";
-            if (!groupedEmployees[deptNm]) {
-                groupedEmployees[deptNm] = [];
-            }
-            groupedEmployees[deptNm].push({
-                emplId: "${employee.emplId}",
-                emplNm: "${employee.emplNm}",
-                clsfNm: "${employee.clsfNm}",
-                proflPhotoFileStreNm: "${employee.proflPhotoFileStreNm}"
-            });
-            </c:forEach>
 
-            let ul = $("#employeeList");
-            for (let deptNm in groupedEmployees) {
-                let li = $("<li class='department'>");
-                let a = $("<a href='#'>").text(deptNm);
-                li.append(a);
-                ul.append(li);
-
-                let ulSub = $("<ul>");
-                groupedEmployees[deptNm].forEach(function (employee) {
-                    let liSub = $("<li>");
-                    let label = $("<label>");
-                    let img = $(`<img src="/uploads/profile/\${employee.proflPhotoFileStreNm}" class="thum">`)
-                    let input = $("<input>").attr({
-                        type: "checkbox",
-                        name: "employees",
-                        value: employee.emplId + "/" + employee.emplNm
-                    });
-                    label.append(input);
-                    label.append(img);
-                    label.append(document.createTextNode(employee.emplNm + " " + employee.clsfNm));
-                    liSub.append(label);
-                    ulSub.append(liSub);
-                });
-                li.append(ulSub);
-            }
         $("#createRoomBtn").click(function () {
             let roomMemList = [];
             let selectedEmplIds = [];
@@ -431,7 +435,6 @@
                         emplId: emplId,
                         emplNm: emplNm
                     };
-
                     roomMemList.push(EmployeeVO);
                 }
             });
@@ -452,7 +455,7 @@
                                     let content = `<div class="alarmBox">
                                         <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                             <h1>[채팅]</h1>
-                                            <p>\${emplNm}님이 채팅방에 초대하셨습니댜.</p>
+                                            <p>\${emplNm}님이 채팅방에 초대하셨습니다.</p>
                                         </a>
                                         <button type="button" class="readBtn">읽음</button>
                                     </div>`;
@@ -476,7 +479,13 @@
                                                 socket.send(msg);
                                             }
                                             loadRoomList();
-                                            alert("채팅방 개설 성공");
+                                            Swal.fire({
+                                                position: 'top',
+                                                icon: 'success',
+                                                text: '채팅방이 개설되었습니다',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            })
                                             modalClose();
                                         },
                                         error: function (xhr) {
@@ -488,19 +497,36 @@
                                     console.log("최대 알람 번호 가져오기 오류:", error);
                                 });
                         } else {
-                            alert("이미 존재하는 1:1 채팅방입니다")
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'warning',
+                                text: '이미 존재하는 1:1 채팅방입니다',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
                         }
                     },
                     error: function (request, status, error) {
-                        alert("채팅방 개설 실패")
+                        Swal.fire({
+                            position: 'top',
+                            icon: 'warning',
+                            text: '채팅방 개설을 실패했습니다',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 });
 
                 $("input[name='employees']:checked").prop("checked", false);
             } else {
-                alert("채팅방 개설을 위한 최소 인원 미달")
+                Swal.fire({
+                    position: 'top',
+                    icon: 'warning',
+                    text: '선택된 사원이 없습니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             }
-
         });
 
         loadRoomList();
@@ -522,7 +548,7 @@
                     renderChatRoomList();
                 },
                 error: function (request, status, error) {
-                    alert("채팅방 목록 로드 실패")
+
                 }
             })
         }
@@ -558,6 +584,47 @@
         });
 
     });
+
+    let groupedEmployees = {};
+    let deptNm
+    <c:forEach items="${emplListForChat}" var="employee">
+    deptNm = "${employee.deptNm}";
+    if (!groupedEmployees[deptNm]) {
+        groupedEmployees[deptNm] = [];
+    }
+    groupedEmployees[deptNm].push({
+        emplId: "${employee.emplId}",
+        emplNm: "${employee.emplNm}",
+        clsfNm: "${employee.clsfNm}",
+        proflPhotoFileStreNm: "${employee.proflPhotoFileStreNm}"
+    });
+    </c:forEach>
+
+    let ul = $("#employeeList");
+    for (let deptNm in groupedEmployees) {
+        let li = $("<li class='department'>");
+        let a = $("<a href='#'>").text(deptNm);
+        li.append(a);
+        ul.append(li);
+
+        let ulSub = $("<ul>");
+        groupedEmployees[deptNm].forEach(function (employee) {
+            let liSub = $("<li>");
+            let label = $("<label>");
+            let img = $(`<img src="/uploads/profile/\${employee.proflPhotoFileStreNm}" class="thum">`)
+            let input = $("<input>").attr({
+                type: "checkbox",
+                name: "employees",
+                value: employee.emplId + "/" + employee.emplNm
+            });
+            label.append(input);
+            label.append(img);
+            label.append(document.createTextNode(employee.emplNm + " " + employee.clsfNm));
+            liSub.append(label);
+            ulSub.append(liSub);
+        });
+        li.append(ulSub);
+    }
 
     /*  조직도 */
     const modal = $("#modal");
