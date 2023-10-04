@@ -452,15 +452,13 @@
                     let url = '/sanction/document';
                     let title = document.querySelector(".main-title").innerText;
                     let content = `<div class="alarmBox">
-                                    <a href="\${url}" id="fATag" data-seq="\${maxNum}">
+                                    <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                         <h1>[결재 결과]</h1>
-                                        <p>\${emplNm}님이
-                                          [<p style="white-space: nowrap;
-                                          display: inline-block;
-                                          overflow: hidden;
-                                          text-overflow: ellipsis;
-                                          max-width: 15ch;">\${title}</>] 결재를
-                                          \${status} 하셨습니다. </p>
+                                        <div class="alarm-textbox">
+                                            <p>\${emplNm}님이</p>
+                                            [<span>\${title}</span>] 결재를
+                                             <p>\${status}하셨습니다.</p>
+                                        </div>
                                     </a>
                                     <button type="button" class="readBtn">읽음</button>
                                 </div>`;

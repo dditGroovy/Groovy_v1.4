@@ -464,17 +464,16 @@
 
                     let url = '/sanction/document';
                     let content = `<div class="alarmBox">
-                                                <a href="\${url}" class="aTag" data-seq="\${maxNum}">
-                                                    <h1>[결재 요청]</h1>
-                                                    <p>\${emplNm}님이 [<p style="white-space: nowrap;
-                                                                      display: inline-block;
-                                                                      overflow: hidden;
-                                                                      text-overflow: ellipsis;다
-                                                                      max-width: 15ch;"> \${title} </p>]
-                                                    결재를 요청하셨습니다.</p>
-                                                </a>
-                                                <button type="button" class="readBtn">읽음</button>
-                                            </div>`;
+                                        <a href="\${url}" class="aTag" data-seq="\${maxNum}">
+                                            <h1>[결재 요청]</h1>
+                                            <div class="alarm-textbox">
+                                                <p>\${emplNm}님이</p>
+                                                [<span>\${title}</span>]
+                                                 <p>결재를 요청하셨습니다.</p>
+                                            </div>
+                                        </a>
+                                        <button type="button" class="readBtn">읽음</button>
+                                    </div>`;
                     let alarmVO = {
                         "ntcnSn": maxNum,
                         "ntcnUrl": url,

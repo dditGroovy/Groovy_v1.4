@@ -420,16 +420,15 @@ requestBtn.addEventListener("click", (event) => {
                     console.log(subject);
                     let url = '/job/main';
                     let content = `<div class="alarmBox">
-                                        <a href="${url}" class="aTag" data-seq="${maxNum}">
-                                            <h1>[업무 요청]</h1>
-                                            <p>${emplNm}님이 [<p style="white-space: nowrap;
-                                              display: inline-block;
-                                              overflow: hidden;
-                                              text-overflow: ellipsis;
-                                              max-width: 15ch;"> ${subject} </p>]업무를
-                                              요청하셨습니다.</p>
-                                        </a>
-                                        <button type="button" class="readBtn">읽음</button>
+                                    <a href="${url}" class="aTag" data-seq="${maxNum}">
+                                        <h1>[업무 요청]</h1>
+                                        <div class="alarm-textbox">
+                                            <p>\${emplNm}님이</p>
+                                            [<span>\${subject}</span>]
+                                             <p>업무를 요청하셨습니다.</p>
+                                        </div>
+                                    </a>
+                                    <button type="button" class="readBtn">읽음</button>
                                     </div>`;
                     let alarmVO = {
                         "ntcnSn": maxNum,

@@ -474,12 +474,14 @@
                     let ntcnEmplId = emplId;
                     let url = '/employee/confirm';
                     let content = `<div class="alarmBox">
-                                        <a href="\${url}" id="fATag" data-seq="\${maxNum}">
-                                            <h1>[서명 등록 요청]</h1>
-                                            <p>내 정보 관리에서 서명을 등록새주세요.</p>
-                                        </a>
-                                        <button type="button" class="readBtn">읽음</button>
-                                    </div>`;
+                                    <a href="\${url}" class="aTag" data-seq="\${maxNum}">
+                                        <h1>[서명 등록 요청]</h1>
+                                        <div class="alarm-textbox">
+                                            <p>내 정보 관리에서 서명을 등록해주세요.</p>
+                                        </div>
+                                    </a>
+                                    <button type="button" class="readBtn">읽음</button>
+                                </div>`;
                     let alarmVO = {
                         "ntcnEmplId": ntcnEmplId,
                         "ntcnSn": maxNum,

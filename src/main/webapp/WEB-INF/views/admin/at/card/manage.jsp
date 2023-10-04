@@ -138,12 +138,14 @@
                                 let ntcnEmplId = cprCardResveEmplId;
                                 let url = '/card/request';
                                 let content = `<div class="alarmBox">
-                                                                <a href="${url}" id="fATag" data-seq="${maxNum}">
-                                                                    <h1>[법인카드 신청]</h1>
-                                                                    <p>법인카드 신청이 승인 되셨습니다.</p>
-                                                                </a>
-                                                                <button type="button" class="readBtn">읽음</button>
-                                                            </div>`;
+                                                <a href="\${url}" class="aTag" data-seq="\${maxNum}">
+                                                    <h1>[법인카드 신청]</h1>
+                                                    <div class="alarm-textbox">
+                                                        <p>법인카드 신청이 승인 되셨습니다.</p>
+                                                    </div>
+                                                </a>
+                                                <button type="button" class="readBtn">읽음</button>
+                                                </div>`;
                                 let alarmVO = {
                                     "ntcnEmplId": ntcnEmplId,
                                     "ntcnSn": maxNum,

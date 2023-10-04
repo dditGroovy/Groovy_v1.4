@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/resources/css/reset.css">
+    <style>
+        .alarm-textbox{
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+    </style>
+</head>
+<body>
+<div class="alarmBox">
+    <a href="${url}" class="fATag" data-seq="${maxNum}">
+        <h1>[결재 요청]</h1>
+        <div class="alarm-textbox">
+            <p>\${emplNm}님이</p>
+             <p>결재를 요청하셨습니다.</p>
+        </div>
+    </a>
+    <button type="button" class="readBtn">읽음</button>
+</div>
+<div class="alarmBox">
+    <a href="${url}" id="fATag" data-seq="${maxNum}">
+        <h1>[결재 요청]</h1>
+        <div class="alarm-textbox">
+            <p>\${emplNm}님이</p>
+            [<span>\${subject}</span>]
+             <p>업무를 요청하셨습니다.</p>
+        </div>
+    </a>
+    <button type="button" class="readBtn">읽음</button>
+</div>
+</body>
+</html>

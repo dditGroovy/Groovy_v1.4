@@ -207,14 +207,11 @@
                                     let subject = target.closest("tr").querySelector(".sntncCn").innerText;
                                     let url = '/teamCommunity';
                                     let content = `<div class="alarmBox">
-                                                                <a href="${url}" id="fATag" data-seq="${maxNum}">
-                                                                    <h1>[팀 커뮤니티]</h1>
-                                                                    <p>[<span style="white-space: nowrap;
-                                                                      display: inline-block;
-                                                                      overflow: hidden;
-                                                                      text-overflow: ellipsis;
-                                                                      max-width: 15ch;">${subject}</span>]에
-                                                                      ${emplNm}님이 댓글을 등록하셨습니다.</p>
+                                                                <a href="${url}" class="aTag" data-seq="${maxNum}">
+                                                                    <div class="alarm-textbox">
+                                                                        [<span>${subject}</span>]에
+                                                                        <p>${emplNm}님이 댓글을 등록하셨습니다.</p>
+                                                                    </div>
                                                                 </a>
                                                                 <button type="button" class="readBtn">읽음</button>
                                                             </div>`;
@@ -448,7 +445,9 @@
                         let content = `<div class="alarmBox">
                                                     <a href="${url}" class="aTag" data-seq="${maxNum}">
                                                     <h1>[팀 커뮤니티]</h1>
-                                                    <p>${emplNm}님이 팀 공지사항을 등록하셨습니다.</p>
+                                                    <div class="alarm-textbox">
+                                                        <p>${emplNm}님이 팀 공지사항을 등록하셨습니다.</p>
+                                                    </div>
                                                     </a>
                                                     <button type="button" class="readBtn">읽음</button>
                                                 </div>`;
