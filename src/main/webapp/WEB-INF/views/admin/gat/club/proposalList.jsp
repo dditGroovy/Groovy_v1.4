@@ -83,9 +83,9 @@
                 clbEtprCode: clbEtprCode
             }),
             contentType: "application/json; charset=utf-8",
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-            },
+            <%--beforeSend : function(xhr) {--%>
+            <%--    xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");--%>
+            <%--},--%>
             success: function (data) {
                 window.location.href = "/club/admin/proposalList";
             },
