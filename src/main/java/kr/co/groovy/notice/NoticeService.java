@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 @Slf4j
 @Service
 public class NoticeService {
@@ -22,6 +23,7 @@ public class NoticeService {
         this.mapper = mapper;
         this.uploadPath = uploadPath;
     }
+
     /* 관리자 */
     public String inputNotice(NoticeVO vo, MultipartFile[] notiFiles) {
         int notiSeq = mapper.getNotiSeq();
@@ -33,37 +35,38 @@ public class NoticeService {
         vo.setNotiEtprCode(notiEtprCode);
         vo.setNotiContent(vo.getNotiContent().substring(1));
         mapper.inputNotice(vo);
-
-        try {
-            String path = uploadPath + "/notice";
-            log.info("notice path: " + path);
-            File uploadDir = new File(path);
-            if (!uploadDir.exists()) {
-                if (uploadDir.mkdirs()) {
-                    log.info("폴더 생성 성공");
-                } else {
-                    log.info("폴더 생성 실패");
+        if (notiFiles != null && notiFiles.length > 0 && notiFiles[0].getSize() > 0) {
+            try {
+                String path = uploadPath + "/notice";
+                log.info("notice path: " + path);
+                File uploadDir = new File(path);
+                if (!uploadDir.exists()) {
+                    if (uploadDir.mkdirs()) {
+                        log.info("폴더 생성 성공");
+                    } else {
+                        log.info("폴더 생성 실패");
+                    }
                 }
-            }
-            for (MultipartFile notiFile : notiFiles) {
-                String originalFileName = notiFile.getOriginalFilename();
-                String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-                String newFileName = UUID.randomUUID() + "." + extension;
+                for (MultipartFile notiFile : notiFiles) {
+                    String originalFileName = notiFile.getOriginalFilename();
+                    String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+                    String newFileName = UUID.randomUUID() + "." + extension;
 
-                File saveFile = new File(path, newFileName);
-                notiFile.transferTo(saveFile);
+                    File saveFile = new File(path, newFileName);
+                    notiFile.transferTo(saveFile);
 
-                long fileSize = notiFile.getSize();
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("notiEtprCode", notiEtprCode);
-                map.put("originalFileName", originalFileName);
-                map.put("newFileName", newFileName);
-                map.put("fileSize", fileSize);
-                mapper.uploadNoticeFile(map);
-                log.info("공지 파일 등록 성공");
+                    long fileSize = notiFile.getSize();
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("notiEtprCode", notiEtprCode);
+                    map.put("originalFileName", originalFileName);
+                    map.put("newFileName", newFileName);
+                    map.put("fileSize", fileSize);
+                    mapper.uploadNoticeFile(map);
+                    log.info("공지 파일 등록 성공");
+                }
+            } catch (Exception e) {
+                log.info("공지 파일 등록 실패");
             }
-        } catch (Exception e) {
-            log.info("공지 파일 등록 실패");
         }
         return notiEtprCode; //알림 url
     }
