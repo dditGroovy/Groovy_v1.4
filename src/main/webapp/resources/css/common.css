@@ -249,7 +249,7 @@ i.icon {
     text-overflow: ellipsis;
     max-width: 15ch
 }
-.alarmBox .alarm-textbox {
+.alarm-textbox {
     display: flex;
     gap: 4px;
     align-items: center;

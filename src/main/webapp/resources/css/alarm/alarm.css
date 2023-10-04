@@ -64,7 +64,7 @@
     font-family: var(--font-md);
     color: var(--color-font-md);
 }
-.alarmBox {
+.alarmListBox {
     width: 100%;
     border-radius: 12px;
     position: relative;
@@ -74,23 +74,25 @@
     backdrop-filter: blur(6.5px);
 }
 
-.aTag {
+.alarmListBox .aTag {
     display: flex;
     flex-direction: column;
     gap: 12px;
     padding: var(--vh-16);
 }
-.aTag h1 {
+.alarmListBox .aTag h1 {
     font-size: 14px;
     font-family: var(--font-md);
 }
-.aTag p {
+.alarmListBox .aTag p {
     font-size: 11px;
+    white-space: nowrap;
+    word-break: break-all;
     color: var(--color-font-md);
     vertical-align: middle;
     line-height: 1.2;
 }
-.aTag p span {
+.alarmListBox .aTag p span {
     font-size: 11px;
     color: var(--color-font-high);
     vertical-align: baseline;
@@ -100,7 +102,7 @@
     max-width: 15ch;
     font-family: var(--font-sb);
 }
-.readBtn {
+.alarmListBox .readBtn {
     background: transparent;
     border: 1px solid transparent;
     position: absolute;
