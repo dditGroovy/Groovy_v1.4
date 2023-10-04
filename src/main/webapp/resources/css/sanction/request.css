@@ -21,29 +21,29 @@
 }
 
 
-.requestTable td, .requestTable th{
-    width: calc(100%/8);
-    height: calc((60/1080) * 100vh);
+.requestTable td, .requestTable th {
+    width: calc(100% / 8);
+    height: calc((60 / 1080) * 100vh);
     text-align: center;
     border: none;
     font-size: var(--font-size-14);
 
 }
 
-.requestTable th{
+.requestTable th {
     background: var(--color-bg-sky);
     border-bottom: 1px solid var(--color-bg-darkGrey);
     top: 0;
     position: sticky;
 }
 
-.requestTable tr{
+.requestTable tr {
     background: var(--color-white);
     border-bottom: 1px solid var(--color-bg-darkGrey);
 
 }
 
-.requestTable tr:hover{
+.requestTable tr:hover {
     background: var(--color-bg-sky);
     transition: .5s;
 }
@@ -52,6 +52,7 @@
     position: sticky;
     top: 0px;
 }
+
 /* 결재 상태 */
 .state {
     border: 1px solid var(--color-font-md);
@@ -60,40 +61,72 @@
     width: 96px;
     margin: 0 auto;
 }
+
 .state button {
     padding: var(--vh-8) var(--vw-24);
     font-size: 11px;
 }
+
 #record {
     padding: var(--vh-24);
     /*height: calc((718/var(--vh))*100vh);*/
 }
-.request-btn{
-   position: absolute;
+
+.request-btn {
+    position: absolute;
     right: 3%;
     top: 17%;
 }
+
 #countWrap {
-    margin : 1%;
+    margin: 1%;
 }
+
+#vacationModifyForm tr {
+    height: var(--vh-56);
+}
+
 .detailVacation td {
     display: flex;
     gap: 24px;
 }
+
+.detailVacation input[type=radio] {
+    height: var(--vh-32);
+
+}
+
 .form-data-list {
     flex-direction: row;
     align-items: center;
 }
+
 .form-data-list label {
     white-space: nowrap;
 }
+
 .form input {
     width: unset !important;
     outline: none;
 }
+
+#cardModifyForm input, #cardRequestForm input {
+    width: 100% !important;
+}
+
 .form textarea {
     outline: none;
 }
+
 #tab-header {
-    margin-bottom: calc((104/var(--vh))*100vh) !important;
+    margin-bottom: calc((104 / var(--vh)) * 100vh) !important;
+}
+
+.input-date {
+    width: 100%;
+}
+
+#vacationRequestForm input[type=date], #vacationRequestForm textarea, #vacationModifyForm input[type=date], #vacationModifyForm textarea {
+    border: 1px solid #dedede;
+    border-radius: 32px;
 }

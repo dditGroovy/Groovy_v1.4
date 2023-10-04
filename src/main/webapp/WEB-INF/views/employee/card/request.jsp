@@ -43,7 +43,7 @@
                             <input type="hidden" name="cprCardResveEmplId" value="${CustomUser.employeeVO.emplId}"/>
                             <tr>
                                 <th>기간</th>
-                                <td class="date-area">
+                                <td class="date-area input-date">
                                     <input type="date" name="cprCardResveBeginDate" class="input-free-white"
                                            placeholder="시작 날짜" required> ~
                                     <input type="date" name="cprCardResveClosDate" class="input-free-white"

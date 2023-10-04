@@ -62,7 +62,7 @@
                             </tr>
                             <tr>
                                 <th>기간</th>
-                                <td>
+                                <td class="input-date">
                                     <input type="date" name="yrycUseDtlsBeginDate" placeholder="시작 날짜"> ~
                                     <input type="date" name="yrycUseDtlsEndDate" placeholder="끝 날짜">
                                 </td>
@@ -71,7 +71,7 @@
                                 <th>내용</th>
                                 <td>
                                 <textarea name="yrycUseDtlsRm" cols="30" rows="10"
-                                          placeholder="내용"></textarea>
+                                        ></textarea>
                                 </td>
                             </tr>
                         </table>
