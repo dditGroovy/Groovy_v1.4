@@ -1,6 +1,6 @@
 /* reset */
-@import "commonStyle.css";
 @import "reset.css";
+@import "commonStyle.css";
 
 body {
     font-family: var(--font-reg);
