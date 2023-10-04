@@ -65,9 +65,9 @@
 			// dataType: 'text',
 			contentType: false,
 			processData: false,
-			beforeSend : function(xhr) {
-				xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-			},
+			<%--beforeSend : function(xhr) {--%>
+			<%--	xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");--%>
+			<%--},--%>
 			success: function (notiEtprCode) {
 				console.log(notiEtprCode);
 				// 최대 알람 번호 가져오기
