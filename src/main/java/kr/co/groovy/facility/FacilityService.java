@@ -68,9 +68,14 @@ public class FacilityService {
     }
 
     public List<FacilityVO> getReservedRoomByFcltyResveEmplId(Map<String, String> map) {
-        List<FacilityVO> reservedRestRoomByFcltyResveEmplId = mapper.getReservedRoomByFcltyResveEmplId(map);
-        setCommonCodeToFacility(reservedRestRoomByFcltyResveEmplId);
-        return reservedRestRoomByFcltyResveEmplId;
+        List<FacilityVO> list = mapper.getReservedRoomByFcltyResveEmplId(map);
+        setCommonCodeToFacility(list);
+        for (FacilityVO facilityVO : list) {
+            if (facilityVO.getFcltyResveRequstMatter() == null || facilityVO.getFcltyResveRequstMatter().isEmpty()) {
+                facilityVO.setFcltyResveRequstMatter("-");
+            }
+        }
+        return list;
     }
 
     public int inputRestReservation(FacilityVO facilityVO) {
@@ -86,6 +91,4 @@ public class FacilityService {
             facilityVO.setCommonCodeFcltyKind(Facility.valueOf(facilityVO.getCommonCodeFcltyKind()).getLabel());
         }
     }
-
-
 }

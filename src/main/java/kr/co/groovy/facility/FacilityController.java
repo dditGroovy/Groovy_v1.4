@@ -127,7 +127,7 @@ public class FacilityController {
         return service.getReservedRoomByFcltyResveEmplId(map);
     }
 
-    @PostMapping("/rest")
+    @PostMapping("/room")
     @ResponseBody
     public String inputRestReservation(Principal fcltyResveEmplId, @RequestBody FacilityVO vo) {
         vo.setCommonCodeFcltyKind(Facility.getValueByLabel(vo.getCommonCodeFcltyKind()));

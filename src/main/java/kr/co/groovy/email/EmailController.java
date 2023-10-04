@@ -135,8 +135,8 @@ public class EmailController {
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
         long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
-        model.addAttribute(unreadMailCount);
-        model.addAttribute(allMailCount);
+        model.addAttribute("unreadMailCount", unreadMailCount);
+        model.addAttribute("allMailCount", allMailCount);
         return "email/trashList";
     }
 
