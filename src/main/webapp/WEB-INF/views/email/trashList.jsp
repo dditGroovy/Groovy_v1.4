@@ -37,7 +37,7 @@
                     <button onclick="deleteMail()" class="btn btn-free-white btn-service"><span>영구 삭제</span></button>
                 </th>
                 <th colspan="4" style="text-align:left; vertical-align: middle">
-                    전체 메일 (할거야?)
+                    ${unreadMailCount} / ${allMailCount}
                 </th>
             </tr>
             </thead>

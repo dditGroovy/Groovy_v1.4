@@ -1,9 +1,9 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<script src="/resources/ckeditor/ckeditor.js"></script>
+<script src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script>
 <link rel="stylesheet"
-	href="/resources/css/admin/manageNoticeRegister.css">
+	href="${pageContext.request.contextPath}/resources/css/admin/manageNoticeRegister.css">
 <div class="content-container">
 	<header id="tab-header">
     	<h1><a href="${pageContext.request.contextPath}/notice/manage" class="on">공지사항 관리</a></h1>
@@ -65,9 +65,9 @@
             // dataType: 'text',
             contentType: false,
             processData: false,
-			beforeSend : function(xhr) {
-				xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-			},
+			<%--beforeSend : function(xhr) {--%>
+			<%--	xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");--%>
+			<%--},--%>
             success: function (notiEtprCode) {
                 console.log(notiEtprCode);
                 // 최대 알람 번호 가져오기

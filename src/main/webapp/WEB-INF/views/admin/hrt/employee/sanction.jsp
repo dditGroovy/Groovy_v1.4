@@ -22,6 +22,8 @@
         </div>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/resources/js/sanction.js"></script>
+
 <script>
 
     function onQuickFilterChanged() {
@@ -73,10 +75,13 @@
 
     function linkCellRenderer(params) {
         const link = document.createElement('a');
-        link.href = '#';
+        link.href = `/sanction/read/\${params.value}`
+        link.className = "openSanction link"
         link.innerText = params.value;
         link.addEventListener('click', (event) => {
             event.preventDefault();
+            window.open(link.href, "결재", getWindowSize());
+
         });
         return link;
     }
