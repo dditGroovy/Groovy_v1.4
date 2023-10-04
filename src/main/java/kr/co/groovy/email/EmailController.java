@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.AuthenticationFailedException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,25 +33,29 @@ public class EmailController {
 
     @GetMapping("/")
     public String getMails(Principal principal, EmailVO emailVO, Model model, PageVO pageVO) throws Exception {
-        EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, this.password);
-        pageVO.setRow();
-        pageVO.setNum((long) list.size());
+        try {
+            EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
+            List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, this.password);
+            pageVO.setRow();
+            pageVO.setNum((long) list.size());
 
-        int startIdx = Math.toIntExact(pageVO.getStartRow());
-        int endIdx = Math.min(Math.toIntExact(pageVO.getLastRow()), list.size());
+            int startIdx = Math.toIntExact(pageVO.getStartRow());
+            int endIdx = Math.min(Math.toIntExact(pageVO.getLastRow()), list.size());
 
-        if (startIdx <= endIdx) {
-            model.addAttribute("list", list.subList(startIdx, endIdx));
-        } else {
-            model.addAttribute("list", new ArrayList<>());
+            if (startIdx <= endIdx) {
+                model.addAttribute("list", list.subList(startIdx, endIdx));
+            } else {
+                model.addAttribute("list", new ArrayList<>());
+            }
+
+            int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
+            long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+            model.addAttribute("unreadMailCount", unreadMailCount);
+            model.addAttribute("allMailCount", allMailCount);
+            return "email/allList";
+        } catch (AuthenticationFailedException e) {
+            return "redirect:/signOut";
         }
-
-        int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
-        model.addAttribute("unreadMailCount", unreadMailCount);
-        model.addAttribute("allMailCount", allMailCount);
-        return "email/allList";
     }
 
     @PostMapping("/all")
@@ -208,9 +213,8 @@ public class EmailController {
         return "email/sendMine";
     }
 
-    @GetMapping("/{emailEtprCode}")
+    @GetMapping("/read/{emailEtprCode}")
     public String getEmail(@PathVariable String emailEtprCode, Model model, Principal principal) {
-        log.info(emailEtprCode);
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
 
         Map<String, String> map = new HashMap<>();

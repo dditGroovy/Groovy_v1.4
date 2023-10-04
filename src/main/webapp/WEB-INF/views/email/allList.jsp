@@ -73,7 +73,7 @@
                             <td class="from">${emailVO.emailFromAddr}</td>
                             <td class="subject">
                                 <span>[${emailVO.emailBoxName}] </span>
-                                <a href="/email/${emailVO.emailEtprCode}">${emailVO.emailFromSj}</a>
+                                <a href="/email/read/${emailVO.emailEtprCode}">${emailVO.emailFromSj}</a>
                             </td>
                             <c:set var="sendDateStr" value="${emailVO.emailFromSendDate}"/>
                             <fmt:formatDate var="sendDate" value="${sendDateStr}" pattern="yy.MM.dd"/>
@@ -91,27 +91,29 @@
             </c:choose>
             </tbody>
         </table>
-        <div class="pagination-wrapper">
-            <ul class="pagination">
-                <li class="page-item \${pager.pre==false?'disabled':''}" value="${pageVO.pre}" id="pre">
-                    <a class="page-link" href="/email/all?page=${pageVO.page-1}" aria-label="Previous">
-                        <span aria-hidden="true" class="color-font-high font-14">Prev</span>
-                    </a>
-                </li>
-
-                <c:forEach var="i" begin="${pageVO.startNum}" end="${pageVO.lastNum}">
-                    <li class="page-item ${pageVO.page==i? 'active':''}">
-                        <a class="page-link page-num" href="/email/all?page=${i}">${i}</a>
+        <c:if test="${not empty list}">
+            <div class="pagination-wrapper">
+                <ul class="pagination">
+                    <li class="page-item \${pager.pre==false?'disabled':''}" value="${pageVO.pre}" id="pre">
+                        <a class="page-link" href="/email/all?page=${pageVO.page-1}" aria-label="Previous">
+                            <span aria-hidden="true" class="color-font-high font-14">Prev</span>
+                        </a>
                     </li>
-                </c:forEach>
 
-                <li class="${pageVO.next?'':'disabled'}" id="next">
-                    <a href="/email/all?page=${pageVO.page+1}" aria-label="Next">
-                        <span class="color-font-high font-14">Next</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+                    <c:forEach var="i" begin="${pageVO.startNum}" end="${pageVO.lastNum}">
+                        <li class="page-item ${pageVO.page==i? 'active':''}">
+                            <a class="page-link page-num" href="/email/all?page=${i}">${i}</a>
+                        </li>
+                    </c:forEach>
+
+                    <li class="${pageVO.next?'':'disabled'}" id="next">
+                        <a href="/email/all?page=${pageVO.page+1}" aria-label="Next">
+                            <span class="color-font-high font-14">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </c:if>
     </div>
 </div>
 <script src="${pageContext.request.contextPath}/resources/js/mailAt.js"></script>

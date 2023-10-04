@@ -92,7 +92,10 @@ public class EmailService {
         Map<String, String> map = new HashMap<>();
         map.put("emailEtprCode", emailEtprCode);
         map.put("emailFromAddr", emailAddr);
+        log.info(emailEtprCode);
+        log.info(emailAddr);
         EmailVO nowEmail = emailMapper.getNowEmail(map);
+        log.info(String.valueOf(nowEmail));
         String emailFromAddr = nowEmail.getEmailFromAddr();
         if (emailFromAddr.contains("<")) {
             nowEmail.setEmailFromAddr(emailFromAddr.substring(emailFromAddr.indexOf('<') + 1, emailFromAddr.indexOf('>')));
