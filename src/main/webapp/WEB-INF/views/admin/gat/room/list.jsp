@@ -144,6 +144,12 @@ let count = 0;
         columnDefs: columnDefs,
         rowData: rowData,
         onFirstDataRendered: onGridDataRendered, // 그리드 데이터 렌더링 후 이벤트 핸들러
+		pagination: true,
+		paginationPageSize: 10,
+		rowHeight: 50,
+		onGridReady: function (event) {
+			event.api.sizeColumnsToFit();
+		},
     };
 
 

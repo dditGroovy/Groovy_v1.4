@@ -197,6 +197,10 @@
         columnDefs: columnDefs,
         rowData: rowData,
         onFirstDataRendered: onGridDataRendered, // 그리드 데이터 렌더링 후 이벤트 핸들러
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
+        rowHeight: 50,
     };
 
     // 페이지 로드 시에 카운트 업데이트를 미리 호출

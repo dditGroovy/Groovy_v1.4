@@ -66,6 +66,12 @@ ul {
     background: var(--color-bg-sky) !important;
 }
 
+.ag-row .ag-cell {
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center;
+}
+
 .btn-search {
     justify-content: center;
 }
