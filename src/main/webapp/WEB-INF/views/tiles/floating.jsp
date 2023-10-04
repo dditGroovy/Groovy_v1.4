@@ -3,24 +3,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <style>
-    #fReadBtn {
-        position: absolute;
-        top: 30%;
-        right: 0;
-    }
-
-    #fATag {
-        display: block;
-        padding: 10px;
-        text-decoration: none;
-        color: #333;
-    }
-
-    #floatingAlarm {
-        width: 450px;
-        position: relative;
-    }
-
     .icon-cloud {
         content:url("/resources/images/icon/cloud.svg");
     }
