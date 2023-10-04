@@ -157,10 +157,18 @@
                     value: value
                 },
                 success: function (data) {
-                    alert("연봉 수정을 완료했습니다");
+                    Swal.fire({
+                        text: '연봉 수정을 완료했습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 },
                 error: function (request, status, error) {
-                    alert("연봉 수정을 실패했습니다 다시 시도해주세요");
+                    Swal.fire({
+                        text: '연봉 수정을 실패했습니다 다시 시도해주세요',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     console.log("급여 업데이트 실패: " + error);
                 }
             });
@@ -196,10 +204,18 @@
                     value: value
                 },
                 success: function (data) {
-                    alert("소득세 수정을 완료했습니다");
+                    Swal.fire({
+                        text: '소득세 수정을 완료했습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 },
                 error: function (request, status, error) {
-                    alert("소득세 수정을 실패했습니다 다시 시도해주세요");
+                    Swal.fire({
+                        text: '소득세 수정을 실패했습니다 다시 시도해주세요',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     console.log("소득세 업데이트 실패: " + error);
                 }
             });
