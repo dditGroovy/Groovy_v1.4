@@ -13,6 +13,9 @@
     #cke_1_top, #cke_1_bottom{
         display: none !important;
     }
+    .notice-content {
+        display: none;
+    }
 </style>
 <div class="content-container">
     <header id="tab-header">
@@ -60,7 +63,12 @@
 
 <script src="/resources/ckeditor/ckeditor.js"></script>
 <script>
-    CKEDITOR.replace('editor');
-    $("#editor").attr("readOnly", true);
-
+    CKEDITOR.replace('editor', {
+        on: {
+            instanceReady: function (ev) {
+                $(".notice-content").css("display", "block");
+                $("#editor").attr("readOnly", true);
+            }
+        }
+    });
 </script>
