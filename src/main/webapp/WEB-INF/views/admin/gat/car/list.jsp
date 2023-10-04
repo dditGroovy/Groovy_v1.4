@@ -82,17 +82,17 @@
     }
 
     const columnDefs = [
-        {field: "vhcleResveNo", headerName: "예약번호", width: 120, cellRenderer: returnCar},
+        {field: "vhcleResveNo", headerName: "예약번호", width: 120, cellRenderer: returnCar, cellStyle: {textAlign: "center"}},
         {
             field: "vhcleNo", headerName: "차량번호", getQuickFilterText: (params) => {
                 return getMedalString(params.value);
-            }
+            }, cellStyle: {textAlign: "center"}
         },
-        {field: "vhcleResveBeginTime", headerName: "시작 일자"},
-        {field: "vhcleResveEndTime", headerName: "끝 일자"},
-        {field: "vhcleResveEmpNm", headerName: "예약 사원", width: 120},
-        {field: "vhcleResveEmplId", headerName: "사번"},
-        {field: "chk", headerName: " ", cellRenderer: ClassComp},
+        {field: "vhcleResveBeginTime", headerName: "시작 일자", cellStyle: {textAlign: "center"}},
+        {field: "vhcleResveEndTime", headerName: "끝 일자", cellStyle: {textAlign: "center"}},
+        {field: "vhcleResveEmpNm", headerName: "예약 사원", width: 120, cellStyle: {textAlign: "center"}},
+        {field: "vhcleResveEmplId", headerName: "사번", cellStyle: {textAlign: "center"}},
+        {field: "chk", headerName: " ", cellRenderer: ClassComp, cellStyle: {textAlign: "center"}},
     ];
     const rowData = [];
     <c:forEach var="vehicleVO" items="${allReservation}" varStatus="status">
@@ -114,6 +114,12 @@
     const gridOptions = {
         columnDefs: columnDefs,
         rowData: rowData,
+        rowHeight: 50,
+        pagination: true,
+        paginationPageSize: 10,
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
     };
 
     document.addEventListener('DOMContentLoaded', () => {

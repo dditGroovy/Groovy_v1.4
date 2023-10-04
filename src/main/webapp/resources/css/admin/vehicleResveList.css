@@ -23,6 +23,12 @@
     border-color: var(--color-bg-grey);
 }
 
+.ag-row .ag-cell {
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center;
+}
+
 div[col-id="chk"] {
     padding: calc((7 / var(--vw)) * 100vw) calc((7 / var(--vh)) * 100vh);
 }
