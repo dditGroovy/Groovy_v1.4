@@ -49,7 +49,7 @@ public class EmailController {
             }
 
             int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-            long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+            long allMailCount = emailService.getAllMailCount(employeeVO.getEmplId());
             model.addAttribute("unreadMailCount", unreadMailCount);
             model.addAttribute("allMailCount", allMailCount);
             return "email/allList";
@@ -75,7 +75,7 @@ public class EmailController {
         }
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplId());
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);
 
@@ -112,7 +112,7 @@ public class EmailController {
         model.addAttribute("list", list);
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplId());
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);
         return "email/inboxList";
@@ -128,7 +128,7 @@ public class EmailController {
         model.addAttribute("list", list);
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplId());
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);
         return "email/sentList";
@@ -144,7 +144,7 @@ public class EmailController {
         model.addAttribute("list", list);
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplId());
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);
         return "email/mineList";
@@ -153,7 +153,7 @@ public class EmailController {
     @GetMapping("/trash")
     public String getAllDeletedMails(Principal principal, EmailVO emailVO, Model model, PageVO pageVO) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.setAllEmailList(employeeVO.getEmplEmail(), "Y");
+        List<EmailVO> list = emailService.setAllEmailList(employeeVO.getEmplEmail() ,   "Y");
         for (EmailVO mail : list) {
             mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
         }
@@ -171,7 +171,7 @@ public class EmailController {
         }
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplId());
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);
         return "email/trashList";
@@ -184,7 +184,7 @@ public class EmailController {
         return map.get("at");
     }
 
-    @PutMapping("/{emailEtprCode}")
+    @PutMapping("/delete/{emailEtprCode}")
     @ResponseBody
     public int deleteMail(@PathVariable String emailEtprCode) {
         return emailService.deleteMails(emailEtprCode);
@@ -227,7 +227,7 @@ public class EmailController {
         List<EmailVO> toList = emailService.getToPerEmail(emailEtprCode, emailVO.getEmailToAddr());
         List<EmailVO> ccList = emailService.getCcPerEmail(emailEtprCode, emailVO.getEmailCcAddr());
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
-        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplId());
 
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);

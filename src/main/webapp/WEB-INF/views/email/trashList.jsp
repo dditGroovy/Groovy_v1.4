@@ -34,7 +34,7 @@
                     </button>
                 </th>
                 <th style="width: 48px">
-                    <button onclick="deleteMail()" class="btn btn-free-white btn-service"><span>영구 삭제</span></button>
+                    <button id="deleteMail" class="btn btn-free-white btn-service"><span>영구 삭제</span></button>
                 </th>
                 <th colspan="4" style="text-align:left; vertical-align: middle">
                     ${unreadMailCount} / ${allMailCount}
@@ -46,7 +46,7 @@
                 <c:when test="${not empty list}">
                     <c:forEach var="emailVO" items="${list}">
                         <tr data-id="${emailVO.emailEtprCode}">
-                            <td><input type="checkbox" class="selectmail"></td>
+                            <td><input type="checkbox" class="selectMail"></td>
                             <td onclick="modifyTableAt(this)" data-type="redng" class="cursor">
                                 <c:if test="${emailVO.emailRedngAt eq 'N'}">
                                     <i class="icon i-mail mail-icon" data-at="N"></i>
@@ -116,34 +116,41 @@
 </div>
 <script src="${pageContext.request.contextPath}/resources/js/mailAt.js"></script>
 <script>
-    let flag = true;
-
-    function deleteMail() {
-        checkboxes = document.querySelectorAll(".selectmail:checked");
-        checkboxes.forEach(function (checkbox) {
-            let tr = checkbox.closest("tr");
+    document.querySelector("#deleteMail").addEventListener("click", function deleteMail() {
+        checkboxes = document.querySelectorAll(".selectMail:checked");
+        for (let i = 0; i < checkboxes.length; i++) {
+            let tr = checkboxes[i].closest("tr");
             let emailEtprCode = tr.getAttribute("data-id");
+            console.log(tr, emailEtprCode);
 
-            let isDelete = confirm("휴지통에서 메일을 삭제하면 복구할 수 없습니다. 정말로 삭제하시겠습니까?");
-            if (isDelete) {
-                $.ajax({
-                    url: `/email/\${emailEtprCode}`,
-                    type: "put",
-                    success: function (result) {
-                        tr.remove();
-                        document.querySelector("tbody").innerHTML = '<tr><td class="no-data" co="">메일이 존재하지 않습니다.</td></tr>';
-                    },
-                    error: function (xhr, status, error) {
-                        console.log("code: " + xhr.status);
-                        console.log("message: " + xhr.responseText);
-                        console.log("error: " + xhr.error);
-                    }
-                });
-            }
-            checkbox.checked = false;
-            allCheck.checked = false;
-        });
-    }
+            Swal.fire({
+                text: "휴지통에서 메일을 삭제하면 복구할 수 없습니다 정말로 삭제하시겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: '#5796F3FF',
+                cancelButtonColor: '#e1e1e1',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/email/delete/\${emailEtprCode}`,
+                        type: "put",
+                        success: function (result) {
+                            tr.remove();
+                            // document.querySelector("tbody").innerHTML = '<tr><td class="no-data" co="">메일이 존재하지 않습니다.</td></tr>';
+                        },
+                        error: function (xhr, status, error) {
+                            console.log("code: " + xhr.status);
+                            console.log("message: " + xhr.responseText);
+                            console.log("error: " + xhr.error);
+                        }
+                    });
+                }
+                checkboxes[i].checked = false;
+                allCheck.checked = false;
+            })
+        }
+    });
 </script>
 </body>
 </html>

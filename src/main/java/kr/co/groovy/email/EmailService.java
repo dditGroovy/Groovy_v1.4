@@ -84,8 +84,8 @@ public class EmailService {
         return emailMapper.getUnreadMailCount(emplId);
     }
 
-    public long getAllMailCount(String emailAddr) {
-        return emailMapper.getAllMailCount(emailAddr);
+    public long getAllMailCount(String emplId) {
+        return emailMapper.getAllMailCount(emplId);
     }
 
     public EmailVO getEmail(String emailEtprCode, String emailAddr) {

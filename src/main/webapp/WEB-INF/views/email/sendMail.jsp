@@ -173,7 +173,11 @@
                                             let msg = `\${maxNum},email,\${url},\${subject},\${emplIdToList}`;
                                             socket.send(msg);
                                         }
-                                        alert("메일을 성공적으로 전송했습니다");
+                                        Swal.fire({
+                                            text: '메일을 성공적으로 전송했습니다',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
                                         location.href = "/email/sent";
                                     },
                                     error: function (xhr) {
@@ -181,18 +185,25 @@
                                     }
                                 });
                             } else {
-                                alert("메일을 성공적으로 전송했습니다");
+                                Swal.fire({
+                                    text: '메일을 성공적으로 전송했습니다',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
                                 location.href = "/email/sent";
                             }
                         }).catch(function (error) {
                             console.log("최대 알람 번호 가져오기 오류:", error);
                         });
                     } else {
-                        alert("메일 전송에 실패했습니다 다시 시도해주세요");
+                        Swal.fire({
+                            text: '메일 전송을 실패했습니다 다시 시도해주세요',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 }
             }
-
             xhr.send(formData);
         }
     });
@@ -212,7 +223,11 @@
                 const value = emailAddrInput.value;
                 const regExpEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
                 if (!regExpEmail.test(value)) {
-                    alert("이메일 형식이 아닙니다 다시 입력해주세요");
+                    Swal.fire({
+                        text: '이메일 형식이 아닙니다 다시 입력해주세요',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     emailAddrInput.value = '';
                     return;
                 }
@@ -307,7 +322,11 @@
 
         // 첨부파일 개수 확인
         if (curFileCnt > remainFileCnt) {
-            alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+            Swal.fire({
+                text: '첨부파일은 최대 ' + maxFileCnt + '개 까지 첨부 가능합니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
         } else {
             for (const file of obj.files) {
                 // 첨부파일 검증
@@ -338,13 +357,25 @@
     /* 첨부파일 검증 */
     function validation(file) {
         if (file.name.length > 100) {
-            alert("파일명이 100자 이상인 파일은 제외되었습니다");
+            Swal.fire({
+                text: '파일명이 100자 이상인 파일은 제외되었습니다',
+                showConfirmButton: false,
+                timer: 1500
+            })
             return false;
         } else if (file.size > (100 * 1024 * 1024)) {
-            alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다");
+            Swal.fire({
+                text: '최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다',
+                showConfirmButton: false,
+                timer: 1500
+            })
             return false;
         } else if (file.name.lastIndexOf('.') == -1) {
-            alert("확장자가 없는 파일은 제외되었습니다");
+            Swal.fire({
+                text: '확장자가 없는 파일은 제외되었습니다',
+                showConfirmButton: false,
+                timer: 1500
+            })
             return false;
         } else {
             return true;

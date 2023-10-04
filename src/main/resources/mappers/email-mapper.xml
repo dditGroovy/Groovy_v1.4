@@ -190,7 +190,7 @@
         SELECT COUNT(EMAIL_ETPR_CODE)
         FROM EMAIL_RECEIVED_STTUS
         WHERE EMAIL_RECEIVED_EMPL_ID = #{emplId}
-          AND EMAIL_REDNG_AT = 'N'
+          AND EMAIL_REDNG_AT = 'N' AND EMAIL_REAL_DELETE_AT = 'N'
     </select>
 
     <select id="getEmailSeq" resultType="int">
@@ -244,45 +244,8 @@
     <!-- 전체 메일 개수 -->
     <select id="getAllMailCount" resultType="long" parameterType="String">
         SELECT COUNT(DISTINCT EMAIL_ETPR_CODE)
-        FROM (SELECT EMAIL_ETPR_CODE
-              FROM EMAIL_FROM
-              WHERE EMAIL_FROM_ADDR = #{emailAddr}
-              UNION ALL
-              SELECT EMAIL_ETPR_CODE
-              FROM EMAIL_TO
-              WHERE EMAIL_TO_ADDR = #{emailAddr}
-              UNION ALL
-              SELECT EMAIL_ETPR_CODE
-              FROM EMAIL_CC
-              WHERE EMAIL_CC_ADDR = #{emailAddr})
-    </select>
-
-    <!-- 받은메일함 개수 -->
-    <select id="getReceivedMailCount" resultType="long" parameterType="String">
-        SELECT COUNT(DISTINCT EMAIL_ETPR_CODE)
-        FROM (SELECT EMAIL_ETPR_CODE
-              FROM EMAIL_TO
-              WHERE EMAIL_TO_ADDR = #{emailAddr}
-              UNION
-              SELECT EMAIL_ETPR_CODE
-              FROM EMAIL_CC
-              WHERE EMAIL_CC_ADDR = #{emailAddr})
-    </select>
-
-    <!-- 보낸메일함 개수 -->
-    <select id="getSentMailCount" resultType="long" parameterType="String">
-        SELECT COUNT(DISTINCT EMAIL_ETPR_CODE)
-        FROM (SELECT EF.EMAIL_ETPR_CODE
-              FROM EMAIL_FROM EF inner join EMAIL_TO ET on EF.EMAIL_ETPR_CODE = ET.EMAIL_ETPR_CODE and EF.EMAIL_FROM_ADDR = ET.EMAIL_FROM_ADDR
-              WHERE ET.EMAIL_TO_ADDR != #{emailAddr} AND EF.EMAIL_FROM_ADDR = #{emailAddr})
-    </select>
-
-    <!-- 내게쓴메일함 개수 -->
-    <select id="getSentMailToMeCount" resultType="long" parameterType="String">
-        SELECT COUNT(DISTINCT EMAIL_ETPR_CODE)
-        FROM (SELECT EF.EMAIL_ETPR_CODE
-              FROM EMAIL_FROM EF inner join EMAIL_TO ET on EF.EMAIL_ETPR_CODE = ET.EMAIL_ETPR_CODE and EF.EMAIL_FROM_ADDR = ET.EMAIL_FROM_ADDR
-              WHERE ET.EMAIL_TO_ADDR = #{emailAddr} AND EF.EMAIL_FROM_ADDR = #{emailAddr})
+        FROM EMAIL_RECEIVED_STTUS
+        WHERE EMAIL_RECEIVED_EMPL_ID = #{emplId} AND EMAIL_REAL_DELETE_AT = 'N'
     </select>
 
     <update id="modifyEmailRedngAt" parameterType="Map">

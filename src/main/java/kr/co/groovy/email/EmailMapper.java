@@ -34,7 +34,7 @@ public interface EmailMapper {
 
     int getUnreadMailCount(String emplId);
 
-    long getAllMailCount(String emailAddr);
+    long getAllMailCount(String emplId);
 
     int getEmailSeq();
 
@@ -50,9 +50,4 @@ public interface EmailMapper {
 
     List<EmailVO> getCcPerEmail(Map<String, String> map);
 
-    long getSentMailCount(String emailAddr);
-
-    long getReceivedMailCount(String emailAddr);
-
-    long getSentMailToMeCount(String emailAddr);
 }
