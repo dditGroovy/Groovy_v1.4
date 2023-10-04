@@ -43,6 +43,9 @@
 			console.log("event.data-floating", event.data);
 			let $socketAlarm = $("#aTagBox");
 			$("#floatingAlarm").css("display", "block");
+			setTimeout(function() {
+				$("#floatingAlarm").css("display", "none");
+			}, 3000);
 
 			$socketAlarm.html(event.data);
 		}
