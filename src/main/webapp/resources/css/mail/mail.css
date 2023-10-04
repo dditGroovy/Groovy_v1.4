@@ -231,6 +231,9 @@ input[type=checkbox]{outline: none}
     font-size: 11px;
     font-family: var(--font-md);
 }
+.contentWrap.send-wrap {
+    height: unset;
+}
 /*ck editor*/
 #cke_1_toolbox {
     display: flex !important;
