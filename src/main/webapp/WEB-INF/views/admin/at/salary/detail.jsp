@@ -145,6 +145,9 @@
         onGridReady: function (event) {
             event.api.sizeColumnsToFit();
         },
+        rowHeight: 50,
+        pagination: true,
+        paginationPageSize: 10,
         onRowClicked: function (event) {
             let emplId = event.data.emplId;
             let year = yearSelect.options[yearSelect.selectedIndex].value;

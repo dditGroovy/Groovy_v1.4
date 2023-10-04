@@ -159,6 +159,12 @@ ul {
     border-color: var(--color-bg-grey);
 }
 
+.ag-row .ag-cell {
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center;
+}
+
 .empty {
     text-align: center;
     border-bottom: 1px solid var(--color-stroke);

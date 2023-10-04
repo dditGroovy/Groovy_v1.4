@@ -222,6 +222,9 @@
     const gridOptions = {
         columnDefs: columnDefs,
         rowData: rowData,
+        pagination: true,
+        paginationPageSize: 10,
+        rowHeight: 50,
     };
 
     document.addEventListener('DOMContentLoaded', () => {
