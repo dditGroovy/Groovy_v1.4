@@ -1,23 +1,31 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/cardResveRecords.css">
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <div class="content-container">
-    <header>
+    <header id="tab-header">
         <h1><a href="${pageContext.request.contextPath}/card/manage">회사 카드 관리</a></h1>
-        <h1><a href="${pageContext.request.contextPath}/card/reservationRecords">대여 내역 관리</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/card/reservationRecords" class="on">대여 내역 관리</a></h1>
     </header>
     <main>
         <div id="reservationRecords">
-            <select name="cprCardNm" onchange="onSelectFilterChanged()" id="selectFilter">
-                <option value="">카드 선택</option>
-                <c:forEach items="${cardName}" var="card">
-                    <option value="${card}">${card}</option>
-                </c:forEach>
-            </select>
-            <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
-            <div id="recordGrid" class="ag-theme-alpine"></div>
+            <div class="filterWrap">
+                <div class="select-wrapper">
+                    <select name="cprCardNm" class="stroke selectBox" onchange="onSelectFilterChanged()" id="selectFilter">
+                        <option value="">카드 선택</option>
+                        <c:forEach items="${cardName}" var="card">
+                            <option value="${card}">${card}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div id="search" class="input-free-white">
+                    <i class="icon i-search"></i>
+                    <input type="text" id="quickFilter" placeholder="검색어를 입력하세요." oninput="onQuickFilterChanged()"/>
+                </div>
+            </div>
+
+            <div id="recordGrid" class="ag-theme-material"></div>
         </div>
     </main>
 </div>
@@ -38,12 +46,12 @@
             this.eGui = document.createElement('div');
             let cell = this.eGui
             if (data.cprCardResveRturnAt == 0) {
-                cell.innerHTML = "<button id='returnChkBtn'>반납 확인</button>";
+                cell.innerHTML = "<button class='returnChkBtn'>반납 확인</button>";
             } else {
                 cell.innerHTML = "<p>반납 완료</p>";
             }
 
-            this.returnChkBtn = this.eGui.querySelector("#returnChkBtn");
+            this.returnChkBtn = this.eGui.querySelector(".returnChkBtn");
             if (this.returnChkBtn != null) {
                 this.returnChkBtn.onclick = () => {
                     $.ajax({
@@ -156,7 +164,13 @@
 
     const gridOptions = {
         columnDefs: columnDefs,
-        rowData: rowData
+        rowData: rowData,
+        pagination: true,
+        paginationPageSize: 10,
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
+        rowHeight: 50,
     };
 
     document.addEventListener('DOMContentLoaded', () => {
