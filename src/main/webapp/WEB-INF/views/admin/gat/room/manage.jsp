@@ -15,8 +15,8 @@
 
 <div class="content-container">
     <header id="tab-header">
-        <h1><a href="${pageContext.request.contextPath}/reservation/room" class="on">시설 관리</a></h1>
-        <h1><a href="${pageContext.request.contextPath}/reservation/list">예약 현황</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/reserve/manageRoom" class="on">시설 관리</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/reserve/loadReservation">예약 현황</a></h1>
     </header>
     <div class="cardWrap">
         <div class="card card-df grid-card">
@@ -25,7 +25,7 @@
                 <p class="current-resve">
                     <a href="list" class="totalResve font-18 font-md"><span id="countValue" class="font-md font-36"></span> 건</a>
                 </p>
-                <a href="/reservation/list" class="more font-11 font-md">더보기 <i class="icon i-arr-rt" style="fill: red"></i></a>
+                <a href="/reserve/loadReservation" class="more font-11 font-md">더보기 <i class="icon i-arr-rt" style="fill: red"></i></a>
             </div>
             <div class="content">
                 <div id="myGrid" class="ag-theme-alpine"></div>
@@ -107,7 +107,7 @@
                     // 값이 비어있으면 요청을 보내지 않도록 확인
                     if (fcltyResveSn) {
                         const xhr = new XMLHttpRequest();
-                        xhr.open("get", "/reservation/deleteReserved?fcltyResveSn=" + fcltyResveSn, true);
+                        xhr.open("get", "/reserve/deleteReservation?fcltyResveSn=" + fcltyResveSn, true);
                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
                         xhr.onload = function () {

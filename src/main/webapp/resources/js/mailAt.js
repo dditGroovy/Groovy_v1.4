@@ -87,7 +87,6 @@ function modifyDeleteAtByBtn() {
     checkboxes = document.querySelectorAll(".selectMail:checked");
     checkboxes.forEach(function (checkbox) {
         let tr = checkbox.closest("tr");
-        console.log(tr);
         modifyTableAt(tr);
         checkbox.checked = false;
         allCheck.checked = false;

@@ -39,7 +39,7 @@
                     <li class="depth2-nav-list"><a href="#" ><i class="icon i-sanction"></i>수신 문서함</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/notice/manage"><i class="icon i-notice"></i>공지사항 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/club/admin"><i class="icon i-share"></i>동호회 관리</a></li>
-                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/reservation/room"><i class="icon i-building"></i>시설 관리</a></li>
+                    <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/reserve/manageRoom"><i class="icon i-building"></i>시설 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/reserve/manageVehicle"><i class="icon i-parking"></i>차량 관리</a></li>
                     <li class="depth2-nav-list"><a href="${pageContext.request.contextPath}/diet/dietMain"><i class="icon i-meal"></i>식단 관리</a></li>
                 </ul>

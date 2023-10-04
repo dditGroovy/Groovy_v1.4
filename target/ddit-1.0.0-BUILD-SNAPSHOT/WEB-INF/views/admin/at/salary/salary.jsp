@@ -157,9 +157,10 @@
                     value: value
                 },
                 success: function (data) {
-                    console.log("급여 업데이트 성공");
+                    alert("연봉 수정을 완료했습니다");
                 },
                 error: function (request, status, error) {
+                    alert("연봉 수정을 실패했습니다 다시 시도해주세요");
                     console.log("급여 업데이트 실패: " + error);
                 }
             });
@@ -195,9 +196,10 @@
                     value: value
                 },
                 success: function (data) {
-                    console.log("소득세 업데이트 성공");
+                    alert("소득세 수정을 완료했습니다");
                 },
                 error: function (request, status, error) {
+                    alert("소득세 수정을 실패했습니다 다시 시도해주세요");
                     console.log("소득세 업데이트 실패: " + error);
                 }
             });

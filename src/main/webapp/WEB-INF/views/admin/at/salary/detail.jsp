@@ -355,7 +355,6 @@
 
                     for (let i = 0; i < monthlyData.length; i++) {
                         const selectedResult = monthlyData[i];
-                        console.log(selectedResult);
                         downloadButtonClickHandler(selectedResult);
                     }
                 },
@@ -406,7 +405,11 @@
             type: 'post',
             success: function (result) {
                 if (result === "success") {
-                    alert("메일 전송을 완료했습니다.");
+                    Swal.fire({
+                        text: '메일 전송을 완료했습니다.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             },
             error: function (xhr, status, error) {

@@ -271,7 +271,7 @@
             },
             success: function (result) {
                 if (result) {
-                    alert("예약이 완료되었습니다. 총무팀에서 차키를 받을 수 있습니다.");
+                    alert("예약이 완료되었습니다 총무팀에서 차키를 받을 수 있습니다");
 
                 }
                 loadMyReserveList()
@@ -281,17 +281,17 @@
                 console.log("message: " + xhr.responseText);
                 console.log("error: " + xhr.error);
                 if (xhr.responseText === "vhcleNo is null") {
-                    alert("차량을 선택해주세요.");
+                    alert("차량을 선택해주세요");
                 } else if (xhr.responseText === "beginTime is null") {
-                    alert("대여시간을 선택해주세요.");
+                    alert("대여시간을 선택해주세요");
                 } else if (xhr.responseText === "endTime is null") {
-                    alert("반납시간을 선택해주세요.");
+                    alert("반납시간을 선택해주세요");
                 }
 
                 if (xhr.responseText === "same time") {
-                    alert("대여시간과 반납시간을 다르게 선택해주세요.");
+                    alert("대여시간과 반납시간을 다르게 선택해주세요");
                 } else if (xhr.responseText === "end early than begin") {
-                    alert("반납시간이 대여시간보다 이르게 선택되었습니다. 다시 시도해주세요.");
+                    alert("반납시간이 대여시간보다 이르게 선택되었습니다. 다시 시도해주세요");
                 }
             }
         });
