@@ -11,6 +11,10 @@
     <title>Title</title>
 </head>
 <body>
-<p>  The time on the server is ${serverTime}. </p>
+<p> The time on the server is ${serverTime}. </p>
+<form action="/common/uploadFile" method="post" enctype="multipart/form-data">
+    <input type="file" name="defaultFile">
+    <button type="submit">저장</button>
+</form>
 </body>
 </html>

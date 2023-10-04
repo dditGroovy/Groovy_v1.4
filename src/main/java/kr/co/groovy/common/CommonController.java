@@ -80,7 +80,7 @@ public class CommonController {
             defaultFile.transferTo(saveFile);
 
             log.info("사진 저장 성공");
-            return "redirect:/main/home" ;
+            return "redirect:/home" ;
         } catch (Exception e) {
             log.info("사진 저장 실패");
             return null;
