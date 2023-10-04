@@ -53,8 +53,6 @@ public class AlarmController {
     public Map<String, Object> all(Principal principal) {
     	List<MemoVO> list = memoService.getMemo(principal.getName());
     	MemoVO memoVO = memoService.getFixMemo();
-//        System.out.println("memoVO = " + memoVO);
-//        System.out.println("list = " + list);
 
         Map<String, Object> map = new HashMap<>();
         map.put("list",list);
@@ -73,6 +71,12 @@ public class AlarmController {
     @ResponseBody
     public void deleteAlarm(Principal principal, AlarmVO alarmVO) {
         service.deleteAlarm(alarmVO, principal.getName());
+    }
+
+    @DeleteMapping("/deleteAllAlarm")
+    @ResponseBody
+    public void deleteAllAlarm(Principal principal) {
+        service.deleteAllAlarm(principal.getName());
     }
 
     @GetMapping("/getMaxAlarm")

@@ -12,9 +12,7 @@
 		</header>
 		<div class="alarm-area"></div>
 	</section>
-	<!-- 화면에 안 보여서 div에 margin을 줬어용 번거롭게 해서 미안합니당 지우고 써주셔용!!! -->
 	<section class="memoContainer">
-		<!-- 리스트에서 고정할 메모 클릭하면 고정되어요~ -->
 		<div class="fixed-memo"></div>
 	</section>
 	<div class="service-tab">
@@ -80,14 +78,33 @@
 			url: '/alarm/getAllAlarm',
 			dataType: 'json',
 			success: function (list) {
-				console.log(list);
+				console.log("list", list.length);
 				$(".alarm-area").empty();
-				for (let i = 0; i < list.length; i++) {
-					$(".alarm-area").append(list[i].ntcnCn);
+				$(".alarm-area").removeClass("alarmBox");
+				if (list.length == 0) {
+					$(".alarm-area").addClass("alarmBox");
+					$(".alarm-area").html("<p class='font-11 none-alarm color-font-md'>최근 알림내역이 없습니다.</p>");
+				} else {
+					for (let i = 0; i < list.length; i++) {
+						$(".alarm-area").append(list[i].ntcnCn);
+					}
 				}
 			}
 		});
 	}
+
+	document.querySelector("#allReadAlarm").addEventListener("click", () => {
+		$.ajax({
+			type: 'delete',
+			url: '/alarm/deleteAllAlarm',
+			success: function () {
+				getList();
+			},
+			error: function (xhr) {
+				console.log(xhr.status);
+			}
+		})
+	})
 
 	$(document).ready(function() {
 		$(".fixed-memo").on("click", ".fixMemoCn",function() {

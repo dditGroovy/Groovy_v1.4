@@ -48,9 +48,14 @@ public class AlarmService {
             mapper.insertAlarm(alarmVO);
         }
     }
+
     public void deleteAlarm(AlarmVO alarmVO, String emplId) {
         alarmVO.setNtcnEmplId(emplId);
         mapper.deleteAlarm(alarmVO);
+    }
+
+    public void deleteAllAlarm(String emplId) {
+        mapper.deleteAllAlarm(emplId);
     }
 
     public List<AlarmVO> getAlarmList(String ntcnEmplId) {

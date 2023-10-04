@@ -226,3 +226,7 @@
     font-size: 9px;
     color:var(--color-font-md);
 }
+
+.none-alarm {
+    margin: auto;
+}

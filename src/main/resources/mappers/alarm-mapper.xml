@@ -25,6 +25,11 @@
           AND NTCN_SN = #{ntcnSn}
     </delete>
 
+    <delete id="deleteAllAlarm" parameterType="String">
+        DELETE
+        FROM NTCN
+        WHERE NTCN_EMPL_ID = #{emplId}
+    </delete>
     <select id="getAlarmList" parameterType="String" resultType="alarmVO">
         SELECT NTCN_CN,
                NTCN_URL,
