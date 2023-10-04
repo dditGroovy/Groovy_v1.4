@@ -4,6 +4,18 @@
     display: flex;
     height: var(--vh-48);
 }
+
+.from {
+    width: calc((140/var(--vw))*100vw);
+}
+
+.subject {
+    text-align: left;
+}
+
+.fromDate {
+    width: calc((156/1920)*100vw);
+}
 /* mail */
 .mailnavWrap {
     display: flex;

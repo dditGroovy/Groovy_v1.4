@@ -256,7 +256,7 @@ public class EmailService {
         return mailSender;
     }
 
-    public List<EmailVO> inputReceivedEmails(Principal principal, EmailVO emailVO, String password, PageVO pageVO) throws Exception {
+    public List<EmailVO> inputReceivedEmails(Principal principal, EmailVO emailVO, String password) throws Exception {
         EmployeeVO employeeVO = employeeMapper.loadEmp(principal.getName());
         this.password = password;
         URLName url = getUrlName(employeeVO, password);
@@ -366,7 +366,7 @@ public class EmailService {
                 }
             }
         }
-        return setAllEmailList(employeeVO.getEmplEmail(), "N", pageVO);
+        return setAllEmailList(employeeVO.getEmplEmail(), "N");
     }
 
     private URLName getUrlName(EmployeeVO employeeVO, String password) {
@@ -386,7 +386,7 @@ public class EmailService {
         return new URLName("pop3s", host, port, "INBOX", emailAddr, password);
     }
 
-    public List<EmailVO> setAllEmailList(String emailAddr, String at, PageVO pageVO) {
+    public List<EmailVO> setAllEmailList(String emailAddr, String at) {
         Map<String, Object> map = new HashMap<>();
         map.put("emailAddr", emailAddr);
         map.put("at", at);
@@ -425,17 +425,7 @@ public class EmailService {
             }
         });
 
-        pageVO.setRow();
-        pageVO.setNum((long) allMails.size());
-
-        int startIdx = Math.toIntExact(pageVO.getStartRow());
-        int endIdx = Math.min(Math.toIntExact(pageVO.getLastRow()), allMails.size());
-
-        if (startIdx <= endIdx) {
-            return allMails.subList(startIdx, endIdx);
-        } else {
-            return new ArrayList<>();
-        }
+        return allMails;
     }
 
     public String getEmplNmByEmplEmail(EmailVO mail) {

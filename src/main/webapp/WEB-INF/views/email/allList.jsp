@@ -70,14 +70,14 @@
                             </td>
                                 <%--<td>파일존재여부</td>--%>
 
-                            <td>${emailVO.emailFromAddr}</td>
-                            <td style="text-align: left">
+                            <td class="from">${emailVO.emailFromAddr}</td>
+                            <td class="subject">
                                 <span>[${emailVO.emailBoxName}] </span>
                                 <a href="/email/${emailVO.emailEtprCode}">${emailVO.emailFromSj}</a>
                             </td>
                             <c:set var="sendDateStr" value="${emailVO.emailFromSendDate}"/>
                             <fmt:formatDate var="sendDate" value="${sendDateStr}" pattern="yy.MM.dd"/>
-                            <td>${sendDate}</td>
+                            <td class="fromDate">${sendDate}</td>
                         </tr>
                     </c:forEach>
                 </c:when>

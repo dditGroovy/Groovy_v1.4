@@ -55,11 +55,11 @@
                                 </c:choose>
                                 <input type="hidden" value="${emailVO.emailDeleteAt}" name="deleteAt">
                             </td>
-                            <td>${emailVO.emailFromAddr}</td>
-                            <td><a href="#">${emailVO.emailFromSj}</a></td>
+                            <td class="from">${emailVO.emailFromAddr}</td>
+                            <td class="subject"><a href="/email/${emailVO.emailEtprCode}">${emailVO.emailFromSj}</a></td>
                             <c:set var="sendDateStr" value="${emailVO.emailFromSendDate}"/>
                             <fmt:formatDate var="sendDate" value="${sendDateStr}" pattern="yy.MM.dd"/>
-                            <td>${sendDate}</td>
+                            <td class="fromDate">${sendDate}</td>
                         </tr>
                     </c:forEach>
                 </c:when>

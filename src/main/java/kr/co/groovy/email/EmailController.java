@@ -16,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +33,18 @@ public class EmailController {
     @GetMapping("/")
     public String getMails(Principal principal, EmailVO emailVO, Model model, PageVO pageVO) throws Exception {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, this.password, pageVO);
-        model.addAttribute("list", list);
+        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, this.password);
+        pageVO.setRow();
+        pageVO.setNum((long) list.size());
+
+        int startIdx = Math.toIntExact(pageVO.getStartRow());
+        int endIdx = Math.min(Math.toIntExact(pageVO.getLastRow()), list.size());
+
+        if (startIdx <= endIdx) {
+            model.addAttribute("list", list.subList(startIdx, endIdx));
+        } else {
+            model.addAttribute("list", new ArrayList<>());
+        }
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
         long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
@@ -45,8 +56,18 @@ public class EmailController {
     @PostMapping("/all")
     public String getAllMailsGet(HttpServletRequest request, HttpServletResponse response, Principal principal, EmailVO emailVO, Model model, @RequestParam String password, PageVO pageVO) throws Exception {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, password, pageVO);
-        model.addAttribute("list", list);
+        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, password);
+        pageVO.setRow();
+        pageVO.setNum((long) list.size());
+
+        int startIdx = Math.toIntExact(pageVO.getStartRow());
+        int endIdx = Math.min(Math.toIntExact(pageVO.getLastRow()), list.size());
+
+        if (startIdx <= endIdx) {
+            model.addAttribute("list", list.subList(startIdx, endIdx));
+        } else {
+            model.addAttribute("list", new ArrayList<>());
+        }
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
         long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
@@ -127,11 +148,22 @@ public class EmailController {
     @GetMapping("/trash")
     public String getAllDeletedMails(Principal principal, EmailVO emailVO, Model model, PageVO pageVO) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.setAllEmailList(employeeVO.getEmplEmail(), "Y", pageVO);
+        List<EmailVO> list = emailService.setAllEmailList(employeeVO.getEmplEmail(), "Y");
         for (EmailVO mail : list) {
             mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
         }
-        model.addAttribute("list", list);
+
+        pageVO.setRow();
+        pageVO.setNum((long) list.size());
+
+        int startIdx = Math.toIntExact(pageVO.getStartRow());
+        int endIdx = Math.min(Math.toIntExact(pageVO.getLastRow()), list.size());
+
+        if (startIdx <= endIdx) {
+            model.addAttribute("list", list.subList(startIdx, endIdx));
+        } else {
+            model.addAttribute("list", new ArrayList<>());
+        }
 
         int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
         long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
@@ -178,6 +210,7 @@ public class EmailController {
 
     @GetMapping("/{emailEtprCode}")
     public String getEmail(@PathVariable String emailEtprCode, Model model, Principal principal) {
+        log.info(emailEtprCode);
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
 
         Map<String, String> map = new HashMap<>();
