@@ -46,7 +46,7 @@
 <%--            </c:if>--%>
 <%--        </c:forEach>--%>
 
-        <li><a href="${pageContext.request.contextPath}/humanResources/loadLog"><i class="icon i-manage"></i></a></li>
+        <li><a href="${pageContext.request.contextPath}/employee/manageEmp"><i class="icon i-manage"></i></a></li>
         <li><a href="${pageContext.request.contextPath}/chat"><i class="icon i-send"></i></a></li>
         <li><a href="${pageContext.request.contextPath}/cloud/main"><i class="icon icon-cloud"></i></a></li>
     </ul>
@@ -59,7 +59,7 @@
 <script>
     //실시간 알림 읽음 처리
     $("#fReadBtn").on("click", function () {
-        var ntcnSn = $("#fATag").attr("data-seq");
+        let ntcnSn = $("#fATag").attr("data-seq");
         $.ajax({
             type: 'delete',
             url: '/alarm/deleteAlarm?ntcnSn=' + ntcnSn,

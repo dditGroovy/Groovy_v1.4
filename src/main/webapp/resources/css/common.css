@@ -162,10 +162,10 @@ i.icon {
     height: var(--vw-16);
 }
 .btn-wrap #reservation::before {
-    background: url("/resources/images/icon/group.svg") 100% center / cover;
+    background: url("/resources/images/icon/share.svg") 100% center / cover;
 }
 .btn-wrap #videoConference::before {
-    background: url("/resources/images/icon/share.svg") 100% center / cover;
+    background: url("/resources/images/icon/group.svg") 100% center / cover;
 }
 .btn-detail {transition: 0.35s; opacity: 0;}
 .btn-wrap #videoConference:hover .btn-detail, .btn-wrap #reservation:hover .btn-detail{opacity: 1;}

@@ -17,7 +17,7 @@
                 </div>
                 <div class="user-service">
                     <ul class="font-11 font-reg">
-                        <li><i class="icon i-mail"></i><span>메일</span><a
+                        <li><i class="icon i-mail"></i><span>&nbsp;메일</span><a
                                 href="${pageContext.request.contextPath}/employee/confirm/email" id="linkMail"></a></li>
                         <li><a href="${pageContext.request.contextPath}/employee/confirm/info" id="settingMyinfo">내 정보
                             관리</a>
@@ -28,12 +28,12 @@
                     <button id="logout" class="font-11 btn-free-white"><a
                             href="#" style="color: black;">로그아웃<i
                             class="icon i-signOut"></i></a></button>
-                    <button id="videoConference" class="font-11 btn-free-white"><a
-                            href="${pageContext.request.contextPath}/employee/manageEmp"><span
-                            class="btn-detail">사원관리</span></a></button>
                     <button id="reservation" class="font-11 btn-free-white"><a
                             href="${pageContext.request.contextPath}/facility/meeting"><span
                             class="btn-detail">예약</span></a></button>
+                    <button id="videoConference" class="font-11 btn-free-white"><a
+                            href="${pageContext.request.contextPath}/employee/videoConferencing"><span
+                            class="btn-detail">화상회의</span></a></button>
                 </div>
             </div>
         </header>
