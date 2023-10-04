@@ -85,3 +85,9 @@
     height: var(--vh-56);
 
 }
+
+.ag-row .ag-cell {
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center;
+}

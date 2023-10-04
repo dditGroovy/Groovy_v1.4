@@ -119,6 +119,9 @@
         onGridReady: function (event) {
             event.api.sizeColumnsToFit();
         },
+		pagination: true,
+		paginationPageSize: 10,
+		rowHeight: 50,
     };
 
     /*module.exports = returnCarButtonRenderer;*/
