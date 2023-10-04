@@ -112,7 +112,6 @@ public class SalaryService {
     }
 
     public PaystubVO loadPaystubDetail(String emplId, String paymentDate) {
-        log.info(paymentDate);
         return salaryMapper.loadPaystubDetail(emplId, paymentDate);
     }
 
@@ -203,7 +202,7 @@ public class SalaryService {
         return cnpList;
     }
 
-    @Scheduled(cron = "0 0 14 * * ?") // 매달 14일에 인서트
+    @Scheduled(cron = "0 0 5 * * ?") // 매달 14일에 인서트
     public List<CommuteAndPaystub> schedulingSalaryExactCalculation() {
         LocalDate localDate = LocalDate.now();
         int year = localDate.getYear();

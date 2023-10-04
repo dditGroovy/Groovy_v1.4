@@ -123,16 +123,7 @@
                     <div>
                         <div class="paystubList">
                             <ul class="card card-df" id="paystubList">
-                                <li><a href="#" class="payStub-item">
-                                    <div class="item-wrap">
-                                        <strong>9월</strong>
-                                        <span>2023년 09월 14일 지급</span>
-                                    </div>
-                                    <div class="item-wrap">
-                                        <strong>실수령액</strong>
-                                        <span>5,000,000 원</span>
-                                    </div>
-                                </a></li>
+
                             </ul>
                         </div>
                     </div>
@@ -175,7 +166,7 @@
                         (months < 9 ? "0" : "") + (months + 1) + "월 " +
                         (date.getDate() < 10 ? "0" : "") + date.getDate() + "일";
                     let paymentDate = date.getFullYear() + "-" +
-                        (months < 9 ? "0" : "") + months + "-" +
+                        (months < 9 ? "0" : "") + (months + 1) + "-" +
                         (date.getDate() < 10 ? "0" : "") + date.getDate();
                     let netPay = obj.salaryDtsmtNetPay.toLocaleString();
                     code += `
