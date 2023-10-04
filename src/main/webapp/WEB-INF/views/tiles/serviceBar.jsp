@@ -42,9 +42,9 @@
 			getList();
 			console.log("event.data-floating", event.data);
 			let $socketAlarm = $("#aTagBox");
-			$("#floatingAlarm").css("display", "block");
+			$("#floatingAlarm").addClass("on");
 			setTimeout(function() {
-				$("#floatingAlarm").css("display", "none");
+				$("#floatingAlarm").removeClass("on");
 			}, 3000);
 
 			$socketAlarm.html(event.data);
