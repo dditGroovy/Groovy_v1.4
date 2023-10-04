@@ -202,6 +202,11 @@ i.icon {
     margin-right: var(--vw-12);
 }
 /*  floating*/
+#floatingAlarm {
+    position: fixed;
+    top: calc((100 / 1080) * 100vh);
+    right: calc((50 / 1920) * 100vw);
+}
 #floating {
     position: absolute;
     top: calc((100 / 1080) * 100vh);
@@ -211,6 +216,43 @@ i.icon {
 #floating a i.icon {
     width: var(--vw-32);
     height: var(--vw-32);
+}
+.alarmBox {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid var(--color-stroke);
+    width: 480px;
+    border-radius: 12px;
+    background: var(--color-bg-alarmSide, linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.00) 100%));
+    backdrop-filter: blur(2px);
+    box-shadow: -5px 0px 68px rgba(225, 225, 225, 0.65);
+}
+.alarmBox a {
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px;
+}
+.alarmBox a h1 {
+    font-size: 14px;
+}
+.alarm-textbox span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 15ch
+}
+.alarmBox .alarm-textbox {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    font-size: 11px;
+}
+.readBtn {
+    position: absolute;
+    right: 12px;
+    top: 12px;
 }
 /*  sign in */
 .container.login {
