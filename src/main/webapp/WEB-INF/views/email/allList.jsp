@@ -39,7 +39,7 @@
                     </button>
                 </th>
                 <th colspan="4" style="text-align:left; vertical-align: middle">
-                    읽지 않은 메일 수 / 전체 메일 (할거야?)
+                    ${unreadMailCount} / ${allMailCount}
                 </th>
             </tr>
             </thead>

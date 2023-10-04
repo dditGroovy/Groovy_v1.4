@@ -186,6 +186,7 @@
         where EMPL_EMAIL = #{emailAddr}
     </select>
 
+    <!-- 안읽은메일개수 -->
     <select id="getUnreadMailCount" resultType="int" parameterType="String">
         select count(EMAIL_ETPR_CODE)
         from EMAIL_RECEIVED_STTUS
@@ -242,6 +243,7 @@
         WHERE EF.EMAIL_ETPR_CODE = #{emailEtprCode}
     </select>
 
+    <!-- 전체 메일 개수 -->
     <select id="getAllMailCount" resultType="int" parameterType="String">
         SELECT COUNT(DISTINCT EMAIL_ETPR_CODE)
         FROM (SELECT EMAIL_ETPR_CODE

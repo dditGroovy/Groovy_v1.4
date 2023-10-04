@@ -25,8 +25,14 @@ public class EmailController {
 
     @PostMapping("/all")
     public String getAllMailsGet(Principal principal, EmailVO emailVO, Model model, @RequestParam String password) throws Exception {
+        EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
         List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, password);
         model.addAttribute("list", list);
+
+        int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
+        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        model.addAttribute("unreadMailCount", unreadMailCount);
+        model.addAttribute("allMailCount", allMailCount);
         return "email/allList";
     }
 
@@ -37,30 +43,44 @@ public class EmailController {
         for (EmailVO mail : list) {
             mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
         }
-        log.info(list.toString());
         model.addAttribute("list", list);
+
+        int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
+        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        model.addAttribute("unreadMailCount", unreadMailCount);
+        model.addAttribute("allMailCount", allMailCount);
         return "email/inboxList";
     }
 
     @GetMapping("/sent")
     public String getAllSentMailsByMe(Principal principal, EmailVO emailVO, Model model) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> allSentMailsByMe = emailService.getAllSentMailsByMe(employeeVO);
-        for (EmailVO mail : allSentMailsByMe) {
+        List<EmailVO> list = emailService.getAllSentMailsByMe(employeeVO);
+        for (EmailVO mail : list) {
             mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
         }
-        model.addAttribute("list", allSentMailsByMe);
+        model.addAttribute("list", list);
+
+        int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
+        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        model.addAttribute("unreadMailCount", unreadMailCount);
+        model.addAttribute("allMailCount", allMailCount);
         return "email/sentList";
     }
 
     @GetMapping("/mine")
     public String getAllSentMailsToMe(Principal principal, EmailVO emailVO, Model model) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> allSentMailsToMe = emailService.getSentMailsToMe(employeeVO);
-        for (EmailVO mail : allSentMailsToMe) {
+        List<EmailVO> list = emailService.getSentMailsToMe(employeeVO);
+        for (EmailVO mail : list) {
             mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
         }
-        model.addAttribute("list", allSentMailsToMe);
+        model.addAttribute("list", list);
+
+        int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
+        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        model.addAttribute("unreadMailCount", unreadMailCount);
+        model.addAttribute("allMailCount", allMailCount);
         return "email/mineList";
     }
 
@@ -68,32 +88,29 @@ public class EmailController {
     public String getAllDeletedMails(Principal principal, EmailVO emailVO, Model model) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
         List<EmailVO> list = emailService.setAllEmailList(employeeVO.getEmplEmail(), "Y");
-        log.info(list.toString());
         for (EmailVO mail : list) {
             mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
         }
         model.addAttribute("list", list);
+
+        int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
+        int allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        model.addAttribute(unreadMailCount);
+        model.addAttribute(allMailCount);
         return "email/trashList";
     }
 
     @PutMapping("/{code}/{emailEtprCode}")
     @ResponseBody
     public String modifyEmailRedngAt(@PathVariable String code, @PathVariable String emailEtprCode, @RequestBody String at) {
-        log.info(code);
-        log.info(emailEtprCode);
-        log.info(at);
         Map<String, String> map = emailService.getEmailAtMap(code, emailEtprCode, at);
-        log.info(map.get("at"));
         return map.get("at");
     }
 
     @PutMapping("/{emailEtprCode}")
     @ResponseBody
     public int deleteMail(@PathVariable String emailEtprCode) {
-        log.info(emailEtprCode);
-        int i = emailService.deleteMails(emailEtprCode);
-        log.info(String.valueOf(i));
-        return i;
+        return emailService.deleteMails(emailEtprCode);
     }
 
     @GetMapping("/send")
