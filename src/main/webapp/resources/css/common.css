@@ -230,6 +230,7 @@ i.icon {
     gap: 4px;
 }
 .alarmBox a {
+    height: 48px;
     display: flex;
     flex-direction: column;
     padding: 0 24px;
