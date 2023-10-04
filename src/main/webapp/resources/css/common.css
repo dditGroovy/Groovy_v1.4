@@ -206,6 +206,12 @@ i.icon {
     position: fixed;
     top: calc((100 / 1080) * 100vh);
     right: calc((50 / 1920) * 100vw);
+    border: 1px solid var(--color-stroke);
+    width: 480px;
+    border-radius: 12px;
+    background: var(--color-bg-alarmSide, linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.00) 100%));
+    backdrop-filter: blur(2px);
+    box-shadow: -5px 0px 68px rgba(225, 225, 225, 0.65);
 }
 #floating {
     position: absolute;
@@ -222,12 +228,6 @@ i.icon {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    border: 1px solid var(--color-stroke);
-    width: 480px;
-    border-radius: 12px;
-    background: var(--color-bg-alarmSide, linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.00) 100%));
-    backdrop-filter: blur(2px);
-    box-shadow: -5px 0px 68px rgba(225, 225, 225, 0.65);
 }
 .alarmBox a {
     display: flex;
