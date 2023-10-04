@@ -60,6 +60,7 @@
         </div>
     </main>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
 
 <script>
     let page = '${page}';
@@ -69,7 +70,9 @@
         'email': '/email/all'
     };
     let url = urlMappings[page];
-
+    // if (page === 'email' && Cookies.get("email")) {
+    //     window.location.href = '/email/';
+    // }
     $("button").click(function () {
         let password = $("#password").val();
         $.ajax({
@@ -77,7 +80,7 @@
             type: "post",
             data: password,
             contentType: "application/json",
-           success: function (result) {
+            success: function (result) {
                 if (result === 'correct') {
                     if (page !== "email") {
                         window.location.href = url;

@@ -311,8 +311,7 @@
                     $("#modifyRes").html('현재 비밀번호를 확인해 주세요.')
                 } else {
                     Swal.fire({
-                        icon: 'success',
-                        title: '비밀번호 변경이 완료되었습니다',
+                        text: '비밀번호 변경이 완료되었습니다',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -320,8 +319,7 @@
             },
             error: function (xhr, textStatus, error) {
                 Swal.fire({
-                    icon: 'warning',
-                    title: '비밀번호 변경에 실패하였습니다',
+                    text: '비밀번호 변경에 실패하였습니다',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -360,8 +358,7 @@
                 reader.readAsDataURL(file);
             } else {
                 Swal.fire({
-                    icon: 'warning',
-                    title: '허용되지 않은 파일 형식입니다',
+                    text: '허용되지 않은 파일 형식입니다',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -428,8 +425,7 @@
             updateMyInfo();
             saveNotificationSettings();
             Swal.fire({
-                icon: 'success',
-                title: '내 정보가 정상적으로 변경되었습니다',
+                text: '변경 완료!',
                 showConfirmButton: false,
                 timer: 1500
             })

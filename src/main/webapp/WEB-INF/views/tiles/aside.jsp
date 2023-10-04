@@ -19,7 +19,8 @@
                     <ul class="font-11 font-reg">
                         <li><i class="icon i-mail"></i><span>메일</span><a
                                 href="${pageContext.request.contextPath}/employee/confirm/email" id="linkMail"></a></li>
-                        <li><a href="${pageContext.request.contextPath}/employee/confirm/info" id="settingMyinfo">내 정보 관리</a>
+                        <li><a href="${pageContext.request.contextPath}/employee/confirm/info" id="settingMyinfo">내 정보
+                            관리</a>
                         </li>
                     </ul>
                 </div>
@@ -77,6 +78,7 @@
         </nav>
     </div>
 </sec:authorize>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
 <script>
     const navList = document.querySelectorAll(".nav-list > a");
     /*  aside   */
@@ -94,6 +96,10 @@
         }
     });
     $(document).ready(function () {
+        if (Cookies.get("email")) {
+            $("#linkMail").prop("href", "/email/");
+        }
+
         $.ajax({
             url: "/email/unreadCount",
             type: "get",
@@ -108,7 +114,7 @@
         })
 
     });
-    $("#logout").on("click", function (){
+    $("#logout").on("click", function () {
         $.ajax({
             url: "/signOut",
             type: "post",

@@ -28,7 +28,7 @@
                 logout-url="/signOut"
                 logout-success-url="/employee/signIn"
                 invalidate-session="true"
-                delete-cookies="false"
+                delete-cookies="email"
         />
         <security:remember-me key="groove_unique_key"
                               token-validity-seconds="2419200"

@@ -11,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -23,9 +26,23 @@ import java.util.Map;
 public class EmailController {
     private final EmailService emailService;
     private final EmployeeService employeeService;
+    private String password;
+
+    @GetMapping("/")
+    public String getMails(Principal principal, EmailVO emailVO, Model model, PageVO pageVO) throws Exception {
+        EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
+        List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, this.password, pageVO);
+        model.addAttribute("list", list);
+
+        int unreadMailCount = emailService.getUnreadMailCount(principal.getName());
+        long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
+        model.addAttribute("unreadMailCount", unreadMailCount);
+        model.addAttribute("allMailCount", allMailCount);
+        return "email/allList";
+    }
 
     @PostMapping("/all")
-    public String getAllMailsGet(Principal principal, EmailVO emailVO, Model model, @RequestParam String password, PageVO pageVO) throws Exception {
+    public String getAllMailsGet(HttpServletRequest request, HttpServletResponse response, Principal principal, EmailVO emailVO, Model model, @RequestParam String password, PageVO pageVO) throws Exception {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
         List<EmailVO> list = emailService.inputReceivedEmails(principal, emailVO, password, pageVO);
         model.addAttribute("list", list);
@@ -34,6 +51,27 @@ public class EmailController {
         long allMailCount = emailService.getAllMailCount(employeeVO.getEmplEmail());
         model.addAttribute("unreadMailCount", unreadMailCount);
         model.addAttribute("allMailCount", allMailCount);
+
+        this.password = password;
+
+        Cookie[] cookies = request.getCookies();
+        boolean emailCookieExists = false;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("email")) {
+                    emailCookieExists = true;
+                    break;
+                }
+            }
+        }
+
+        if (!emailCookieExists) {
+            Cookie emailCookie = new Cookie("email", "groove-email");
+            emailCookie.setPath("/");
+            response.addCookie(emailCookie);
+        }
+
         return "email/allList";
     }
 
