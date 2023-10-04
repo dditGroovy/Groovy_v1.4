@@ -150,9 +150,11 @@ public class AlarmHandler extends TextWebSocketHandler {
                     if (receiveSession != null && receiveSession.isOpen() && noticeAt.getNewChattingRoom().equals("NTCN_AT010")) {
                         String notificationHtml = String.format(
                                 "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
-                                        "<h1>[채팅]</h1>\n" +
+                                    "<h1>[채팅]</h1>" +
+                                    "<div class=\"alarm-textbox\"" +
                                         "<p> %s님이 채팅방에 초대하셨습니다.</p>" +
-                                        "</a>",
+                                    "</div>" +
+                                "</a>",
                                 url, seq, sendName
                         );
                         receiveSession.sendMessage(new TextMessage(notificationHtml));

@@ -276,7 +276,9 @@
                                     let content = `<div class="alarmBox">
                                         <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                             <h1>[채팅]</h1>
-                                            <p>\${emplNm}님이 채팅방에 초대하셨습니댜.</p>
+                                            <div class="alarm-textbox">
+                                                <p>\${emplNm}님이 채팅방에 초대하셨습니댜.</p>
+                                            </div>
                                         </a>
                                         <button type="button" class="readBtn">읽음</button>
                                     </div>`;
