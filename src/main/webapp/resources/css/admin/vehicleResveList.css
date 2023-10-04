@@ -1,6 +1,6 @@
 .ag-theme-material {
     width: 100%;
-    height: calc((600 / 1080) * 100vh);
+    height: calc((666 / 1080) * 100vh);
     text-align: center;
     --ag-font-family : var(--font-reg);
     --ag-font-size : var(--font-size-14);

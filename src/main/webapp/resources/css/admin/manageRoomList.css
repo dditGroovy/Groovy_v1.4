@@ -47,8 +47,12 @@ ul {
 }
 
 .grid-card {
-    height: calc((600/var(--vh)*100vh)) !important;
+    height: calc((800/var(--vh)*100vh)) !important;
     padding: 0 !important;
+}
+
+#myGrid {
+    height: calc((666 / var(--vh)) * 100vh);
 }
 
 .cancelRoom {

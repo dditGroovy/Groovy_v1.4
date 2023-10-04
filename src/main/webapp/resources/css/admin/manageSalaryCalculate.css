@@ -10,7 +10,7 @@ ul {
 
 #myGrid {
     width: 100%;
-    height: calc((700 / 1080) * 100vh);
+    height: calc((667 / 1080) * 100vh);
 }
 
 #quickFilter {
