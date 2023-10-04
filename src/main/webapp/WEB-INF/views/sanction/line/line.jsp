@@ -166,7 +166,9 @@
             </div>
         </div>
     </div>
-    <script src="/resources/js/modal.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         const lineAddBtn = document.querySelectorAll(".lineAddBtn");
         const lineInner = document.querySelectorAll(".line-inner");
@@ -458,7 +460,11 @@
                     data.sanctionLine[sanctionLineItems.length - index] = {id, name};
                 }
             } else {
-                alert("결재선을 선택해야합니다.");
+                Swal.fire({
+                    text: '결재선을 지정해야 합니다',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 return;
             }
 

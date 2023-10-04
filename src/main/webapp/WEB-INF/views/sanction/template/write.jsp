@@ -248,7 +248,21 @@
 
         // 결재 제출
         $("#sanctionSubmit").on("click", function () {
-            submitSanction()
+            Swal.fire({
+                text: "상신하시겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: '#5796F3FF',
+                cancelButtonColor: '#e1e1e1',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    submitSanction()
+                } else {
+                    return false;
+                }
+            })
+
         });
 
 
@@ -378,11 +392,6 @@
         function closeWindow() {
             window.opener.refreshParent();
             window.close();
-            Swal.fire({
-                text: '결재가 상신되었습니다',
-                showConfirmButton: false,
-                timer: 1500
-            })
         }
 
 

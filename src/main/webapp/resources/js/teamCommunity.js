@@ -604,7 +604,7 @@
         const target = e.target;
         console.log(target);
         if(target.id == "add-option"){
-            if(num < 5){
+            if(num < 4){
                 const newDiv = document.createElement("div");
                 newDiv.classList = "option";
 
