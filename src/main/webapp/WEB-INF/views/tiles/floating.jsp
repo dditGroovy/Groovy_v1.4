@@ -35,8 +35,8 @@
 </div>
 
 <div id="floatingAlarm" style="display: none">
-    <div id="aTagBox"></div>
-    <button type="button" id="fReadBtn">읽음</button>
+    <div id="aTagBox" class="alarmBox"></div>
+    <button type="button" id="fReadBtn" class="readBtn btn font-11">읽음</button>
 </div>
 <script>
     //실시간 알림 읽음 처리
