@@ -34,7 +34,7 @@
     </ul>
 </div>
 
-<div id="floatingAlarm" style="display: none">
+<div id="floatingAlarm">
     <div id="aTagBox" class="alarmBox"></div>
     <button type="button" id="fReadBtn" class="readBtn btn font-11">읽음</button>
 </div>

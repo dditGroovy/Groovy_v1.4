@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="card-body notice-card-body">
-                    <p class="notice-content">${noticeDetail.notiContent}</p>
+                    <div class="notice-content">${noticeDetail.notiContent}</div>
                     <c:if test="${notiFiles != null}">
                         <div class="notice-file">
                         <c:forEach var="notiFile" items="${notiFiles}" varStatus="stat">
