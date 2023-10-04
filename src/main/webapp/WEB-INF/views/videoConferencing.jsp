@@ -50,7 +50,6 @@
         client.on('user-left', handleUserLeft);
 
         let UID = await client.join(appId, channelName, token, null);
-        console.log(UID)
         localTracks = await AgoraRTC.createMicrophoneAndCameraTracks();
         let player = `<div class="video-container" id="userContainer\${UID}">
                                 <div class="video-player" id="user\${UID}"></div>
