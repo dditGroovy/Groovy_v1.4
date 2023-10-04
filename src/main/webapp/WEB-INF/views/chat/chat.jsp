@@ -191,7 +191,13 @@
                     });
                 },
                 error: function (request, status, error) {
-                    alert("채팅 로드 실패")
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'error',
+                        title: '채팅방 목록을 불러오지 못하였습니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
             })
 
@@ -204,7 +210,6 @@
                     })
                 },
                 error: function (request, status, error) {
-
                 }
             })
 
@@ -262,9 +267,17 @@
                                 success : function(newName) {
                                     let roomName = document.getElementById(currentRoomNo);
                                     roomName.innerText = newName;
+                                    loadRoomList();
+                                    modalClose();
+                                    Swal.fire({
+                                        position: 'top',
+                                        icon: 'success',
+                                        text: '채팅방 초대를 완료했습니다',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
                                 },
                                 error : function (xhr) {
-                                    console.log(xhr.status);
                                 }
                             })
 
@@ -301,16 +314,6 @@
                                                 let msg = `\${maxNum},chat,\${url},\${emplNm},\${selectedEmplIds}`;
                                                 socket.send(msg);
                                             }
-                                            loadRoomList();
-                                            modalClose();
-                                            Swal.fire({
-                                                position: 'top',
-                                                icon: 'success',
-                                                text: '채팅방 초대를 완료했습니다',
-                                                showConfirmButton: false,
-                                                timer: 1500
-                                            })
-
                                         },
                                         error: function (xhr) {
                                             console.log(xhr.status);
@@ -447,6 +450,16 @@
                     contentType: "application/json;charset:utf-8",
                     success: function (result) {
                         if (result == 1) {
+                            loadRoomList();
+                            modalClose();
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'success',
+                                text: '채팅방이 개설되었습니다',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
                             //알림 보내기
                             $.get("/alarm/getMaxAlarm")
                                 .then(function (maxNum) {
@@ -478,15 +491,6 @@
                                                 let msg = `\${maxNum},chat,\${url},\${emplNm},\${selectedEmplIds}`;
                                                 socket.send(msg);
                                             }
-                                            loadRoomList();
-                                            Swal.fire({
-                                                position: 'top',
-                                                icon: 'success',
-                                                text: '채팅방이 개설되었습니다',
-                                                showConfirmButton: false,
-                                                timer: 1500
-                                            })
-                                            modalClose();
                                         },
                                         error: function (xhr) {
                                             console.log(xhr.status);
