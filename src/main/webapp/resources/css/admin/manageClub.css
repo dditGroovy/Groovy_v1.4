@@ -115,6 +115,11 @@
     padding-top: var(--vh-12);
 }
 
+.ag-body-viewport, .ag-layout-normal, .ag-row-no-animation {
+    height: 300px;
+    overflow-y: auto;
+}
+
 #modify-club {
     display: none;
 }
