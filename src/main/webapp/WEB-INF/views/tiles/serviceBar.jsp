@@ -213,7 +213,7 @@
 					if (map.memoVO.memoSn != 0) {
 						code += `
 							<div data-fix-memo-sn="\${map.memoVO.memoSn}">
-								<div class="fixMemoCn">\${map.memoVO.memoCn}</div>
+								<div class="fixMemoCn">\${map.memoVO.memoSj}</div>
 							</div></div>`;
 					} else {
 						code += `<p class="text">고정된 메모가 없습니다.</p></div>`;
@@ -224,9 +224,10 @@
 						`;
 					if (map.list != null) {
 						map.list.forEach(item => {
+						const memoSj = item.memoSj !== null ? item.memoSj : '제목 없음';
 							code += `
 						<div data-memo-sn="\${item.memoSn}">
-							<div class="memoCn">\${item.memoCn}</div>
+							<div class="memoCn">\${memoSj}</div>
 						</div>`
 						});
 						code += "</div></div></div>";
