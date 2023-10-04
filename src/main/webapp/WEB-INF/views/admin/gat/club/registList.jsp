@@ -116,6 +116,9 @@
         onGridReady: function (event) {
             event.api.sizeColumnsToFit();
         },
+        rowHeight: 50,
+        pagination: true,
+        paginationPageSize: 10,
     };
 
     function customSort(a, b) {
