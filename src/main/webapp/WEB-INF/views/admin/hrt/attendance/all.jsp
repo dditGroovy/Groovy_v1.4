@@ -77,23 +77,29 @@
     };
 
     const columnDefs = [
-        {field: "emplNm", headerName: "이름", width: 150, resizable: true},
-        {field: "deptNm", headerName: "부서", width: 120, resizable: true},
-        {field: "clsfNm", headerName: "직급", width: 120, resizable: true},
-        {field: "defaulWorkDate", headerName: "소정근무일 수", width: 150, resizable: true},
-        {field: "realWikWorkDate", headerName: "실제근무일 수", width: 150, resizable: true},
-        {field: "defaulWorkTime", headerName: "소정 근무시간", width: 150, resizable: true},
-        {field: "realWorkTime", headerName: "실제 근무시간", width: 150, resizable: true},
-        {field: "overWorkTime", headerName: "총 연장 근무시간", width: 150, resizable: true},
-        {field: "totalWorkTime", headerName: "총 근무시간", width: 150, resizable: true},
-        {field: "avgWorkTime", headerName: "평균 근무시간", width: 150, resizable: true},
+        {field: "emplNm", headerName: "이름", resizable: true, cellStyle: {textAlign: "center"}},
+        {field: "deptNm", headerName: "부서", resizable: true, cellStyle: {textAlign: "center"}},
+        {field: "clsfNm", headerName: "직급", resizable: true, cellStyle: {textAlign: "center"}},
+        {field: "defaulWorkDate", headerName: "소정근무일 수", resizable: true, cellStyle: {textAlign: "center"}},
+        {field: "realWikWorkDate", headerName: "실제근무일 수", resizable: true, cellStyle: {textAlign: "center"}},
+        {field: "defaulWorkTime", headerName: "소정 근무시간", resizable: true, cellStyle: {textAlign: "center"}},
+        {field: "realWorkTime", headerName: "실제 근무시간", resizable: true, cellStyle: {textAlign: "center"}},
+        {field: "overWorkTime", headerName: "총 연장 근무시간", resizable: true, cellStyle: {textAlign: "center"}},
+        {field: "totalWorkTime", headerName: "총 근무시간", resizable: true, cellStyle: {textAlign: "center"}},
+        {field: "avgWorkTime", headerName: "평균 근무시간", resizable: true, cellStyle: {textAlign: "center"}},
     ];
 
     const rowData = allDclzList;
 
     const gridOptions = {
         columnDefs: columnDefs,
-        rowData: rowData
+        rowData: rowData,
+        pagination: true,
+        paginationPageSize: 10,
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
+        rowHeight: 50,
     };
 
     document.addEventListener('DOMContentLoaded', () => {

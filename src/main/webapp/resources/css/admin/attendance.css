@@ -53,3 +53,9 @@
 .ag-row-even, .ag-row-odd {
     border-color: var(--color-bg-grey);
 }
+
+.ag-row .ag-cell {
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center;
+}
