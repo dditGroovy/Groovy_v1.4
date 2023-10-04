@@ -4,7 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/job/job.css">
 <style>
     .border {
@@ -691,6 +692,10 @@
 <script src="/resources/js/orgChart.js"></script>
 <script src="/resources/js/job.js"></script>
 <script src="/resources/js/modal.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>
+
 <script>
     <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser" />
@@ -698,10 +703,14 @@
     let emplId = `${CustomUser.employeeVO.emplId}`;
     </sec:authorize>
 
-    var swiper = new Swiper("#todoBoard", {
+    let swiper = new Swiper("#todoBoard", {
         slidesPerView: 5,
         centeredSlides: true,
         spaceBetween: 24,
         grabCursor: true,
     });
+    setMinDate("jobBeginDate");
+    setMinDate("jobClosDate");
+    setDate("jobBeginDate");
+    setDate("jobClosDate");
 </script>
