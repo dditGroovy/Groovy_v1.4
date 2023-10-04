@@ -65,6 +65,9 @@
         onGridReady: function (event) {
             event.api.sizeColumnsToFit();
         },
+        rowHeight: 50,
+        pagination: true,
+        paginationPageSize: 10,
     };
 
     document.addEventListener('DOMContentLoaded', () => {

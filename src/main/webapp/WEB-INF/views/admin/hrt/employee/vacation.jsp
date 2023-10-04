@@ -126,12 +126,12 @@
         {
             field: "yrycEmpId", headerName: "사번", width: 250, getQuickFilterText: (params) => {
                 return getMedalString(params.value);
-            }
+            }, cellStyle: {textAlign: "center"}
         },
-        {field: "emplNm", headerName: "이름"},
-        {field: "deptNm", headerName: "부서"},
-        {field: "clsfNm", headerName: "직급"},
-        {field: "emplEncpn", headerName: "입사일", width: 250},
+        {field: "emplNm", headerName: "이름", cellStyle: {textAlign: "center"}},
+        {field: "deptNm", headerName: "부서", cellStyle: {textAlign: "center"}},
+        {field: "clsfNm", headerName: "직급", cellStyle: {textAlign: "center"}},
+        {field: "emplEncpn", headerName: "입사일", cellStyle: {textAlign: "center"}},
         {
             field: "yrycNowCo",
             headerName: "보유 연차",
@@ -139,7 +139,7 @@
             cellRenderer: "classCompRenderer",
             cellRendererParams: {
                 updateValue: updateValue,
-            },
+            }, cellStyle: {textAlign: "center"}
         },
     ];
 
@@ -165,6 +165,10 @@
         // paginationAutoPageSize: true,
         pagination: true,
         paginationPageSize: 10,
+        onGridReady: function (event) {
+            event.api.sizeColumnsToFit();
+        },
+        rowHeight: 50,
     };
 
     document.addEventListener('DOMContentLoaded', () => {
