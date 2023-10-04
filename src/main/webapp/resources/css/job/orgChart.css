@@ -1,0 +1,101 @@
+#orgChart {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-16);
+    overflow-y: auto;
+}
+.department {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--color-font-row);
+    height: 56px;
+    border-radius: var(--vw-12);
+    overflow: hidden;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--color-font-md);
+}
+.department > a::after {
+    content: "";
+    right: var(--vw-24);
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    background: url("/resources/images/icon/i-arr-bt.svg");
+    filter: invert(97%) sepia(1%) saturate(3002%) hue-rotate(182deg) brightness(87%) contrast(89%);
+    transition: .35s;
+}
+.department.on {
+    justify-content: unset;
+    height: 224px;
+    transform: rotate(0deg);
+}
+.department.on > a::after {
+    transform: rotate(180deg);
+}
+.department a {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    vertical-align: center;
+}
+.department.on > a {
+    border-bottom: 1px soild var(--color-font-row);
+}
+.department > ul {
+    display: none;
+    flex-direction: column;
+}
+.department.on > ul {
+    display: flex;
+    flex-direction: column;
+    height: 168px;
+    overflow-y: auto;
+}
+.department > ul li label {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    cursor: pointer;
+    gap: var(--vw-24);
+}
+input[name=orgCheckbox]{
+    display: none;
+}
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.emplBadge {
+    border: 1px solid var(--color-main);
+    padding: 4px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--color-main);
+    font-size: 11px;
+}
+.emplBadge .i-close {
+    filter: invert(59%) sepia(95%) saturate(2842%) hue-rotate(195deg) brightness(100%) contrast(91%);
+}
+.close-empl {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-wrap > button {
+    margin-top: 24px;
+    width: 120px;
+    height: 48px;
+    border-radius: 32px;
+}
