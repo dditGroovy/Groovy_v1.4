@@ -150,38 +150,56 @@
     function deleteObject(deletebtn) {
         let url = deletebtn.getAttribute("data-path");
         let type = deletebtn.getAttribute("data-type");
-        console.log(type)
-        let deleteValid;
         if (type == 'folder') {
-            deleteValid = confirm("폴더를 삭제하시면 폴더의 모든 파일이 삭제됩니다. 정말 삭제하시겠습니까?");
-        } else if(type == 'file') {
-            deleteValid = confirm("파일을 삭제하시겠습니까?");
-        }
-
-        if (!deleteValid) {
-
-        } else {
-            $.ajax({
-                type: 'delete',
-                url: `/cloud/deleteFolder?path=\${url}`,
-                success: function () {
-                    if (type == 'folder') {
-                        deletebtn.parentElement.remove();
-                    } else if(type == 'file') {
-                        let files = document.querySelectorAll('.file-box');
-                        files.forEach(file => {
-                            if (file.getAttribute("data-key") == url) {
-                                file.parentElement.remove();
-                            }
-                        });
-                        previewBox.style.display = "none";
-                    }
-                },
-                error: function (xhr) {
-                    console.log(xhr.status);
+            Swal.fire({
+                text: "폴더를 삭제하시면 폴더의 모든 파일이 삭제됩니다. 정말 삭제하시겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: '#5796F3FF',
+                cancelButtonColor: '#e1e1e1',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {//확인
+                    deleteObject();
                 }
-            });
+            })
+        } else if(type == 'file') {
+            Swal.fire({
+                text: "파일을 삭제하시겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: '#5796F3FF',
+                cancelButtonColor: '#e1e1e1',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {//확인
+                    deleteObject();
+                }
+            })
         }
+    }
+
+    function deleteObject() {
+        $.ajax({
+            type: 'delete',
+            url: `/cloud/deleteFolder?path=\${url}`,
+            success: function () {
+                if (type == 'folder') {
+                    deletebtn.parentElement.remove();
+                } else if(type == 'file') {
+                    let files = document.querySelectorAll('.file-box');
+                    files.forEach(file => {
+                        if (file.getAttribute("data-key") == url) {
+                            file.parentElement.remove();
+                        }
+                    });
+                    previewBox.style.display = "none";
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.status);
+            }
+        });
     }
 
     function fileInfo(infoBox) {
@@ -337,13 +355,21 @@
 
         // 파일의 개수 제한
         if (data.files.length > 1) {
-            alert('파일은 하나씩 전송이 가능합니다.');
+            Swal.fire({
+                text: '파일은 하나씩 전송이 가능합니다',
+                showConfirmButton: false,
+                timer: 1500
+            });
             return false;
         }
 
         // 파일의 사이즈 제한
         if (data.files[0].size >= 1024 * 1024 * 50) {
-            alert('50MB 이상인 파일은 업로드할 수 없습니다.');
+            Swal.fire({
+                text: '50MB 이상인 파일은 업로드할 수 없습니다',
+                showConfirmButton: false,
+                timer: 1500
+            });
             return false;
         }
         return true;
