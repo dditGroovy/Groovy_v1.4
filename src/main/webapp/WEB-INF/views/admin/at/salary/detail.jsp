@@ -4,7 +4,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/manageSalaryDtsmt.css">
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <div class="content-container">
-    <h1 class="dtsmtHeader tab-header font-md font-36">급여 상세</h1>
+    <h1 class="dtsmtHeader tab-header font-md font-36">
+        <a href="${pageContext.request.contextPath}/salary/list" class="on">급여 명세서 관리</a>
+    </h1>
     <div class="wrap-container">
         <div class="wrap">
             <div class="searchDiv">

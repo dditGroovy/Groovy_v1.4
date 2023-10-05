@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="/resources/css/admin/manageSalary.css">
 <div class="content-container">
     <header id="tab-header">
-        <h1><a href="#" class="on">기본 급여 및 공제 관리</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/salary" class="on">기본 급여 및 공제 관리</a></h1>
     </header>
     <div class="side-header-wrap">
         <h1 class="font-md font-18 color-font-md">급여 기본 설정</h1>
@@ -83,7 +83,7 @@
         <div class="modal-layer card-df sm salaryCard" style="display: block">
             <div class="modal-top">
                 <div class="modal-title"><i class="icon-user"></i>급여 기본 설정</div>
-                <button type="button" class="modal-close btn js-modal-close">
+                <button type="button" class="modal-close btn close">
                     <i class="icon i-close close">X</i>
                 </button>
             </div>

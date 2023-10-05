@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/manageSalaryCalculate.css">
     <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
     <div class="content-container">
-        <h1 class="dtsmtHeader tab-header font-md font-36">급여 정산</h1>
+        <h1 class="dtsmtHeader tab-header font-md font-36">
+            <a href="${pageContext.request.contextPath}/salary/calculate" class="on">급여 정산</a>
+        </h1>
         <div class="wrap">
             <div class="yearMonthDiv">
                 <div class="select-wrapper">
