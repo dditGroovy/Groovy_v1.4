@@ -81,7 +81,7 @@
                 </c:when>
                 <c:otherwise>
                     <tr>
-                        <td class="no-data" co>
+                        <td class="no-data" colspan="4">
                             메일이 존재하지 않습니다.
                         </td>
                     </tr>
