@@ -109,14 +109,14 @@
                                         <div class="file-wrap">
                                             <c:choose>
                                                 <c:when test="${sntncVO.uploadFileSn != null && sntncVO.uploadFileSn != 0.0}">
-                                                    <div class="btn-free-white fileBox">
+                                                    <a class="btn-free-white fileBox" href="/file/download/teamCommunity?uploadFileSn=${sntncVO.uploadFileSn}">
                                                         파일
-                                                        <a href="/file/download/teamCommunity?uploadFileSn=${sntncVO.uploadFileSn}" target="_blank">
+                                                        <span>
                                                                 ${sntncVO.uploadFileOrginlNm}
-                                                        </a>
+                                                        </span>
                                                         <span class="file-size"><fmt:formatNumber value="${sntncVO.uploadFileSize / 1024.0}" type="number"
                                                                           minFractionDigits="1" maxFractionDigits="1"/> KB</span>
-                                                    </div>
+                                                    </a>
 
                                                 </c:when>
                                                 <c:otherwise>
