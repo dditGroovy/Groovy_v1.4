@@ -96,7 +96,7 @@
 
     /*  메일 헤더 가리기   */
     document.querySelector("#tab-header").style.display = "none";
-    // document.querySelector(".mailnavWrap form").style.display = "none";
+    document.querySelector(".mailnavWrap #search").style.display = "none";
 
     document.querySelector("#sendBtn").addEventListener("click", function () {
         let emplIdToArr = document.querySelectorAll("input[name=emplIdToArr]");

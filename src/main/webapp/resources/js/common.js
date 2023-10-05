@@ -43,7 +43,5 @@ document.addEventListener("DOMContentLoaded",()=>{
 
         });
     });
-    const idx = sessionStorage.getItem("activeNavItem")
-    setActiveDepartment(departmentItems[idx]);
 
 })

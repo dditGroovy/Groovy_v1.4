@@ -241,7 +241,7 @@ img {
     flex-direction: column;
     justify-content: center;
 }
-.birthday-list .list-item:hover .item-desc {
+.birthday-list .list-item:hover .item-desc > p {
     background: var(--color-main);
     opacity: 1;
     color: white;
