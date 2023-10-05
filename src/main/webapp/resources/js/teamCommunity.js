@@ -63,7 +63,7 @@
     /*  포스트에서 기능 */
     post.forEach((item) => {
         item.addEventListener("click", function (e) {
-            e.preventDefault();
+            // e.preventDefault();
             const target = e.target;
             const sntncEtprCode = `${item.getAttribute("data-idx")}`;
             const sntncCnbox = item.querySelector(".sntncCn");
