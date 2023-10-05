@@ -82,7 +82,7 @@ i.icon {
     border: 2px solid var(--color-stroke);
     border-radius: var(--vw-12);
     background: var(--color-bg-grey);
-    padding: var(--vh-24) var(--vw-24);
+    padding: var(--vh-64) var(--vw-24);
 }
 
 .file-box .file-name {
@@ -373,21 +373,20 @@ i.icon {
 #sanctionSubmit,
 .form-header .btn-wrap #collectBtn,
 .rejectBtn,
-#downBtn, .sanctionBtn {
-    border-radius: var(--vw-10);
-    padding: 12px 16px;
+#downBtn, .sanctionBtn, #closeBtn {
+    border-radius: var(--vw-12);
+    width: calc((240 / 1920) * 100vw);
+    height: calc((80 / 1920) * 100vh);
+    padding: 4px 8px;
     font-size: 12px;
     white-space: nowrap;
 
 }
 
-#closeBtn {
-    width: 72px;
-    border-radius: var(--vw-10);
-    padding: var(--vh-12) var(--vw-24);
-    font-size: 12px;
-    white-space: nowrap;
-}
+/*#closeBtn {*/
+/*    font-size: 12px;*/
+/*    white-space: nowrap;*/
+/*}*/
 
 #sanctionSubmit {
     border: 1px solid var(--color-main);
@@ -596,3 +595,13 @@ th {
     width: 11px;
     height: 11px;
 }
+
+#rejectModal{
+    width: calc((880/1920)*100vw);
+    gap: var(--vh-48)
+}
+
+#rejectModal .modal-title    {
+    font-size: var(--font-size-36);
+}
+

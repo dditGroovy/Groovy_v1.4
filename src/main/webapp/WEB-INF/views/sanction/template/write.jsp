@@ -15,8 +15,8 @@
         <div class="content-header">
             <div class="form-header">
                 <div class="btn-wrap">
-                    <button type="button" id="getLine" class="btn btn-free-blue sanctionBtn">결재선 지정</button>
-                    <button type="button" id="sanctionSubmit" class="btn btn-free-white" disabled>결재 제출</button>
+                    <button type="button" id="getLine" class="btn btn-fill-bl-sm sanctionBtn">결재선 지정</button>
+                    <button type="button" id="sanctionSubmit" class="btn btn-fill-wh-sm" disabled>결재 제출</button>
                 </div>
                 <br/>
                 <div class="formTitle">
@@ -70,11 +70,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+
+        const formattedDate = `\${year}년 \${month}월 \${day}일`;
+
 
         let approver = [];
         let referrer = [];
 
-        const today = getCurrentDate()
 
         const deptCode = "${dept}" // 문서 구분용
         const etprCode = "${etprCode}";
@@ -111,9 +117,9 @@
         document.addEventListener("DOMContentLoaded", () => {
             connectWs();
             $("#sanctionNo").html(etprCode);
-            $("#writeDate").html(today);
+            $("#writeDate").html(getCurrentDate());
             $("#writer").html("${CustomUser.employeeVO.emplNm}")
-            $("#requestDate").html(today);
+            $("#requestDate").html(formattedDate);
 
             // 부서 코드에 따른 데이터 불러오기
             if (deptCode === 'DEPT011') {

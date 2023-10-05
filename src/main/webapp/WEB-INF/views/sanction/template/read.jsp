@@ -33,10 +33,10 @@
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'N')}">
                             <button type="button" onclick="approve(${lineVO.elctrnSanctnemplId})" id="approveBtn"
-                                    class="btn btn-free-white sanctionBtn">승인
+                                    class="btn btn-fill-wh-sm sanctionBtn">승인
                             </button>
                             <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-white sanctionBtn rejectBtn" data-name="reject">반려
+                                    class="btn btn-fill-wh-sm sanctionBtn rejectBtn" data-name="reject">반려
                             </button>
                         </c:if>
                         <c:if test="${ (CustomUser.employeeVO.emplId == lineVO.elctrnSanctnemplId)
@@ -44,10 +44,10 @@
                                     && (sanction.commonCodeSanctProgrs != '반려')
                                     && (lineVO.elctrnSanctnFinalAt == 'Y')}">
                             <button type="button" onclick="finalApprove(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-white sanctionBtn" id="finalApproveBtn">최종승인
+                                    class="btn btn-fill-wh-sm sanctionBtn" id="finalApproveBtn">최종승인
                             </button>
                             <button type="button" onclick="reject(${lineVO.elctrnSanctnemplId})"
-                                    class="btn btn-free-white sanctionBtn rejectBtn" data-name="reject">반려
+                                    class="btn btn-fill-wh-sm sanctionBtn rejectBtn" data-name="reject">반려
                             </button>
                         </c:if>
                     </c:forEach>
@@ -163,7 +163,7 @@
         <div class="modal-layer card-df sm reject" id="rejectModal">
             <div class="modal-top">
                 <div class="modal-title">반려하기</div>
-                <button type="button" class="modal-close btn js-modal-close">
+                <button type="button" class="modal-close btn close">
                     <i class="icon i-close">X</i>
                 </button>
             </div>

@@ -104,6 +104,7 @@
                         </div>
                     </div>
                     <div class="contentWrap">
+                    <div class="contentWrap">
                         <ul class="lineList"></ul>
                     </div>
                 </div>
@@ -282,7 +283,7 @@
                 success: function (lines) {
                     let result = "";
                     if (lines.length == 0) {
-                        result += `<p class="no-bookmark">저장된 결재선이 없습니다.</p>`;
+                        result += `<p class="no-bookmark"style="font-size: var(--font-size-24); margin-left:88px" >저장된 결재선이 없습니다.</p>`;
                     } else {
                         result += `<ul class="line-list">`;
                         lines.forEach(function (line) {
