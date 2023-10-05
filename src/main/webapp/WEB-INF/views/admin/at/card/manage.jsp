@@ -233,8 +233,6 @@
                         },
                         error: function (xhr) {
                             Swal.fire({
-                                position: 'top',
-                                icon: 'error',
                                 text: '오류로 인하여 카드 지정을 실패했습니다',
                                 showConfirmButton: false,
                                 timer: 1500
@@ -330,8 +328,6 @@
             let cardNo = $("#cardNo").val();
             if (!isValidCardNumber(cardNo)) {
                 Swal.fire({
-                    position: 'top',
-                    icon: 'error',
                     text: '카드 번호 형식이 올바르지 않습니다',
                     showConfirmButton: false,
                     timer: 1500
@@ -353,8 +349,6 @@
                 },
                 error: function (xhr) {
                     Swal.fire({
-                        position: 'top',
-                        icon: 'error',
                         text: '오류로 인하여 카드 등록을 실패했습니다',
                         showConfirmButton: false,
                         timer: 1500
@@ -412,8 +406,6 @@
                 },
                 error: function (xhr) {
                     Swal.fire({
-                        position: 'top',
-                        icon: 'error',
                         text: '오류로 인하여 카드 목록을 불러오지 못하였습니다',
                         showConfirmButton: false,
                         timer: 1500
@@ -512,14 +504,12 @@
 
         disabledCardBtn.on("click", function () {
             Swal.fire({
-                title: '카드 사용불가 처리',
                 text: '해당 카드를 사용불가 처리하시겠습니까?',
-                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '네',
-                cancelButtonText: '아니오',
+                confirmButtonColor: '#5796F3FF',
+                cancelButtonColor: '#e1e1e1',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -532,16 +522,12 @@
                                 selectedCardNo.html('');
                                 selectedCardCom.html('');
                                 Swal.fire({
-                                    position: 'top',
-                                    icon: 'success',
                                     text: '카드 사용불가 처리를 완료했습니다',
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
                             } else {
                                 Swal.fire({
-                                    position: 'top',
-                                    icon: 'error',
                                     text: '오류로 인하여 카드 사용불가 처리를 실패했습니다',
                                     showConfirmButton: false,
                                     timer: 1500
@@ -550,8 +536,6 @@
                         },
                         error: function (xhr) {
                             Swal.fire({
-                                position: 'top',
-                                icon: 'error',
                                 text: '오류로 인하여 카드 사용불가 처리를 실패했습니다',
                                 showConfirmButton: false,
                                 timer: 1500

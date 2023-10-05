@@ -192,9 +192,7 @@
                 },
                 error: function (request, status, error) {
                     Swal.fire({
-                        position: 'top',
-                        icon: 'error',
-                        title: '채팅방 목록을 불러오지 못하였습니다',
+                        text: '채팅방 목록을 불러오지 못하였습니다',
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -270,8 +268,6 @@
                                     loadRoomList();
                                     modalClose();
                                     Swal.fire({
-                                        position: 'top',
-                                        icon: 'success',
                                         text: '채팅방 초대를 완료했습니다',
                                         showConfirmButton: false,
                                         timer: 1500
@@ -325,8 +321,6 @@
                                 });
                         } else {
                             Swal.fire({
-                                position: 'top',
-                                icon: 'error',
                                 text: '채팅방 초대를 실패했습니다',
                                 showConfirmButton: false,
                                 timer: 1500
@@ -335,8 +329,6 @@
                     },
                     error: function (request, status, error) {
                         Swal.fire({
-                            position: 'top',
-                            icon: 'error',
                             text: '채팅방 초대를 실패했습니다',
                             showConfirmButton: false,
                             timer: 1500
@@ -346,8 +338,6 @@
                 $("input[name='employees']:checked").prop("checked", false);
             } else {
                 Swal.fire({
-                    position: 'top',
-                    icon: 'warning',
                     text: '초대할 사원을 선택해주세요',
                     showConfirmButton: false,
                     timer: 1500
@@ -453,8 +443,6 @@
                             loadRoomList();
                             modalClose();
                             Swal.fire({
-                                position: 'top',
-                                icon: 'success',
                                 text: '채팅방이 개설되었습니다',
                                 showConfirmButton: false,
                                 timer: 1500
@@ -502,8 +490,6 @@
                                 });
                         } else {
                             Swal.fire({
-                                position: 'top',
-                                icon: 'warning',
                                 text: '이미 존재하는 1:1 채팅방입니다',
                                 showConfirmButton: false,
                                 timer: 1500
@@ -512,8 +498,6 @@
                     },
                     error: function (request, status, error) {
                         Swal.fire({
-                            position: 'top',
-                            icon: 'warning',
                             text: '채팅방 개설을 실패했습니다',
                             showConfirmButton: false,
                             timer: 1500
@@ -524,8 +508,6 @@
                 $("input[name='employees']:checked").prop("checked", false);
             } else {
                 Swal.fire({
-                    position: 'top',
-                    icon: 'warning',
                     text: '선택된 사원이 없습니다',
                     showConfirmButton: false,
                     timer: 1500
@@ -643,8 +625,6 @@
         const employees = $(this).find("input[type=checkbox]");
         if (employees.is(':disabled')) {
             Swal.fire({
-                position: 'top',
-                icon: 'warning',
                 text: '기존 채팅방 멤버는 선택할 수 없습니다',
                 showConfirmButton: false,
                 timer: 1500
