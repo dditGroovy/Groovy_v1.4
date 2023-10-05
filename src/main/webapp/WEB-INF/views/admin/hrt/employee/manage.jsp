@@ -472,7 +472,7 @@
                     maxNum = parseInt(maxNum) + 1;
 
                     let ntcnEmplId = emplId;
-                    let url = '/employee/confirm';
+                    let url = '/employee/confirm/info';
                     let content = `<div class="alarmListBox">
                                     <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                         <h1>[서명 등록 요청]</h1>

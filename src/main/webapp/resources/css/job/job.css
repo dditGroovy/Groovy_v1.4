@@ -98,11 +98,11 @@ section .content-wrap {
     background: var(--color-white);
 }
 .jobReject {
-    border: 1px solid var(--color-font-md);
+    border: 1px solid var(--color-font-md) !important;
     color: var(--color-font-md);
 }
 .jobAgree {
-    border: 1px solid var(--color-main);
+    border: 1px solid var(--color-main) !important;
     color: var(--color-main);
 }
 .jobAgree:hover {
