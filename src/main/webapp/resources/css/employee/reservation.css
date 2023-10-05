@@ -185,6 +185,9 @@ ul {
 }
 
 .right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vh-40);
     width: calc((640 / var(--vw)) * 100vw);
     height: calc((848 / 1080) * 100vh);
     padding: var(--vh-16) var(--vw-16);
@@ -334,10 +337,12 @@ ul {
     height: 95%;
 }
 
+/*
 #reserveBox.rest {
     height: 60%;
     margin-bottom: 40px;
 }
+*/
 
 #reserveBox p {
     font-size: var(--font-size-18);
@@ -431,4 +436,11 @@ ul {
 
 .btn-on p, .btn-on span, .btn-on h3, .btn-on h4  {
     color: white;
+}
+
+.reserve-time .select-time {
+    width: 90% !important;
+}
+.submit-btn {
+    width: 90% !important;
 }
