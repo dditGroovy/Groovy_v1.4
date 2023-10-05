@@ -120,6 +120,10 @@ public class EmployeeService {
         pageVO.setNum((long) totalCount);
         Long startRow = pageVO.getStartRow();
         Long lastRow = pageVO.getLastRow();
+        if (totalCount == 0) {
+            pageVO.setStartNum(0L);
+            pageVO.setLastNum(0L);
+        }
         List<EmployeeVO> list = mapper.findEmp(depCode, emplNm, sortBy, startRow, lastRow);
         for (EmployeeVO vo : list) {
             vo.setCommonCodeDept(Department.valueOf(vo.getCommonCodeDept()).label());

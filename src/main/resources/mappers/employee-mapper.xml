@@ -252,8 +252,11 @@
     <select id="countFindEmp" resultType="int" parameterType="String">
         SELECT count(*)
         FROM EMPL
-        WHERE COMMON_CODE_DEPT = #{depCode}
-          AND EMPL_NM LIKE '%' || #{emplNm} || '%'
+        WHERE <if test="depCode!=null and depCode!=''">
+                    COMMON_CODE_DEPT = #{depCode}
+                    AND
+             </if>
+             EMPL_NM LIKE '%' || #{emplNm} || '%'
     </select>
 
     <!--  관리자 사원 관리 - 검색  -->

@@ -296,9 +296,9 @@
         })
 
         function findEmpList() {
-            const depCodeValue = $("select[name=searchDepCode]").val();
-            const emplNameValue = $("input[name=searchName]").val();
-            const sortByValue = $("select[name=sortBy]").val();
+            const depCodeValue = $("select[name=searchDepCode]").val(); //없음
+            const emplNameValue = $("input[name=searchName]").val(); //있음
+            const sortByValue = $("select[name=sortBy]").val(); //있음
 
             $.ajax({
                 url: "/employee/findEmp",
@@ -350,11 +350,13 @@
                                              </li>
                                 `;
                         for (let i = pager.startNum; i <= pager.lastNum ; i++) {
-                            pCode += `
+                            if (i != 0) {
+                                pCode += `
                                         <li class="page-item \${pager.page==i? 'active':''}">
                                             <a class="page-link page-num" href="./manageEmp?page=\${i}&depCode=\${depCodeValue}&emplNm=\${emplNameValue}&sortBy=\${sortByValue}">\${i}</a>
                                          </li>
                                       `;
+                            }
                         }
                         pCode += `
                                      <li class="\${pager.next?'':'disabled'}" id="next">
@@ -454,7 +456,7 @@
             });
         }
 
-        if (depCode != '' && sortBy != '') {
+        if (depCode != '') {
             $("select[name=searchDepCode]").val(depCode);
             $("select[name=sortBy]").val(sortBy);
             $("input[name=searchName]").val(emplNm);
