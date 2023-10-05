@@ -209,8 +209,8 @@
                                     let content = `<div class="alarmListBox">
                                                                 <a href="${url}" class="aTag" data-seq="${maxNum}">
                                                                     <div class="alarm-textbox">
-                                                                        [<span>${subject}</span>]에
-                                                                        <p>${emplNm}님이 댓글을 등록하셨습니다.</p>
+                                                                        <p>[<span>${s글ubject}</span>]에
+                                                                        ${emplNm}님이 댓글을 등록하셨습니다.</p>
                                                                     </div>
                                                                 </a>
                                                                 <button type="button" class="readBtn">읽음</button>

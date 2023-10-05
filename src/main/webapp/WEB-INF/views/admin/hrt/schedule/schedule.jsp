@@ -48,7 +48,6 @@
 	}
 	
 	.btn-primary {
-	    width: calc((200 / var(--vw)) * 100vw);
 	    height: var(--vh-56);
 	    background-color: var(--color-main);
 	    border-radius: var(--size-32);
@@ -56,14 +55,31 @@
 	    box-shadow: var(--clay-btn);
 	    outline-color: var(--color-main);
 	    color: white;
+	    text-align: center;
+	}
+	
+	#deleteEvent{
+		margin-right: 15px;
+	}
+	
+	#saveEvent{
+		margin-right: 10px;
+   	 	margin-left: 20px;
+	}
+	
+	.modal-footer > button {
+    	width: 150px;
+    	padding: 10px;
+    	margin-top: 3%;
 	}
 	
 	.form-control{
 		border-radius: var(--size-24);
-		border: 2px solid gray;
-		height: var(--vh-40);
-		text-align: center;
-		width: 74%;
+    	border: 2px solid gray;
+    	height: var(--vh-40);
+    	text-align: center;
+    	width: 69%;
+    	font-weight: bold;
 	}
 	
 	#eventStart, #eventEnd{

@@ -111,8 +111,8 @@ public class AlarmHandler extends TextWebSocketHandler {
                             "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
                                 "<h1>[팀 커뮤니티]</h1>" +
                                 "<div class=\"alarm-context\">" +
-                                "[<span>%s</span>]에\n" +
-                                "<p> %s님이 댓글을 등록하셨습니다.</p>" +
+                                "<p>[<span>%s</span>]에" +
+                                "%s님이 댓글을 등록하셨습니다.</p>" +
                                 "</div>" +
                             "</a>",
                             url, seq, subject, sendName
@@ -133,7 +133,7 @@ public class AlarmHandler extends TextWebSocketHandler {
                                     "<div class=\"alarm-textbox\">" +
                                         "<p>%s님이 " +
                                         "<span>%s</span>" +
-                                        "<p>업무를 요청하셨습니다.</p>" +
+                                        "업무를 요청하셨습니다.</p>" +
                                     "</div>" +
                                 "</a>",
                                 url, seq, sendName, subject
@@ -152,7 +152,7 @@ public class AlarmHandler extends TextWebSocketHandler {
                                 "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
                                     "<h1>[채팅]</h1>" +
                                     "<div class=\"alarm-textbox\"" +
-                                        "<p> %s님이 채팅방에 초대하셨습니다.</p>" +
+                                        "<p>%s님이 채팅방에 초대하셨습니다.</p>" +
                                     "</div>" +
                                 "</a>",
                                 url, seq, sendName
@@ -169,12 +169,8 @@ public class AlarmHandler extends TextWebSocketHandler {
                     if (receiveSession != null && receiveSession.isOpen() && noticeAt.getEmailReception().equals("NTCN_AT010")) {
                         String notificationHtml = String.format(
                                 "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
-                                        "<h1>[메일]</h1>\n" +
-                                        "<p>[<p style=\"white-space: nowrap; " +
-                                        "   display: inline-block;\n" +
-                                        "  overflow: hidden;\n" +
-                                        "  text-overflow: ellipsis;\n" +
-                                        "  max-width: 15ch;\">%s</p>]\n" +
+                                        "<h1>[메일]</h1>" +
+                                        "<p>[<span>%s</span>]" +
                                         " 메일이 도착했습니다.</p>" +
                                         "</a>",
                                 url, seq, subject
@@ -246,9 +242,9 @@ public class AlarmHandler extends TextWebSocketHandler {
                             "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
                                 "<div class=\"alarm-textbox\">" +
                                 "<h1>[결재 결과]</h1>" +
-                                "<p>%s님이</p>" +
+                                "<p>%s님이" +
                                 "[<span>%s</span>] 결재를" +
-                                "<p>%s하셨습니다.</p>" +
+                                "%s하셨습니다.</p>" +
                                 "</div>" +
                             "</a>",
                             url, seq, sendName, title, status

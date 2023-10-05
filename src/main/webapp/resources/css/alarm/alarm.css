@@ -84,6 +84,7 @@
     font-size: 14px;
     font-family: var(--font-md);
 }
+
 .alarmListBox .aTag p {
     font-size: 11px;
     white-space: nowrap;

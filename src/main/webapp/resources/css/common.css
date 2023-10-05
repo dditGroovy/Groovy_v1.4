@@ -242,6 +242,7 @@ i.icon {
 }
 .alarmBox a h1 {
     font-size: 14px;
+    margin-top: 4px;
 }
 .alarm-textbox span {
     white-space: nowrap;

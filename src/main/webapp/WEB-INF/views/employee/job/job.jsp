@@ -267,7 +267,7 @@
                                 ~
                                 <div class="data-box input-l modal-input">
                                     <p class="receive-close"></p>
-                                </div>
+                                </div>간
                             </div>
                         </li>
                         <li class="form-data-list">
@@ -371,7 +371,7 @@
             <div class="modal-footer">
                 <div class="btn-wrap">
                     <button class="close btn btn-fill-wh-sm">취소</button>
-                    <button type="submit" id="request"  class="close btn btn-fill-bl-sm">요청</button>
+                    <button type="submit" id="request"  class="btn btn-fill-bl-sm">요청</button>
                 </div>
             </div>
         </div>
@@ -382,7 +382,7 @@
                     <i class="icon i-close">X</i>
                 </button>
             </div>
-            <div class="modal-container">
+            <div class="modal-container">작
                     <ul class="modal-list">
                         <li class="form-data-list">
                             <h5 class="modal-title">📚 업무 제목</h5>
