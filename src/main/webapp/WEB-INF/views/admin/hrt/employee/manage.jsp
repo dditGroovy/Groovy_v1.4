@@ -38,7 +38,7 @@
 
                                 <div class="accordion-row">
                                     <label>휴대폰 번호</label><br/>
-                                    <input type="text" name="emplTelno" placeholder="휴대폰 번호 입력" required><br/>
+                                    <input type="text" name="emplTelno" id="emplTel" placeholder="휴대폰 번호 입력" required><br/>
                                 </div>
                                 <div class="accordion-row">
                                     <label>생년월일</label><br/>
@@ -225,7 +225,21 @@
             $(this).val("");
         }
     })
+    let telInput = $("#emplTel")
+    telInput.on('input', function () {
+        let telno =  telInput.val().replace(/-/g, '');
 
+        if (telno.length >= 4) {
+            telno = telno.slice(0, 3) + '-' + telno.slice(3);
+        }
+        if (telno.length >= 9) {
+            telno = telno.slice(0, 8) + '-' + telno.slice(8);
+        }
+        if (telno.length > 13) {
+            telno = telno.slice(0, 13);
+        }
+        telInput.val(telno);
+    });
     function accordion(element) {
         var content = element.nextElementSibling;
 
