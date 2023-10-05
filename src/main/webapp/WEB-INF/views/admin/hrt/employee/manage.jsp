@@ -165,7 +165,7 @@
                 <div class="header-container">
                     <div class="select-wrapper">
                         <select name="searchDepCode" class="stroke selectBox font-md font-14">
-                            <option value="">부서 선택</option>
+                            <option value="">부서</option>
                             <option value="DEPT010">인사팀</option>
                             <option value="DEPT011">회계팀</option>
                             <option value="DEPT012">영업팀</option>
@@ -176,7 +176,7 @@
                     </div>
                     <div class="select-wrapper">
                         <select name="sortBy" class="sortBy stroke selectBox font-md font-14">
-                            <option value="EMPL_ENCPN">입사일</option>
+                            <option value="EMPL_ENCPN">입사일순</option>
                             <option value="EMPL_NM">이름순</option>
                             <option value="COMMON_CODE_CLSF">직급순</option>
                         </select>
@@ -446,7 +446,7 @@
             });
         }
 
-        if (depCode != '' || sortBy != '') {
+        if (depCode != '' && sortBy != '') {
             $("select[name=searchDepCode]").val(depCode);
             $("select[name=sortBy]").val(sortBy);
             $("input[name=searchName]").val(emplNm);

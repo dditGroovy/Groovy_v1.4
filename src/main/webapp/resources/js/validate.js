@@ -32,7 +32,11 @@ function validateDate(formId, startDateName, endDateName) {
     today.setHours(0, 0, 0, 0);
 
     if (beginDate < today || beginDate > closDate) {
-        alert("선택한 날짜를 다시 확인해 주세요.");
+        Swal.fire({
+            text: '선택한 날짜를 다시 확인해 주세요',
+            showConfirmButton: false,
+            timer: 1500
+        })
         return false;
     }
     return true;
@@ -59,7 +63,11 @@ function validateEmpty(formId) {
     });
 
     if (isNotEmpty === false) {
-        alert("모든 항목을 입력해 주세요");
+        Swal.fire({
+            text: '모든 항목을 입력해 주세요',
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
     return isNotEmpty;
 }

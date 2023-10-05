@@ -183,6 +183,7 @@
         FROM EMPL E,
              UPLOAD_FILE U
         WHERE E.SIGN_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE
+        ORDER BY EMPL_NM ASC
     </select>
 
     <select id="pageEmpList" parameterType="kr.co.groovy.vo.PageVO" resultType="employeeVO">
@@ -196,20 +197,26 @@
                A.COMMON_CODE_HFFC_STTUS,
                A.COMMON_CODE_LAST_ACDMCR,
                A.SIGN_PHOTO_FILE_STRE_NM
-        FROM (SELECT ROWNUM R, N.*
-              FROM (SELECT E.EMPL_ID,
-                           E.EMPL_NM,
-                           E.EMPL_TELNO,
-                           E.EMPL_ENCPN,
-                           E.EMPL_BRTHDY,
-                           E.COMMON_CODE_DEPT,
-                           E.COMMON_CODE_CLSF,
-                           E.COMMON_CODE_HFFC_STTUS,
-                           E.COMMON_CODE_LAST_ACDMCR,
-                           U.UPLOAD_FILE_STRE_NM AS SIGN_PHOTO_FILE_STRE_NM
-                    FROM EMPL E,
-                         UPLOAD_FILE U
-                    WHERE E.SIGN_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE) N) A
+        FROM (
+                 SELECT ROWNUM R, N.*
+                 FROM (
+                          SELECT E.EMPL_ID,
+                                 E.EMPL_NM,
+                                 E.EMPL_TELNO,
+                                 E.EMPL_ENCPN,
+                                 E.EMPL_BRTHDY,
+                                 E.COMMON_CODE_DEPT,
+                                 E.COMMON_CODE_CLSF,
+                                 E.COMMON_CODE_HFFC_STTUS,
+                                 E.COMMON_CODE_LAST_ACDMCR,
+                                 U.UPLOAD_FILE_STRE_NM AS SIGN_PHOTO_FILE_STRE_NM
+                          FROM EMPL E,
+                               UPLOAD_FILE U
+                          WHERE E.SIGN_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE
+                          ORDER BY E.EMPL_NM ASC
+                      ) N
+
+             ) A
         WHERE R BETWEEN #{startRow}+1 AND #{lastRow}
     </select>
 
@@ -265,8 +272,12 @@
                      ROWNUM                AS rn
               FROM EMPL E
                        INNER JOIN UPLOAD_FILE U ON E.SIGN_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE
-              WHERE COMMON_CODE_DEPT = #{depCode}
-                AND E.EMPL_NM LIKE '%' || #{emplNm} || '%'
+              WHERE
+                  <if test="depCode!=null and depCode!=''">
+                  COMMON_CODE_DEPT = #{depCode}
+                  AND
+                  </if>
+                  E.EMPL_NM LIKE '%' || #{emplNm} || '%'
               ORDER BY ${sortBy} ASC)
         WHERE rn BETWEEN #{startRow}+1 AND #{lastRow}
     </select>

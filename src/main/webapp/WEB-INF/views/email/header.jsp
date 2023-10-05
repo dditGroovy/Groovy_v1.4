@@ -5,12 +5,12 @@
 <div class="mailnavWrap">
     <nav>
         <ul>
-            <li class="mail"><a href="/email/">전체메일</a></li>
-            <li class="mail"><a href="/email/inbox">받은메일함</a></li>
-            <li class="mail"><a href="/email/sent">보낸메일함</a></li>
-            <li class="mail"><a href="/email/mine">내게쓴메일함</a></li>
-            <li class="mail"><a href="/email/draft">임시저장함</a></li>
-            <li class="mail"><a href="/email/trash">휴지통</a></li>
+            <li class="mail"><a href="${pageContext.request.contextPath}/email/all">전체메일</a></li>
+            <li class="mail"><a href="${pageContext.request.contextPath}/email/inbox">받은메일함</a></li>
+            <li class="mail"><a href="${pageContext.request.contextPath}/email/sent">보낸메일함</a></li>
+            <li class="mail"><a href="${pageContext.request.contextPath}/email/mine">내게쓴메일함</a></li>
+            <li class="mail"><a href="${pageContext.request.contextPath}/email/draft">임시저장함</a></li>
+            <li class="mail"><a href="${pageContext.request.contextPath}/email/trash">휴지통</a></li>
         </ul>
     </nav>
     <div id="search" class="search input-free-white">
