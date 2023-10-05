@@ -1,22 +1,105 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-theme-alpine.css">
+<link rel="stylesheet" href="/resources/css/common.css">
 <script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+
 <style>
+	
+	h4 > i.icon {
+	    display: inline-block;
+	    width: 13%;
+	    height: 13%;
+	    vertical-align: middle;
+	    margin: 10px;
+	}
+	
+	.form-data-list > h5{
+		color: gray;
+		font-weight: bold;
+	}
+	
+	.ag-header-cell-text {
+    	overflow: hidden;
+    	text-overflow: ellipsis;
+    	color: black!important;
+    	text-align: center;
+    	width: 100%;
+    	font-size: var(--font-size-14);
+	}
+	
+	
+	.ag-body ag-layout-normal{
+		font-size: var(--font-size-14);
+	}
+	
+	.select-wrapper {
+	    float: left;
+	    margin: 10px;
+	    top: 13px;
+	}
+
+	.close{
+	    left: 100%;
+	    position: sticky;
+	    width: 15%;
+	    height: 31px;
+	    border: 1px solid white;
+	    background-color: white;
+	    font-size: 28px;
+	}
+	
+	.check{
+		position: relative;
+	    font-size: 100%;
+	    margin-top: 5%;
+	    margin-left: 2.5%;
+	    height: var(--vh-64);
+	    background-color: white;
+	    border-radius: var(--size-24);
+	    border: 1px solid var(--color-main);
+	    color: var(--color-main);
+	}
+	
+	.cancel{
+		position: relative;
+	    font-size: 100%;
+	    margin-top: 5%;
+	    margin-right: 2.5%;
+	    height: var(--vh-64);
+	    background-color: white;
+	    border-radius: var(--size-24);
+	    border: 1px solid gray;
+	    color: gray;
+	}
+	
     #request-job {
         height: 60%;
     }
+    
     #modal {
-        width: 30%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
+	    width: 30%;
+	    display: flex;
+	    flex-direction: column!important;
+	    align-items: flex-start!important;
+	    position: fixed!important; /* 모달을 고정 위치로 설정 */
+	    top: 46%; /* 화면 위 아래 중앙으로 이동 */
+	    left: 60%; /* 화면 좌우 중앙으로 이동 */
+	    transform: translate(-50%, -50%); /* 중앙으로 정확히 이동 */
+	}
+	
     .modal-header {
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: 10%;
+        font-weight: bold!important;
     }
-
+	
+	.modal-header > h4{
+		text-align: center;
+	}
+	
     .modal-body {
         display: flex;
         width: 100%;
@@ -52,13 +135,14 @@
     }
 
     .modal-footer {
-        display: flex;
-        justify-content: center;
+        display: flex!important;
+        justify-content: center!important;
     }
 
     .modal-footer > button {
-        width: 40%;
+        width: 41%;
         padding: 10px;
+        margin-bottom: 5%;
     }
 
     .modal-common, .modal-option {
@@ -66,13 +150,17 @@
     }
 
     .modal-common.on, .modal-option.on {
-        display: block;
+        display: block!important;
+       	background-color: white!important;
+       	border-radius: var(--size-32);
+       	border: 1px solid black;
     }
 
     .state-list, .tab-list {
         list-style: none;
         display: flex;
         gap: 12px;
+        font-size: xx-small;
     }
 
     .head {
@@ -82,42 +170,160 @@
     }
 
     .data-box {
-        border: 1px solid black;
+        border: 1px solid var(--color-stroke);
         padding: 12px;
+        border-radius: 30px;
+        height: 100%;
+        width: 100%;
+        background-color: #F5FAFF;
+        text-align: left;
     }
-
-    .대기 {
-        border-radius: 8px;
+	
+	.대기, .승인, .거절{
+		border-radius: 8px;
+		padding: 10px;
+        color: aliceblue;
+	}
+	
+	.stand, .approval, .refuse{
+		float: right;
+	}
+	
+    .stand, .대기 {
+    	width: 10px;
+    	height: 10px;
         background: var(--color-font-row);
-        padding: 10px;
-        color: white;
     }
 
-    .승인 {
-        border-radius: 8px;
+    .approval, .승인 {
+    	width: 10px;
+    	height: 10px;
         background: var(--color-main);
-        padding: 10px;
-        color: white;
     }
 
-    .거절 {
-        border-radius: 8px;
+    .refuse, .거절 {
+    	width: 10px;
+    	height: 10px;
         background: #D93C3C;
-        padding: 10px;
-        color: white;
     }
+   	.data-box > span{
+		color: white!important;
+	    height: 31px;
+	    width: 57px;
+	    font-size: small;
+	    display: inline-table;
+	    margin: 1%;
+	    margin-left: 7%;
+   	}
+   	
+   	.data-box > .승인{
+		height: 31px;
+    	width: 34%;
+   	}
+   	
+   	.names{
+   		color: aliceblue;
+   	}
+   	
+   	.font-md {
+    	font-family: "Pretendard-medium";
+    	color: black;
+	}
+
+	.font-24 {
+    	font-size: var(--font-size-24);
+    	color: black;
+    }
+    /*	더보기 스타일 적용	*/
+    
+    #yearSelect, #monthSelect {
+	    width: calc((230/1920)*100vw);
+	    padding: var(--vh-12) var(--vw-10);
+	    font-size: var(--font-size-14);
+	    color: var(--color-font-md);
+	    border-radius: var(--vw-10);
+	    -o-appearance: none;
+	    -webkit-appearance: none;
+	    -moz-appearance: none;
+	    appearance: none;
+	    outline: none;
+	    font-weight: bold;
+	}
+	
+	#searchBtn {
+		cursor: pointer;
+	    background-color: var(--color-main);
+	    border: 1px solid var(--color-stroke);
+	    border-radius: var(--size-32);
+	    padding: var(--vw-12);
+	    width: 5%;
+	    height: 4%;
+	    font-weight: bold;
+	    color: white;
+	    margin-top: 25px;
+	    font-size: x-small;
+	}
+    
+    .ag-header-container, .ag-center-cols-container {
+    	width: 100% !important;
+    	white-space: nowrap;
+    	margin: 0px auto;
+    	background-color: #F5FAFF;
+    	color: white; 
+	}
+	
+	.ag-ltr .ag-cell {
+    	border-right-width: 1px;
+    	text-align: center;
+    	font-size: var(--font-size-14);
+	}
+	
+	.ag-root-wrapper {
+		border: none;
+		margin-top: 20px;
+	}
+	
+	.detail{
+	    margin-top: 2px;
+	    width: calc((115 / var(--vw)) * 100vw);
+	    background-color: white;
+	    height: 35px;
+	    border-radius: var(--size-32);
+	    border: 1px solid gray;
+	    color: gray;
+	    font-size: var(--font-size-14);
+	}
+	.ag-paging-panel {
+	    border: 1px solid white;
+	    color: var(--ag-secondary-foreground-color);
+	    height: var(--ag-header-height);
+	    margin: 0px auto;
+	}
+	
+	.ag-paging-row-summary-panel{
+		display: none;
+	}
+	
+	#title{
+	    font-weight: bold;
+	    margin-left: 13px;
+	}
 </style>
 
 <div class="content-container">
     <div id="title">
         <h1>요청한 업무 내역</h1>
     </div>
-    <select id="yearSelect">
-        <option value="">년도 선택</option>
-    </select>
-    <select id="monthSelect">
-        <option value="">월 선택</option>
-    </select>
+	<div class="select-wrapper">
+    	<select id="yearSelect">
+        	<option>년도 선택</option>
+    	</select>
+  	</div>
+  	<div class="select-wrapper">
+    	<select id="monthSelect">
+        	<option>월 선택</option>
+    	</select>
+  	</div>
     <button type="button" id="searchBtn">검색</button>
     <div id="request-job" class="ag-theme-alpine"></div>
 
@@ -125,7 +331,7 @@
     <div id="modal">
         <div id="modal-requestDetail-job" class="modal-common">
             <div class="modal-header">
-                <h4><i class="icon icon-idea"></i>업무 요청하기(상세)</h4>
+                <h4><i class="icon icon-idea">💡</i>업무 요청하기(상세)</h4>
                 <button class="close">&times;</button>
             </div>
             <div class="modal-body">
@@ -172,20 +378,26 @@
                         <div class="head">
                             <h5>💌 받는 사람</h5>
                             <ul class="state-list">
-                                <li>대기</li>
+                            	<li class="stand"></li>
+                                <li	>대기</li>
+                                <li class="approval"></li>
                                 <li>승인</li>
+                                <li class="refuse"></li>
                                 <li>거절</li>
                             </ul>
                         </div>
                         <div class="data-box" id="receiveBox">
 
                         </div>
-
+						<div id="pagination" class="pagination-wrapper">
+							
+						</div>
                     </li>
                 </ul>
             </div>
             <div class="modal-footer">
-                <button class="close">확인</button>
+                <button class="cancel">취소</button>
+                <button class="check">확인</button>
             </div>
         </div>
     </div>
@@ -193,11 +405,28 @@
 </div>
 <script>
     let yearBtn = document.querySelector("#yearSelect");
-    // 모달 열기 함수
+ // 모달 열기 함수
     function openModal(modalId) {
-        document.querySelector("#modal").style.display = "flex";
-        document.querySelector(modalId).classList.add("on");
+        const modal = document.querySelector(modalId);
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden"; // 스크롤 막기
+        modal.classList.add("on");
     }
+
+    // 모달 닫기 함수
+    function closeModal(modalId) {
+        const modal = document.querySelector(modalId);
+        modal.style.display = "none";
+        document.body.style.overflow = "auto"; // 스크롤 복원
+        modal.classList.remove("on");
+    }
+
+    // 모달 닫기 버튼과 모달 외부를 클릭했을 때 모달 닫기
+	document.querySelectorAll(".close, .check, .cancel	").forEach((button) => {
+	    button.addEventListener("click", () => {
+	        closeModal("#modal-requestDetail-job");
+	    });
+	});
 
     //년도 불러오기
     $.ajax({
@@ -254,7 +483,7 @@
                             `;
             this.detailBtn = this.eGui.querySelector(".detail");
             this.detailBtn.onclick = () => {
-                document.querySelector("#modal").style.display = "block";
+                document.querySelector("#modal");
                 openModal("#modal-requestDetail-job");
                 $.ajax({
                     type: 'get',
@@ -276,7 +505,7 @@
                         let code = ``;
                         jobProgressVOList.forEach((jobProgressVO) => {
                             code +=  `<span class="\${jobProgressVO.commonCodeDutySttus}">
-                                    <span>\${jobProgressVO.jobRecptnEmplNm}</span>
+                                    <span class="names">\${jobProgressVO.jobRecptnEmplNm}</span>
                                     \${jobProgressVO.commonCodeDutySttus === '승인' ? `<span> | \${jobProgressVO.commonCodeDutyProgrs}</span>` : ''}
                              </span>`;
                         });
@@ -312,14 +541,14 @@
         jobNo: "${jobVO.jobNo}"
     })
     </c:forEach>
-
+    
     const gridRegistOptions = {
         columnDefs: columnDefsRequest,
         rowData: rowDataRequest,
         pagination:true,
-        paginationPageSize: 10,
-    };
-
+        paginationPageSize: 10
+    };	
+    
     document.querySelector("#searchBtn").addEventListener("click", ()=> {
         let selectedYear = document.querySelector("#yearSelect").value;
         let selectedMonth = document.querySelector("#monthSelect").value;
