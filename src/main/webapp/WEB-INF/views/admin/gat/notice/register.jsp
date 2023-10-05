@@ -77,7 +77,7 @@
 							console.log("최대 알람 번호:", maxNum);
 
 							let url = '/notice/detail/' + notiEtprCode;
-							let content = `<div class="alarmListBox글">
+							let content = `<div class="alarmListBox">
 										<a href="\${url}" class="aTag" data-seq="\${maxNum}">
 											<h1>[전체공지]</h1>
 											<div class="alarm-textbox">
