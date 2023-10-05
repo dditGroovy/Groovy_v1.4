@@ -3,7 +3,6 @@ package kr.co.groovy.employee;
 import kr.co.groovy.enums.ClassOfPosition;
 import kr.co.groovy.enums.Department;
 import kr.co.groovy.security.CustomUser;
-import kr.co.groovy.vo.ConnectionLogVO;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
 import kr.co.groovy.vo.PageVO;
@@ -23,7 +22,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
@@ -50,6 +48,10 @@ public class EmployeeService {
     public void initPassword(String emplId, String emplPassword) {
         String encodePw = encoder.encode(emplPassword);
         mapper.initPassword(emplId, encodePw);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUser customUser = (CustomUser) authentication.getPrincipal();
+        EmployeeVO employeeVO = customUser.getEmployeeVO();
+        employeeVO.setEmplPassword(encodePw);
     }
 
     public int countEmp() {
@@ -155,6 +157,10 @@ public class EmployeeService {
 
     public void modifyPassword(String emplId, String emplPassword) {
         String encodePw = encoder.encode(emplPassword);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUser customUser = (CustomUser) authentication.getPrincipal();
+        EmployeeVO employeeVO = customUser.getEmployeeVO();
+        employeeVO.setEmplPassword(encodePw);
         mapper.modifyPassword(emplId, encodePw);
     }
 

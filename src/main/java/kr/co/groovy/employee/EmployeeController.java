@@ -83,7 +83,7 @@ public class EmployeeController {
 
     @PostMapping("/initPassword")
     public String initPassword(@RequestParam("emplId") String emplId, @RequestParam("emplPassword") String emplPassword) {
-        service.initPassword(emplId, emplPassword);
+        this.service.initPassword(emplId, emplPassword);
         return "main/home";
     }
 
@@ -166,14 +166,11 @@ public class EmployeeController {
     public void modifyEmp(EmployeeVO vo) {
         service.modifyEmp(vo);
     }
-
     @PostMapping("/modifyInfo")
     @ResponseBody
     public void modifyInfo(EmployeeVO vo) {
         service.modifyInfo(vo);
     }
-
-
 
     @PostMapping("/modifyPassword")
     @ResponseBody
