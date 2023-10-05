@@ -83,9 +83,6 @@
                 clbEtprCode: clbEtprCode
             }),
             contentType: "application/json; charset=utf-8",
-            <%--beforeSend : function(xhr) {--%>
-            <%--    xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");--%>
-            <%--},--%>
             success: function (data) {
                 window.location.href = "/club/admin/proposalList";
             },
@@ -135,9 +132,6 @@
         $.ajax({
             url: `/club/admin/proposalList`,
             type: "POST",
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-            },
             success: function (data) {
                 const sortedData = data.sort(customSort);
                 Options.api.setRowData(sortedData);

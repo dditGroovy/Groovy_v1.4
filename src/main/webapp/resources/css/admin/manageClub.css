@@ -1,17 +1,21 @@
 /* 메인 */
 .short {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: var(--vw-64);
     margin-bottom: var(--vh-12);
 }
-
+.short .total {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
 #request-club {
     height: 200px;
 }
 
 #manage-club {
-    height: 400px;
+    height: 300px;
 }
 
 .request-club-wrap {
@@ -19,7 +23,7 @@
 }
 
 .manage-club-wrap {
-    height: calc((446 / var(--vh)) * 100vh) !important;
+    height: calc((460 / var(--vh)) * 100vh) !important;
 }
 
 .clubCount {
@@ -50,7 +54,6 @@
     border: none;
     margin: 0;
     font-size: var(--font-size-14);
-    height: calc((800 / var(--vh)) * 100vh);
 }
 
 .card {

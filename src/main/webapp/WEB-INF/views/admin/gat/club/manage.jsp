@@ -193,8 +193,6 @@
             event.api.sizeColumnsToFit();
         },
         rowHeight: 50,
-        pagination: true,
-        paginationPageSize: 10,
     };
     document.addEventListener('DOMContentLoaded', () => {
         const requestClubGrid = document.querySelector('#request-club');

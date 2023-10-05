@@ -165,7 +165,7 @@
             const clbMbrActAt = params.data.clbMbrActAt;
             const clbMbrEmplId = params.data.clbMbrEmplId;
             this.eGui = document.createElement('div');
-            this.eGui.id = "actionArea";
+            this.eGui.classList = "actionArea";
             if (clbMbrActAt == 0) {
                 this.eGui.innerHTML = `
                         <button class="leave font-md font-11 color-font-md">탈퇴 처리</button>
@@ -173,12 +173,14 @@
                 this.id = params.data.notiEtprCode;
                 this.leaveBtn = this.eGui.querySelector(".leave");
 
-                this.leaveBtn.onclick = () => {
+                this.leaveBtn.onclick = (e) => {
+                    const target = e.target;
+                    console.log(target, target.querySelector("#actionArea"));
                     $.ajax({
                         url: `/club/admin/\${clbEtprCode}/\${clbMbrEmplId}`,
                         type: "PUT",
                         success: function (data) {
-                            document.querySelector("#actionArea").innerHTML = '<p class="status">탈퇴</p>';
+                            target.closest(".actionArea").innerHTML = '<p class="status">탈퇴</p>';
                         },
                         error: function (request, status, error) {
                             console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
