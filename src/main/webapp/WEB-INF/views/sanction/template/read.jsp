@@ -447,9 +447,9 @@
                                     <a href="\${url}" class="aTag" data-seq="\${maxNum}">
                                         <h1>[결재 결과]</h1>
                                         <div class="alarm-textbox">
-                                            <p>\${emplNm}님이</p>
+                                            <p>\${emplNm}님이
                                             [<span>\${title}</span>] 결재를
-                                             <p>\${status}하셨습니다.</p>
+                                             \${status}하셨습니다.</p>
                                         </div>
                                     </a>
                                     <button type="button" class="readBtn">읽음</button>
