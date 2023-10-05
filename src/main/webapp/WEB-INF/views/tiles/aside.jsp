@@ -32,7 +32,7 @@
                             href="${pageContext.request.contextPath}/facility/meeting"><span
                             class="btn-detail">예약</span></a></button>
                     <button id="videoConference" class="font-11 btn-free-white"><a
-                            href="${pageContext.request.contextPath}/employee/videoConferencing"><span
+                            href="https://5f3c-175-116-155-226.ngrok-free.app/employee/videoConferencing"><span
                             class="btn-detail">화상회의</span></a></button>
                 </div>
             </div>
