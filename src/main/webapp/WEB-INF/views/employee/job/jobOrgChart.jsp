@@ -104,4 +104,7 @@
     $(".department").removeClass("on");
     $(this).parent(".department").toggleClass("on");
   })
+  $("#orgCancel").click(()=>{
+    window.close();
+  })
 </script>

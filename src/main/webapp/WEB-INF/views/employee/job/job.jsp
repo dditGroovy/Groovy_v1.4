@@ -690,8 +690,8 @@
     </div>
 </div>
 <script src="/resources/js/orgChart.js"></script>
-<script src="/resources/js/job.js"></script>
 <script src="/resources/js/modal.js"></script>
+<script src="/resources/js/job.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/validate.js"></script>

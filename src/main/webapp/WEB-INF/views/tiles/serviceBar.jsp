@@ -169,7 +169,7 @@
 									}
 								});
 							});
-							target.on("click",function(){
+							/*target.on("click",function(){
 								let cn = target.text();
 								$.ajax({
 									type: 'put',
@@ -180,9 +180,19 @@
 										loadAllMemo();
 									}
 								});
-							})
+							})*/
 						}
 					});
+				}
+			});
+			let cn = target.text();
+			$.ajax({
+				type: 'put',
+				url: '/alarm/noFix/' + memoSn,
+				success: function(res) {
+					$(".fixMemoCn").text(cn);
+					$(".fixed-memo").removeClass("on");
+					loadAllMemo();
 				}
 			});
 		});

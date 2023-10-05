@@ -63,9 +63,6 @@
     cursor: pointer;
     gap: var(--vw-24);
 }
-input[name=orgCheckbox]{
-    display: none;
-}
 .modal-container {
     display: flex;
     flex-direction: column;
