@@ -37,7 +37,7 @@
                     <button id="deleteMail" class="btn btn-free-white btn-service"><span>영구 삭제</span></button>
                 </th>
                 <th colspan="4" style="text-align:left; vertical-align: middle">
-                    ${unreadMailCount} / ${allMailCount}
+                    ${unreadMailCount} <span class="total-mail-text">/ ${allMailCount}</span>
                 </th>
             </tr>
             </thead>

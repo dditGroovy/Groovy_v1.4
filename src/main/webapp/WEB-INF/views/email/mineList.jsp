@@ -34,7 +34,7 @@
                     </button>
                 </th>
                 <th colspan="4" style="text-align:left; vertical-align: middle">
-                    ${unreadMailCount} / ${allMailCount}
+                    ${unreadMailCount} <span class="total-mail-text">/ ${allMailCount}</span>
                 </th>
             </tr>
             </thead>

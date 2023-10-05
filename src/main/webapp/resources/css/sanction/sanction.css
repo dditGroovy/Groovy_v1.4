@@ -260,6 +260,8 @@ i.icon {
 
 .btn-search {
     font-size: 8px;
+    min-width: 48px;
+    justify-content: center;
 }
 
 .line-table {

@@ -116,7 +116,9 @@ input[type=checkbox]{outline: none}
 .cursor {
     cursor: pointer;
 }
-
+.total-mail-text {
+    color: var(--color-font-md);
+}
 /*메일 보내기*/
 .send-wrap {
     padding: var(--vh-24) var(--vw-48);

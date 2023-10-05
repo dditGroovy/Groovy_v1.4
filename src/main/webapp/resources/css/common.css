@@ -389,7 +389,7 @@ i.icon {
     align-items: center;
     padding: var(--vh-12) var(--vw-24);
     font-size: var(--font-size-11);
-
+    white-space: nowrap;
 }
 /*  더보기 */
 .more {
