@@ -111,7 +111,7 @@
                                                 <c:when test="${sntncVO.uploadFileSn != null && sntncVO.uploadFileSn != 0.0}">
                                                     <div class="btn-free-white fileBox">
                                                         파일
-                                                        <a href="/file/download/teamCommunity?uploadFileSn=${sntncVO.uploadFileSn}">
+                                                        <a href="/file/download/teamCommunity?uploadFileSn=${sntncVO.uploadFileSn}" download>
                                                                 ${sntncVO.uploadFileOrginlNm}
                                                         </a>
                                                         <span class="file-size"><fmt:formatNumber value="${sntncVO.uploadFileSize / 1024.0}" type="number"

@@ -97,10 +97,11 @@
     align-items: center;
     gap: 8px;
 }
+/*
 i.icon {
     opacity: .2;
 }
 i.icon:hover {
     filter: invert(76%) sepia(62%) saturate(5811%) hue-rotate(194deg) brightness(98%) contrast(94%);
     opacity: 1;
-}
+}*/
