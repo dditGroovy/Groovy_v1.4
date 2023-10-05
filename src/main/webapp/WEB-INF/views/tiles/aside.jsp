@@ -97,7 +97,7 @@
     });
     $(document).ready(function () {
         if (Cookies.get("email")) {
-            $("#linkMail").prop("href", "/email/");
+            $("#linkMail").prop("href", "/email/all");
         }
 
         $.ajax({
