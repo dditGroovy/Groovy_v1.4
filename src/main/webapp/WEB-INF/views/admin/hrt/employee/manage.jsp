@@ -90,7 +90,7 @@
                                         <option value="DEPT012">영업팀</option>
                                         <option value="DEPT013">홍보팀</option>
                                         <option value="DEPT014">총무팀</option>
-                                        <option value="DEPT015">경영자</option>
+<%--                                        <option value="DEPT015">경영자</option>--%>
                                     </select>
                                 </div>
                             </div>
@@ -109,8 +109,8 @@
                                     <label for="empPos5" class="radioLabel">팀장</label>
                                     <input type="radio" name="commonCodeClsf" id="empPos6" value="CLSF011">
                                     <label for="empPos6" class="radioLabel">부장</label>
-                                    <input type="radio" name="commonCodeClsf" id="empPos7" value="CLSF010">
-                                    <label for="empPos7" class="radioLabel">대표이사</label>
+<%--                                    <input type="radio" name="commonCodeClsf" id="empPos7" value="CLSF010">--%>
+<%--                                    <label for="empPos7" class="radioLabel">대표이사</label>--%>
                                 </div>
                             </div>
                             <div class="accordion-row">
@@ -176,14 +176,14 @@
                     </div>
                     <div class="select-wrapper">
                         <select name="sortBy" class="sortBy stroke selectBox font-md font-14">
-                            <option value="EMPL_ENCPN">입사일순</option>
                             <option value="EMPL_NM">이름순</option>
+                            <option value="EMPL_ENCPN">입사일순</option>
                             <option value="COMMON_CODE_CLSF">직급순</option>
                         </select>
                     </div>
                     <div class="search btn-fill-wh-lg">
                         <i class="icon i-search"></i>
-                        <input type="text" name="searchName" class="search-input font-reg font-14" placeholder="이름, 사번">
+                        <input type="text" name="searchName" id="findInput" class="search-input font-reg font-14" placeholder="이름, 사번">
                         <button type="button" id="findEmp" class="btn-search btn-flat btn">검색</button>
                     </div>
                 </div>
@@ -217,6 +217,14 @@
     document.querySelector("#addEmployee").addEventListener("click", () => {
         queZero();
     });
+
+
+    $("#findInput").click(function () {
+        let currentInputValue = $(this).val();
+        if (currentInputValue !== "") {
+            $(this).val("");
+        }
+    })
 
     function accordion(element) {
         var content = element.nextElementSibling;
