@@ -5,78 +5,90 @@
   Time: 오후 2:24
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-grid.css">
-<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-theme-alpine.css">
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<link rel="stylesheet"
+	href="https://unpkg.com/ag-grid-community/styles/ag-grid.css">
+<link rel="stylesheet"
+	href="https://unpkg.com/ag-grid-community/styles/ag-theme-alpine.css">
 <link rel="stylesheet" href="/resources/css/admin/manageRoom.css">
-<script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+<script
+	src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
 
 <div class="content-container">
-    <header id="tab-header">
-        <h1><a href="${pageContext.request.contextPath}/reserve/manageRoom" class="on">시설 관리</a></h1>
-        <h1><a href="${pageContext.request.contextPath}/reserve/loadReservation">예약 현황</a></h1>
-    </header>
-    <div class="cardWrap">
-        <div class="card card-df grid-card">
-            <div class="header">
-                <h2 class="font-b font-24">오늘 예약 현황</h2>
-                <p class="current-resve">
-                    <a href="list" class="totalResve font-18 font-md"><span id="countValue" class="font-md font-36"></span> 건</a>
-                </p>
-                <a href="/reserve/loadReservation" class="more font-11 font-md">더보기 <i class="icon i-arr-rt" style="fill: red"></i></a>
-            </div>
-            <div class="content">
-                <div id="myGrid" class="ag-theme-alpine"></div>
-            </div>
-        </div>
-        <div class="card card-df facility-card">
-            <div class="header">
-                <div class="titleWrap" style="display: block">
-                    <h1 class="manage-header font-b font-24">시설 관리</h1>
-                    <table>
-                        <tbody>
-                        <tr class="facility facility-left">
-                            <td class="font-md font-18">회의실 | <span class="count font-md font-24">${meetingCount}</span> 개</td>
-                        </tr>
-                        <tr class="facility">
-                            <td class="font-md font-18">휴게실 | <span class="count font-md font-24">${retiringCount}</span> 개</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="content">
-                <div class="roomInfo">
-                    <c:forEach items="${meetingCode}" var="meeting">
-                        <ul class="fxrpsList card card-df">
-                            <li class="roomInfoList">
-                                <i class="icon-user"></i>
-                                <c:if test="${meeting.fcltyName == '회의실'}">
-                                    <h4 class="roomId font-sb font-24">${meeting.fcltyCode}</h4>
-                                    <span class="roomType font-reg font-18">${meeting.fcltyName}</span>
-                                    <h4 class="equip font-sb font-18">비품</h4>
-                                    <span class="fxrps font-reg font-14">|&nbsp;&nbsp;${meeting.equipName}</span>
-                                </c:if>
-                            </li>
-                        </ul>
-                    </c:forEach>
-                    <c:forEach items="${retiringCode}" var="retiring">
-                        <ul class="fxrpsList card card-df">
-                            <li class="roomInfoList">
-                                <i class="icon-user"></i>
-                                <c:if test="${retiring.fcltyName == '휴게실'}">
-                                    <h4 class="roomId font-sb font-24">${retiring.fcltyCode}</h4>
-                                    <span class="roomType font-reg font-18">${retiring.fcltyName}</span>
-                                </c:if>
-                            </li>
-                        </ul>
-                    </c:forEach>
-                </div>
-            </div>
-        </div>
-    </div>
+	<header id="tab-header">
+		<h1>
+			<a href="${pageContext.request.contextPath}/reservation/room"
+				class="on">시설 관리</a>
+		</h1>
+		<h1>
+			<a href="${pageContext.request.contextPath}/reservation/list">예약
+				현황</a>
+		</h1>
+	</header>
+	<div class="cardWrap">
+		<div class="card card-df grid-card">
+			<div class="header">
+				<h2 class="font-b font-24">오늘 예약 현황</h2>
+				<p class="current-resve">
+					<a href="list" class="totalResve font-18 font-md"><span
+						id="countValue" class="font-md font-36"></span> 건</a>
+				</p>
+				<a href="/reservation/list" class="more font-11 font-md">더보기 <i
+					class="icon i-arr-rt" style="fill: red"></i>
+				</a>
+			</div>
+			<div class="content">
+				<div id="myGrid" class="ag-theme-alpine"></div>
+			</div>
+		</div>
+		<div class="card card-df facility-card">
+			<div class="header">
+				<div class="titleWrap" style="display: block">
+					<h1 class="manage-header font-b font-24">시설 관리</h1>
+					<table>
+						<tbody>
+							<tr class="facility facility-left">
+								<td class="font-md font-18">회의실 | <span
+									class="count font-md font-24">${meetingCount}</span> 개
+								</td>
+							</tr>
+							<tr class="facility">
+								<td class="font-md font-18">휴게실 | <span
+									class="count font-md font-24">${retiringCount}</span> 개
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="content">
+				<div class="roomInfo">
+					<c:forEach items="${meetingCode}" var="meeting">
+						<ul class="fxrpsList card card-df">
+							<li class="roomInfoList"><i class="icon-user"></i> <c:if
+									test="${meeting.fcltyName == '회의실'}">
+									<h4 class="roomId font-sb font-24">${meeting.fcltyCode}</h4>
+									<span class="roomType font-reg font-18">${meeting.fcltyName}</span>
+									<h4 class="equip font-sb font-18">비품</h4>
+									<span class="fxrps font-reg font-14">|&nbsp;&nbsp;${meeting.equipName}</span>
+								</c:if></li>
+						</ul>
+					</c:forEach>
+					<c:forEach items="${retiringCode}" var="retiring">
+						<ul class="fxrpsList card card-df">
+							<li class="roomInfoList"><i class="icon-user"></i> <c:if
+									test="${retiring.fcltyName == '휴게실'}">
+									<h4 class="roomId font-sb font-24">${retiring.fcltyCode}</h4>
+									<span class="roomType font-reg font-18">${retiring.fcltyName}</span>
+								</c:if></li>
+						</ul>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
     //ag-grid
@@ -85,50 +97,59 @@
     class ClassBtn {
         init(params) {
             this.eGui = document.createElement('div');
-            const currentTime = new Date(); // 현재 날짜 및 시간 가져오기 
+            const currentTime = new Date();
             const endTime = new Date(params.data.endTime);
-            // 예약 끝 시간과 현재 시간을 비교하여 버튼을 활성화 또는 비활성화
-            if(endTime > currentTime){
-            	
-            this.eGui.innerHTML = `
-            	<button class="cancelRoom" id="${params.value}">예약 취소</button>
-        	`;
- 
-        	// 클릭 이벤트 핸들러를 추가
-            this.id = params.value;
-            this.btnReturn = this.eGui.querySelector(".cancelRoom");
+			
+         	// 예약 끝 시간과 현재 시간을 비교하여 버튼을 활성화 또는 비활성화
+            if (endTime > currentTime) {
+            	// 예약이 아직 안끝났으므로 버튼을 활성화합니다.
+                this.eGui.innerHTML = `
+                    <button class="cancelRoom" id="${params.value}">예약 취소</button>
+                `;
+                
+                // 클릭 이벤트 핸들러를 추가
+                this.btnReturn = this.eGui.querySelector('.cancelRoom');
 
-            // 클릭 이벤트 핸들러를 정의하고 삭제 버튼에 추가
-            this.btnReturn.addEventListener("click", () => {
-                if (confirm("정말 취소하시겠습니까?")) {
-                    const fcltyResveSn = this.id; // params.value 대신 this.id를 사용
-                    console.log(fcltyResveSn);
+             	// 클릭 이벤트 핸들러를 정의하고 삭제 버튼에 추가
+                this.btnReturn.addEventListener("click", () => {
+                    Swal.fire({
+                        text: "정말로 예약을 취소하시겠습니까?",
+                        showCancelButton: true,
+                        confirmButtonColor: '#5796F3FF',
+                        cancelButtonColor: '#e1e1e1',
+                        confirmButtonText: '확인',
+                        cancelButtonText: '취소'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const fcltyResveSn = params.value;
+                            console.log(fcltyResveSn);
+							
+                         	// 값이 비어있으면 요청을 보내지 않도록 확인
+                            if (fcltyResveSn) {
+                                const xhr = new XMLHttpRequest();
+                                xhr.open("get", "/reservation/deleteReserved?fcltyResveSn=" + fcltyResveSn, true);
+                                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-                    // 값이 비어있으면 요청을 보내지 않도록 확인
-                    if (fcltyResveSn) {
-                        const xhr = new XMLHttpRequest();
-                        xhr.open("get", "/reserve/deleteReservation?fcltyResveSn=" + fcltyResveSn, true);
-                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                                xhr.onload = function () {
+                                    if (xhr.status === 200) {
+                                        console.log("삭제가 완료되었습니다. 상태 코드: " + xhr.responseText);
+                                        location.reload();
+                                    } else {
+                                        console.log("삭제 요청이 실패했습니다. 상태 코드: " + xhr.status);
+                                    }
+                                };
 
-                        xhr.onload = function () {
-                            if (xhr.status === 200) {
-                                console.log("삭제가 완료되었습니다. 상태 코드: " + xhr.responseText);
-                                location.reload(); // 페이지 리로드
-                            } else {
-                                console.log("삭제 요청이 실패했습니다. 상태 코드: " + xhr.status);
+                                xhr.onerror = function () {
+                                    console.error("오류로 인해 삭제 요청이 실패했습니다.");
+                                };
+
+                                xhr.send();
                             }
-                        };
-
-                        xhr.onerror = function () {
-                            console.error("오류로 인해 삭제 요청이 실패했습니다.");
-                        };
-
-                        xhr.send();
-                    }
-                }
-            });
-         }
-      }
+                        }
+                    });
+                });
+            }
+        }
 
         getGui() {
             return this.eGui;

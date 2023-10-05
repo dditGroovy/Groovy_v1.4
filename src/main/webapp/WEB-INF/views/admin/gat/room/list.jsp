@@ -7,8 +7,8 @@
 <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
 <div class="content-container">
 	<header id="tab-header">
-		<h1><a href="${pageContext.request.contextPath}/reserve/manageRoom">시설 관리</a></h1>
-		<h1><a href="${pageContext.request.contextPath}/reserve/loadReservation" class="on">예약 현황</a></h1>
+		<h1><a href="${pageContext.request.contextPath}/reservation/room">시설 관리</a></h1>
+		<h1><a href="${pageContext.request.contextPath}/reservation/list" class="on">예약 현황</a></h1>
 	</header>
 	<div class="filterWrap">
 		<div class="select-wrapper">
@@ -45,20 +45,28 @@ class ClassBtn {
             this.eGui.innerHTML = `
                 <button class="cancelRoom" id="${params.value}">예약 취소</button>
             `;
-
+       
             // 클릭 이벤트 핸들러를 추가
-            this.id = params.value;
-            this.btnReturn = this.eGui.querySelector(".cancelRoom");
+            this.btnReturn = this.eGui.querySelector('.cancelRoom');
 
-            // 클릭 이벤트 핸들러를 정의하고 삭제 버튼에 추가
+         	// 클릭 이벤트 핸들러를 정의하고 삭제 버튼에 추가
             this.btnReturn.addEventListener("click", () => {
-                    if (confirm("정말 취소하시겠습니까?")) {
-                        const fcltyResveSn = this.id; // params.value 대신 this.id를 사용
+                Swal.fire({
+                    text: "정말로 예약을 취소하시겠습니까?",
+                    showCancelButton: true,
+                    confirmButtonColor: '#5796F3FF',
+                    cancelButtonColor: '#e1e1e1',
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const fcltyResveSn = params.value; 
+                        console.log(fcltyResveSn); 
 
                         // 값이 비어있으면 요청을 보내지 않도록 확인
                         if (fcltyResveSn) {
                             const xhr = new XMLHttpRequest();
-                            xhr.open("get", "/reserve/deleteReservation?fcltyResveSn=" + fcltyResveSn, true);
+                            xhr.open("get", "/reservation/deleteReserved?fcltyResveSn=" + fcltyResveSn, true);
                             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
                             xhr.onload = function () {
@@ -78,7 +86,8 @@ class ClassBtn {
                         }
                     }
                 });
-        } 
+            });
+        }
     }
 
     getGui() {
