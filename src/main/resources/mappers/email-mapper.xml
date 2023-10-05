@@ -10,7 +10,7 @@
                               , EMAIL_FROM_CN_TYPE
                               , EMAIL_FROM_SEND_DATE
                               , EMAIL_FROM_TMPR_STRE_AT)
-        VALUES ( 'EMAIL-' || EMAIL_SEQ.NEXTVAL || '-' || TO_CHAR(#{EMAILFROMSENDDATE}, 'YYYYMMDD')
+        VALUES ( 'EMAIL-' || EMAIL_SEQ.NEXTVAL || '-' || TO_CHAR(#{emailFromSendDate}, 'YYYYMMDD')
                , #{emailFromAddr}
                , #{emailSn}
                , #{emailFromSj}
@@ -26,7 +26,7 @@
                             , EMAIL_SN
                             , EMAIL_TO_ADDR
                             , EMAIL_TO_RECEIVED_DATE)
-        VALUES ( 'EMAIL-' || EMAIL_SEQ.CURRVAL || '-' || TO_CHAR(#{EMAILFROMSENDDATE}, 'YYYYMMDD')
+        VALUES ( 'EMAIL-' || EMAIL_SEQ.CURRVAL || '-' || TO_CHAR(#{emailFromSendDate}, 'YYYYMMDD')
                , #{emailFromAddr}
                , #{emailSn}
                , #{emailToAddr}
@@ -39,7 +39,7 @@
                             , EMAIL_SN
                             , EMAIL_CC_ADDR
                             , EMAIL_CC_RECEIVED_DATE)
-        VALUES ( 'EMAIL-' || EMAIL_SEQ.CURRVAL || '-' || TO_CHAR(#{EMAILFROMSENDDATE}, 'YYYYMMDD')
+        VALUES ( 'EMAIL-' || EMAIL_SEQ.CURRVAL || '-' || TO_CHAR(#{emailFromSendDate}, 'YYYYMMDD')
                , #{emailFromAddr}
                , #{emailSn}
                , #{emailCcAddr}
@@ -55,7 +55,7 @@
                                         , EMAIL_DELETE_AT
                                         , EMAIL_IMPRTNC_AT
                                         , EMAIL_REAL_DELETE_AT)
-        VALUES ( 'EMAIL-' || EMAIL_SEQ.CURRVAL || '-' || TO_CHAR(#{EMAILFROMSENDDATE}, 'YYYYMMDD')
+        VALUES ( 'EMAIL-' || EMAIL_SEQ.CURRVAL || '-' || TO_CHAR(#{emailFromSendDate}, 'YYYYMMDD')
                , #{emailFromAddr}
                , #{emailReceivedEmplId}
                , #{emailSn}
@@ -160,23 +160,20 @@
 
     <!-- 보낸메일함 -->
     <select id="getAllSentMailsByMe" resultType="emailVO" parameterType="Map">
-        SELECT DISTINCT EF.EMAIL_ETPR_CODE
-                      , EF.EMAIL_SN
-                      , EF.EMAIL_FROM_ADDR
-                      , EF.EMAIL_FROM_SJ
-                      , EF.EMAIL_FROM_SEND_DATE
-                      , ET.EMAIL_TO_ADDR
-                      , ET.EMAIL_TO_RECEIVED_DATE
-                      , ERS.EMAIL_DELETE_AT
-                      , ERS.EMAIL_IMPRTNC_AT
-        FROM EMAIL_FROM EF
-                 LEFT JOIN EMAIL_TO ET ON EF.EMAIL_ETPR_CODE = ET.EMAIL_ETPR_CODE
-                 LEFT JOIN EMAIL_RECEIVED_STTUS ERS ON EF.EMAIL_FROM_ADDR = ERS.EMAIL_FROM_ADDR
-        WHERE EF.EMAIL_FROM_ADDR = #{emailAddr}
-          AND ET.EMAIL_TO_ADDR NOT IN #{emailAddr}
-          AND ERS.EMAIL_DELETE_AT = #{at}
+        SELECT EF.EMAIL_FROM_ADDR
+             , EF.EMAIL_ETPR_CODE
+             , EF.EMAIL_FROM_SEND_DATE
+             , ERS.EMAIL_IMPRTNC_AT
+             , ERS.EMAIL_DELETE_AT
+             , EF.EMAIL_FROM_SJ
+        FROM EMAIL_RECEIVED_STTUS ERS
+                 INNER JOIN EMAIL_TO ET ON ERS.EMAIL_ETPR_CODE = ET.EMAIL_ETPR_CODE
+                 INNER JOIN EMAIL_FROM EF ON EF.EMAIL_ETPR_CODE = ERS.EMAIL_ETPR_CODE
+        WHERE ERS.EMAIL_FROM_ADDR = #{emailAddr}
+          AND ET.EMAIL_TO_ADDR != #{emailAddr}
           AND ERS.EMAIL_REAL_DELETE_AT = 'N'
-        ORDER BY EF.EMAIL_ETPR_CODE DESC
+          AND ERS.EMAIL_DELETE_AT = #{at}
+        ORDER BY ERS.EMAIL_ETPR_CODE DESC
     </select>
 
     <select id="getEmployeeByEmailAddr" resultType="int" parameterType="String">
@@ -190,7 +187,8 @@
         SELECT COUNT(EMAIL_ETPR_CODE)
         FROM EMAIL_RECEIVED_STTUS
         WHERE EMAIL_RECEIVED_EMPL_ID = #{emplId}
-          AND EMAIL_REDNG_AT = 'N' AND EMAIL_REAL_DELETE_AT = 'N'
+          AND EMAIL_REDNG_AT = 'N'
+          AND EMAIL_REAL_DELETE_AT = 'N'
     </select>
 
     <select id="getEmailSeq" resultType="int">
@@ -245,7 +243,8 @@
     <select id="getAllMailCount" resultType="long" parameterType="String">
         SELECT COUNT(DISTINCT EMAIL_ETPR_CODE)
         FROM EMAIL_RECEIVED_STTUS
-        WHERE EMAIL_RECEIVED_EMPL_ID = #{emplId} AND EMAIL_REAL_DELETE_AT = 'N'
+        WHERE EMAIL_RECEIVED_EMPL_ID = #{emplId}
+          AND EMAIL_REAL_DELETE_AT = 'N'
     </select>
 
     <update id="modifyEmailRedngAt" parameterType="Map">

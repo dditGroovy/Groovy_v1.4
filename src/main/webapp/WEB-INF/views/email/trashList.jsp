@@ -133,7 +133,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: `/email/delete/\${emailEtprCode}`,
+                        url: `/email/permanent/\${emailEtprCode}`,
                         type: "put",
                         success: function (result) {
                             tr.remove();

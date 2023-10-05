@@ -134,7 +134,7 @@ public class EmailController {
     @GetMapping("/trash")
     public String getAllDeletedMails(Principal principal, EmailVO emailVO, Model model, PageVO pageVO) {
         EmployeeVO employeeVO = employeeService.loadEmp(principal.getName());
-        List<EmailVO> list = emailService.setAllEmailList(employeeVO.getEmplEmail() ,   "Y");
+        List<EmailVO> list = emailService.setAllEmailList(employeeVO.getEmplEmail(), "Y");
         for (EmailVO mail : list) {
             mail.setEmailFromAddr(emailService.getEmplNmByEmplEmail(mail));
         }
@@ -160,12 +160,12 @@ public class EmailController {
 
     @PutMapping("/{code}/{emailEtprCode}")
     @ResponseBody
-    public String modifyEmailRedngAt(@PathVariable String code, @PathVariable String emailEtprCode, @RequestBody String at) {
-        Map<String, String> map = emailService.getEmailAtMap(code, emailEtprCode, at);
-        return map.get("at");
+    public int modifyEmailRedngAt(@PathVariable String code, @PathVariable String emailEtprCode, @RequestBody String at) {
+        log.info("code: {}, emailEtprCode: {}, at: {}", code, emailEtprCode, at);
+        return emailService.getEmailAtMap(code, emailEtprCode, at);
     }
 
-    @PutMapping("/delete/{emailEtprCode}")
+    @PutMapping("/permanent/{emailEtprCode}")
     @ResponseBody
     public int deleteMail(@PathVariable String emailEtprCode) {
         return emailService.deleteMails(emailEtprCode);

@@ -80,7 +80,9 @@
           	})
     	}
     });
-
+    $2a$10$4QVW4ZY/KO6k0D719d3Z2.MYFA6UNfryM4.Vzpp1UJN1yHt9J.J2K - 관리 자
+    $2a$10$1RUPUhxOjJdFWnNCTMYCleeE7f7mrtrBOJTjP31mbiJNnRW5A91hy - 하이잉(230903135)
+    $2a$10$UxGpG3lyB0.i/b8xXktK3OaC3eTqPwTvsOg0xXS/rz9i5zCljVHoa - 하이잉(230903132)
     function upload() {
         let fileInput = $("#file")[0];
 

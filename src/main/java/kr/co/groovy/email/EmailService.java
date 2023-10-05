@@ -186,7 +186,7 @@ public class EmailService {
         }
     }
 
-    public Map<String, String> getEmailAtMap(String code, String emailEtprCode, String at) {
+    public int getEmailAtMap(String code, String emailEtprCode, String at) {
         Map<String, String> map = new HashMap<>();
         switch (code) {
             case "redng":
@@ -207,7 +207,7 @@ public class EmailService {
         }
         map.put("emailEtprCode", emailEtprCode);
         int count = emailMapper.modifyEmailRedngAt(map);
-        return map;
+        return count;
     }
 
     public JavaMailSenderImpl googleMailSender(String email, String password) {
@@ -335,6 +335,7 @@ public class EmailService {
                 emailVO.setEmailFromCnType(mail.getContentType());
                 emailVO.setEmailFromSendDate(mail.getSentDate());
                 emailVO.setEmailFromTmprStreAt("N");
+                log.info("fromsenddate: {}", emailVO.getEmailFromSendDate());
                 emailMapper.inputReceivedEmailsFrom(emailVO);
 
                 emailVO.setEmailReceivedEmplId(employeeVO.getEmplId());
