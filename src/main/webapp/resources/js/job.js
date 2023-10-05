@@ -244,7 +244,12 @@ document.querySelector("#regist").addEventListener("click", () => {
     });
 
     if (!validation) {
-        alert("모든 값을 입력해주세요.");
+        // alert("모든 값을 입력해주세요.");
+        Swal.fire({
+            text: '모든 값을 입력해주세요',
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
 
     $.ajax({
@@ -271,6 +276,7 @@ myJobs.forEach(myJob => {
         confirmBtn.style.display = "none";
         document.querySelector(".send-empl").style.display = "block";
         let kindList = document.querySelectorAll(".kind-data");
+        let inputList = document.querySelectorAll(".jobDetail input");
         let target = event.target;
 
         kindList.forEach(kind => {
@@ -279,6 +285,9 @@ myJobs.forEach(myJob => {
         progressList.forEach(progress => {
             progress.checked = false;
         });
+        inputList.forEach(input => {
+            input.setAttribute("readOnly", true);
+        })
 
         if (target.classList.contains("todoCard")) {
             jobNo = target.getAttribute("data-seq");
@@ -336,7 +345,11 @@ function validateDate() {
     validateCurrentDate(close);
 
     if (beginDate > closeDate) {
-        alert('끝 날짜는 시작 날짜보다 이전이 될 수 없습니다.');
+        Swal.fire({
+            text: '끝 날짜는 시작 날짜보다 이전이 될 수 없습니다',
+            showConfirmButton: false,
+            timer: 1500
+        });
         close.value = begin.value;
     }
 }
@@ -350,7 +363,11 @@ function newValidateDate() {
     validateCurrentDate(close);
 
     if (beginDate > closeDate) {
-        alert('끝 날짜는 시작 날짜보다 이전이 될 수 없습니다.');
+        Swal.fire({
+            text: '끝 날짜는 시작 날짜보다 이전이 될 수 없습니다',
+            showConfirmButton: false,
+            timer: 1500
+        });
         close.value = begin.value;
     }
 }
@@ -391,7 +408,11 @@ requestBtn.addEventListener("click", (event) => {
     });
 
     if (!validation) {
-        alert("모든 값을 입력해주세요.");
+        Swal.fire({
+            text: '모든 값을 입력해주세요',
+            showConfirmButton: false,
+            timer: 1500
+        });
     }
 
     //받는 사원의 리스트
@@ -480,7 +501,6 @@ modifyBtn.addEventListener("click", function(){
     this.style.display = "none";
     if (dataId == emplId) { // 나 -> 나
         let inputList = document.querySelectorAll(".jobDetail input");
-        console.log(inputList);
         inputList.forEach(input => {
             input.disabled = false;
             input.readOnly = false;
