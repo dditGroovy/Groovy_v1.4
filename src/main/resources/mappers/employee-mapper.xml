@@ -26,12 +26,7 @@
         <result property="authCode" column="AUTH_CODE"/>
         <result property="authEmpId" column="AUTH_EMP_ID"/>
     </resultMap>
-    <!--  사원 - 비밀번호 초기화 시 맥 어드레스 회원 정보에 등록  -->
-    <update id="initMacAddr" parameterType="String">
-        UPDATE EMPL
-        SET EMPL_MACADRS = #{emplMacadrs}
-        WHERE EMPL_ID = #{emplId}
-    </update>
+
     <!--  사원 - 로그인 시 접속 로그  -->
     <insert id="inputConectLog" parameterType="connectionLogVO">
         INSERT INTO CONECT_LOG(EMPL_ID,
@@ -334,18 +329,6 @@
     </update>
 
 
-    <!--  관리자 사원 관리 - 사원 접속 로그 확인  -->
-    <select id="loadConnectionLog" parameterType="String" resultType="connectionLogVO">
-        SELECT C.EMPL_ID,
-               C.CONECT_LOG_MACADRS,
-               C.CONECT_LOG_IP,
-               C.CONECT_LOG_DATE,
-               E.EMPL_MACADRS
-        FROM CONECT_LOG C,
-             EMPL E
-        WHERE C.EMPL_ID = E.EMPL_ID
-          AND TO_CHAR(CONECT_LOG_DATE, 'yyyy-MM-dd') = #{today}
-    </select>
 
     <select id="findTelNoByEmplId" resultType="String" parameterType="String">
         SELECT EMPL_TELNO

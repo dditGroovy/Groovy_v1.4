@@ -56,5 +56,7 @@ public interface EmployeeMapper {
     List<String> loadEmplByDept(String commonCodeDept);
 
     List<EmployeeVO> pageEmpList(PageVO pageVO);
+
+    String getPassword (String emplId);
 }
 

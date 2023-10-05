@@ -68,8 +68,8 @@
 
             if (password == passwordConfirm) {
                 const form = document.querySelector("form");
-                passwordField.value = "";
-                passwordConfirmField.value = "";
+                // passwordField.value = "";
+                // passwordConfirmField.value = "";
                 errorDiv.innerText = "";
                 form.submit();
             } else {

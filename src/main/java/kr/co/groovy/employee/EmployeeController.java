@@ -1,7 +1,6 @@
 package kr.co.groovy.employee;
 
 import kr.co.groovy.security.CustomUser;
-import kr.co.groovy.vo.ConnectionLogVO;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
 import kr.co.groovy.vo.PageVO;
@@ -84,7 +83,7 @@ public class EmployeeController {
 
     @PostMapping("/initPassword")
     public String initPassword(@RequestParam("emplId") String emplId, @RequestParam("emplPassword") String emplPassword) {
-        this.service.initPassword(emplId, emplPassword);
+        service.initPassword(emplId, emplPassword);
         return "main/home";
     }
 
@@ -167,20 +166,13 @@ public class EmployeeController {
     public void modifyEmp(EmployeeVO vo) {
         service.modifyEmp(vo);
     }
+
     @PostMapping("/modifyInfo")
     @ResponseBody
     public void modifyInfo(EmployeeVO vo) {
         service.modifyInfo(vo);
     }
 
-    // 연결 로그 로드
-    @GetMapping("/loadLog")
-    ModelAndView loadConnectionLog(ModelAndView mav, String today) {
-        List<ConnectionLogVO> list = service.loadConnectionLog(today);
-        mav.addObject("logList", list);
-        mav.setViewName("admin/hrt/employee/connectionLog");
-        return mav;
-    }
 
 
     @PostMapping("/modifyPassword")

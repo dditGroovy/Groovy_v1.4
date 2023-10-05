@@ -66,13 +66,10 @@
     let page = '${page}';
     let urlMappings = {
         'info': '/employee/myInfo',
-        'salary': '/salary/paystub',
-        'email': '/email/all'
+        'salary': '/salary/paystub'
     };
     let url = urlMappings[page];
-    // if (page === 'email' && Cookies.get("email")) {
-    //     window.location.href = '/email/';
-    // }
+
     $("button").click(function () {
         let password = $("#password").val();
         $.ajax({

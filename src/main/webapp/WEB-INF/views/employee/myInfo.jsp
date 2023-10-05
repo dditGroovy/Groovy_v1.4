@@ -61,9 +61,18 @@
                                 <input type="hidden" name="emplId"
                                        value="${CustomUser.employeeVO.emplId}"><br/>
                                 <label for="emplSignFile">
-                                    <img id="userSignProfile"
-                                         src="${pageContext.request.contextPath}/uploads/sign/${CustomUser.employeeVO.signPhotoFileStreNm}"
-                                         alt="signImage"/>
+                                    <c:choose>
+                                        <c:when test="${CustomUser.employeeVO.signPhotoFileStreNm=='groovy_noSign.png'}">
+                                            <img id="userSignProfile"
+                                                 src="${pageContext.request.contextPath}/resources/images/noSign.png"
+                                                 alt="signImage"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img id="userSignProfile"
+                                                 src="${pageContext.request.contextPath}/uploads/sign/${CustomUser.employeeVO.signPhotoFileStreNm}"
+                                                 alt="signImage"/>
+                                        </c:otherwise>
+                                    </c:choose>
                                         <%--                                            <div class="sign-btn"><i class="icon i-add"></i>등록하기</div>--%>
                                 </label>
                                 <input type="file" name="signPhotoFile" id="emplSignFile" hidden="hidden"/>
@@ -315,6 +324,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     })
+                    modalClose()
                 }
             },
             error: function (xhr, textStatus, error) {
