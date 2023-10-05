@@ -439,11 +439,13 @@ input[id*="accordion"] + label .btn-wrap i.i-arr-bt {
     flex: 1;
     justify-content: space-between;
     padding: var(--vh-24) 0;
+    gap: 8px;
 }
 .notice-title-wrap {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    width: 80%;
 }
 .noti-title {
     display: block;
@@ -482,4 +484,9 @@ i.accordion-arrow.icon {
 .accordion-body {
     height: 0;
     overflow: hidden;
+}
+.edit-btn-wrap {
+    display: flex;
+    white-space: nowrap;
+    gap: 4px;
 }

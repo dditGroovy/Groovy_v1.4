@@ -290,10 +290,9 @@
                              <div class="accordion-body">
                                          <p class="noti-content input-l">${item.sntncCn}</p>
                              </div>
-                         </div>
-                     </div>
-                  </div>`
+                         </div>`;
                 })
+                code += '</div></div>';
                 teamEnter.innerHTML = code;
             },
             error: function (request, status, error) {
@@ -313,17 +312,20 @@
             const dataName = target.getAttribute("data-name");
             modalOpen(dataName);
         }
-        if(target.classList.contains("accordion-header")){
+        if(target.classList.contains("accordion-header") || target.closest("accordion-header")){
             // 라벨 클릭 시 체크박스 체크/해제
             const label = target.closest('.card-header');
             label.addEventListener('click', function () {
                 const checkbox = this.previousElementSibling;
+                const checkboxes = document.querySelectorAll('input[id*="accordion"]');
+                checkboxes.forEach(item => {
+                    item.checked = false;
+                })
                 checkbox.checked = !checkbox.checked;
             });
 
         }
         if (target.classList.contains("notimodifyBtn")) {
-            console.log(target);
             const card = target.closest(".card");
             sntncEtprCode = target.closest(".card").id;
             modifyNotice.style.display = "block";
@@ -331,6 +333,12 @@
             modalOpen("insertNotice");
             notisntncSj.value = card.querySelector(".noti-title").innerText;
             notisntncCn.value = card.querySelector(".noti-content").innerHTML;
+        }
+        if(target.id == "addTeamNotice"){
+            modifyNotice.style.display = "none";
+            insertNotice.style.display = "block";
+            notisntncSj.value = "";
+            notisntncCn.value = "";
         }
         if (target.classList.contains("notideleteBtn")) {
             const card = target.closest(".card");
