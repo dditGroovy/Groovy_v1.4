@@ -68,16 +68,12 @@
         console.log(msg);
         if (msg == "ok") {
         	Swal.fire({
-        	  position: 'top',
-        	  icon: 'success',
         	  title: '파일 업로드 성공',
         	  showConfirmButton: false,
         	  timer: 1500
         	})
     	} else if(msg == "error") {
     		Swal.fire({
-          	  position: 'top',
-          	  icon: 'warning',
           	  title: '파일 업로드 실패',
           	  showConfirmButton: false,
           	  timer: 1500
@@ -90,8 +86,6 @@
 
         if (fileInput.files.length === 0) {
             Swal.fire({
-          	  position: 'top',
-          	  icon: 'warning',
           	  title: '파일을 업로드해주세요',
           	  showConfirmButton: false,
           	  timer: 1500

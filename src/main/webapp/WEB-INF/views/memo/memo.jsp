@@ -93,8 +93,6 @@
     function validateForm() {
         if (memoCnt === null) {
         	 Swal.fire({
-                 position: 'top',
-                 icon: 'warning',
                  title: '내용을 입력해주세요',
                  showConfirmButton: false,
                  timer: 1500
@@ -106,8 +104,6 @@
 
         if (memoValue === null || memoValue.trim() === "") {
         	Swal.fire({
-                position: 'top',
-                icon: 'warning',
                 title: '내용을 입력해주세요',
                 showConfirmButton: false,
                 timer: 1500
@@ -154,8 +150,6 @@
                         location.href = location.href;
                     } else {
                     	Swal.fire({
-                            position: 'top',
-                            icon: 'warning',
                             title: '메모 등록을 실패했습니다',
                             showConfirmButton: false,
                             timer: 1500
@@ -234,8 +228,6 @@
 
             if (title.innerText === "" || content.innerText === "") {
             	Swal.fire({
-                    position: 'top',
-                    icon: 'warning',
                     title: '내용을 입력해주세요',
                     showConfirmButton: false,
                     timer: 1500
@@ -270,8 +262,6 @@
                         location.href = location.href;
                     } else {
                     	Swal.fire({
-                            position: 'top',
-                            icon: 'warning',
                             title: '메모 수정을 실패했습니다',
                             showConfirmButton: false,
                             timer: 1500
@@ -305,8 +295,6 @@
                         location.href = location.href;
                     } else {
                     	Swal.fire({
-                            position: 'top',
-                            icon: 'warning',
                             title: '메모 삭제를 실패했습니다',
                             showConfirmButton: false,
                             timer: 1500

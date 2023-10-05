@@ -234,8 +234,6 @@
 									let dataType = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
 									if (!dataType.test($('#eventStart').val()) || !dataType.test($('#eventEnd').val())) {
 										Swal.fire({
-											  position: 'top',
-											  icon: 'warning',
 											  title: '날짜는 2000-01-01 형식으로 입력해주세요',
 											  showConfirmButton: false,
 											  timer: 1500
@@ -265,8 +263,6 @@
 												location.href = location.href;
 											} else {
 													Swal.fire({
-														  position: 'top',
-														  icon: 'warning',
 														  title: '일정 수정에 실패했습니다',
 														  showConfirmButton: false,
 														  timer: 1500
@@ -304,8 +300,6 @@
 												location.href = location.href;
 											} else {
 												Swal.fire({
-													  position: 'top',
-													  icon: 'warning',
 													  title: '일정 삭제에 실패했습니다',
 													  showConfirmButton: false,
 													  timer: 1500
