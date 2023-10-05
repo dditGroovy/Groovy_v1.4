@@ -39,7 +39,7 @@
         <div class="modal-top">
             <%--            <div id="modal-proposal">--%>
             <h3 class="modal-title">동호회 제안하기</h3>
-            <button type="button" class="modal-close btn js-modal-close">
+            <button type="button" class="modal-close btn close">
                 <i class="icon i-close close">X</i>
             </button>
         </div>
@@ -96,7 +96,7 @@
     <div class="modal-layer card-df sm detailClub">
         <div class="modal-top">
             <h3 class="modal-title">동호회 상세보기</h3>
-            <button type="button" class="modal-close btn js-modal-close">
+            <button type="button" class="modal-close btn close">
                 <i class="icon i-close close">X</i>
             </button>
         </div>

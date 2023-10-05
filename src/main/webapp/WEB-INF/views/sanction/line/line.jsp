@@ -132,7 +132,7 @@
 
             <div class="modal-top">
                 <div class="modal-title">결재선으로 저장</div>
-                <button type="button" class="modal-close btn js-modal-close">
+                <button type="button" class="modal-close btn close">
                     <i class="icon i-close">X</i>
                 </button>
             </div>
@@ -150,7 +150,7 @@
         <div class="modal-layer card-df sm loadLine">
             <div class="modal-top">
                 <div class="modal-title">저장된 결재선 불러오기</div>
-                <button type="button" class="modal-close js-modal-close">
+                <button type="button" class="modal-close close">
                     <i class="icon i-close">X</i>
                 </button>
             </div>

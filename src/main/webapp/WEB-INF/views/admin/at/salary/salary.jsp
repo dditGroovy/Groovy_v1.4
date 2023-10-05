@@ -83,7 +83,7 @@
         <div class="modal-layer card-df sm salaryCard" style="display: block">
             <div class="modal-top">
                 <div class="modal-title"><i class="icon-user"></i>급여 기본 설정</div>
-                <button type="button" class="modal-close btn js-modal-close">
+                <button type="button" class="modal-close btn close">
                     <i class="icon i-close close">X</i>
                 </button>
             </div>

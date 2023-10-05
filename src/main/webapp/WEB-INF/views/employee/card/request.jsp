@@ -30,7 +30,7 @@
         <div class="modal-layer card-df sm requestCard">
             <div class="modal-top">
                 <div class="modal-title">법인카드 신청</div>
-                <button type="button" class="modal-close btn js-modal-close">
+                <button type="button" class="modal-close btn close">
                     <i class="icon i-close close">X</i>
                 </button>
             </div>
@@ -83,7 +83,7 @@
         <div class="modal-layer card-df sm detailCard">
             <div class="modal-top">
                 <div class="modal-title">법인카드 신청 내용</div>
-                <button type="button" class="modal-close btn js-modal-close">
+                <button type="button" class="modal-close btn close">
                     <i class="icon i-close close">X</i>
                 </button>
             </div>

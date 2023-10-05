@@ -8,7 +8,7 @@
     <div class="modal-layer card-df sm emplCard" style="display: block">
         <div class="modal-top">
             <div class="modal-title"><i class="icon-user"></i>사원 추가</div>
-            <button type="button" class="modal-close btn js-modal-close">
+            <button type="button" class="modal-close btn close">
                 <i class="icon i-close close">X</i>
             </button>
         </div>

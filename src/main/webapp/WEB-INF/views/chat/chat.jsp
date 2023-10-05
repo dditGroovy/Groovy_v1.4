@@ -40,7 +40,7 @@
     <div class="modal-layer card-df sm createRoom">
         <div class="modal-top">
             <h3 class="modal-title"><i class="icon i-user i-3d"></i>대화상대 선택</h3>
-            <button type="button" class="modal-close btn js-modal-close">
+            <button type="button" class="modal-close btn close">
                 <i class="icon i-close close">X</i>
             </button>
         </div>
