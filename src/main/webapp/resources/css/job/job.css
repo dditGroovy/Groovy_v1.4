@@ -74,6 +74,8 @@ section .content-wrap {
     display: flex;
     gap: var(--vw-24);
     align-items: center;
+    flex: 1;
+    justify-content: space-between;
 }
 .job-title {
     font-size: var(--font-size-14);
@@ -84,7 +86,7 @@ section .content-wrap {
     text-align: left;
 }
 .receive-job-title {
-    width: calc((358/1920)*100vw);
+    width: 80%;
 }
 .job-date {
     font-size: var(--font-size-11);
