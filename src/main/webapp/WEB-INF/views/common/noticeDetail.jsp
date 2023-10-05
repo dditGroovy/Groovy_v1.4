@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="card-body notice-card-body">
-                    <div class="notice-content"><textarea id="editor" name="editor">${noticeDetail.notiContent}</textarea></div>
+                    <div class="notice-content"><textarea id="editor" name="editor" disabled>${noticeDetail.notiContent}</textarea></div>
                     <c:if test="${notiFiles != null}">
                         <div class="notice-file">
                             <c:forEach var="notiFile" items="${notiFiles}" varStatus="stat">
@@ -67,7 +67,7 @@
         on: {
             instanceReady: function (ev) {
                 $(".notice-content").css("display", "block");
-                $("#editor").attr("readOnly", true);
+                // $("#editor").attr("disabled", true);
             }
         }
     });
