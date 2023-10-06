@@ -20,6 +20,8 @@ public class ClubVO {
     private int clbPsncpa;
     private String clbChirmnEmplId;
     private String clbChirmnEmplNm;
+    private String proflEtprCode;
+    private String proflPhotoFileStreNm;
     private String clbKind;
     private String clbConfmAt;
     private int clubMbrCnt;

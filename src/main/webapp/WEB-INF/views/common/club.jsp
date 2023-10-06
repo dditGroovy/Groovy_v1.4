@@ -69,17 +69,6 @@
                         <div><input type="number" name="clbPsncpa" id="clbPsncpa" class="data-box input-l modal-input">
                         </div>
                     </li>
-                    <%--                    <li>--%>
-                    <%--                        <h5 class="club-title">5. 썸네일 설정</h5>--%>
-                    <%--                    </li>--%>
-                    <%--                    <li class="file-wrap">--%>
-                    <%--                        <label for="postFile" class="btn btn-free-white file-btn">--%>
-                    <%--                            <i class="icon i-file"></i>--%>
-                    <%--                            파일 첨부--%>
-                    <%--                        </label>--%>
-                    <%--                        <input type="file" name="clubFile" id="postFile">--%>
-                    <%--                        <p id="originName"></p>--%>
-                    <%--                    </li>--%>
                 </ul>
                 <div class="modal-description">
                     <p>✅ 동호회에 대한 전반적인 책임은 회사에서 지지 않습니다.</p>
@@ -112,7 +101,20 @@
             </div>
         </div>
         <div class="modal-footer btn-wrapper">
-            <button type="button" id="chat" class="btn btn-fill-wh-sm">문의하기</button>
+            <div class="club-details">
+                <div class="thum-wrap">
+                    <img src="" class="thum" id="club-charMn-thum">
+                </div>
+                <div class="club-detail">
+                    <h4 class="club-charMn"></h4>
+                    <div class="mbrCnt">
+                        <span class="currentMbr"></span>
+                        /
+                        <span class="totalMbr"></span>
+                    </div>
+                </div>
+            </div>
+            <%--<button type="button" id="chat" class="btn btn-fill-wh-sm">문의하기</button>--%>
             <button type="button" id="join" class="btn btn-fill-bl-sm">가입하기</button>
             <button type="button" id="leave" class="btn btn-fill-bl-sm">탈퇴하기</button>
         </div>
@@ -129,12 +131,15 @@
     const clubCate = document.querySelector("#modal .club-cate");
     const clubName = document.querySelector("#modal .club-name");
     const clubDc = document.querySelector("#modal .club-dc");
-    const chatBtn = document.querySelector("#chat");
     const joinBtn = document.querySelector("#join");
     const leaveBtn = document.querySelector("#leave");
     const modal = document.querySelector("#modal");
     const textArea = document.querySelector("#clbDc");
     const clbNm = document.querySelector("#clbNm");
+    const charMn = document.querySelector("#modal .club-charMn");
+    const charMnThum = document.querySelector("#modal #club-charMn-thum");
+    const currentMbr = document.querySelector("#modal .currentMbr");
+    const totalMbr = document.querySelector("#modal .totalMbr");
     let clbEtprCode;
 
     const postFile = document.querySelector("#postFile");
@@ -179,16 +184,19 @@
                 url: `/club/\${clbEtprCode}`,
                 type: "GET",
                 success: function (data) {
+                    console.log(data);
                     $("#modalImg").prop("src", `/resources/images/club/\${data[0].clbKind}.jpg`)
                     clubName.innerText = data[0].clbNm;
                     clubDc.innerText = data[0].clbDc;
                     clubCate.innerText = data[0].clbKind;
+                    charMn.innerText = data[0].clbChirmnEmplNm;
+                    currentMbr.innerText = data[0].clubMbrCnt;
+                    totalMbr.innerText = data[0].clbPsncpa;
+                    charMnThum.setAttribute("src",`/uploads/profile/${data[0].proflPhotoFileStreNm}`)
                     if (data[0].joinChk == 1) {
-                        chatBtn.style.display = "none";
                         joinBtn.style.display = "none";
                         leaveBtn.style.display = "block";
                     } else {
-                        chatBtn.style.display = "block";
                         joinBtn.style.display = "block";
                         leaveBtn.style.display = "none";
                     }
@@ -200,29 +208,40 @@
         const target = e.target;
         console.log(target);
         if (target.id == "join") {
-            $.ajax({
-                url: "/club/inputClubMbr",
-                type: "POST",
-                data: JSON.stringify({clbEtprCode: clbEtprCode}),
-                contentType: 'application/json',
-                success: function (data) {
-                    console.log(data);
-                    chatBtn.style.display = "none";
-                    joinBtn.style.display = "none";
-                    leaveBtn.style.display = "block";
+            const totalMbrIs = totalMbr.innerText;
+            const currentMbrIs = currentMbr.innerText;
 
-                    Swal.fire({
-                        text: '가입을 환영합니다',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
+            if(currentMbrIs != totalMbrIs) {
+                $.ajax({
+                    url: "/club/inputClubMbr",
+                    type: "POST",
+                    data: JSON.stringify({clbEtprCode: clbEtprCode}),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        console.log(data);
+                        chatBtn.style.display = "none";
+                        joinBtn.style.display = "none";
+                        leaveBtn.style.display = "block";
 
-                },
-                error: function (request, status, error) {
-                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                }
-            })
-            return false;
+                        Swal.fire({
+                            text: '가입을 환영합니다',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                })
+                return false;
+            }else {
+                Swal.fire({
+                    html: '정원을 초과하여 가입이 불가합니다.<br/> 가입을 원하시는 경우 총무팀에 문의해주세요!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
         }
         if (target.id == "leave") {
             $.ajax({

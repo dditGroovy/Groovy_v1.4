@@ -1,52 +1,3 @@
-/*#modal {*/
-/*    width: 30%;*/
-/*    display: none;*/
-/*    flex-direction: column;*/
-/*    align-items: flex-start;*/
-/*    border: 1px solid red;*/
-/*}*/
-
-/*.modal-container {*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*}*/
-
-/*.modal-header {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
-/*.modal-body {*/
-/*    display: flex;*/
-/*    width: 100%;*/
-/*}*/
-
-/*.modal-footer {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*}*/
-
-/*.modal-footer > button {*/
-/*    width: 40%;*/
-/*    padding: 10px;*/
-/*}*/
-
-/*.modal-common {*/
-/*    display: none;*/
-/*}*/
-
-/*.modal-common.on {*/
-/*    display: block;*/
-/*}*/
-
-/*.modal-thum {*/
-/*    height: 100px;*/
-/*    border: 1px solid red;*/
-/*}*/
-
-
-/*          */
 #tab-header {
     display: flex;
     flex-direction: column;
@@ -238,4 +189,24 @@
     color: var(--color-font-md);
     font-size: var(--font-size-14);
     font-family: var(--font-reg);
+}
+.club-details {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.thum {
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--size-50);
+    border: 1px solid var(--color-stroke);
+}
+.mbrCnt {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.currentMbr {
+    color: var(--color-main);
 }
