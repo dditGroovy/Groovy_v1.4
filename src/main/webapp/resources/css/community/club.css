@@ -194,6 +194,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
+    margin-right: 8px;
 }
 .thum {
     display: block;
