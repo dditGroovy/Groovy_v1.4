@@ -43,6 +43,10 @@
     color: var(--color-font-md);
     font-family: var(--font-md);
 }
+
+.alarm-textbox {
+}
+
 .setting {
     display: flex;
     align-items: center;
@@ -58,6 +62,7 @@
     gap: 12px;
     height: calc((336/var(--vh))*100vh);
     overflow-y: auto;
+    overflow-x: hidden;
 }
 #allReadAlarm {
     font-size: 11px;

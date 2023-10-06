@@ -112,7 +112,10 @@
                 ul.style.maxHeight = "0";
             }
         });
-        item.classList.add("active");
+        if (item != null) {
+            item.classList.add("active");
+        }
+
         const ul = item.closest("li").nextElementSibling;
         if (ul) {
             ul.style.maxHeight = ul.scrollHeight + "px";
@@ -123,7 +126,6 @@
         item.addEventListener("click", function (e) {
             const target = e.target;
             setActiveDepartment(target);
-
         });
     });
     const idx = sessionStorage.getItem("activeNavItem")

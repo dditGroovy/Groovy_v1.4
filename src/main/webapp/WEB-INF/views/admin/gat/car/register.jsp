@@ -11,7 +11,6 @@
         </div>
         <div class="card card-df grid-card">
             <form action="${pageContext.request.contextPath}/reserve/inputVehicle" method="post">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <table border="1">
                     <tr>
                         <th class="font-md font-18 color-font-high">차량 번호</th>

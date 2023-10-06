@@ -6,10 +6,7 @@ import kr.co.groovy.vo.ClubMbrVO;
 import kr.co.groovy.vo.ClubVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 @Slf4j
@@ -42,8 +39,8 @@ public class ClubService {
     public void inputClubMbr(Map<String, Object> map){
         mapper.inputClubMbr(map);
     };
-    public void updateClubMbrAct(Map<String, Object> map){
-        mapper.updateClubMbrAct(map);
+    public int updateClubMbrAct(Map<String, Object> map){
+        return mapper.updateClubMbrAct(map);
     };
     public void updateClubInfo(ClubVO vo){mapper.updateClubInfo(vo);}
     public String makeSntncEtprCode(){

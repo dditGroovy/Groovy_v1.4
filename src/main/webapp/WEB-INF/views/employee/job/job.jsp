@@ -382,7 +382,7 @@
                     <i class="icon i-close">X</i>
                 </button>
             </div>
-            <div class="modal-container">작
+            <div class="modal-container">
                     <ul class="modal-list">
                         <li class="form-data-list">
                             <h5 class="modal-title">📚 업무 제목</h5>

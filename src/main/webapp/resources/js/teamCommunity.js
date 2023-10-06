@@ -311,7 +311,8 @@
             const dataName = target.getAttribute("data-name");
             modalOpen(dataName);
         }
-        if(target.classList.contains("accordion-header") || target.closest("accordion-header")){
+
+        if(target.classList.contains("accordion-header") || target.closest(".accordion-header")){
             // 라벨 클릭 시 체크박스 체크/해제
             const label = target.closest('.card-header');
             label.addEventListener('click', function () {
@@ -322,8 +323,8 @@
                 })
                 checkbox.checked = !checkbox.checked;
             });
-
         }
+
         if (target.classList.contains("notimodifyBtn")) {
             const card = target.closest(".card");
             sntncEtprCode = target.closest(".card").id;

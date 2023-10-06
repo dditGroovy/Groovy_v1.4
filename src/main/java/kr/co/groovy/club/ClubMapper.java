@@ -19,6 +19,6 @@ public interface ClubMapper {
     void inputClub(Map<String, Object> map);
     void updateClubAt(Map<String, Object> map);
     void inputClubMbr(Map<String, Object> map);
-    void updateClubMbrAct(Map<String, Object> map);
+    int updateClubMbrAct(Map<String, Object> map);
     void updateClubInfo(ClubVO vo);
 }

@@ -44,14 +44,23 @@
             data: {"emplId": emplId},
             success: function (result) {
                 if (result == "exists") {
-                    alert("등록된 휴대폰 번호로 임시 비밀번호를 전송합니다.");
+                    Swal.fire({
+                        text: '등록된 휴대폰 번호로 임시 비밀번호를 전송합니다',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     $.ajax({
                         url: "/employee/findPassword",
                         data: {"emplId": emplId},
                         type: "post",
                         success: function (result) {
                             if (result == "success") {
-                                alert("비밀번호가 초기화 되었습니다. 로그인 화면으로 이동합니다");
+                                alert("");
+                                Swal.fire({
+                                    text: '비밀번호가 초기화 되었습니다 로그인 화면으로 이동합니다',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
                                 location.href = "/employee/signIn";
                             }
                         },

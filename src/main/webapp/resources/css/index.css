@@ -241,9 +241,11 @@ img {
     flex-direction: column;
     justify-content: center;
 }
-.birthday-list .list-item:hover .item-desc > p {
+.birthday-list .list-item:hover .item-desc {
     background: var(--color-main);
     opacity: 1;
+}
+.birthday-list .list-item:hover .item-desc p {
     color: white;
 }
 /*  날씨  */

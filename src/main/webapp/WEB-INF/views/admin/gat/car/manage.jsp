@@ -120,7 +120,6 @@
         let vhcleResveNo = rowData.pop().chk;
         let xhr = new XMLHttpRequest();
         xhr.open("put", "/reserve/return", true);
-        xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
         xhr.onreadystatechange = () => {
             if (xhr.status == 200 && xhr.readyState == 4) {
                 if (xhr.responseText == 1) {

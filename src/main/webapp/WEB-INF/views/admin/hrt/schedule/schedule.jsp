@@ -5,10 +5,11 @@
 <link href="/resources/css/schedule/calendar.css" rel="stylesheet"/>
 
 <style>
-	#eventTitle{
-		margin-left: 41px;
+    #eventTitle {
+        margin-left: 41px;
 
-	}
+    }
+
     .modal-content {
         font-weight: bold;
     }
@@ -32,59 +33,59 @@
     .fc-event-time {
         display: none;
     }
-    
-    .close{
-		left: 95%;
-   		position: relative;
-    	width: 10%;
-    	height: 25px;
-    	border: 1px solid white;
-    	background-color: white;
-    	font-size: 24px;
-	}
-	
-	.form-group{
-		margin-bottom: 10px;
-	}
-	
-	.btn-primary {
-	    height: var(--vh-56);
-	    background-color: var(--color-main);
-	    border-radius: var(--size-32);
-	    border: 1px solid var(--color-stroke);
-	    box-shadow: var(--clay-btn);
-	    outline-color: var(--color-main);
-	    color: white;
-	    text-align: center;
-	}
-	
-	#deleteEvent{
-		margin-right: 15px;
-	}
-	
-	#saveEvent{
-		margin-right: 10px;
-   	 	margin-left: 20px;
-	}
-	
-	.modal-footer > button {
-    	width: 150px;
-    	padding: 10px;
-    	margin-top: 3%;
-	}
-	
-	.form-control{
-		border-radius: var(--size-24);
-    	border: 2px solid gray;
-    	height: var(--vh-40);
-    	text-align: center;
-    	width: 69%;
-    	font-weight: bold;
-	}
-	
-	#eventStart, #eventEnd{
-		margin-left: 10px;
-	}
+
+    .close {
+        left: 95%;
+        position: relative;
+        width: 10%;
+        height: 25px;
+        border: 1px solid white;
+        background-color: white;
+        font-size: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .btn-primary {
+        height: var(--vh-56);
+        background-color: var(--color-main);
+        border-radius: var(--size-32);
+        border: 1px solid var(--color-stroke);
+        box-shadow: var(--clay-btn);
+        outline-color: var(--color-main);
+        color: white;
+        text-align: center;
+    }
+
+    #deleteEvent {
+        margin-right: 15px;
+    }
+
+    #saveEvent {
+        margin-right: 10px;
+        margin-left: 20px;
+    }
+
+    .modal-footer > button {
+        width: 150px;
+        padding: 10px;
+        margin-top: 3%;
+    }
+
+    .form-control {
+        border-radius: var(--size-24);
+        border: 2px solid gray;
+        height: var(--vh-40);
+        text-align: center;
+        width: 69%;
+        font-weight: bold;
+    }
+
+    #eventStart, #eventEnd {
+        margin-left: 10px;
+    }
 </style>
 
 <div class="content-container">
@@ -128,202 +129,221 @@
 
 
 <script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script src="/resources/fullcalendar/main.js"></script>
 <script src="/resources/fullcalendar/ko.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
 
 <script>
-	$(document).ready(function () {
+    const isSameDate = (date1, date2) => {
+        return date1.getFullYear() === date2.getFullYear()
+            && date1.getMonth() === date2.getMonth()
+            && date1.getDate() === date2.getDate();
+    }
 
-		$("#eventModal").modal("hide");
+    $(document).ready(function () {
+        $("#eventModal").modal("hide");
 
-		$(function () {
-			let request = $.ajax({
-				url: "/schedule/schedule",
-				method: "GET",
-				dataType: "json"
-			});
+        $(function () {
+            let request = $.ajax({
+                url: "/schedule/schedule",
+                method: "GET",
+                dataType: "json",
+            });
 
-			request.done(function (data) {
-				let calendarEl = document.getElementById('calendar');
-				calendar = new FullCalendar.Calendar(calendarEl, {
-					height: '700px',
-					slotMinTime: '08:00',
-					slotMaxTime: '20:00',
-					headerToolbar: {
-						left: 'today prev,next',
-						center: 'title',
-						right: 'dayGridMonth,listWeek'
-					},
-					initialView: 'dayGridMonth',
-					navLinks: true,
-					selectable: true,
-					events: data,
-					locale: 'ko',
-					select: function (arg) {
-						
-						Swal.fire({
-					        title: '일정을 입력해주세요',
-					        input: 'text',
-					        inputPlaceholder: '일정을 입력하세요',
-					        showCancelButton: true,
-					        confirmButtonText: '확인',
-					        cancelButtonText: '취소',
-					        confirmButtonColor: '#3085d6',
-					        cancelButtonColor: '#d33',
-					        inputValidator: (value) => {
-					            if (!value.trim()) {
-					                return '일정이 입력되지 않았습니다';
-					            }
-					        }
-					    }).then((result) => {
-					        if (result.isConfirmed) {
-					            const userInput = result.value;
-					           
-					            let events = new Array();
-								let obj = new Object();
+            request.done(function (datas) {
+                datas.forEach((data) => {
+                    startDate = new Date(data.start);
 
-								obj.title = userInput;
-								obj.start = arg.start;
-								obj.end = arg.end;
-								events.push(obj);
+                    dataYear = new Date(data.end).getFullYear();
+                    dataMonth = new Date(data.end).getMonth();
+                    dataDay = new Date(data.end).getDate();
+                    dataDate = new Date(dataYear, dataMonth, dataDay);
+                    if (!isSameDate(startDate, dataDate)) {
+                        dataDate.setDate(dataDate.getDate() + 1)
+                        data.end = dataDate.getTime();
+                    }
+                });
 
-								let jsondata = JSON.stringify(events);
+                let calendarEl = document.getElementById('calendar');
+                let calendar = new FullCalendar.Calendar(calendarEl, {
+                    height: '700px',
+                    slotMinTime: '08:00',
+                    slotMaxTime: '20:00',
+                    headerToolbar: {
+                        left: 'today prev,next',
+                        center: 'title',
+                        right: 'dayGridMonth,listWeek'
+                    },
+                    initialView: 'dayGridMonth',
+                    navLinks: true,
+                    selectable: true,
+                    events: datas,
+                    locale: 'ko',
+                    select: function (arg) {
+                        Swal.fire({
+                            title: '일정을 입력해주세요',
+                            input: 'text',
+                            inputPlaceholder: '일정을 입력하세요',
+                            showCancelButton: true,
+                            confirmButtonText: '확인',
+                            cancelButtonText: '취소',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            inputValidator: (value) => {
+                                if (!value.trim()) {
+                                    return '일정이 입력되지 않았습니다';
+                                }
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const userInput = result.value;
 
-								$(function saveData(jsonData) {
-									$.ajax({
-										url: "/schedule/schedule",
-										method: "POST",
-										dataType: "json",
-										data: JSON.stringify(events),
-										contentType: 'application/json'
-									});
-									location.reload();
-									calendar.unselect();
-								});
-					        }
-					    });
-					},
-					eventClick: function (info) {
+                                let events = new Array();
+                                let obj = new Object();
 
-						$("#eventModal").modal("show");
+                                obj.title = userInput;
+                                obj.start = arg.start;
+                                obj.end = arg.end;
+                                events.push(obj);
 
-						let schdulSn = info.event.id;
+                                let jsondata = JSON.stringify(events);
 
-						$.ajax({
-							url: `/schedule/schedule/\${schdulSn}`,
-							method: "GET",
-							dataType: "json",
-							success: function (response) {
-								let schdulBeginDate = new Date(response.schdulBeginDate);
-							    let schdulClosDate = new Date(response.schdulClosDate);
+                                $(function saveData(jsonData) {
+                                    $.ajax({
+                                        url: "/schedule/schedule",
+                                        method: "POST",
+                                        dataType: "json",
+                                        data: JSON.stringify(events),
+                                        contentType: 'application/json'
+                                    });
+                                    location.reload();
+                                    calendar.unselect();
+                                });
+                            }
+                        });
+                    },
+                    eventClick: function (info) {
 
-							    $("#eventTitle").val(response.schdulNm);
-							    $("#eventStart").val(schdulBeginDate.toISOString().slice(0, 10));
-							    $("#eventEnd").val(schdulClosDate.toISOString().slice(0, 10));
+                        $("#eventModal").modal("show");
 
-								$("#saveEvent").on("click", function () {
+                        let schdulSn = info.event.id;
 
-									let schdulSn = info.event.id;
+                        $.ajax({
+                            url: `/schedule/schedule/\${schdulSn}`,
+                            method: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                                console.log(response)
+                                let schdulBeginDate = new Date(response.schdulBeginDate);
+                                let schdulClosDate = new Date(response.schdulClosDate);
 
-									let dataType = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
-									if (!dataType.test($('#eventStart').val()) || !dataType.test($('#eventEnd').val())) {
-										Swal.fire({
-											  title: '날짜는 2000-01-01 형식으로 입력해주세요',
-											  showConfirmButton: false,
-											  timer: 1500
-											})
-										return false;
-									}
+                                $("#eventTitle").val(response.schdulNm);
+                                $("#eventStart").val(schdulBeginDate.toISOString().slice(0, 10));
+                                $("#eventEnd").val(schdulClosDate.toISOString().slice(0, 10));
 
+                                $("#saveEvent").on("click", function () {
 
-									let events = new Array();
-									let obj = new Object();
+                                    let schdulSn = info.event.id;
 
-									obj.id = info.event.id;
-									obj.title = $("#eventTitle").val();
-									obj.start = $("#eventStart").val();
-									obj.end = $("#eventEnd").val();
-
-									events.push(obj);
-
-									$.ajax({
-										url: `/schedule/schedule/\${schdulSn}`,
-										method: "PUT",
-										dataType: "text",
-										data: JSON.stringify(events),
-										contentType: 'application/json',
-										success: function (response) {
-											if (response == "success") {
-												location.href = location.href;
-											} else {
-													Swal.fire({
-														  title: '일정 수정에 실패했습니다',
-														  showConfirmButton: false,
-														  timer: 1500
-													})
-											}
-										},
-										error: function (request, status, error) {
-											console.log("code: " + request.status)
-											console.log("message: " + request.responseText)
-											console.log("error: " + error);
-										}
-									})
-								})
+                                    let dataType = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+                                    if (!dataType.test($('#eventStart').val()) || !dataType.test($('#eventEnd').val())) {
+                                        Swal.fire({
+                                            title: '날짜는 2000-01-01 형식으로 입력해주세요',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
+                                        return false;
+                                    }
 
 
-								$("#deleteEvent").on("click", function () {
+                                    let events = new Array();
+                                    let obj = new Object();
 
-									let schdulSn = info.event.id;
+                                    obj.id = info.event.id;
+                                    obj.title = $("#eventTitle").val();
+                                    obj.start = $("#eventStart").val();
+                                    obj.end = $("#eventEnd").val();
 
-									let events = new Array();
-									let obj = new Object();
+                                    events.push(obj);
 
-									obj.id = info.event.id;
+                                    $.ajax({
+                                        url: `/schedule/schedule/\${schdulSn}`,
+                                        method: "PUT",
+                                        dataType: "text",
+                                        data: JSON.stringify(events),
+                                        contentType: 'application/json',
+                                        success: function (response) {
+                                            if (response == "success") {
+                                                location.href = location.href;
+                                            } else {
+                                                Swal.fire({
+                                                    title: '일정 수정에 실패했습니다',
+                                                    showConfirmButton: false,
+                                                    timer: 1500
+                                                })
+                                            }
+                                        },
+                                        error: function (request, status, error) {
+                                            console.log("code: " + request.status)
+                                            console.log("message: " + request.responseText)
+                                            console.log("error: " + error);
+                                        }
+                                    })
+                                })
 
-									events.push(obj);
 
-									$.ajax({
-										url: "/schedule/schedule",
-										method: "DELETE",
-										dataType: "text",
-										data: JSON.stringify(events),
-										contentType: 'application/json',
-										success: function (response) {
-											if (response == "success") {
-												location.href = location.href;
-											} else {
-												Swal.fire({
-													  title: '일정 삭제에 실패했습니다',
-													  showConfirmButton: false,
-													  timer: 1500
-												})
-											}
-										},
-										error: function (request, status, error) {
-											console.log("code: " + request.status)
-											console.log("message: " + request.responseText)
-											console.log("error: " + error);
-										}
-									});
-								})
-							},
-							error: function (request, status, error) {
-								console.log("code: " + request.status)
-								console.log("message: " + request.responseText)
-								console.log("error: " + error);
-							}
-						});
-					}
-				});
-				calendar.render();
-			});
-		});
-	});
+                                $("#deleteEvent").on("click", function () {
+
+                                    let schdulSn = info.event.id;
+
+                                    let events = new Array();
+                                    let obj = new Object();
+
+                                    obj.id = info.event.id;
+
+                                    events.push(obj);
+
+                                    $.ajax({
+                                        url: "/schedule/schedule",
+                                        method: "DELETE",
+                                        dataType: "text",
+                                        data: JSON.stringify(events),
+                                        contentType: 'application/json',
+                                        success: function (response) {
+                                            if (response == "success") {
+                                                location.href = location.href;
+                                            } else {
+                                                Swal.fire({
+                                                    title: '일정 삭제에 실패했습니다',
+                                                    showConfirmButton: false,
+                                                    timer: 1500
+                                                })
+                                            }
+                                        },
+                                        error: function (request, status, error) {
+                                            console.log("code: " + request.status)
+                                            console.log("message: " + request.responseText)
+                                            console.log("error: " + error);
+                                        }
+                                    });
+                                })
+                            },
+                            error: function (request, status, error) {
+                                console.log("code: " + request.status)
+                                console.log("message: " + request.responseText)
+                                console.log("error: " + error);
+                            }
+                        });
+                    }
+                });
+                calendar.render();
+            });
+        });
+    });
 </script>

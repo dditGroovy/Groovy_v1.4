@@ -275,7 +275,7 @@ ul {
     box-shadow: var(--clay-btn);
 }
 
-.reserve-btn:hover > h3, .reserve-btn:focus > h3 {
+.reserve-btn:hover *, .reserve-btn:focus * {
     color: var(--color-white);
 }
 

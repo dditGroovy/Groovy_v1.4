@@ -147,9 +147,6 @@
     form.addEventListener("submit", e => {
         e.preventDefault();
     })
-    document.querySelector("#proposalClb").addEventListener("click", () => {
-        document.querySelector("#modal-proposal").style.display = "block";
-    })
     proposalBtn.addEventListener("click", () => {
         Swal.fire({
             text: "제안하시겠습니까?",
@@ -209,6 +206,7 @@
             const totalMbrIs = totalMbr.innerText;
             const currentMbrIs = currentMbr.innerText;
 
+            // 가입
             if(currentMbrIs != totalMbrIs) {
                 $.ajax({
                     url: "/club/inputClubMbr",
@@ -240,6 +238,7 @@
                 })
             }
         }
+        // 탈퇴
         if (target.id == "leave") {
             const currentMbrIs = currentMbr.innerText;
             $.ajax({
@@ -248,6 +247,7 @@
                 data: JSON.stringify({clbEtprCode: clbEtprCode}),
                 contentType: 'application/json',
                 success: function (data) {
+                    console.log(data);
                     currentMbr.innerText = parseInt(currentMbrIs) - 1;
                     joinBtn.style.display = "block";
                     leaveBtn.style.display = "none";

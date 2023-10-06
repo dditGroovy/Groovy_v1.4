@@ -17,8 +17,8 @@
                         </select>
                     </div>
                     <div class="date-wrap">
-                        <input type="date" name="startDay" value="" class="selectBox input-date"/>
-                        <input type="date" name="endDay" value="" class="selectBox input-date"/>
+                        <input type="date" name="startDay" value="" class="selectBox input-date font-reg"/>
+                        <input type="date" name="endDay" value="" class="selectBox input-date font-reg"/>
                     </div>
                     <div id="search" class="search input-free-white">
                         <input type="text" name="keyword" id="keywordInput" placeholder="검색어를 입력하세요." value="${param.keyword}"/>

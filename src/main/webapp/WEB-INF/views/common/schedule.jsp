@@ -28,6 +28,11 @@
     </div>
 </div>
 <script>
+    const isSameDate = (date1, date2) => {
+        return date1.getFullYear() === date2.getFullYear()
+            && date1.getMonth() === date2.getMonth()
+            && date1.getDate() === date2.getDate();
+    }
 	$(document).ready(function () {
 
 		$(function () {
@@ -37,7 +42,19 @@
 				dataType: "json"
 			});
 
-			request.done(function (data) {
+			request.done(function (datas) {
+                datas.forEach((data) => {
+                    startDate = new Date(data.start);
+
+                    dataYear = new Date(data.end).getFullYear();
+                    dataMonth = new Date(data.end).getMonth();
+                    dataDay = new Date(data.end).getDate();
+                    dataDate = new Date(dataYear, dataMonth, dataDay);
+                    if (!isSameDate(startDate, dataDate)) {
+                        dataDate.setDate(dataDate.getDate() + 1)
+                        data.end = dataDate.getTime();
+                    }
+                });
 				let calendarEl = document.getElementById('calendar');
 				calendar = new FullCalendar.Calendar(calendarEl, {
 					height: '700px',
@@ -51,7 +68,7 @@
 					initialView: 'dayGridMonth',
 					navLinks: true,
 					selectable: true,
-					events: data,
+					events: datas,
 					locale: 'ko'
 				});
 				calendar.render();

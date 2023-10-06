@@ -49,14 +49,13 @@ public class ClubController {
         map.put("clbMbrEmplId",emplId);
         service.inputClubMbr(map);
         return "가입 성공~";
-    };
+    }
     @ResponseBody
     @PutMapping("/updateClubMbrAct")
-    public String updateClubMbrAct(@RequestBody Map<String, Object> map){
+    public int updateClubMbrAct(@RequestBody Map<String, Object> map){
         map.put("clbMbrEmplId",emplId);
-        service.updateClubMbrAct(map);
-        return "탈퇴 성공~~";
-    };
+        return service.updateClubMbrAct(map);
+    }
 
     /*  관리자 - 동호회 관리    */
     @GetMapping("/admin")
