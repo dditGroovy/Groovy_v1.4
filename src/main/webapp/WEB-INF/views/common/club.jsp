@@ -206,7 +206,6 @@
     })
     modal.addEventListener("click", (e) => {
         const target = e.target;
-        console.log(target);
         if (target.id == "join") {
             const totalMbrIs = totalMbr.innerText;
             const currentMbrIs = currentMbr.innerText;
@@ -218,7 +217,7 @@
                     data: JSON.stringify({clbEtprCode: clbEtprCode}),
                     contentType: 'application/json',
                     success: function (data) {
-                        console.log(data);
+                        currentMbr.innerText = parseInt(currentMbrIs) + 1;
                         joinBtn.style.display = "none";
                         leaveBtn.style.display = "block";
 
@@ -243,13 +242,14 @@
             }
         }
         if (target.id == "leave") {
+            const currentMbrIs = currentMbr.innerText;
             $.ajax({
                 url: "/club/updateClubMbrAct",
                 type: "PUT",
                 data: JSON.stringify({clbEtprCode: clbEtprCode}),
                 contentType: 'application/json',
                 success: function (data) {
-                    console.log(data);
+                    currentMbr.innerText = parseInt(currentMbrIs) - 1;
                     joinBtn.style.display = "block";
                     leaveBtn.style.display = "none";
 
