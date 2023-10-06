@@ -219,7 +219,6 @@
                     contentType: 'application/json',
                     success: function (data) {
                         console.log(data);
-                        chatBtn.style.display = "none";
                         joinBtn.style.display = "none";
                         leaveBtn.style.display = "block";
 
@@ -251,7 +250,6 @@
                 contentType: 'application/json',
                 success: function (data) {
                     console.log(data);
-                    chatBtn.style.display = "block";
                     joinBtn.style.display = "block";
                     leaveBtn.style.display = "none";
 
