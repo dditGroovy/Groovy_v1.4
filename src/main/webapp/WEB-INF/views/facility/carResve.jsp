@@ -12,6 +12,7 @@
 		border: 1px solid var(--color-main)!important;  
 		color: var(--color-main)!important; 
 		outline-color: var(--color-main)!important;
+        margin-top: 4px;
 	}
 	
 	.btn-out-sm:hover {
@@ -34,7 +35,6 @@
    		width: 90%!important;
     	margin-top: var(--vw-24)!important;
     	font-size: var(--font-size-14)!important;
-    	
 	}
 	
 	.btn-on {

@@ -1,0 +1,370 @@
+@import "../commonStyle.css";
+
+#tab-header a.on {
+	color: var(--color-font-high) ;
+}
+
+#tab-header a {
+	font-size: var(--font-size-36) ;
+	color: var(--color-font-row) ;
+	font-weight: 600 ;
+}
+
+h4>i.icon {
+	display: inline-block ;
+	width: 13% ;
+	height: 13% ;
+	vertical-align: middle ;
+	margin: 10px ;
+}
+
+.form-data-list>h5 {
+	color: gray ;
+	font-weight: bold ;
+}
+
+.ag-header-cell-text {
+	overflow: hidden ;
+	text-overflow: ellipsis ;
+	color: black  ;
+	text-align: center ;
+	width: 100% ;
+	font-size: var(--font-size-14) ;
+}
+
+.ag-body ag-layout-normal {
+	font-size: var(--font-size-14) ;
+}
+
+.select-wrapper {
+	float: left ;
+	margin: 10px ;
+	top: 13px ;
+}
+
+.close {
+    left: 100% ;
+    position: sticky ;
+    width: 15% ;
+    height: 50px ;
+    border: 1px solid white ;
+    background-color: white ;
+    font-size: 28px ;
+}
+
+.check {
+	position: relative ;
+    font-size: 100% ;
+    margin-top: 5% ;
+    margin-right: 2.5% ;
+    height: var(--vh-64) ;
+    background-color: white ;
+    border-radius: var(--size-24) ;
+    border: 1px solid var(--color-main) ;
+    color: var(--color-main) ;
+    width: 200px;
+    
+}
+
+.cancel {
+	position: relative ;
+	font-size: 100% ;
+	margin-top: 5% ;
+	margin-left: 2.5% ;
+	height: var(--vh-64) ;
+	background-color: white ;
+	border-radius: var(--size-24) ;
+	border: 1px solid gray ;
+	color: gray ;
+	width: 200px;
+}
+
+.select-wrapper::after {
+	width: var(--vw-10)!important;
+}
+
+#request-job {
+	height: 60% ;
+	margin-top: 1% ;
+	box-shadow: var(--clay-card) ;
+	border-right: 1px solid var(- -color-stroke) ;
+}
+
+
+
+.form-data-list {
+	display: flex;
+	flex-direction: column;
+}
+
+form {
+	width: 100%;
+}
+
+.input-date, .date {
+	display: flex ;
+	gap: 12px ;
+}
+
+.date>div {
+	flex: 1 ;
+}
+
+.input-date>input {
+	flex: 1 ;
+}
+
+
+.state-list, .tab-list {
+	list-style: none ;
+	display: flex ;
+	gap: 12px ;
+	font-size: xx-small ;
+	float: right ;
+}
+
+.head {
+	display: flex ;
+	align-items: center ;
+	justify-content: space-between ;
+}
+
+.data-box {
+	border: 1px solid var(- -color-stroke) ;
+	padding: 12px ;
+	border-radius: 30px ;
+	height: 100% ;
+	width: 100% ;
+	background-color: #F5FAFF ;
+	text-align: left ;
+}
+
+.대기, .승인, .거절 {
+	border-radius: 8px ;
+	padding: 10px ;
+	color: aliceblue ;
+}
+
+.stand, .approval, .refuse {
+	float: right ;
+}
+
+.stand, .대기 {
+	width: 10px ;
+	height: 10px ;
+	background: var(--color-font-row) ;
+}
+
+.approval, .승인 {
+	width: 10px ;
+	height: 10px ;
+	background: var(--color-main) ;
+}
+
+.refuse, .거절 {
+	width: 10px ;
+	height: 10px ;
+	background: #D93C3C ;
+}
+
+.data-box>span {
+	color: white ;
+	height: 31px ;
+	width: 57px ;
+	font-size: small ;
+	display: inline-table ;
+	margin: 1% ;
+}
+
+.data-box>.승인 {
+	height: var(--vh-32);
+	width: calc((140/var(--vw)) * 100vw);
+}
+
+.names {
+	color: aliceblue ;
+}
+
+/*	더보기 스타일 적용	*/
+#yearSelect, #monthSelect {
+	width: calc(( 140/ 1920)*100vw) ;
+	padding: var(--vh-8) var(--vw-10) ;
+	font-size: var(--font-size-9) ;
+	color: var(--color-font-md) ;
+	border-radius: var(--vw-10) ;
+	-o-appearance: none ;
+	-webkit-appearance: none ;
+	-moz-appearance: none ;
+	appearance: none ;
+	outline: none ;
+	font-weight: bold ;
+	height: 30px ;
+	border: 1px solid var(--color-font-row);
+}
+
+#searchBtn {
+	cursor: pointer ;
+	background-color: var(--color-main) ;
+	border: 1px solid var(--color-stroke) ;
+	border-radius: var(--size-32) ;
+	width: 60px ;
+	height: 31px ;
+	font-weight: bold ;
+	color: white ;
+	margin-top: 24px ;
+	font-size: 9 ;
+}
+
+.ag-header-container, .ag-center-cols-container {
+	width: 100% !important;
+	white-space: nowrap !important;
+	margin: 0px auto !important;
+	background-color: #F5FAFF !important;
+	color: white !important;
+}
+
+.ag-ltr .ag-cell {
+	border-right-width: 1px !important;
+	text-align: center !important;
+	font-size: var(--font-size-14) !important;
+	font-weight: bold !important;
+}
+
+.ag-root-wrapper {
+	border: none !important;
+	margin-top: 20px !important;
+}
+
+.ag-row .ag-cell {
+	display: flex;
+	justify-content: center; /* align horizontal */
+	align-items: center;
+}
+
+.detail {
+	margin-top: 2px;
+	width: calc(( 115/ var(--vw))* 100vw);
+	background-color: white;
+	height: 35px;
+	border-radius: var(--size-32);
+	border: 1px solid gray;
+	color: gray;
+	font-size: var(--font-size-14);
+}
+
+.ag-paging-panel {
+	color: var(--ag-secondary-foreground-color);
+	height: 7%;
+	border-top: 1px solid white;
+	border-bottom: 1px solid var(- -color-stroke);
+	box-shadow: var(--clay-card);
+}
+
+#title {
+	margin-left: 10px ;
+	width: 100% ;
+	height: 50px;
+	background: white ;
+	border: 1px solid lightgray ;
+	border-radius: 10px ;
+}
+
+#title>h1 {
+	padding: 16px ;
+	color: gray;
+}
+
+/*.ag-header-cell[col-id="No"] {*/
+/*	width: 100px !important;*/
+/*	top: 0px !important;*/
+/*	height: 48px !important;*/
+/*	left: 10px !important;*/
+/*}*/
+
+/*.ag-header-cell[col-id="commonCodeDutyKind"] {*/
+/*	width: 105px !important;*/
+/*	top: 0px !important;*/
+/*	height: 48px !important;*/
+/*	left: 140px !important;*/
+/*}*/
+
+/*.ag-header-cell[col-id="jobSj"] {*/
+/*	width: 480px !important;*/
+/*	top: 0px !important;*/
+/*	height: 48px !important;*/
+/*	left: 320px !important;*/
+/*}*/
+
+/*.ag-header-cell[col-id="jobTerm"] {*/
+/*	width: 300px !important;*/
+/*	top: 0px !important;*/
+/*	height: 48px !important;*/
+/*	left: 820px !important;*/
+/*}*/
+
+/*.ag-header-cell[col-id="chk"] {*/
+/*	width: 200px !important;*/
+/*	top: 0px !important;*/
+/*	height: 48px !important;*/
+/*	left: 1200px !important;*/
+/*}*/
+
+/*.ag-cell[col-id="No"] {*/
+/*	width: 100px !important;*/
+/*	left: 10px !important;*/
+/*}*/
+
+/*.ag-cell[col-id="commonCodeDutyKind"] {*/
+/*	width: 100px !important;*/
+/*	left: 140px !important;*/
+/*}*/
+
+/*.ag-cell[col-id="jobSj"] {*/
+/*	text-align: left !important;*/
+/*	width: 480px !important;*/
+/*	left: 320px !important;*/
+/*}*/
+
+/*.ag-cell[col-id="jobTerm"] {*/
+/*	width: 300px !important;*/
+/*	left: 820px !important;*/
+/*}*/
+
+/*.ag-cell[col-id="chk"] {*/
+/*	width: 150px !important;*/
+/*	left: 1200px !important;*/
+/*}*/
+
+.btn-wrap>button {
+	vertical-align: middle !important;
+	left: 10px !important;
+}
+
+.승인 span, .거절 span, .대기 span {
+	color: var(--color-white)
+}
+
+.btn-fill-bl-sm {
+    width: calc(( 256/ var(--vw))* 100vw) ;
+    height: var(--vh-64) ;
+    background-color: white ;
+    border-radius: var(--size-32) ;
+    border: 1px solid var(--color-main) ;
+    color: var(--color-main) ;
+    box-shadow: none ;
+    outline-color: white ;
+    font-weight: bold ;
+}
+
+.btn-fill-wh-sm {
+	width: calc(( 256/ var(--vw))* 100vw) ;
+    height: var(--vh-64) ;
+    background-color: var(--color-white) ;
+    border-radius: var(--size-32);
+    border: 1px solid gray ;
+    box-shadow: none ;
+    outline-color: white ;
+    color: gray ;
+    font-weight: bold ;
+    font-size: small ;
+}

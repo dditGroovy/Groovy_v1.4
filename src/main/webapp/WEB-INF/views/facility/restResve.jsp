@@ -195,6 +195,11 @@
         xhr.send();
     }
 
+    $(".reserve-btn").on("click", function () {
+        $(".reserve-btn").removeClass("btn-on");
+        $(this).addClass("btn-on");
+    })
+
     function createReservation() {
         let $selectResveBeginTime = $("select[name='selectResveBeginTime'] option:selected").val();
         $selectResveBeginTime = new Date(`\${now} \${$selectResveBeginTime}`);
@@ -229,7 +234,7 @@
                 console.log("code: " + xhr.status);
                 console.log("message: " + xhr.responseText);
                 console.log("error: " + xhr.error);
-                if (xhr.responseText === "vhcleNo is null") {
+                if (xhr.responseText === "fcltyKind is null") {
                     Swal.fire({
                         text: '좌석을 선택해주세요',
                         showConfirmButton: false,
