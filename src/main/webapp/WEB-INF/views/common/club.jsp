@@ -192,7 +192,7 @@
                     charMn.innerText = data[0].clbChirmnEmplNm;
                     currentMbr.innerText = data[0].clubMbrCnt;
                     totalMbr.innerText = data[0].clbPsncpa;
-                    charMnThum.setAttribute("src",`/uploads/profile/${data[0].proflPhotoFileStreNm}`)
+                    charMnThum.setAttribute("src",`/uploads/profile/\${data[0].proflPhotoFileStreNm}`)
                     if (data[0].joinChk == 1) {
                         joinBtn.style.display = "none";
                         leaveBtn.style.display = "block";
