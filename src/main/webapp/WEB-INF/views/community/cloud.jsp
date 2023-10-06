@@ -36,7 +36,7 @@
 <div class="content-container">
     <header id="tab-header">
         <div class="header">
-            <h1><a href="#" class="on">GROOM(업로드하지마세요...)</a></h1>
+            <h1><a href="#" class="on">GROOM</a></h1>
             <p class="font-reg font-18">팀원들과 <span class="font-md span-text">구름</span>에서 만나요 ☁️</p>
         </div>
     </header>
@@ -160,7 +160,7 @@
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {//확인
-                    deleteObject();
+                    deleteFileOrFolder(deletebtn, url, type);
                 }
             })
         } else if(type == 'file') {
@@ -173,13 +173,13 @@
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {//확인
-                    deleteObject();
+                    deleteFileOrFolder(deletebtn, url, type);
                 }
             })
         }
     }
 
-    function deleteObject() {
+    function deleteFileOrFolder(deletebtn, url, type) {
         $.ajax({
             type: 'delete',
             url: `/cloud/deleteFolder?path=\${url}`,
