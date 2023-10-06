@@ -117,12 +117,8 @@
 <script src="${pageContext.request.contextPath}/resources/js/mailAt.js"></script>
 <script>
     document.querySelector("#deleteMail").addEventListener("click", function deleteMail() {
-        checkboxes = document.querySelectorAll(".selectMail:checked");
-        for (let i = 0; i < checkboxes.length; i++) {
-            let tr = checkboxes[i].closest("tr");
-            let emailEtprCode = tr.getAttribute("data-id");
-            console.log(tr, emailEtprCode);
-
+        checks = document.querySelectorAll(".selectMail:checked");
+        for (let i = 0; i < checks.length; i++) {
             Swal.fire({
                 text: "휴지통에서 메일을 삭제하면 복구할 수 없습니다 정말로 삭제하시겠습니까?",
                 showCancelButton: true,
@@ -132,21 +128,26 @@
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.ajax({
-                        url: `/email/permanent/\${emailEtprCode}`,
-                        type: "put",
-                        success: function (result) {
-                            tr.remove();
-                            // document.querySelector("tbody").innerHTML = '<tr><td class="no-data" co="">메일이 존재하지 않습니다.</td></tr>';
-                        },
-                        error: function (xhr, status, error) {
-                            console.log("code: " + xhr.status);
-                            console.log("message: " + xhr.responseText);
-                            console.log("error: " + xhr.error);
-                        }
-                    });
+                    for (let i = 0; i < checks.length; i++) {
+                        let tr = checks[i].closest("tr");
+                        let emailEtprCode = tr.getAttribute("data-id");
+                        $.ajax({
+                            url: `/email/permanent/\${emailEtprCode}`,
+                            type: "put",
+                            success: function (result) {
+                                console.log(result);
+                                tr.remove();
+                                // document.querySelector("tbody").innerHTML = '<tr><td class="no-data" colspan="4">메일이 존재하지 않습니다.</td></tr>';
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("code: " + xhr.status);
+                                console.log("message: " + xhr.responseText);
+                                console.log("error: " + xhr.error);
+                            }
+                        });
+                    }
                 }
-                checkboxes[i].checked = false;
+                checks[i].checked = false;
                 allCheck.checked = false;
             })
         }

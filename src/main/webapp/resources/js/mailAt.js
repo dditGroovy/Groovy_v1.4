@@ -10,7 +10,6 @@ function checkAll() {
 
 function modifyTableAt(td) {
     let code = td.getAttribute("data-type");
-    console.log("td.getAttribute(\"data-type\"): " + code)
     if (code === 'redng') {
         let at = td.querySelector("i").getAttribute("data-at");
         let emailEtprCode = td.closest("tr").getAttribute("data-id");
@@ -34,9 +33,7 @@ function modifyTableAt(td) {
         });
     } else if (code === 'imprtnc') {
         let at = td.querySelector("i").getAttribute("data-at");
-
         let emailEtprCode = td.closest("tr").getAttribute("data-id");
-
         $.ajax({
             url: `/email/${code}/${emailEtprCode}`,
             type: 'put',
@@ -44,9 +41,9 @@ function modifyTableAt(td) {
             success: function (result) {
                 at = result;
                 if (at === "Y") {
-                    td.innerHTML = '<i class="icon i-star-fill star-icon" data-at="Y"></i>'
+                    td.innerHTML = '<i class="icon i-star-fill star-icon" data-at="N"></i>'
                 } else if (at === "N") {
-                    td.innerHTML = '<i class="icon i-star-out star-icon" data-at="N"></i>'
+                    td.innerHTML = '<i class="icon i-star-out star-icon" data-at="Y"></i>'
                 }
             },
             error: function (xhr, status, error) {
@@ -58,9 +55,7 @@ function modifyTableAt(td) {
     } else if (code == null) {
         code = 'delete';
         let emailEtprCode = td.getAttribute("data-id");
-        console.log("td.getAttribute(\"data-id\"): " + emailEtprCode);
         let at = document.querySelector("input[name=deleteAt]").value;
-        console.log("document.querySelector(\"input[name=deleteAt]\").value: " + at);
         $.ajax({
             url: `/email/${code}/${emailEtprCode}`,
             type: 'put',
@@ -91,7 +86,6 @@ function modifyDeleteAtByBtn() {
     checkboxes = document.querySelectorAll(".selectMail:checked");
     checkboxes.forEach(function (checkbox) {
         let tr = checkbox.closest("tr");
-        console.log("checkbox.closest(\"tr\"): ", tr);
         modifyTableAt(tr);
         checkbox.checked = false;
         allCheck.checked = false;

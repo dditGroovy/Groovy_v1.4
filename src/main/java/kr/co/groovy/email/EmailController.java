@@ -160,9 +160,9 @@ public class EmailController {
 
     @PutMapping("/{code}/{emailEtprCode}")
     @ResponseBody
-    public int modifyEmailRedngAt(@PathVariable String code, @PathVariable String emailEtprCode, @RequestBody String at) {
-        log.info("code: {}, emailEtprCode: {}, at: {}", code, emailEtprCode, at);
-        return emailService.getEmailAtMap(code, emailEtprCode, at);
+    public String modifyEmailRedngAt(@PathVariable String code, @PathVariable String emailEtprCode, @RequestBody String at) {
+        Map<String, String> result = emailService.getEmailAtMap(code, emailEtprCode, at);
+        return result.get("at");
     }
 
     @PutMapping("/permanent/{emailEtprCode}")

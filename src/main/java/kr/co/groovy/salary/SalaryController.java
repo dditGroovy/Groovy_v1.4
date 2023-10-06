@@ -52,35 +52,12 @@ public class SalaryController {
         salaryService.modifySalary(code, value);
     }
 
-
-    // 회계팀의 급여 상세
-    @GetMapping("/list")
-    public String loadEmpList(Model model) {
-        List<EmployeeVO> list = salaryService.loadEmpList();
-        list.sort(new Comparator<EmployeeVO>() {
-            @Override
-            public int compare(EmployeeVO o1, EmployeeVO o2) {
-                String emplId1 = o1.getEmplId();
-                String emplId2 = o2.getEmplId();
-                return emplId1.compareTo(emplId2);
-            }
-        });
-        model.addAttribute("empList", list);
-        return "admin/at/salary/detail";
-    }
-
     @GetMapping("/taxes/{year}")
     @ResponseBody
     public List<TariffVO> loadTaxes(@PathVariable String year) {
         return salaryService.loadTariff(year);
     }
 
-    @GetMapping("/payment/list/{emplId}/{year}")
-    @ResponseBody
-    public List<PaystubVO> loadPaymentList(@PathVariable String emplId, @PathVariable String year) {
-        List<PaystubVO> paystubVOS = salaryService.loadPaymentList(emplId, year);
-        return paystubVOS;
-    }
 
     @GetMapping("/paystub")
     public String loadPaystub(Principal principal, Model model) {
@@ -120,7 +97,7 @@ public class SalaryController {
         salaryService.saveCheckboxState(isChecked);
     }
 
-
+    /* 급여정산 */
     @GetMapping("/calculate")
     public String calculatePage(Model model) {
         LocalDate localDate = LocalDate.now();
@@ -135,16 +112,42 @@ public class SalaryController {
         return salaryService.getCommuteAndPaystubList(year, month);
     }
 
+    /* 급여명세서 - 회원 가져오기 */
+    @GetMapping("/list")
+    public String loadEmpList(Model model) {
+        List<EmployeeVO> list = salaryService.loadEmpList();
+        list.sort(new Comparator<EmployeeVO>() {
+            @Override
+            public int compare(EmployeeVO o1, EmployeeVO o2) {
+                String emplId1 = o1.getEmplId();
+                String emplId2 = o2.getEmplId();
+                return emplId1.compareTo(emplId2);
+            }
+        });
+        model.addAttribute("empList", list);
+        return "admin/at/salary/detail";
+    }
+
+    /* 급여명세서 - 특정 연도 가져오기 */
     @GetMapping("/years")
     @ResponseBody
     public List<String> getExistYears() {
         return salaryService.getExistsYears();
     }
 
+    /* 급여명세서 - 특정 월 가져오기 */
     @GetMapping("/months")
     @ResponseBody
     public List<String> getExistsMonthPerYears(@RequestParam("year") String year) {
         return salaryService.getExistsMonthPerYears(year);
+    }
+
+    /* 특정 연도의 급여명세서 리스트 가져오기 */
+    @GetMapping("/payment/list/{emplId}/{year}")
+    @ResponseBody
+    public List<PaystubVO> loadPaymentList(@PathVariable String emplId, @PathVariable String year) {
+        List<PaystubVO> paystubVOS = salaryService.loadPaymentList(emplId, year);
+        return paystubVOS;
     }
 
     @PostMapping("/uploadFile")
@@ -162,5 +165,7 @@ public class SalaryController {
     public String sentEmail(Principal principal, @RequestParam Map<String, String> map) throws Exception {
         return salaryService.sentEmails(principal, map.get("data"), map.get("date"));
     }
+
+
 
 }
