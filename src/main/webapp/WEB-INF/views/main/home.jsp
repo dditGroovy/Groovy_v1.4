@@ -214,7 +214,6 @@
         let day = String(before.getDate()).padStart(2, '0');
 
         const today = year + '-' + month + '-' + day;
-        console.log("TODAY ", today)
         // --------------------------------------------------------------------
 
         const btnWork = document.querySelector("#work");
@@ -262,7 +261,6 @@
                         data: commuteVO,
                         dataType: 'text',
                         success: function (rslt) {
-                            console.log(rslt);
                             refreshCommute();
                         },
                         error: function (xhr) {
@@ -333,7 +331,6 @@
                 // <tr><th>사원번호</th><th>사원이름</th></tr>
                 $.each(data, function (index, item) {
                     const birthday = item.emplBrthdy.split("-")[2];
-                    console.log(birthday)
                     code += `
                             <li class="list-item">
                                 <div class="item-img">
@@ -418,7 +415,6 @@
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                console.log("날씨 json data: ", data)
                 const items = data.response.body.items.item;
                 let sky = '';
                 let temperature = '';

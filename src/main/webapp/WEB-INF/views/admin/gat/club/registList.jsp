@@ -26,7 +26,6 @@
             const clbEtprCode = params.data.clbEtprCode;
             const clbConfmAt = params.data.clbConfmAt;
             const clbComfmAtWord = '미운영';
-            console.log(clbConfmAt);
             this.eGui = document.createElement('div');
             if (clbConfmAt == 1) {
                 this.eGui.innerHTML = `
@@ -134,11 +133,7 @@
         $.ajax({
             url: `/club/admin/registList`,
             type: "POST",
-            <%--beforeSend : function(xhr) {--%>
-            <%--    xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");--%>
-            <%--},--%>
             success: function (data) {
-                console.log(data);
                 const sortedData = data.sort(customSort);
                 Options.api.setRowData(sortedData);
             },

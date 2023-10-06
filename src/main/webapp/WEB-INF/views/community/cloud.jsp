@@ -204,13 +204,11 @@
 
     function fileInfo(infoBox) {
         let key = infoBox.getAttribute("data-key");
-        console.log("key", key);
         let filename = infoBox.querySelector("p").innerText;
         $.ajax({
             type: 'get',
             url: `/cloud/fileInfo?key=\${key}`,
             success: function (fileInfo) {
-                console.log(fileInfo);
                 preview.style.background = '';
                 preview.innerText = '';
                 document.querySelector(".content-name").innerText = filename;
@@ -231,7 +229,6 @@
                 let extensions = fileInfo.type.split("/");
                 let extension = extensions[0];
                 if (extension == 'image') {
-                    console.log(key)
                     let imgUrl = `https://groovy-dazzi.s3.ap-northeast-2.amazonaws.com/\${key}`;
                     let imageElement = document.createElement("img");
                     imageElement.setAttribute("src", imgUrl);
@@ -252,7 +249,6 @@
     }
 
     function uploadFile(fileName) {
-        console.log("fileName", fileName);
         let form = new FormData();
         form.append("file", fileName);
         form.append("path", path);

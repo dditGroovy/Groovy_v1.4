@@ -201,11 +201,9 @@
 </div>
 <script>
     let page = `${pageVO.page}`;
-    console.log(page);
     let depCode = `${pageVO.depCode}`;
     let emplNm = `${pageVO.emplNm}`;
     let sortBy = `${pageVO.sortBy}`;
-    console.log(sortBy);
     let ques = document.querySelectorAll(".que");
     let anws = document.querySelectorAll(".anw");
     function queZero() {
@@ -283,7 +281,6 @@
         // 입사일 선택 - value 값 변경
         emplEncpn.addEventListener("change", function () {
             joinDateVal = this.value;
-            console.log(joinDateVal);
         });
         // 사번 생성 버튼 클릭 이벤트
         document.querySelector("#generateId").addEventListener("click", function () {
@@ -329,7 +326,6 @@
 
                     count = empList.length;
                     document.querySelector("#countBox").innerText = count;
-                    console.log("findEmp success");
                     let pCode = ``;
                     let code = "<table border=1 class='employeeTable'>";
                     code += `<thead><th>사번</th><th>이름</th><th>팀</th><th>직급</th><th>입사일</th><th>생년월일</th><th>전자서명</th><th>재직상태</th></tr></thead><tbody>`;
@@ -402,12 +398,9 @@
                 url: `/employee/loadEmpList?page=\${page}`,
                 dataType: "json",
                 success: function (res) {
-                    console.log(res);
                     count = res.empList.length;
                     document.querySelector("#countBox").innerText = count;
                     let empList = res.empList;
-                    console.log(empList.length)
-                    console.log("loadEmp success");
                     let code = "<table border=1 class='employeeTable'>";
                     let pCode = ``;
                     code += `<thead><tr><th>사번</th><th>이름</th><th>팀</th><th>직급</th><th>입사일</th><th>생년월일</th><th>전자서명</th><th>재직상태</th></tr></thead><tbody>`;
@@ -488,7 +481,6 @@
         });
 
         $(document).on("click", ".signBtn", function () {
-            console.log(this)
             let emplId = this.getAttribute("data-id");
 
             $.get("/alarm/getMaxAlarm")

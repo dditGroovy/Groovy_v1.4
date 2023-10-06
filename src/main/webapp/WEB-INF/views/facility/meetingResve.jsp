@@ -164,7 +164,7 @@
     $(function () {
         loadMyReserveList()
     })
-    const selectResveBeginTime = document.getElementById("selectResveBeginTime");
+
 
     //회의실 번호
     function setRoomNumber(room) {
@@ -187,8 +187,9 @@
     //     }
     // }
 
-    function loadReservedList(seat) {
-        roomNo = $(seat).find("h3").html();
+    const selectResveBeginTime = document.getElementById("selectResveBeginTime");
+    function loadReservedList(room) {
+        roomNo = $(room).find(".no").html();
         let xhr = new XMLHttpRequest();
         xhr.open("get", `/facility/rest/reserved/\${roomNo}`, true);
         xhr.setRequestHeader("ContentType", "application/json;charset=utf-8");
@@ -198,7 +199,7 @@
                 for (let i = 0; i < selectBeginTimeList.length; i++) {
                     selectBeginTimeList[i].removeAttribute("disabled");
                 }
-                let result = JSON.parse(xhr.responseText); // 어차피 예약된 애들만 옴
+                let result = JSON.parse(xhr.responseText);
                 for (let i = 0; i < result.length; i++) {
                     const reservedDate = new Date(result[i].fcltyResveBeginTime);
                     let reservedYear = reservedDate.getFullYear();

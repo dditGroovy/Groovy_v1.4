@@ -45,9 +45,6 @@ public class WeatherService {
         baseDate = currentDateTime.toLocalDate().toString().replace("-", "");
         baseTime = closestBaseTime;
 
-        log.info("baseDate: " + baseDate);
-        log.info("baseTime: " + baseTime);
-
         String apiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
         String serviceKey = "qZe4uWWBzGxh3ONQq9pLg2ttxtKjdcqH5RDNzmyGTr8JnV5p8RXvVxR%2Bnj21qUT9uZm%2FucTk9%2BWLviOGGsphtw%3D%3D";
 

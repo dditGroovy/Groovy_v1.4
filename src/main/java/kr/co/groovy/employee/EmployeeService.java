@@ -123,7 +123,6 @@ public class EmployeeService {
     public String modifyProfile(String emplId, MultipartFile profileFile) {
         try {
             String path = uploadPath + "/profile";
-            log.info("profile path: " + path);
             File uploadDir = new File(path);
             if (!uploadDir.exists()) {
                 if (uploadDir.mkdirs()) {
@@ -147,7 +146,6 @@ public class EmployeeService {
             employeeVO.setProflPhotoFileStreNm(newFileName);
 
             mapper.modifyProfile(emplId, newFileName, originalFileName);
-            log.info("프로필 사진 변경 성공");
             return newFileName;
         } catch (Exception e) {
             log.info("프로필 사진 변경 실패");
@@ -157,10 +155,10 @@ public class EmployeeService {
 
     public void modifyPassword(String emplId, String emplPassword) {
         String encodePw = encoder.encode(emplPassword);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUser customUser = (CustomUser) authentication.getPrincipal();
-        EmployeeVO employeeVO = customUser.getEmployeeVO();
-        employeeVO.setEmplPassword(encodePw);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        CustomUser customUser = (CustomUser) authentication.getPrincipal();
+//        EmployeeVO employeeVO = customUser.getEmployeeVO();
+//        employeeVO.setEmplPassword(encodePw);
         mapper.modifyPassword(emplId, encodePw);
     }
 
@@ -190,7 +188,6 @@ public class EmployeeService {
             employeeVO.setSignPhotoFileStreNm(newFileName);
 
             mapper.modifySign(emplId, newFileName, originalFileName);
-            log.info("서명 변경 성공");
             return newFileName;
         } catch (Exception e) {
             log.info("서명 변경 실패");
@@ -268,7 +265,6 @@ public class EmployeeService {
         bodyJson.put("content", "[Groovy] 임시 비밀번호는 " + password + "입니다.");
         bodyJson.put("messages", toArr);
         String body = bodyJson.toJSONString();
-        log.info(body);
 
         try {
             URL url = new URL(apiUrl);
@@ -291,7 +287,6 @@ public class EmployeeService {
 
             int responseCode = connection.getResponseCode();
             BufferedReader br = null;
-            log.info("responseCode: " + responseCode);
             if (responseCode == 202) {
                 br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             } else {
@@ -305,7 +300,6 @@ public class EmployeeService {
             }
             br.close();
 
-            log.info(response.toString());
         } catch (Exception e) {
             e.getMessage();
         }

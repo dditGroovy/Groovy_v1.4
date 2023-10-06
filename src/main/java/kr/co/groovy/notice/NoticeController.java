@@ -7,13 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +47,6 @@ public class NoticeController {
     @GetMapping("/detail")
     public String loadNoticeDetailForAdmin(Model model, String notiEtprCode) {
         NoticeVO vo = service.loadNoticeDetail(notiEtprCode);
-        log.info(vo.toString());
         List<UploadFileVO> list = service.loadNotiFiles(notiEtprCode);
         model.addAttribute("noticeDetail", vo);
         if (list != null) {

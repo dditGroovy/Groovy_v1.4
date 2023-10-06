@@ -53,12 +53,9 @@ public class SanctionService {
     public void startApprove(@RequestBody Map<String, Object> request) {
         try {
             String className = (String) request.get("className");
-            log.info("className" + className);
             String methodName = (String) request.get("methodName");
-            log.info("methodName" + methodName);
 
             Map<String, Object> parameters = (Map<String, Object>) request.get("parameters");
-            log.info("parameters" + parameters);
 
             Class<?> serviceType = Class.forName(className);
             Object serviceInstance = context.getBean(serviceType);
@@ -119,7 +116,6 @@ public class SanctionService {
         if (afterProcess != null) {
             vo.setElctrnSanctnAfterPrcs(afterProcess);
         }
-        log.info(vo.toString());
         mapper.inputSanction(vo);
 
         List<String> approverList = requestData.get("approver", List.class);

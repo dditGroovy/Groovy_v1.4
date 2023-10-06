@@ -41,7 +41,6 @@ public class ClubController {
         map.put("clbChirmnEmplId",emplId);
         map.put("clbMbrEmplId",emplId);
         service.inputClub(map);
-        log.info("map ==> " + map);
         return "redirect:/club";
     }
     @ResponseBody
@@ -55,7 +54,6 @@ public class ClubController {
     @PutMapping("/updateClubMbrAct")
     public String updateClubMbrAct(@RequestBody Map<String, Object> map){
         map.put("clbMbrEmplId",emplId);
-        log.info("map ==> " + map);
         service.updateClubMbrAct(map);
         return "탈퇴 성공~~";
     };

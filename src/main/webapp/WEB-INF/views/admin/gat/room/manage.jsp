@@ -19,11 +19,11 @@
 <div class="content-container">
 	<header id="tab-header">
 		<h1>
-			<a href="${pageContext.request.contextPath}/reservation/room"
+			<a href="${pageContext.request.contextPath}/reserve/manageRoom"
 				class="on">시설 관리</a>
 		</h1>
 		<h1>
-			<a href="${pageContext.request.contextPath}/reservation/list">예약
+			<a href="${pageContext.request.contextPath}/reserve/loadReservation">예약
 				현황</a>
 		</h1>
 	</header>
@@ -35,7 +35,7 @@
 					<a href="list" class="totalResve font-18 font-md"><span
 						id="countValue" class="font-md font-36"></span> 건</a>
 				</p>
-				<a href="/reservation/list" class="more font-11 font-md">더보기 <i
+				<a href="/reserve/loadReservation" class="more font-11 font-md">더보기 <i
 					class="icon i-arr-rt" style="fill: red"></i>
 				</a>
 			</div>
@@ -122,8 +122,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             const fcltyResveSn = params.value;
-                            console.log(fcltyResveSn);
-							
+
                          	// 값이 비어있으면 요청을 보내지 않도록 확인
                             if (fcltyResveSn) {
                                 const xhr = new XMLHttpRequest();
@@ -132,10 +131,7 @@
 
                                 xhr.onload = function () {
                                     if (xhr.status === 200) {
-                                        console.log("삭제가 완료되었습니다. 상태 코드: " + xhr.responseText);
                                         location.reload();
-                                    } else {
-                                        console.log("삭제 요청이 실패했습니다. 상태 코드: " + xhr.status);
                                     }
                                 };
 

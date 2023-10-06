@@ -71,20 +71,11 @@
         sock = new SockJS("/echo-ws");
         socket = sock;
 
-        sock.onopen = function () {
-            console.log("info: connection opend");
-        };
-
         sock.onmessage = function(event) {
-            console.log(event.data);
             let $socketAlarm = $("#alarm");
 
             //handler에서 설정한 메시지 넣어준다.
             $socketAlarm.html(event.data);
-        }
-
-        sock.onclose = function () {
-            console.log("close");
         }
 
         sock.onerror = function (err) {

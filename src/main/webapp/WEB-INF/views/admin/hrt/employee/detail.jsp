@@ -144,7 +144,6 @@
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log("서버 응답:", response);
                 alert("사원 정보 수정 성공")
                 $("#btn-save").hide();
                 $("#btn-modify").show();
@@ -152,7 +151,6 @@
             },
             error: function (xhr, textStatus, error) {
                 // 오류 발생 시 처리
-                console.log("AJAX 오류:", error);
             }
         });
     })

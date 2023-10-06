@@ -201,7 +201,6 @@
                             $.get("/alarm/getMaxAlarm")
                                 .then(function (maxNum) {
                                     maxNum = parseInt(maxNum) + 1;
-                                    console.log("최대 알람 번호:", maxNum);
 
                                     let postWriterId = target.closest("tr").querySelector(".postWriterInfo").getAttribute("data-id");
                                     let subject = target.closest("tr").querySelector(".sntncCn").innerText;
@@ -610,7 +609,6 @@
     /*  모달  */
     modal.addEventListener("click",e=>{
         const target = e.target;
-        console.log(target);
         if(target.id == "add-option"){
             if(num < 4){
                 const newDiv = document.createElement("div");

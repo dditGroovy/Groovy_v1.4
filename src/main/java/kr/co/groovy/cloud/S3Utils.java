@@ -114,21 +114,11 @@ public class S3Utils {
                     .withPrefix(path);
 
             ObjectListing objectListing = s3Client.listObjects(listObjectsRequest);
-            System.out.println("objectListing = " + objectListing);
-            System.out.println("Object List:");
             for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
                 s3Client.deleteObject(bucketName, objectSummary.getKey());
-                System.out.println("objectSummary = " + objectSummary);
-                System.out.println("objectSummary = " + objectSummary.getKey());
                 mapper.deleteCloud(objectSummary.getKey());
             }
-            for (String commonPrefix : objectListing.getCommonPrefixes()) {
-                // 하위 폴더에 대해 재귀적으로 삭제 작업 수행
-                System.out.println("commonPrefix = " + commonPrefix);
-            }
         } catch (AmazonS3Exception e) {
-            System.err.println(e.getErrorMessage());
-            System.exit(1);
         }
 
         s3Client.deleteObject(bucketName, path);
@@ -147,16 +137,12 @@ public class S3Utils {
         cloudVO.setCloudShareEmplId(emplId);
         mapper.insertCloud(cloudVO);
 
-        System.out.println("fileName = " + fileName);
-
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(file.getContentType());
-            System.out.println("file.getContentType() = " + file.getContentType());
             PutObjectRequest request = new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata);
             request.withCannedAcl(CannedAccessControlList.AuthenticatedRead); // 접근권한 체크
             PutObjectResult result = s3Client.putObject(request);
-            System.out.println("result = " + result);
         } catch (AmazonServiceException e) {
             e.printStackTrace();
         } catch (SdkClientException e) {
@@ -211,7 +197,6 @@ public class S3Utils {
 
     //폴더 생성
     public void createFolder(String path) {
-        System.out.println("path = " + path);
         Map<String, Object> s3Info = getS3Info();
         String bucketName = (String) s3Info.get("bucketName");
         AmazonS3 s3Client = (AmazonS3) s3Info.get("s3Client");

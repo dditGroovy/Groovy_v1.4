@@ -38,7 +38,6 @@ public class NoticeService {
         if (notiFiles != null && notiFiles.length > 0 && notiFiles[0].getSize() > 0) {
             try {
                 String path = uploadPath + "/notice";
-                log.info("notice path: " + path);
                 File uploadDir = new File(path);
                 if (!uploadDir.exists()) {
                     if (uploadDir.mkdirs()) {
@@ -62,7 +61,6 @@ public class NoticeService {
                     map.put("newFileName", newFileName);
                     map.put("fileSize", fileSize);
                     mapper.uploadNoticeFile(map);
-                    log.info("공지 파일 등록 성공");
                 }
             } catch (Exception e) {
                 log.info("공지 파일 등록 실패");

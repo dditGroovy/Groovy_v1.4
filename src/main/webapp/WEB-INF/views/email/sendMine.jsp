@@ -52,7 +52,7 @@
 <script>
     /*  메일 헤더 가리기   */
     document.querySelector("#tab-header").style.display = "none";
-    document.querySelector(".mailnavWrap form").style.display = "none";
+    document.querySelector(".mailnavWrap #search").style.display = "none";
 
     let editor = CKEDITOR.replace("editor", {
         extraPlugins: 'notification',

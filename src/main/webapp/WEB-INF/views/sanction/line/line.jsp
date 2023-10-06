@@ -321,7 +321,6 @@
                 success: function (res) {
                     pLabel.remove();
                     loadLine()
-                    console.log("북마크 삭제 성공")
                 },
                 error: function (xhr) {
                 }
@@ -347,7 +346,6 @@
                 data: JSON.stringify(jsonData),
                 contentType: "application/json",
                 success: function (data) {
-                    console.log("결재선 저장 성공");
                     modalClose();
                 },
                 error: function (xhr) {

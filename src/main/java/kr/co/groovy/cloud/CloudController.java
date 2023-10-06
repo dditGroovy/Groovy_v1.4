@@ -33,7 +33,6 @@ public class CloudController {
 
     @GetMapping("/main")
     public String cloudMain(Principal principal, Model model, String path) {
-        System.out.println("****path = " + path);
         String deptFolderName = null;
         if (path == null) {
             String emplId = principal.getName();

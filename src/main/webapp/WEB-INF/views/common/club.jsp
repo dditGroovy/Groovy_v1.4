@@ -184,7 +184,6 @@
                 url: `/club/\${clbEtprCode}`,
                 type: "GET",
                 success: function (data) {
-                    console.log(data);
                     $("#modalImg").prop("src", `/resources/images/club/\${data[0].clbKind}.jpg`)
                     clubName.innerText = data[0].clbNm;
                     clubDc.innerText = data[0].clbDc;

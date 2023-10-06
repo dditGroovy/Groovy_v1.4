@@ -62,7 +62,6 @@
                 errorDiv.innerText = message;
                 passwordField.value = "";
                 passwordConfirmField.value = "";
-                console.log(password, passwordConfirm);
                 return;
             }
 
@@ -77,7 +76,6 @@
                 errorDiv.innerText = message;
                 passwordField.value = "";
                 passwordConfirmField.value = "";
-                console.log(password, passwordConfirm);
             }
         });
     });

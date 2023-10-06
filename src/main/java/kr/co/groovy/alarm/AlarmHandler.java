@@ -50,7 +50,6 @@ public class AlarmHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String msg = message.getPayload();
-        log.info("****msg ={}", msg);
         if (msg != null) {
             String[] msgs = msg.split(",");
             String seq = msgs[0];
@@ -258,7 +257,6 @@ public class AlarmHandler extends TextWebSocketHandler {
     //연결 해제될 때
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        log.info("socket END");
         sessions.remove(session);
         userSessionMap.remove(currentUserId(session), session);
     }

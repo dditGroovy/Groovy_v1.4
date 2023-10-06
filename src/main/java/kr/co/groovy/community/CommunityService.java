@@ -34,7 +34,6 @@ public class CommunityService {
         boolean hasFile = postFile.isEmpty();
         if (postFile != null && postFile.getSize() != 0 && !postFile.getName().equals("")) {
             String path = uploadPath + "/teamCommunity";
-            log.debug("path: " + path);
             File uploadDir = new File(path);
             if (!uploadDir.exists()) {
                 if (uploadDir.mkdirs()) {
@@ -57,7 +56,6 @@ public class CommunityService {
             map.put("originalFileName", originalFileName);
             map.put("newFileName", newFileName);
             map.put("fileSize", fileSize);
-            log.info(String.valueOf(map));
 
             mapper.uploadPostFile(map);
         }

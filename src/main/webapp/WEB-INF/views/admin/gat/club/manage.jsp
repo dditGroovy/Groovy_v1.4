@@ -43,7 +43,6 @@
 
     class ClassProposalBtn {
         init(params) {
-            console.log(params);
             const clbEtprCode = params.data.clbEtprCode
             this.eGui = document.createElement('div');
             this.eGui.innerHTML = `

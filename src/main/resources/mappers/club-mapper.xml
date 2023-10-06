@@ -138,6 +138,7 @@
         WHERE C.CLB_ETPR_CODE = CM.CLB_ETPR_CODE
           AND CM.CLB_MBR_EMPL_ID = E.EMPL_ID
           AND CM.CLB_ETPR_CODE = #{clbEtprCode}
+        ORDER BY CM.CLB_MBR_ACT_AT ASC
     </select>
     <insert id="inputClubMbr" parameterType="map">
         INSERT INTO CLB_MBR(

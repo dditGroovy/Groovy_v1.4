@@ -144,7 +144,7 @@
             FROM JOB_PROGRS P
             WHERE P.JOB_RECPTN_EMPL_ID = #{jobRequstEmplId}
         )
-        ORDER BY J.JOB_BEGIN_DATE
+        ORDER BY J.JOB_REQUST_DATE DESC
     </select>
 
     <select id="getJobByDateFilter" parameterType="map" resultType="jobVO">

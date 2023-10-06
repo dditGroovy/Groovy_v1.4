@@ -135,7 +135,6 @@
                             url: `/email/permanent/\${emailEtprCode}`,
                             type: "put",
                             success: function (result) {
-                                console.log(result);
                                 tr.remove();
                                 // document.querySelector("tbody").innerHTML = '<tr><td class="no-data" colspan="4">메일이 존재하지 않습니다.</td></tr>';
                             },

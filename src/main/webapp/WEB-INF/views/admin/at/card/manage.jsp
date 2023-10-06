@@ -64,7 +64,7 @@
                 <button type="button" id="registerCardBtn" class="btn btn-out-sm">등록</button>
             </div>
         </div>
-        <div class="modal-layer card-df sm cardInfoCard" >
+        <div class="modal-layer card-df sm cardInfoCard">
             <div class="modal-top info-top">
                 <div class="modal-cardinfo font-md font-18 color-font-md">카드 기본 정보</div>
                 <div class="cardinfo-button-box">
@@ -117,7 +117,9 @@
     </div>
 
     <div class="waiting-wrapper card-df card">
-        <h1 class="font-24 font-md waiting-title">카드 신청 미처리건 <span id="waitingListCnt" style="color: dodgerblue; font-weight: bolder">${waitingListCnt}</span><span class="font-14">건</span>
+        <h1 class="font-24 font-md waiting-title">카드 신청 미처리건 <span id="waitingListCnt"
+                                                                   style="color: dodgerblue; font-weight: bolder">${waitingListCnt}</span><span
+                class="font-14">건</span>
         </h1>
         <div id="cardWaitingList">
             <div id="waitingListGrid" class="ag-theme-material"></div>
@@ -141,6 +143,7 @@
         const selectedCardCom = $("#selectedCardCom");
         const selectedCardNo = $("#selectedCardNo");
 
+        let settingBtn = $(".setting-box");
         let currentCardNo;
         let currentCardNm;
         let optionCode;
@@ -148,7 +151,6 @@
         const returnResve = (params) => params.value;
 
         class ClassComp {
-
             init(params) {
                 let data = params.node.data;
                 let cprCardResveSn = data.cprCardResveSn;
@@ -185,7 +187,6 @@
                             $.get("/alarm/getMaxAlarm")
                                 .then(function (maxNum) {
                                     maxNum = parseInt(maxNum) + 1;
-                                    console.log("최대 알람 번호:", maxNum);
                                     let ntcnEmplId = cprCardResveEmplId;
                                     let url = '/card/request';
                                     let content = `<div class="alarmListBox">
@@ -345,7 +346,7 @@
                 contentType: false,
                 success: function (result) {
                     loadAllCard();
-                    document.querySelector("#registCardModal").style.display = "none";
+                    modalClose("registerCard");
                 },
                 error: function (xhr) {
                     Swal.fire({
@@ -422,6 +423,12 @@
             let cardCom = selectedCard.siblings().find("#btnCardCom").text();
             let cardStatus = selectedCard.find("#btnCardStatus").val();
 
+            if ($(this).find(".refuse").length == 0) {
+                settingBtn.css("display", "block");
+            } else {
+                settingBtn.css("display", "none");
+            }
+
             saveCardInfoBtn.hide();
             cancelModifyCardInfoBtn.hide();
             modifyCardInfoBtn.show();
@@ -437,6 +444,8 @@
 
             currentCardNo = cardNo;
             currentCardNm = cardNm;
+
+            modalOpen("cardInfoCard");
         })
 
         modifyCardInfoBtn.on("click", function () {
@@ -526,6 +535,7 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
+                                modalClose();
                             } else {
                                 Swal.fire({
                                     text: '오류로 인하여 카드 사용불가 처리를 실패했습니다',
@@ -551,9 +561,9 @@
             return cardNumberPattern.test(cardNumber);
         }
 
-        document.querySelector(".setting-box").addEventListener("click", () => {
-            document.querySelector(".btn-info-wrapper").style.display = "block";
-        });
+        settingBtn.on("click", () => {
+            $(".btn-info-wrapper").css("display", "block");
+        })
 
         document.querySelector(".info-close").addEventListener("click", () => {
             document.querySelector(".btn-info-wrapper").style.display = "none";

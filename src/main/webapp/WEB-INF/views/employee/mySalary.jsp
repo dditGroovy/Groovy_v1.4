@@ -27,7 +27,7 @@
     <header id="tab-header">
         <h1><a href="${pageContext.request.contextPath}/vacation">내 휴가</a></h1>
         <h1><a href="${pageContext.request.contextPath}/employee/confirm/salary" class="on">내 급여</a></h1>
-        <h1><a href="${pageContext.request.contextPath}/vacation/record">휴가 기록</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/vacation/request">휴가 기록</a></h1>
     </header>
 
     <main>

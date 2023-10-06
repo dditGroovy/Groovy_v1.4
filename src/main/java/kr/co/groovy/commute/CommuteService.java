@@ -72,14 +72,12 @@ public class CommuteService {
     }
 
     public void insertCommuteByVacation(Map<String, Object> paramMap) {
-        log.info("insertCommuteByVacation (리플랙션)");
         int id = Integer.parseInt((String) paramMap.get("vacationId"));
         ParamMap map = ParamMap.init();
         map.put("approveId", id);
         map.put("state", "YRYC032");
         vacationMapper.modifyStatus(map);
 
-        log.info("insertCommuteByVacation (리플랙션2)");
         VacationUseVO vo = vacationMapper.loadVacationBySn(id);
         String vacationUse = vo.getCommonCodeYrycUseSe();
         String vacationKind = vo.getCommonCodeYrycUseKind();

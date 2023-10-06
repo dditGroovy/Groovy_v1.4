@@ -75,7 +75,6 @@ public class CardController {
     @PostMapping("/returnChecked")
     @ResponseBody
     public int returnChecked(@RequestBody CardReservationVO cardReservationVO) {
-        log.info("{}", cardReservationVO);
         return service.returnChecked(cardReservationVO);
     }
 
@@ -93,7 +92,7 @@ public class CardController {
 
     @PostMapping("/request")
     public String inputRequest(CardReservationVO cardReservationVO) {
-        log.info(cardReservationVO.toString());
+//        log.info(cardReservationVO.toString());
         service.inputRequest(cardReservationVO);
         int generatedKey = cardReservationVO.getCprCardResveSn();
         return "redirect:/card/detail/" + generatedKey;
@@ -109,7 +108,7 @@ public class CardController {
     @ResponseBody
     public ResponseEntity<CardReservationVO> loadData(@PathVariable int cprCardResveSn) {
         CardReservationVO vo = service.loadRequestDetail(cprCardResveSn);
-        log.info(vo.toString());
+//        log.info(vo.toString());
         return ResponseEntity.ok(vo);
     }
 

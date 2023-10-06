@@ -101,14 +101,6 @@
             sock = new SockJS("/echo-ws");
             socket = sock;
 
-            sock.onopen = function () {
-                console.log("info: connection opened");
-            };
-
-            sock.onclose = function () {
-                console.log("close");
-            }
-
             sock.onerror = function (err) {
                 console.log("ERROR: ", err);
             }
@@ -158,7 +150,6 @@
                 const applovalOtt = document.querySelector("#applovalOtt");
                 const applovalObtt = document.querySelector("#applovalObtt");
                 const referOtt = document.querySelector("#referOtt");
-                console.log(sanctionLineData, referLineData);
 
                 /*  결재선 추가  */
                 for (const key in sanctionLineData) {
@@ -205,7 +196,6 @@
                 url: `/vacation/detail/\${num}`,
                 type: "GET",
                 success: function (data) {
-                    console.log(data)
                     for (let key in data) {
                         if (data.hasOwnProperty(key)) {
                             let value = data[key];
@@ -224,7 +214,6 @@
                 url: `/card/data/\${num}`,
                 type: "GET",
                 success: function (data) {
-                    console.log(data)
                     for (let key in data) {
                         if (data.hasOwnProperty(key)) {
                             let value = data[key];
@@ -340,7 +329,6 @@
         // 드래그 앤 드롭 및 직접 선택 파일 append 처리 함수
         function appendFile(paramFile) {
             file = paramFile;
-            console.log(file)
         }
 
         // 결재 insert 후 첨부 파일 있다면 업로드 실행
@@ -355,8 +343,6 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    console.log("결재 파일 업로드 성공");
-                    // closeWindow()
                     alarm();
                 },
                 error: function (xhr) {
@@ -412,7 +398,6 @@
         /* 박스 안에 Drag를 하고 있을 때 */
         fileBox.addEventListener('dragover', function (e) {
             e.preventDefault();
-            console.log(e.dataTransfer.types);
             const vaild = e.dataTransfer.types.indexOf('Files') >= 0;
             !vaild ? this.style.backgroundColor = '#F5FAFF' : this.style.backgroundColor = '#F5FAFF';
         });

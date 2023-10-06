@@ -3,6 +3,10 @@
     gap: var(--vw-12);
 }
 
+.cardinfo-button-box {
+    display: flex;
+}
+
 .card-wrapper .card-regist {
     border: 1px dashed var(--color-font-md);
     border-radius: var(--vw-32);
@@ -79,8 +83,8 @@
 }
 
 .cards {
-    width: calc((210/1920)*100vw);
-    height: calc((324/1920)*100vw);
+    width: calc((210 / 1920) * 100vw);
+    height: calc((324 / 1920) * 100vw);
     display: inline-flex;
     border-radius: var(--vw-24);
     border: none;
@@ -143,7 +147,7 @@
 
 .setting-box {
     border: none;
-    background: rgba(0,0,0,0);
+    background: rgba(0, 0, 0, 0);
     cursor: pointer;
 }
 
@@ -172,9 +176,11 @@
 .card-info-table tr {
     height: var(--vh-56);
 }
+
 .card-info-table td {
     padding-left: var(--vw-12);
 }
+
 .info-title {
     background: var(--color-bg-sky);
 }
@@ -208,7 +214,7 @@
 
 .waiting-wrapper {
     padding: var(--vw-32);
-    margin-top: calc((80/1080) * 100vh);
+    margin-top: calc((80 / 1080) * 100vh);
 }
 
 #waitingListCnt {
@@ -238,18 +244,19 @@
 }
 
 .ag-header {
-    border : none;
+    border: none;
 }
 
 .ag-row-even, .ag-row-odd {
     border-color: var(--color-bg-grey);
 }
+
 .select-box {
     display: flex;
 }
 
 .selectBox {
-    width: calc((120/1920)*100vw) !important;
+    width: calc((120 / 1920) * 100vw) !important;
     margin-right: 8px;
     font-size: var(--font-size-11);
 }

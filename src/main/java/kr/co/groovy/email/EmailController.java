@@ -54,6 +54,7 @@ public class EmailController {
             model.addAttribute("allMailCount", allMailCount);
             return "email/allList";
         } catch (AuthenticationFailedException e) {
+            e.printStackTrace();
             return "redirect:/signOut";
         }
     }

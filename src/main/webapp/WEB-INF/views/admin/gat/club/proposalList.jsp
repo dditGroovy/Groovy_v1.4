@@ -25,7 +25,6 @@
         init(params) {
             const clbEtprCode = params.data.clbEtprCode;
             const clbConfmAt = params.data.clbConfmAt;
-            console.log(clbConfmAt);
             const clbComfmAtWord = ['승인', '거절'];
             this.eGui = document.createElement('div');
             if (clbConfmAt == 0) {
@@ -48,7 +47,6 @@
                     <p class="status">\${clbComfmAtWord[clbConfmAt-1]}</p>
                `;
                 const status = this.eGui.querySelector(".status");
-                console.log(status);
             }
         }
 

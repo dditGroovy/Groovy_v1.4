@@ -9,33 +9,33 @@
     .fc-daygrid-event-dot {
         display: none;
     }
-    
-    #formDiv {
-    	margin-bottom: var(--vh-40);
-    }
-    
-    input[type=file]::file-selector-button {
-	background-color: var(--color-white); 
-	border-radius: var(--size-32); 
-	border: 1px solid var(--color-stroke); 
-	box-shadow: var(--clay-card);  
-	outline-color: var(--color-main); 
-	color: var(--color-main);
-	font-size: var(--font-size-14);
-	height: var(--vh-56);
-	width: calc((100 / var(--vw)) * 100vw);
-	}
 
-	.fileButton {
-	height: var(--vh-56);
-	width: calc((120 / var(--vw)) * 100vw);
-	font-size: var(--font-size-14);
-	background-color: var(--color-main); 
-	border: 1px solid var(--color-stroke); 
-	border-radius: var(--size-32); 
-	box-shadow: var(--clay-btn); 
-	color: white;
-	}
+    #formDiv {
+        margin-bottom: var(--vh-40);
+    }
+
+    input[type=file]::file-selector-button {
+        background-color: var(--color-white);
+        border-radius: var(--size-32);
+        border: 1px solid var(--color-stroke);
+        box-shadow: var(--clay-card);
+        outline-color: var(--color-main);
+        color: var(--color-main);
+        font-size: var(--font-size-14);
+        height: var(--vh-56);
+        width: calc((100 / var(--vw)) * 100vw);
+    }
+
+    .fileButton {
+        height: var(--vh-56);
+        width: calc((120 / var(--vw)) * 100vw);
+        font-size: var(--font-size-14);
+        background-color: var(--color-main);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--size-32);
+        box-shadow: var(--clay-btn);
+        color: white;
+    }
 </style>
 
 
@@ -65,38 +65,35 @@
 
     $(document).ready(function () {
         let msg = "${map.msg}";
-        console.log(msg);
         if (msg == "ok") {
-        	Swal.fire({
-        	  title: '파일 업로드 성공',
-        	  showConfirmButton: false,
-        	  timer: 1500
-        	})
-    	} else if(msg == "error") {
-    		Swal.fire({
-          	  title: '파일 업로드 실패',
-          	  showConfirmButton: false,
-          	  timer: 1500
-          	})
-    	}
+            Swal.fire({
+                title: '파일 업로드 성공',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        } else if (msg == "error") {
+            Swal.fire({
+                title: '파일 업로드 실패',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
     });
-    $2a$10$4QVW4ZY/KO6k0D719d3Z2.MYFA6UNfryM4.Vzpp1UJN1yHt9J.J2K - 관리 자
-    $2a$10$1RUPUhxOjJdFWnNCTMYCleeE7f7mrtrBOJTjP31mbiJNnRW5A91hy - 하이잉(230903135)
-    $2a$10$UxGpG3lyB0.i/b8xXktK3OaC3eTqPwTvsOg0xXS/rz9i5zCljVHoa - 하이잉(230903132)
+
     function upload() {
         let fileInput = $("#file")[0];
 
         if (fileInput.files.length === 0) {
             Swal.fire({
-          	  title: '파일을 업로드해주세요',
-          	  showConfirmButton: false,
-          	  timer: 1500
-          	})
-            
+                title: '파일을 업로드해주세요',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
             fileInput.focus();
             return;
         }
-        
+
         $("#inputForm").submit();
     }
 

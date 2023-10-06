@@ -61,7 +61,6 @@ public class CommunityController {
         mav.addObject("recommendedEmpleChk", recommendedEmpleChk);
         mav.addObject("answerPostCnt", answerPostCnt);
         mav.setViewName("community/teamCommunity");
-        log.info("recommendedEmpleChk ===> " + recommendedEmpleChk);
         return mav;
     }
 

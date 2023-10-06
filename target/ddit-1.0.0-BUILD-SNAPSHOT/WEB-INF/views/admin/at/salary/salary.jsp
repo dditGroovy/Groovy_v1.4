@@ -169,7 +169,6 @@
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    console.log("급여 업데이트 실패: " + error);
                 }
             });
         }
@@ -216,7 +215,6 @@
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    console.log("소득세 업데이트 실패: " + error);
                 }
             });
         }

@@ -7,8 +7,8 @@
 <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
 <div class="content-container">
 	<header id="tab-header">
-		<h1><a href="${pageContext.request.contextPath}/reservation/room">시설 관리</a></h1>
-		<h1><a href="${pageContext.request.contextPath}/reservation/list" class="on">예약 현황</a></h1>
+		<h1><a href="${pageContext.request.contextPath}/reserve/manageRoom">시설 관리</a></h1>
+		<h1><a href="${pageContext.request.contextPath}/reserve/loadReservationt" class="on">예약 현황</a></h1>
 	</header>
 	<div class="filterWrap">
 		<div class="select-wrapper">
@@ -61,7 +61,6 @@ class ClassBtn {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const fcltyResveSn = params.value; 
-                        console.log(fcltyResveSn); 
 
                         // 값이 비어있으면 요청을 보내지 않도록 확인
                         if (fcltyResveSn) {
@@ -71,10 +70,7 @@ class ClassBtn {
 
                             xhr.onload = function () {
                                 if (xhr.status === 200) {
-                                    console.log("삭제가 완료되었습니다. 상태 코드: " + xhr.responseText);
                                     location.reload(); // 페이지 리로드
-                                } else {
-                                    console.log("삭제 요청이 실패했습니다. 상태 코드: " + xhr.status);
                                 }
                             };
 
@@ -114,8 +110,8 @@ const columnDefs = [
     {field: "fcltyResveSn", headerName: "예약번호", cellRenderer: returnValue, width: 100, cellStyle: {textAlign: "center"}},
     {field: "commonCodeFcltyKindParent", headerName: "시설 종류 구분",width: 150, getQuickFilterText: (params) => {return params.value}, cellStyle: {textAlign: "center"}},
     {field: "commonCodeFcltyKind", headerName: "시설 이름",width: 150, cellStyle: {textAlign: "center"}},
-    {field: "fcltyResveBeginTime", headerName: "시작 일시",width: 200,  cellStyle: {textAlign: "center"}},
-    {field: "fcltyResveEndTime", headerName: "끝 일시", width: 200, cellStyle: {textAlign: "center"}},
+    {field: "fcltyResveBeginTime", headerName: "시작 일자",width: 200,  cellStyle: {textAlign: "center"}},
+    {field: "fcltyResveEndTime", headerName: "끝 일자", width: 200, cellStyle: {textAlign: "center"}},
     {field: "fcltyResveEmplNm", headerName: "예약 사원(사번)",width: 200,  cellStyle: {textAlign: "center"}},
     {field: "fcltyResveRequstMatter", headerName: "요청사항", width: 200, cellStyle: {textAlign: "center"}},
     {field: "chk", headerName: " ", cellRenderer: ClassBtn,width: 150,  cellStyle: {textAlign: "center"}},

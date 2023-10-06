@@ -198,16 +198,7 @@
             sock = new SockJS("/echo-ws");
             socket = sock;
 
-            sock.onopen = function () {
-                console.log("info: connection open");
-            };
-
-            sock.onclose = function () {
-                console.log("close");
-            }
-
             sock.onerror = function (err) {
-                console.log("ERROR: ", err);
             }
         }
         // pdf 생성
@@ -356,7 +347,6 @@
                 data: afterPrcs,
                 contentType: "application/json",
                 success: function (data) {
-                    console.log("후처리 성공");
                 },
                 error: function (xhr) {
                     console.log("후처리 실패");

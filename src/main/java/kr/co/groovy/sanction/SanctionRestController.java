@@ -1,7 +1,5 @@
 package kr.co.groovy.sanction;
 
-import kr.co.groovy.enums.ClassOfPosition;
-import kr.co.groovy.enums.Department;
 import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.SanctionBookmarkVO;
@@ -9,10 +7,7 @@ import kr.co.groovy.vo.SanctionLineVO;
 import kr.co.groovy.vo.SanctionVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +54,6 @@ public class SanctionRestController {
     /* 전자결재 후처리 실행 */
     @PostMapping("/reflection")
     public void startApprove(@RequestBody Map<String, Object> request) {
-        log.info("startApprove" + request);
         service.startApprove(request);
     }
 

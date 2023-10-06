@@ -187,7 +187,6 @@ document.getElementById("request-job").addEventListener("click", (event) => {
             document.querySelector(".data-close").innerText = rslt.jobClosDate;
             let kind = rslt.commonCodeDutyKind;
             let checkboxes = document.querySelectorAll(".data-kind");
-            console.log(rslt);
             checkboxes.forEach(checkbox => {
                 if (checkbox.value === kind) {
                     checkbox.checked = true;
@@ -300,7 +299,6 @@ myJobs.forEach(myJob => {
                 type: 'get',
                 url: `/job/getJobByNoAndId?jobNo=${jobNo}`,
                 success: function (rslt) {
-                    console.log(rslt);
                     document.querySelector("#sj-data input").value = rslt.jobSj;
                     document.querySelector("#cn-data input").value = rslt.jobCn;
                     document.querySelector("#begin-data input").value = rslt.jobBeginDate;
@@ -438,7 +436,6 @@ requestBtn.addEventListener("click", (event) => {
                     maxNum = parseInt(maxNum) + 1;
 
                     let subject = formData.get("jobSj");
-                    console.log(subject);
                     let url = '/job/main';
                     let content = `<div class="alarmListBox">
                                     <a href="${url}" class="aTag" data-seq="${maxNum}">
@@ -465,7 +462,6 @@ requestBtn.addEventListener("click", (event) => {
                         url: '/alarm/insertAlarmTargeList',
                         data: alarmVO,
                         success: function (rslt) {
-                            console.log(rslt);
                             if (socket) {
                                 //알람번호,카테고리,url,보낸사람이름,받는사람아이디, 제목
                                 let msg = `${maxNum},job,${url},${emplNm},${subject},${selectedEmplIds}`;
@@ -493,7 +489,6 @@ let confirmBtn = document.querySelector("#confirm");
 
 modifyBtn.addEventListener("click", function(){
     let dataId = modifyBtn.getAttribute("data-id");
-    console.log(dataId);
     progressList.forEach(progress => {
         progress.disabled = false;
     });
@@ -521,7 +516,6 @@ confirmBtn.addEventListener("click", () => {
     });
     checkboxes.forEach(checkbox => {
         if (checkbox.checked) {
-            console.log(checkbox)
            commonCodeDutyKind = checkbox.value;
         }
     })

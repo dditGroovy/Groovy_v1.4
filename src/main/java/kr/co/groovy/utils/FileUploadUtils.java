@@ -33,8 +33,6 @@ public class FileUploadUtils {
 
         String contentType = getContentTypeFromExtension(extension);
 
-        log.info("contentType={}", contentType);
-
         return contentType != null && contentType.startsWith("image");
     }
     //** 선생님 방법으로 안돼서 추가
@@ -147,16 +145,11 @@ public class FileUploadUtils {
     public static String singleUpload(MultipartFile picture) {
         //upload까지의 경로, 년월일
         File uploadPath = new File(FileUploadUtils.uploadFolder,FileUploadUtils.getFolder());
-        log.info("uploadPath : " + uploadPath);
         //만약 연/월/일 해당 폴더가 없으면 생성
         if(uploadPath.exists()==false) {
             uploadPath.mkdirs();
         }
 
-        log.info("--------------------------");
-        log.info("파일명 : " + picture.getOriginalFilename());
-        log.info("파일크기 : " + picture.getSize());
-        log.info("MINE타입 : " + picture.getContentType());
         // c:\\img\\개똥이.jpg => 개똥이.jpg
         String uploadFileName = picture.getOriginalFilename();
         uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);

@@ -226,7 +226,7 @@
             title.innerText = memo.querySelector("#memoSj").value;
             content.innerText = memo.querySelector("#memoCn").value;
 
-            if (title.innerText === "" || content.innerText === "") {
+            if (content.innerText === "") {
             	Swal.fire({
                     title: '내용을 입력해주세요',
                     showConfirmButton: false,

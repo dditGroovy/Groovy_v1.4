@@ -111,7 +111,6 @@ public class VacationService {
         ParamMap map = ParamMap.init();
         map.put("approveId", paramMap.get("approveId"));
         map.put("state", paramMap.get("state"));
-        log.info(map+"오긴 왔는데");
         mapper.modifyStatus(map);
     }
 

@@ -109,7 +109,6 @@
     const saveBtn = document.querySelector("#save");
     let emplId = undefined;
     let clbEtprCode = "${clubDetail.clbEtprCode}";
-    console.log(clbEtprCode);
     loadOrgChart.addEventListener("click", () => {
         let popup = window.open('${pageContext.request.contextPath}/job/jobOrgChart', "조직도", "width = 600, height = 600")
         popup.addEventListener("load", () => {
@@ -175,7 +174,6 @@
 
                 this.leaveBtn.onclick = (e) => {
                     const target = e.target;
-                    console.log(target, target.querySelector("#actionArea"));
                     $.ajax({
                         url: `/club/admin/\${clbEtprCode}/\${clbMbrEmplId}`,
                         type: "PUT",

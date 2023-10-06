@@ -452,7 +452,6 @@
                 processData: false,
                 cache: false,
                 success: function (response) {
-                    console.log("개인 정보 수정 성공", response);
                     $(".my-info input").prop("readonly", true)
                     $(".my-info input").css("border", "none")
                 },
@@ -474,7 +473,6 @@
                 processData: false,
                 cache: false,
                 success: function (response) {
-                    console.log("프로필 사진 수정 성공", response);
                     let newImageUrl = "/uploads/profile/" + response;
                     $("#profileImage").attr("src", newImageUrl);
                     $("#asideProfile").attr("src", newImageUrl);
@@ -499,7 +497,6 @@
                 processData: false,
                 cache: false,
                 success: function (response) {
-                    console.log("서명 사진 수정 성공", response);
                     let newImageUrl = "/uploads/sign/" + response;
                     $("#userSignProfile").attr("src", newImageUrl);
                     $("#emplSignFile").val("");
@@ -540,7 +537,6 @@
                 contentType: 'application/json',
                 data: JSON.stringify(notificationSettings),
                 success: function (data) {
-                    console.log("알림 설정 성공");
                 },
                 error: function (xhr, textStatus, error) {
                     console.log("AJAX 오류:", error);

@@ -1,18 +1,16 @@
 package kr.co.groovy.sanction;
 
 import kr.co.groovy.common.CommonService;
-import kr.co.groovy.enums.ClassOfPosition;
 import kr.co.groovy.enums.Department;
-import kr.co.groovy.utils.ParamMap;
 import kr.co.groovy.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.*;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -90,7 +88,6 @@ public class SanctionController {
     @GetMapping("/admin/{dept}")
     public String loadSanctionList(Model model, @PathVariable String dept) {
         List<SanctionVO> list = service.loadSanctionList(dept);
-        log.info(list.toString());
         model.addAttribute("sanctionList", list);
         return "admin/hrt/employee/sanction";
     }
