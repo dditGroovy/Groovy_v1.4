@@ -8,7 +8,6 @@
         <div class="contentWrap card card-df send-wrap">
             <div class="send-wrap-inner">
                 <form action="#" method="post" id="mailForm" enctype="multipart/form-data">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type="hidden" name="emailFromAddr" value="${CustomUser.employeeVO.emplEmail}">
                 <input type="hidden" name="emailToAddr" value="${CustomUser.employeeVO.emplEmail}">
                 <div class="serviceWrap">

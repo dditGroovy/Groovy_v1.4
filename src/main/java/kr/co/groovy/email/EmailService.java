@@ -501,11 +501,8 @@ public class EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             if (toArr == null) {
-                log.info("toArr == null");
-                log.info(emailVO.getEmailToAddr());
                 helper.setTo(emailVO.getEmailToAddr());
             } else if (toArr != null) {
-                log.info("toArr != null");
                 helper.setTo(toArr);
             }
             helper.setCc(ccArr);
@@ -543,8 +540,10 @@ public class EmailService {
             sendMail.setEmailSn(emailVO.getEmailSn());
             emailMapper.inputReceivedEmailsFrom(sendMail);
 
+
+
             if (emailVO.getEmailToAddr() == null) {
-                List<String> emailToAddrList = emailVO.getEmailToAddrList();
+                List<String> emailToAddrList = Arrays.asList(toArr);
                 try {
                     for (String to : emailToAddrList) {
                         sendMail.setEmailToAddr(to);

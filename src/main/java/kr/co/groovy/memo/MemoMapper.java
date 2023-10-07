@@ -1,8 +1,9 @@
 package kr.co.groovy.memo;
 
-import java.util.List;
-
 import kr.co.groovy.vo.MemoVO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface MemoMapper {
 	
@@ -15,10 +16,10 @@ public interface MemoMapper {
 	public int modifyMemo(MemoVO memoVO);
 	
 	public int deleteMemo(int memoSn);
-	
-	public int updateMemoAlarm(int memoSn);
-	
-	public MemoVO getFixMemo();
+
+	public int updateMemoAlarm(@Param("memoSn") int memoSn, @Param("memoEmplId") String memoEmplId);
+
+	public MemoVO getFixMemo(String memoEmplId);
 	
 	public int noFix(int memoSn);
 }

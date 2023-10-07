@@ -3,13 +3,11 @@ package kr.co.groovy.alarm;
 import kr.co.groovy.employee.EmployeeService;
 import kr.co.groovy.vo.NotificationVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.security.Principal;
 import java.util.*;
 
 @Slf4j
@@ -78,11 +76,12 @@ public class AlarmHandler extends TextWebSocketHandler {
             } else if (category.equals("teamNoti")) {//팀커뮤니티 - 팀공지사항
                 String sendName = msgs[3];
                 String deptName = msgs[4];
+                String registId = msgs[5];
                 List<String> emplIdList = service.loadEmplByDept(deptName);
                 for (WebSocketSession webSocketSession : sessions) {
                     String userId = currentUserId(webSocketSession);
                     for (String emplId : emplIdList) {
-                        if (emplId.equals(userId)) {
+                        if (emplId.equals(userId) && !emplId.equals(registId)) {
                             NotificationVO noticeAt = service.getNoticeAt(userId);
                             String teamNotice = noticeAt.getTeamNotice();
 
@@ -109,8 +108,8 @@ public class AlarmHandler extends TextWebSocketHandler {
                     String notificationHtml = String.format(
                             "<a href=\"%s\" id=\"fATag\" data-seq=\"%s\">" +
                                 "<h1>[팀 커뮤니티]</h1>" +
-                                "<div class=\"alarm-context\">" +
-                                "<p>[<span>%s</span>]에" +
+                                "<div class=\"alarm-textbox\">" +
+                                "<p>[<span>%s</span>]에 " +
                                 "%s님이 댓글을 등록하셨습니다.</p>" +
                                 "</div>" +
                             "</a>",

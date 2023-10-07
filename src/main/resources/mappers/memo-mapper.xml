@@ -2,99 +2,87 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.groovy.memo.MemoMapper">
 
-<select id="getMemo" resultType="memoVO" parameterType="String">
-	SELECT 
-		MEMO_SN, 
-		MEMO_EMPL_ID, 
-		MEMO_SJ, 
-		MEMO_CN, 
-		MEMO_WRTNG_DATE, 
-		COMMON_CODE_FIXING_AT
-	FROM
-		MEMO
-	WHERE
-        MEMO_EMPL_ID=#{memoEmplId}
-	ORDER BY 
-		MEMO_WRTNG_DATE DESC
-</select>
+    <select id="getMemo" resultType="memoVO" parameterType="String">
+        SELECT MEMO_SN,
+               MEMO_EMPL_ID,
+               MEMO_SJ,
+               MEMO_CN,
+               MEMO_WRTNG_DATE,
+               COMMON_CODE_FIXING_AT
+        FROM MEMO
+        WHERE MEMO_EMPL_ID = #{memoEmplId}
+        ORDER BY MEMO_WRTNG_DATE DESC
+    </select>
 
-<select id="getOneMemo" parameterType="int" resultType="memoVO">
-	SELECT 
-		MEMO_SN, 
-		MEMO_EMPL_ID, 
-		MEMO_SJ, 
-		MEMO_CN, 
-		MEMO_WRTNG_DATE, 
-		COMMON_CODE_FIXING_AT
-	FROM 
-		MEMO
-	WHERE 
-		MEMO_SN=#{memoSn}
-</select>
+    <select id="getOneMemo" parameterType="int" resultType="memoVO">
+        SELECT MEMO_SN,
+               MEMO_EMPL_ID,
+               MEMO_SJ,
+               MEMO_CN,
+               MEMO_WRTNG_DATE,
+               COMMON_CODE_FIXING_AT
+        FROM MEMO
+        WHERE MEMO_SN = #{memoSn}
+    </select>
 
-<insert id="inputMemo" parameterType="memoVO">
-	INSERT INTO
-		MEMO(MEMO_SN, 
-			 MEMO_EMPL_ID, 
-			 MEMO_SJ, 
-			 MEMO_CN, 
-			 MEMO_WRTNG_DATE, 
-			 COMMON_CODE_FIXING_AT)
-	VALUES(MEMO_SN.NEXTVAL, 
-		   #{memoEmplId}, 
-		   #{memoSj}, 
-		   #{memoCn}, 
-		   sysdate, 
-		   'MEMO011')
-</insert>
+    <insert id="inputMemo" parameterType="memoVO">
+        INSERT INTO MEMO(MEMO_SN,
+                         MEMO_EMPL_ID,
+                         MEMO_SJ,
+                         MEMO_CN,
+                         MEMO_WRTNG_DATE,
+                         COMMON_CODE_FIXING_AT)
+        VALUES (MEMO_SN.NEXTVAL,
+                #{memoEmplId},
+                #{memoSj},
+                #{memoCn},
+                sysdate,
+                'MEMO011')
+    </insert>
 
-<update id="modifyMemo" parameterType="memoVO">
-	UPDATE MEMO
-	SET 
-		MEMO_SJ = #{memoSj},
-		MEMO_CN = #{memoCn}, 
-		MEMO_WRTNG_DATE = sysdate
-	WHERE 
-		MEMO_SN = #{memoSn}
-</update>
+    <update id="modifyMemo" parameterType="memoVO">
+        UPDATE MEMO
+        SET MEMO_SJ         = #{memoSj},
+            MEMO_CN         = #{memoCn},
+            MEMO_WRTNG_DATE = sysdate
+        WHERE MEMO_SN = #{memoSn}
+    </update>
 
-<delete id="deleteMemo" parameterType="int">
-	DELETE FROM 
-		MEMO 
-	WHERE 
-		MEMO_SN = #{data}
-</delete>
+    <delete id="deleteMemo" parameterType="int">
+        DELETE
+        FROM MEMO
+        WHERE MEMO_SN = #{data}
+    </delete>
 
-<!-- 메모 알림 업데이트 -->
-<update id="updateMemoAlarm" parameterType="int">
-	UPDATE MEMO
-	SET COMMON_CODE_FIXING_AT =
-	  CASE
-	    WHEN MEMO_SN = #{memoSn} THEN 'MEMO010'
-	    WHEN COMMON_CODE_FIXING_AT = 'MEMO010' THEN 'MEMO011'
-	    ELSE COMMON_CODE_FIXING_AT
-	  END
-	WHERE MEMO_SN = #{memoSn} OR COMMON_CODE_FIXING_AT = 'MEMO010'
-</update>
+    <!-- 메모 알림 업데이트 -->
+    <update id="updateMemoAlarm" parameterType="map">
+        UPDATE MEMO
+        SET COMMON_CODE_FIXING_AT =
+                CASE
+                    WHEN MEMO_SN = #{memoSn} THEN 'MEMO010'
+                    WHEN COMMON_CODE_FIXING_AT = 'MEMO010' THEN 'MEMO011'
+                    ELSE COMMON_CODE_FIXING_AT
+                    END
+        WHERE (MEMO_SN = #{memoSn} AND MEMO_EMPL_ID = #{memoEmplId})
+           OR (MEMO_EMPL_ID = #{memoEmplId} AND COMMON_CODE_FIXING_AT = 'MEMO010')
+    </update>
 
-<select id="getFixMemo" resultType="memoVO">
-	SELECT 
-		MEMO_SN, 
-		MEMO_EMPL_ID, 
-		MEMO_SJ, 
-		MEMO_CN, 
-		MEMO_WRTNG_DATE, 
-		COMMON_CODE_FIXING_AT
-	FROM
-		MEMO
-	WHERE
-        COMMON_CODE_FIXING_AT='MEMO010'
-</select>
+    <select id="getFixMemo" resultType="memoVO" parameterType="String">
+        SELECT MEMO_SN,
+               MEMO_EMPL_ID,
+               MEMO_SJ,
+               MEMO_CN,
+               MEMO_WRTNG_DATE,
+               COMMON_CODE_FIXING_AT
+        FROM MEMO
+        WHERE COMMON_CODE_FIXING_AT = 'MEMO010'
+          AND MEMO_EMPL_ID = #{memoEmplId}
+    </select>
 
-<update id="noFix" parameterType="int">
-	UPDATE MEMO 
-	SET COMMON_CODE_FIXING_AT = 'MEMO011' 
-	WHERE MEMO_SN = #{memoSn}
-</update>
+    <update id="noFix" parameterType="int">
+        UPDATE MEMO
+        SET COMMON_CODE_FIXING_AT = 'MEMO011'
+        WHERE MEMO_SN = #{memoSn}
+    </update>
 
 </mapper>

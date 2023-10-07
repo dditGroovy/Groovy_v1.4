@@ -213,9 +213,11 @@ public class EmployeeController {
 
     }
 
-    @PostMapping("/confirm/{page}")
+    @PostMapping("/confirm/{currentPage}")
     @ResponseBody
-    public String confirmPassword(Authentication auth, @RequestBody String password, @PathVariable String page) {
+    public String confirmPassword(Authentication auth, @RequestBody Map<String, String> map, @PathVariable String currentPage) {
+        String password = map.get("password");
+        log.info(password);
         CustomUser user = (CustomUser) auth.getPrincipal();
         String emplPassword = user.getEmployeeVO().getEmplPassword();
         if (encoder.matches(password, emplPassword)) {

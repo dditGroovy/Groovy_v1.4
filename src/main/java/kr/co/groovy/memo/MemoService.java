@@ -41,24 +41,24 @@ public class MemoService {
 	public int deleteMemo(int memoSn) {
 		return memoMapper.deleteMemo(memoSn);
 	}
-	
-	public int updateMemoAlarm(int memoSn) {
-		return memoMapper.updateMemoAlarm(memoSn);
-	}
-	
-	public MemoVO getFixMemo() {
-		MemoVO memoVO = memoMapper.getFixMemo();
-	    
-		if(memoVO == null) {
-		        memoVO = new MemoVO();
-		        memoVO.setMemoSj(null);
-		        memoVO.setMemoCn(null);
-		        memoVO.setMemoWrtngDate(null);
-		  } else if(memoVO.getMemoSj() == null) {
-		        memoVO.setMemoSj("제목 없음");
-		  }
 
-	    return memoVO;
+	public int updateMemoAlarm(int memoSn, String memoEmplId) {
+		return memoMapper.updateMemoAlarm(memoSn, memoEmplId);
+	}
+
+	public MemoVO getFixMemo(String memoEmplId) {
+		MemoVO memoVO = memoMapper.getFixMemo(memoEmplId);
+
+		if (memoVO == null) {
+			memoVO = new MemoVO();
+			memoVO.setMemoSj(null);
+			memoVO.setMemoCn(null);
+			memoVO.setMemoWrtngDate(null);
+		} else if (memoVO.getMemoSj() == null) {
+			memoVO.setMemoSj("제목 없음");
+		}
+
+		return memoVO;
 	}
 	
 	

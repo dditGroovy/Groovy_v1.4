@@ -51,12 +51,12 @@ public class AlarmController {
     @GetMapping("/all")
     @ResponseBody
     public Map<String, Object> all(Principal principal) {
-    	List<MemoVO> list = memoService.getMemo(principal.getName());
-    	MemoVO memoVO = memoService.getFixMemo();
+        List<MemoVO> list = memoService.getMemo(principal.getName());
+        MemoVO memoVO = memoService.getFixMemo(principal.getName());
 
         Map<String, Object> map = new HashMap<>();
-        map.put("list",list);
-        map.put("memoVO",memoVO);
+        map.put("list", list);
+        map.put("memoVO", memoVO);
 
         return map;
     }
@@ -84,13 +84,13 @@ public class AlarmController {
     public int getMaxAlarm() {
         return service.getMaxAlarm();
     }
-    
-    
+
+
     @PutMapping("/updateMemoAlarm/{memoSn}")
     @ResponseBody
-    public int updateMemoAlarm(@PathVariable int memoSn) {
-    	memoService.updateMemoAlarm(memoSn);
-    	return 1;
+    public int updateMemoAlarm(@PathVariable int memoSn, Principal principal) {
+        String memoEmplId = principal.getName();
+        return memoService.updateMemoAlarm(memoSn, memoEmplId);
     }
     
     

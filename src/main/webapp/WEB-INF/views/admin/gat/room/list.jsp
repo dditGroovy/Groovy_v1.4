@@ -65,7 +65,7 @@ class ClassBtn {
                         // 값이 비어있으면 요청을 보내지 않도록 확인
                         if (fcltyResveSn) {
                             const xhr = new XMLHttpRequest();
-                            xhr.open("get", "/reservation/deleteReserved?fcltyResveSn=" + fcltyResveSn, true);
+							xhr.open("get", "/reserve/deleteReservation?fcltyResveSn=" + fcltyResveSn, true);
                             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
                             xhr.onload = function () {

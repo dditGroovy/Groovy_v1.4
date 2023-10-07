@@ -143,11 +143,7 @@
                             let content = `<div class="alarmBox">
                                          <a href="\${url}" id="fATag" data-seq="\${maxNum}">
                                                                     <h1>[메일]</h1>
-                                                                    <p>[<span style="white-space: nowrap;
-                                                                      display: inline-block;
-                                                                      overflow: hidden;
-                                                                      text-overflow: ellipsis;
-                                                                      max-width: 15ch;">\${subject}</span>]
+                                                                    <p>[<span>\${subject}</span>]
                                                                         메일이 도착했습니다.
                                                                       \</p>
                                          </a>
