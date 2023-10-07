@@ -52,6 +52,7 @@
                         </c:if>
                     </c:forEach>
                 </div>
+                </div>
                 <br/>
                 <br/>
                 <div class="formTitle">

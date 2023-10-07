@@ -15,6 +15,7 @@ public class SanctionVO {
     private String elctrnSanctnSj;
     private String elctrnSanctnDc;
     private String elctrnSanctnDrftEmplId;
+    private String elctrnSanctnDrftEmplSign;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date elctrnSanctnRecomDate;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "Asia/Seoul")

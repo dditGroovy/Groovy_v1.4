@@ -100,6 +100,7 @@
                                   ELCTRN_SANCTN_SJ,
                                   ELCTRN_SANCTN_DC,
                                   ELCTRN_SANCTN_DRFT_EMPL_ID,
+                                  ELCTRN_SANCTN_DRFT_EMPL_SIGN,
                                   ELCTRN_SANCTN_RECOM_DATE,
                                   COMMON_CODE_SANCT_PROGRS,
                                   ELCTRN_SANCTN_AFTER_PRCS)
@@ -108,6 +109,7 @@
                 #{elctrnSanctnSj},
                 #{elctrnSanctnDc},
                 #{elctrnSanctnDrftEmplId},
+                #{elctrnSanctnDrftEmplSign},
                 SYSDATE,
                 'SANCTN010',
                 #{elctrnSanctnAfterPrcs})
@@ -117,14 +119,23 @@
         INSERT INTO SANCTN_LINE(ELCTRN_SANCTN_ETPR_CODE,
                                 ELCTRN_SANCTNEMPL_ID,
                                 SANCTN_LINE_ORDR,
+                                SANCTN_LINE_SIGN,
                                 COMMON_CODE_SANCT_PROGRS,
                                 ELCTRN_SANCTN_FINAL_AT)
         VALUES (#{elctrnSanctnEtprCode},
                 #{elctrnSanctnemplId},
                 #{sanctnLineOrdr},
+                #{sanctnLineSign},
                 #{commonCodeSanctProgrs},
                 #{elctrnSanctnFinalAt})
     </insert>
+    <select id="getSign" parameterType="String" resultType="String">
+        SELECT U.UPLOAD_FILE_STRE_NM
+        FROM EMPL E,
+             UPLOAD_FILE U
+        WHERE E.EMPL_ID = #{emplId}
+          AND E.SIGN_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE
+    </select>
     <insert id="inputRefrn" parameterType="referenceVO">
         /* kr.co.groovy.sanction.SanctionMapper 결재 기안 - 결재 참조 등록 */
         INSERT INTO SANCTN_REFRN( SANCTN_REFRN_EMPL_ID
